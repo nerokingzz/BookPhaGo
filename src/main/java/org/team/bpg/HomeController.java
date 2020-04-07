@@ -51,4 +51,14 @@ public class HomeController {
 		return "home";
 	}
 	
+	
+	
+	
+	
+	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
+	@RequestMapping(value = "/watson.do", method = RequestMethod.GET)
+	public String goWatson(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/watson";
+	}
+	
 }

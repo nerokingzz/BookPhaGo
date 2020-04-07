@@ -7,10 +7,13 @@
 	
 	<typeAliases>
 		<typeAlias type="org.team.bpg.com.esta.vo.ComInfoVO" alias="comInfoVo"/>
+		<typeAlias type="org.team.bpg.chat.vo.BookVO" alias="BookVO"/>
+		<typeAlias type="org.team.bpg.chat.vo.MemberVO" alias="MemberVO"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="./mappers/ComEstaMapper.xml"></mapper>
+		<mapper resource="./mappers/chatMapper.xml"></mapper>
 	</mappers>
 
 </configuration>
