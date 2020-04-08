@@ -147,6 +147,15 @@
     		<artifactId>spring-test</artifactId>
     		<version>${org.springframework-version}</version>
 		</dependency>
+		
+		
+		<!-- 200407 IBM 챗봇 구동을 위한 dependency 추가 시작-->
+		<dependency>
+		<groupId>com.ibm.watson</groupId>
+		<artifactId>ibm-watson</artifactId>
+		<version>8.3.1</version>
+	</dependency>
+	<!-- 200407 IBM 챗봇 구동을 위한 dependency 추가 끝 -->
 		      
 	</dependencies>
     <build>

@@ -34,5 +34,48 @@
  		</where>
  	</select> -->
  	
+ 	<!-- 관리자 도서목록 -->
+ 	<select id="adminlibrary_request_list" parameterType="hashmap" resultType="hashmap">
+ 		SELECT A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation,B.isbn from B_BOOK_OFFICIAL A, B_BOOK_LIB B where A.ISBN = B.ISBN order by B.BookNumber asc
+ 	</select>
  	
+ 	<!-- 관리자 도서검색 -->
+ 	
+ 	<select id="adminsearchbook" parameterType="hashmap" resultType="hashmap">
+ 		select A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation,B.isbn
+ 		from B_BOOK_OFFICIAL A, B_BOOK_LIB B
+ 		where A.ISBN = B.ISBN and ${search_option} LIKE '%'||#{search_value}||'%' order by B.BookNumber asc
+ 	</select>
+ 	
+ 	<!-- 관리자 도서등록 -->
+ 	<insert id="inputlibrary" parameterType="bookInfoVO">
+ 		INSERT INTO B_BOOK_LIB (bookNumber, bookGenre, bookRent, bookReservation, isbn) VALUES (#{bookNumber}, #{bookGenre}, #{bookRent}, #{bookReservation}, #{isbn})
+ 	</insert>
+ 	
+ 	<!-- 관리자 도서수정목록 -->
+ 	<select id="modfindlibrary" parameterType="hashmap" resultType="hashmap">
+ 		SELECT * FROM B_BOOK_LIB where bookNumber = #{bookNumber}
+ 	</select>
+ 	
+ 	<!-- 도서 수정 -->
+ 	<update id="modifylibrary" parameterType="bookInfoVO">
+ 		update B_BOOK_LIB set bookNumber=#{bookNumber},bookGenre=#{bookGenre},bookRent=#{bookRent},bookReservation=#{bookReservation} where bookNumber=#{bookNumber}
+ 	</update>
+ 	
+ 	<!-- 관리자 도서 삭제 -->
+ 	<delete id="librarydelete" parameterType="bookInfoVO">
+ 		DELETE FROM B_BOOK_LIB WHERE bookNumber=#{bookNumber}
+ 	</delete>
+ 	
+ 	<!-- 사용자 도서 목록 -->
+ 	<select id="userlibrarylist" parameterType="hashmap" resultType="hashmap">
+ 		SELECT A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation from B_BOOK_OFFICIAL A, B_BOOK_LIB B where A.ISBN = B.ISBN order by B.BookNumber asc
+ 	</select>
+ 	
+ 	<!-- 사용자 도서 검색 -->
+ 	<select id="usersearchbook" parameterType="hashmap" resultType="hashmap">
+ 		select A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation
+ 		from B_BOOK_OFFICIAL A, B_BOOK_LIB B
+ 		where A.ISBN = B.ISBN and ${search_option} LIKE '%'||#{search_value}||'%' order by B.BookNumber asc
+ 	</select>
 </mapper>
