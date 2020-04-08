@@ -3,6 +3,7 @@ package org.team.bpg.book.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,7 +63,8 @@ public class CommController {
 	//관리자 도서 등록
 	@RequestMapping(value="inputlibrary", method=RequestMethod.POST)
 	public void inputlibrary(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		libraryService.inputlibrary(bookInfoVO);
+		libraryService.inputlibrary(bookInfoVO);RequestDispatcher dis = request.getRequestDispatcher("adminlibrarylist.do");
+		dis.forward(request, response);
 	}
 	
 	//관리자 도서 수정 목록
