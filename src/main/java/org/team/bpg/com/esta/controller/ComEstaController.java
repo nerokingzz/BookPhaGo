@@ -50,6 +50,7 @@ public class ComEstaController {
 		
 		mav.setViewName("com/esta/com_esta_request_list");
 		return mav;	
+		
 	}
 	
 	//개설 신청 처리 페이지 보여주기
