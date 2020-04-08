@@ -47,6 +47,7 @@ public class LibraryDAOImpl implements LibraryDAO{
 		sqlSession.update("book.modifylibrary", bookInfoVO);
 	}
 
+	
 	@Override
 	public void librarydelete(BookInfoVO bookInfoVO) {
 		// TODO Auto-generated method stub
