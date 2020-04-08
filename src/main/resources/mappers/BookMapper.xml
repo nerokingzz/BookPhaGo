@@ -47,4 +47,6 @@
  		from B_BOOK_OFFICIAL A, B_BOOK_LIB B
  		where A.ISBN = B.ISBN and ${search_option} LIKE '%'||#{search_value}||'%' order by B.BookNumber asc
  	</select>
+ 	
+ 	<!--  -->
 </mapper>
