@@ -1,7 +1,8 @@
 	
 	const options = {
 			 integrationID: "17492039-629e-4de1-bd22-7e87d039b29a", // The ID of this integration.
-			 region: "kr-seo" // The region your integration is hosted in.
+			 region: "kr-seo", // The region your integration is hosted in.
+			showLauncher: false
 	};
 	
 	
@@ -16,12 +17,49 @@
 	function preRecieve(event){
 		console.log('pre:receive');
 		checkId(event);
+		checkBook(event);
 
+	}
+	
+	function checkBook(event){
+		var user_defined = event.data.context.skills['main skill'].user_defined;
+		console.log("user_defined is....." + user_defined);
+		var is_borrow =  user_defined.is_borrow;
+		var borrow_bookNumber = user_defined.borrow_bookNumber;
+		console.log('book number is...' + borrow_bookNumber);
+		if(is_borrow == true){
+			// 추후 이곳에 bookNumber를 가져와서 서버 단에서 유효성을 검사하고, borrow_okay를 false 또는 true로 결정해주는 부분 필요
+			event.data.context.skills['main skill'].user_defined.borrow_okay = true;
+			
+			$.ajax({
+				url: '/chat/borrowBook.do',
+				async:false,
+				dataType : 'json',
+				contentType : 'application/json; charset=utf-8',
+				data : {"bookNumber" : borrow_bookNumber}, 
+				type : 'get',
+				success : function(result){
+					
+					console.log(result);
+					
+					if(result.error !== null && result.error !== undefined){
+						container.append(result.error);
+					}else{
+						container.append("<span style = 'background-color:orange'>회원 성명</span>&nbsp;&nbsp;" + result.mem_id + "<br>");
+						container.append("<span style = 'background-color:orange'>현재 대여 권수</span>&nbsp;&nbsp;" + result.mem_bookcount);
+					}
+				
+				},
+				error : function(result, status, error){
+					container.append("error alert!");
+				}
+			})
+			
+		}
 	}
 	
 	
 	//위젯 열 때 실행될 메소드 1. 회원 아이디가 있는지 체크. 있다면 $isLogin을 true로 바꾸기.
-	//단 한 번만 실행됨.(instance.once)
 	function checkId(event){
 		console.log('checkId');
 		
@@ -30,7 +68,7 @@
 		
 		if(!userId.includes('IBM')){
 			console.log(event.data.context.skills['main skill'].user_defined);
-			event.data.context.skills['main skill'].user_defined.isLogin = true;
+			event.data.context.skills['main skill'].user_defined.is_login = true;
 			event.data.context.skills['main skill'].user_defined.username = userId;
 		}	
 	}
@@ -40,20 +78,25 @@
 	//챗봇 메시지를 받을 때 설정부
 	function receive(event){
 		console.log('receive');
-		console.log("event data : " + event.data);
 		var message = JSON.stringify(event.data.output.generic[0].text);
-		var userId = event.data.context.skills['main skill'].user_defined.username;
+		
+		var user_defined = event.data.context.skills['main skill'].user_defined;
+		var userId = user_defined.username;
+		var check_me =  user_defined.check_me;
+		var is_borrow =  user_defined.is_borrow;
+		var borrow_bookNumber = user_defined.borrow_bookNuumber;
+		
 		message = decodeURIComponent(message);
 		console.log("message : " + message);
 		console.log("user ID : " + userId);
 		
 		if(message.includes('지도')){
 			setTimeout(addMap, 300);
-		}else if(userId != null && message.includes('내 상태')){
+		}else if(userId != null && check_me == true){
 			setTimeout(function(){
 				console.log('in setTimeout');
 				checkMember(userId);
-			}, 300);
+			}, 100);
 		}
 	}
 	
@@ -85,23 +128,25 @@
 			instance.updateUserID(user_id);
 		});
 		
-		/*
-		instance.updateCSSVariables({
-		      'BASE-font-family': '"Times New Roman", Times, serif',
-		      '$focus': 'lime',
-		      '$hover-primary': 'lime',
-		      '$interactive-01': 'green'
-		    });
-		*/
-		
-		
-		instance.on({ type: 'window:open', handler: windowOpen });
+		const button = document.querySelector('.chatLauncher');
+
+	   
+	    button.addEventListener('click', () => {
+	      instance.openWindow();
+	    });
+
+		//instance.on({ type: 'window:open', handler: windowOpen });
+	    
 		instance.on({ type: 'pre:receive', handler: preRecieve });
 		instance.on({ type: 'receive', handler: receive });
 		instance.on({ type: 'send', handler: send });
 		instance.on({ type: 'error', handler: error });
 		console.log("instance.... " + JSON.stringify(instance));
-		instance.render();
+		
+		 instance.render().then(() => {
+		      button.style.display = 'block';
+		      button.classList.add('open');
+		    });
 	});
 	
 	

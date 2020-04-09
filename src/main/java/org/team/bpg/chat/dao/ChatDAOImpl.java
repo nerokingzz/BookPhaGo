@@ -36,7 +36,7 @@ public class ChatDAOImpl implements ChatDAO{
 	}
 
 	@Override
-	public BookVO borrow(MemberVO vo) {
+	public String borrowBook(String bookNumber) {
 		// TODO Auto-generated method stub
 		return null;
 	}

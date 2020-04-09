@@ -5,5 +5,5 @@ import org.team.bpg.chat.vo.MemberVO;
 
 public interface ChatService {
 	public MemberVO searchMember(String id);
-	public BookVO borrow(MemberVO vo);
+	public String borrowBook(String bookNumber);
 }

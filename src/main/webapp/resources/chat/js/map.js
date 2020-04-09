@@ -6,7 +6,6 @@
 					level: 4 //지도의 레벨(확대, 축소 정도)
 					};
 				var map = new kakao.maps.Map(container, new_options);
-
 				
 				
 /*				// 비트캠프 종로
@@ -86,23 +85,28 @@
 				var positions = [
 				    {
 				        title: '비트캠프 종로', 
-				        latlng: new kakao.maps.LatLng(37.57046524075292,126.98530714900265)
+				        latlng: new kakao.maps.LatLng(37.57046524075292,126.98530714900265),
+				        url : "https://place.map.kakao.com/998200294" 
 				    },
 				    {
 				        title: '카츠야', 
-				        latlng: new kakao.maps.LatLng(37.56896966147309,126.98590737000391)
+				        latlng: new kakao.maps.LatLng(37.56896966147309,126.98590737000391),
+				        url : "https://place.map.kakao.com/24183826"
 				    },
 				    {
 				        title: '삼숙이라면', 
-				        latlng: new kakao.maps.LatLng(37.57158702228211, 126.98565218184731)
+				        latlng: new kakao.maps.LatLng(37.57158702228211, 126.98565218184731),
+				        url : "https://place.map.kakao.com/13302525"
 				    },
 				    {
 				        title: '종로고기집 ',
-				        latlng: new kakao.maps.LatLng(37.56948778510887, 126.98634307158973)
+				        latlng: new kakao.maps.LatLng(37.56948778510887, 126.98634307158973),
+				        url : "https://place.map.kakao.com/26794800"
 				    },
 				    {
 				        title: '백부장집 닭한마리 ',
-				        latlng: new kakao.maps.LatLng(37.571811872947116, 126.98268351812425)
+				        latlng: new kakao.maps.LatLng(37.571811872947116, 126.98268351812425),
+				        url : "https://place.map.kakao.com/8381402"
 				    }
 				];
 
@@ -128,44 +132,41 @@
 				        image : markerImage // 마커 이미지 
 				    });
 				    
-				    marker.addListener('click', function() {
-				    	console.log(marker);
-			    	    infowindow.open(map, marker);
-			    	});
 				    
-				    marker.setMap(map);
+				    var newContent = '<div class="customoverlay">' +
+				    '  <a href="'+positions[i].url+'" target="_blank">' +
+				    '    <span class="title">'+positions[i].title+'</span>' +
+				    '  </a>' +
+				    '</div>';
+
+				    var customOverlay = new kakao.maps.CustomOverlay({
+				        position: positions[i].latlng,
+				        content: newContent,
+				        yAnchor: 3.1
+				    });
 				    
 				    
-				    var iwContent = '';
-				    iwContent = '<div style="width:130px">'+ positions[i].title + '</div>';
+				    //customOverlay.setMap(map);
 				    
-				    var infowindow = null;
-				    	
-				    infowindow = new kakao.maps.InfoWindow({
-				    	position : positions[i].latlng,
-					    content : iwContent
-					});
-				    
-				    infowindow.open(map, marker); 
-				    
+				    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, customOverlay));
+				    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map,customOverlay));
+				}
+				
+				
+				function makeOverListener(map, marker, customOverlay) {
+				    return function() {
+				    	customOverlay.setMap(map);
+				    };
+				}
+
+				// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+				function makeOutListener(map,customOverlay) {
+				    return function() {
+				    	customOverlay.setMap(null);
+				    };
 				}
 				
 
-/*				kakao.maps.event.addListener(c_marker , 'click', function() {
-					c_infowindow.open(map, c_marker);
-				});
-				kakao.maps.event.addListener(ka_marker , 'click', function() {
-					ka_infowindow.open(map, ka_marker);
-					});
-				kakao.maps.event.addListener(sam_marker , 'click', function() {
-					sam_infowindow.open(map, sam_marker);
-				});
-				kakao.maps.event.addListener(jong_marker , 'click', function() {
-					jong_infowindow.open(map, jong_marker);
-				});
-				kakao.maps.event.addListener(baek_marker , 'click', function() {
-					baek_infowindow.open(map, baek_marker);
-				});*/
 			
 				
 			}
