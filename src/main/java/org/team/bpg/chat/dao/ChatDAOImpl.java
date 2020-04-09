@@ -1,6 +1,5 @@
 package org.team.bpg.chat.dao;
 
-import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
