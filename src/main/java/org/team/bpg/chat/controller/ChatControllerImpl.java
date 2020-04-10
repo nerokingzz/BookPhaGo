@@ -44,16 +44,17 @@ public class ChatControllerImpl implements ChatController{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			MemberVO searchMember = service.searchMember(mem_id);
-			System.out.println("id : " + searchMember.getMem_id());
-			System.out.println("bookcount : " + searchMember.getMem_bookcount());
+			
 		
 			if(searchMember != null) {
 			//	hmp001_d002VO = (Hmp001_d002VO)list.get(0);
 			//	resultMap = BeanUtils.describe(member);
+				System.out.println("id : " + searchMember.getMem_id());
+				System.out.println("bookcount : " + searchMember.getMem_bookcount());
 				resultMap.put("mem_id", searchMember.getMem_id());		
 				resultMap.put("mem_bookcount", searchMember.getMem_bookcount());
 			}else {
-				resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
+				System.out.println("searchMember is null");
 			}
 		}catch(Exception e) {
 			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");

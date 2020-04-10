@@ -42,5 +42,6 @@
 </body>
 <script src = "resources/chat/js/map.js" ></script>
 <script src = "resources/chat/js/member.js" ></script>
+<script src = "resources/chat/js/search.js" ></script>
 <script src = "resources/chat/js/watsonjs.js" ></script>
 </html>
