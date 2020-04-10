@@ -1,17 +1,17 @@
 package org.team.bpg.com.esta.controller;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.com.esta.service.ComEstaService;
 import org.team.bpg.com.esta.vo.ComInfoVO;
@@ -37,31 +37,33 @@ public class ComEstaController {
 	//개설 신청 내역 (시용자 + 관리자)
 	@RequestMapping(value="com_esta_request_list", method=RequestMethod.GET)
 	public ModelAndView comEstaRequestList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session=request.getSession();
-		String user_id=(String)session.getAttribute("user_id");
-		String user_position=(String)session.getAttribute("user_position");
 		
-		Map<String, String> user_info=new HashMap<String, String>();
-		user_info.put("user_id", user_id);
-		user_info.put("user_position", user_position);
+		List<Map<String, Object>> requestList=comEstaService.comEstaRequestList(request);
 		
 		ModelAndView mav=new ModelAndView();
-		mav=comEstaService.comEstaRequestList(user_info);
+		mav.addObject("requestList", requestList);
+		mav.addObject("requestListSize", requestList.size());
+		
+		System.out.println("사이즈:"+requestList.size());
 		
 		mav.setViewName("com/esta/com_esta_request_list");
 		return mav;	
-		
 	}
 	
-	//개설 신청 처리 페이지 보여주기
-	@RequestMapping(value="com_esta_request_admin", method=RequestMethod.POST)
+	//개설 신청 처리 양식 보여주기
+	@RequestMapping(value="com_esta_admin_form", method=RequestMethod.GET)
 	public String comEstaAdminForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String admin_sts=(String)request.getAttribute("admin_sts");
-		String admin_msg=(String)request.getAttribute("admin_msg");
+		return "com/esta/com_esta_admin_form";
+	}
+	
+	//개설 신청 처리
+	@ResponseBody
+	@RequestMapping(value="com_esta_request_admin", method=RequestMethod.POST)
+	public String comEstaAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println(admin_sts);
-		System.out.println(admin_msg);
+		//db에 변경 내용 update하기
+		comEstaService.comEstaAdmin(request);
 		
-		return "com_esta_request_list.do";
+		return "ok";
 	}
 }

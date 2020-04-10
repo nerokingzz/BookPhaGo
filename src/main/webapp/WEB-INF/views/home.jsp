@@ -15,9 +15,18 @@
 
 <a href="com_esta_form.do">커뮤니티 신청</a>
 <a href="com_esta_request_list.do">커뮤니티 신청 내역</a>
+<a href="com_act_list.do">커뮤니티 목록보기</a>
+<br>
+
+<a href="mylib_declare_form.do">신고하기</a>
+<a href="mylib_declare_request_list.do">신고내역 확인</a>
+<br>
+
 <a href="adminlibrarylist.do">괸리자 도서목록</a>
-<a href="userlibrarylist.do">사용자 도거목록</a>
-<a href="userapplyinfo.do">사용자 도거신청목록</a>
+<a href="userlibrarylist.do">사용자 도서목록</a>
+<a href="userapplyinfo.do">사용자 도서신청목록</a>
+<br>
+
 <a href="registerForm.do">회원가입</a>
 <a href="loginForm.do">로그인</a>
 <a href="update.do">정보수정</a>

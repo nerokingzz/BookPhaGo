@@ -1,14 +1,17 @@
 package org.team.bpg.com.esta.service;
 
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
+
 import org.team.bpg.com.esta.vo.ComInfoVO;
 
 public interface ComEstaService {
 	
 	public void comEstaRequest(ComInfoVO comInfoVo);
-	public ModelAndView comEstaRequestList(Map<String, String> user_info);
+	public List<Map<String, Object>> comEstaRequestList(HttpServletRequest request);
+	public void comEstaAdmin(HttpServletRequest request);
 
 }
 

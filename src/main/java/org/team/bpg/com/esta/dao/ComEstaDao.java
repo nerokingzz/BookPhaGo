@@ -9,5 +9,6 @@ public interface ComEstaDao {
 	
 	public void comEstaRequest(ComInfoVO comInfoVo);
 	public List<Map<String, Object>> comEstaRequestList(Map<String, String> user_info);
+	public void comEstaAdmin(Map<String, String> sts_info);
 
 }

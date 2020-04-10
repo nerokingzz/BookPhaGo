@@ -1,7 +1,5 @@
 package org.team.bpg.member.service;
 
-import java.lang.reflect.Member;
-
 import org.team.bpg.member.vo.MemberVO;
 
 public interface MemberService {

@@ -8,7 +8,7 @@
 </head>   
 
 	<%
-		session=request.getSession();
+		session=request.getSession(false);
 		String user_id=(String)session.getAttribute("user_id");
 	%>
 
@@ -41,13 +41,6 @@
 		<input type="reset" value="다시작성">
 	</form>
 
-
-<script type="text/javascript">
-
-	//현재 날짜 가져오기
-	var date=new Date();
-	var current=date.getFullYear() + '년' + (date.getMonth()+1) + '월' + date.getDate() + '일' + date.getHours() + '시' + date.getMinutes() + '분'  +  date.getSeconds() + '초';
-	document.getElementById('current_info').value=current;
-</script>
+	<script src="resources/com/js/utils.js"></script>
 </body>
 </html>

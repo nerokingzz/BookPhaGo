@@ -29,4 +29,10 @@ public class ComEstaDaoImpl implements ComEstaDao {
 		List<Map<String, Object>> requestList=sqlSession.selectList("com_esta.com_esta_request_list", user_info);
 		return requestList;
 	}
+
+	@Override
+	public void comEstaAdmin(Map<String, String> sts_info) {
+		sqlSession.update("com_esta.com_esta_admin", sts_info);
+		
+	}
 }
