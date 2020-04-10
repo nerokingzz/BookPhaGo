@@ -61,4 +61,26 @@ public class HomeController {
 		return "chat/watson";
 	}
 	
+	
+	
+	// send.jsp 페이지로 이동시켜주는 메소드
+	@RequestMapping(value = "/send.do", method = RequestMethod.GET)
+	public String goSend(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/send";
+	}
+	
+	
+	// receive.jsp 페이지로 이동시켜주는 메소드
+	@RequestMapping(value = "/receive.do", method = RequestMethod.GET)
+	public String goReceive(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/receive";
+	}
+	
+	//member
+	@RequestMapping(value = "home", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+
+		return "home";
+	}
+	
 }

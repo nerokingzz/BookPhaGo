@@ -24,7 +24,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public BookVO borrow(MemberVO vo) {
+	public String borrowBook(String bookNumber) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,5 @@
 package org.team.bpg.chat.dao;
 
-import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class ChatDAOImpl implements ChatDAO{
 	}
 
 	@Override
-	public BookVO borrow(MemberVO vo) {
+	public String borrowBook(String bookNumber) {
 		// TODO Auto-generated method stub
 		return null;
 	}

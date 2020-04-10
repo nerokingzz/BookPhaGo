@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Bookphago</title>
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+	<link href="resources/chat/style.css" rel="stylesheet">
 <script
 	src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js"></script>
 <script
@@ -23,6 +24,11 @@
 </head>
 
 <body>
+<button type="button" class="chatLauncher" style="display:none;">
+  <div><img id="chatIcon" src = "https://i.imgur.com/kUp8LmR.png"></div>
+</button>
+
+
 <h1>
 	Bookphago v0.003
 </h1>

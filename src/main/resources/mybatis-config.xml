@@ -16,6 +16,8 @@
 		<mapper resource="./mappers/ComEstaMapper.xml"></mapper>
 		<mapper resource="./mappers/chatMapper.xml"></mapper>
 		<mapper resource="./mappers/BookMapper.xml"></mapper>
+		<mapper resource="./mappers/memberMapper.xml"></mapper>
+		
 	</mappers>
 
 </configuration>

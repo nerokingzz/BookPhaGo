@@ -42,10 +42,6 @@ public class ChatControllerImpl implements ChatController{
 		request.setCharacterEncoding("utf-8");
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
-		
-		
-		
 		try {
 			MemberVO searchMember = service.searchMember(mem_id);
 			System.out.println("id : " + searchMember.getMem_id());
@@ -63,11 +59,41 @@ public class ChatControllerImpl implements ChatController{
 			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
 			e.printStackTrace();
 		}
-		
 		//mav.addObject("searchMember",searchMember);
 		return resultMap;
 	}
 
 
+	@RequestMapping(value = "/borrowBook.do"
+	// consumes = "application/json",
+	)
+	@ResponseBody
+	public Map<String, Object> chatBorrowBook(@RequestParam(value = "bookNumber") String bookNumber,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		System.out.println("bookNumber : " + bookNumber);
+
+		request.setCharacterEncoding("utf-8");
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			String borrow_result = service.borrowBook(bookNumber);
+			/*System.out.println("id : " + searchMember.getMem_id());
+			System.out.println("bookcount : " + searchMember.getMem_bookcount());
+
+			if (searchMember != null) {
+				// hmp001_d002VO = (Hmp001_d002VO)list.get(0);
+				// resultMap = BeanUtils.describe(member);
+				resultMap.put("mem_id", searchMember.getMem_id());
+				resultMap.put("mem_bookcount", searchMember.getMem_bookcount());
+			} else {
+				resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
+			}
+			*/
+		} catch (Exception e) {
+			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
 }
