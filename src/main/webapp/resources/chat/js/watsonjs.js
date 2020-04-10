@@ -17,10 +17,42 @@
 	function preRecieve(event){
 		console.log('pre:receive');
 		checkId(event);
-		checkBook(event);
-
+		
+		setTimeout(function(){
+			chat_searchBook(event);
+		}, 300);
+		var user_defined = event.data.context.skills['main skill'].user_defined;
+		var username = user_defined.username;
+		var userRequest = user_defined.gita_userRequest;
+		
+		if(userRequest != null && userRequest != undefined){
+			if(username == null) username = "비회원";
+			var content = "<div>" +
+					"<img src='https://i.imgur.com/i3zdWmq.png' alt ='mail top image'/><br>"+
+						"<div style='margin: 3px 0px 9px 16px; width:317px;font-size:12px'>" +
+								"<b>회원명</b>&nbsp;&nbsp;" + username +"<br>"
+								+"<b>내용</b>&nbsp;&nbsp;"+ userRequest + "<br>" +
+							"</div>"+
+					"<img src='https://i.imgur.com/gXAx6Oa.png' alt ='mail bottom image'/>" +
+				"</div>";
+			$.ajax({
+				url: '/sendMail.do',
+				async: true,
+				data : {"content" : content}, 
+				type : 'get',
+				success : function(result){
+					console.log("mail sending result is......" + result);
+				},
+				error : function(result, status){
+					console.log("mail sending result is......" + result);
+				}
+			})
+		}
+		
 	}
 	
+	/*
+	 * 200409 현재 작업 중
 	function checkBook(event){
 		var user_defined = event.data.context.skills['main skill'].user_defined;
 		console.log("user_defined is....." + user_defined);
@@ -57,7 +89,7 @@
 			
 		}
 	}
-	
+	*/
 	
 	//위젯 열 때 실행될 메소드 1. 회원 아이디가 있는지 체크. 있다면 $isLogin을 true로 바꾸기.
 	function checkId(event){
