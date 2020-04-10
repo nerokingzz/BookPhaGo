@@ -70,7 +70,7 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<form method="post" action="inputlibrary.do">
+			<form method="get" action="inputlibrary.do">
 				<h3 style="text-align: center">도서 등록창</h3>
 				<table align="center">
 					<tr>

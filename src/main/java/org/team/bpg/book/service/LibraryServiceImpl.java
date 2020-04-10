@@ -14,6 +14,7 @@ public class LibraryServiceImpl implements LibraryService{
 	
 	@Autowired
 	private LibraryDAO libraryDAO;
+
 	
 	@Override
 	public ModelAndView adminlibrarylist(Map<String, String> book_list) {
@@ -105,6 +106,50 @@ public class LibraryServiceImpl implements LibraryService{
 		return mav;
 	}
 
+	@Override
+	public ModelAndView userreservationlist(Map<String, String> book_list) {
+		List<Map<String, Object>> requestList=libraryDAO.userreservationlist(book_list);
+
+		System.out.println(requestList);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("requestList", requestList);
+		mav.addObject("requestListSize", requestList.size());
+		
+		System.out.println("requestList :"+requestList.size());
+		
+		return mav;
+	}
+
+	@Override
+	public ModelAndView userapplysearch(Map<String, String> book_list) {
+		List<Map<String, Object>> requestList=libraryDAO.userapplysearch(book_list);
+
+		System.out.println(requestList);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("requestList", requestList);
+		mav.addObject("requestListSize", requestList.size());
+		
+		System.out.println("requestList :"+requestList.size());
+		
+		return mav;
+	}
+
+	@Override
+	public ModelAndView userapplybook(Map<String, String> book_list) {
+		List<Map<String, Object>> requestList=libraryDAO.userapplybook(book_list);
+
+		System.out.println(requestList);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("requestList", requestList);
+		mav.addObject("requestListSize", requestList.size());
+		
+		System.out.println("requestList :"+requestList.size());
+		
+		return mav;
+	}
 	
 
 
