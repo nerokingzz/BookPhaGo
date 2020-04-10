@@ -37,7 +37,7 @@ public class LibraryDAOImpl implements LibraryDAO{
 	@Override
 	public void inputlibrary(BookInfoVO bookInfoVO) {
 		// TODO Auto-generated method stub
-		sqlSession.insert("com_esta.inputlibrary", bookInfoVO);
+		sqlSession.insert("book.inputlibrary", bookInfoVO);
 	}
 
 	@Override
