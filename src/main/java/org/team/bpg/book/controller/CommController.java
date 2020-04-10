@@ -1,6 +1,7 @@
 package org.team.bpg.book.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -31,9 +32,10 @@ public class CommController {
 		
 		Map<String, String> book_list=new HashMap<String, String>();
 		
-		mav=libraryService.adminlibrarylist(book_list);
+		List<Map<String, Object>> booklist = libraryService.adminlibrarylist();
 		
-		
+		mav.addObject("booklist", booklist);
+		mav.addObject("booklistSize", booklist.size());
 		mav.setViewName("book/adminlibrarylist");
 		return mav;	
 	}
