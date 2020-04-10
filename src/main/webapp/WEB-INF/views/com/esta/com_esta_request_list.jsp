@@ -9,7 +9,7 @@
 </head>
 
 	<%
-		session=request.getSession();
+		session=request.getSession(false);
 		String user_id=(String)session.getAttribute("user_id");
 		String user_position=(String)session.getAttribute("user_position");
 	%>
@@ -81,12 +81,9 @@
 									<td>${requestList.get(i-1).get("COMMUNITY_AIM")}</td>
 									<td>${requestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
 									<td>
-										<form action="com_esta_request_admin.do" method="post">
-											<input type="radio" name="admin_sts" value="agree" checked>수락
-											<input type="radio" name="admin_sts" value="dgree">거절
-											<input type="text" name="admin_msg">
-											<input type="button" value="완료" onclick="">
-										</form>
+										<input type="hidden" name="index" value="${i}">
+										<input type="hidden" name="community_id" value='${requestList.get(i-1).get("COMMUNITY_ID")}'>										
+										<input type="button" value="처리" onclick="stsAdmin('${i}')">
 									</td>
 								</tr>
 							</c:forEach>
@@ -101,18 +98,33 @@
 	
 	<script type="text/javascript">
 		
-		//tnfkr/
+		var indexList=new Array();
+		var idList=new Array();
+	
+		//수락, 거절 선택
 		$(document).ready(function() {
-			$("input:radio[name=admin_sts]").click(function () {
-				if ($("input[name=admin_sts]:checked").val() == "agree") {
-					$("input:text[name=admin_msg]").attr("disabled", true);
-				} else if ($("input[name=admin_sts]:checked").val() == "dgree") {
-					$("input:text[name=admin_msg]").attr("disabled", false);
-				}
+			
+			//index 배열
+			$("input[name=index]").each(function(index, item) {
+				indexList.push($(item).val());
 			});
+			alert(indexList);
+			
+			//community_id 배열
+			$("input[name=community_id]").each(function(index, item) {
+				idList.push($(item).val());
+			});
+			alert(idList);
+			
 		});
 		
-		
+		function stsAdmin(i) {
+			alert(i);
+			alert(idList[i-1]);
+			var community_id=idList[i-1];
+			window.open("com_esta_admin_form.do?community_id="+community_id, "개설 신청 처리", "width=500, height=500");
+		}
+
 	</script>
 
 </body>

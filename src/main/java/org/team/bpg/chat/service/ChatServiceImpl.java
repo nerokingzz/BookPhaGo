@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.team.bpg.chat.dao.ChatDAO;
-import org.team.bpg.chat.vo.BookVO;
 import org.team.bpg.chat.vo.MemberVO;
 
 

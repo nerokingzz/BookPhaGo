@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com_act">
+ 	
+ 	<!-- 커뮤니티 목록 select -->
+ 	<select id="com_act_list" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_INFO WHERE community_establish_status='수락'
+ 	</select>
+ 	
+ 	 <!-- 커뮤니티 하나의 정보  select -->
+ 	<select id="com_info" parameterType="integer" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_INFO WHERE community_id=#{community_id}
+ 	</select>
+ 	
+	<!-- 게시판정보 insert -->
+	<insert id="com_add_board" parameterType="boardInfoVo">
+		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="board_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_increment.NEXTVAL FROM DUAL
+		</selectKey>
+		
+    	INSERT INTO M_COMMUNITY_BOARD (board_id, community_id, board_name, board_article_count, board_category)
+    	VALUES (#{board_id}, #{community_id}, #{board_name}, #{board_article_count}, #{board_category})
+ 	</insert>
+ 	
+ 	<!-- 게시판 리스트 select -->
+ 	<select id="com_board_list" parameterType="integer" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_BOARD WHERE community_id=#{community_id}
+ 	</select>
+ 	
+ 	<!--  게시글 select -->
+ 	<select id="com_article_list" parameterType="integer" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_ARTICLE WHERE board_id=#{board_id}
+ 	</select>
+ 	
+ 	
+</mapper>

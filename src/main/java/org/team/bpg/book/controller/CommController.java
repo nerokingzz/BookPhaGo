@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.team.bpg.book.VO.BookInfoVO;
 import org.team.bpg.book.service.LibraryService;
 
@@ -24,7 +23,7 @@ public class CommController {
 	private LibraryService libraryService;
 	
 	
-	//°ü¸®ÀÚ µµ¼­ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="adminlibrarylist", method=RequestMethod.GET)
 	public ModelAndView adminlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -37,7 +36,7 @@ public class CommController {
 		return mav;	
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	@RequestMapping(value="adminsearchbook", method=RequestMethod.GET)
 	public ModelAndView adminsearchbook (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String search_option = request.getParameter("search_option");
@@ -60,14 +59,14 @@ public class CommController {
 		return mav;
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ µî·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="inputlibrary", method=RequestMethod.POST)
 	public void inputlibrary(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		libraryService.inputlibrary(bookInfoVO);RequestDispatcher dis = request.getRequestDispatcher("adminlibrarylist.do");
 		dis.forward(request, response);
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ ¼öÁ¤ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="modfindlibrary", method=RequestMethod.GET)
 	public ModelAndView modfindlibrary(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String bookNumber = request.getParameter("bookNumber");
@@ -82,7 +81,7 @@ public class CommController {
 		return mav;	
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ ¼öÁ¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="modifylibrary", method=RequestMethod.POST)
 	public void modifylibrary(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String bookNumberr = request.getParameter("bookNumber");
@@ -90,14 +89,14 @@ public class CommController {
 		libraryService.modifylibrary(bookInfoVO);
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ »èÁ¦ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	@RequestMapping(value="librarydelete", method=RequestMethod.POST)
 	public void librarydelete(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		libraryService.librarydelete(bookInfoVO);
 	}
 	
 	
-	//»ç¿ëÀÚ µµ¼­ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="userlibrarylist", method=RequestMethod.GET)
 	public ModelAndView userlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -110,7 +109,7 @@ public class CommController {
 		return mav;	
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	@RequestMapping(value="usersearchbook", method=RequestMethod.GET)
 	public ModelAndView usersearchbook (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String search_option = request.getParameter("search_option");

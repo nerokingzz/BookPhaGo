@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mylib_declare">
+	
+	<!-- 신고정보 insert -->
+	<resultMap id="clobMap" type="java.util.HashMap">
+		<result property="declare_image_data" column="declare_image_data" javaType="[B" jdbcType="BLOB"></result>
+	</resultMap>
+	
+	<insert id="mylib_declare_insert" parameterType="java.util.Map">
+		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="declare_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_increment.NEXTVAL FROM DUAL
+		</selectKey>
+		
+      	INSERT INTO M_MYLIB_DECLARE (declare_id, do_user, be_done_user, declare_date, declare_reason, declare_category, declare_image_data, declare_status)
+    	VALUES (#{declare_id}, #{do_user}, #{be_done_user}, #{declare_date}, #{declare_reason}, #{declare_category}, #{declare_image_data}, #{declare_status}) 
+ 	</insert>
+
+ 	<!-- 신고정보 select -->
+ 	<select id="mylib_declare_request_list" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+ 		SELECT declare_id, do_user, be_done_user, declare_date, declare_reason, declare_category, declare_status FROM M_MYLIB_DECLARE
+  		<where>
+ 			<if test="user_position != 'admin'">
+ 				do_user = #{user_id}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- 신고정보 사진 select -->
+ 	<select id="declare_image" parameterType="integer" resultMap="clobMap">
+ 		SELECT declare_image_data FROM M_MYLIB_DECLARE WHERE declare_id=#{declare_id}
+ 	</select>
+ 	
+ 	 <!-- 신고 상태 update -->
+  	<update id="declare_admin" parameterType="hashmap">
+ 		UPDATE M_MYLIB_DECLARE SET declare_status=#{declare_status}
+ 		WHERE declare_id=#{declare_id}
+ 	</update> 
+ 	
+ 	
+</mapper>

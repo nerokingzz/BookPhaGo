@@ -1,6 +1,5 @@
 package org.team.bpg.chat.service;
 
-import org.team.bpg.chat.vo.BookVO;
 import org.team.bpg.chat.vo.MemberVO;
 
 public interface ChatService {
