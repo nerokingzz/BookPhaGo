@@ -19,13 +19,13 @@
 	<form method="post" action="modifylibrary.do">
 		<table align="center">
 			<c:choose>
-				<c:when test="${requestListSize==null }">
+				<c:when test="${requestListSize==0 }">
 					<br>
 					<br>
 					<br>
 					<br>
 					<br>
-					<p align="center">수정완료</p>
+					<p align="center">잘못된 값 입력</p>
 				</c:when>
 
 				<c:when test="${requestListSize gt 0 }">

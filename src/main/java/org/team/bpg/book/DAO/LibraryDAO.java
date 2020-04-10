@@ -15,6 +15,9 @@ public interface LibraryDAO {
 	public void librarydelete(BookInfoVO bookInfoVO);
 	public List<Map<String, Object>> userlibrarylist(Map<String, String> book_list);
 	public List<Map<String, Object>> usersearchbook(Map<String, String> book_list);
+	public List<Map<String, Object>> userreservationlist(Map<String, String> book_list);
+	public List<Map<String, Object>> userapplysearch(Map<String, String> book_list);
+	public List<Map<String, Object>> userapplybook(Map<String, String> book_list);
 	
 
 }
