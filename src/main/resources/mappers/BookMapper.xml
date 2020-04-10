@@ -48,4 +48,20 @@
  		where A.ISBN = B.ISBN and ${search_option} LIKE '%'||#{search_value}||'%' order by B.BookNumber asc
  	</select>
  
+ 	<!-- 사용자 예약 목록 -->
+ 	<select id="userreservationlist" parameterType="hashmap" resultType="hashmap">
+ 		select A.BookName,B.BookNumber from B_BOOK_OFFICIAL A, B_BOOK_LIB B where A.ISBN = B.ISBN and bookNumber = #{bookNumber}
+ 	</select>
+ 	
+ 	<!-- 사용자 도서 신청 검색 -->
+ 	<select id="userapplysearch" parameterType="hashmap" resultType="hashmap">
+ 		select A.bookName, A.bookWriter, A.bookpublisher, A.bookdate, A.isbn
+		from B_BOOK_OFFICIAL A left outer join B_BOOK_LIB B on A.isbn=B.isbn
+		where B.isbn is null and bookName like '%'||#{search_value}||'%'	
+ 	</select>
+ 	
+ 	<!-- 사용자 도서 신청 userapplybook-->
+ 	<insert id="userapplybook" parameterType="hashmap">
+ 		INSERT INTO B_BOOK_REQUEST VALUES (#{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState})
+ 	</insert>
 </mapper>

@@ -7,6 +7,10 @@
 <head>
 <meta charset="EUC-KR">
 <title>사용자 도서 목록</title>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <style>
 .cls1 {
 	font-size: 40px;
@@ -74,7 +78,10 @@
 							<td>${requestList.get(i-1).get("BOOKDATE") }</td>
 							<td>${requestList.get(i-1).get("BOOKGENRE") }</td>
 							<td>${requestList.get(i-1).get("BOOKRENT") }</td>
-							<td>${requestList.get(i-1).get("BOOKRESERVATION") }</td>
+							<td>
+							<input type="button" id="${requestList.get(i-1).get('BOOKRESERVATION') }" value= "${requestList.get(i-1).get('BOOKRESERVATION') }" onClick="calculate(${requestList.get(i-1).get('BOOKNUMBER') });">
+						
+							</td>
 						</tr>
 					</c:forEach>
 				</c:when>
@@ -83,3 +90,17 @@
 </table>
 </body>
 </html>
+
+<script type="text/javascript">
+function calculate(value){
+    var e = window.event,
+        btn = e.target || e.srcElement;
+    //alert(btn.id);
+
+    if(btn.id == "예약가능"){
+    	var popUrl = "userreservationlist.do?bookNumber="+value;
+    	window.open(popUrl,"","width=400,height=400");
+
+    }
+}
+</script>
