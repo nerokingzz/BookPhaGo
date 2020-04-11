@@ -15,10 +15,16 @@ public class LibraryDAOImpl implements LibraryDAO{
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<Map<String, Object>> adminlibrarylist(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=sqlSession.selectList("book.adminlibrary_request_list", book_list);
-		return requestList;
+	public List<Map<String, Object>> adminlibrarylist() {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.adminlibrary_request_list");
+		return booklist;
 	}
+	
+//	@Override
+//	public List<Map<String, Object>> adminlibrarylist(Map<String, String> book_list) {
+//		List<Map<String, Object>> requestList=sqlSession.selectList("book.adminlibrary_request_list", book_list);
+//		return requestList;
+//	}
 
 	@Override
 	public List<Map<String, Object>> adminsearchbook(Map<String, String> book_list) {
@@ -82,6 +88,8 @@ public class LibraryDAOImpl implements LibraryDAO{
 		List<Map<String, Object>> requestList=sqlSession.selectList("book.userapplybook", book_list);
 		return requestList;
 	}
+
+
 
 	
 

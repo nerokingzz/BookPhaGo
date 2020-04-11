@@ -4,8 +4,10 @@
 <mapper namespace="book">
 	
  	<!-- 관리자 도서목록 -->
- 	<select id="adminlibrary_request_list" parameterType="hashmap" resultType="hashmap">
- 		SELECT A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation,B.isbn from B_BOOK_OFFICIAL A, B_BOOK_LIB B where A.ISBN = B.ISBN order by B.BookNumber asc
+ 	<select id="adminlibrary_request_list"  resultType="hashmap">
+ 		SELECT A.BookName,B.BookNumber,A.BookWriter,A.BookPublisher,A.BookDate,B.BookGenre,B.BookRent,B.BookReservation,B.isbn 
+ 		from B_BOOK_OFFICIAL A, B_BOOK_LIB B 
+ 		where A.ISBN = B.ISBN order by B.BookNumber asc
  	</select>
  	
  	<!-- 관리자 도서검색 -->

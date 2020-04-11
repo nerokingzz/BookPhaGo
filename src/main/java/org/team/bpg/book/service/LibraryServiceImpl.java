@@ -15,21 +15,26 @@ public class LibraryServiceImpl implements LibraryService{
 	@Autowired
 	private LibraryDAO libraryDAO;
 
-	
 	@Override
-	public ModelAndView adminlibrarylist(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.adminlibrarylist(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
+	public List<Map<String, Object>> adminlibrarylist() {
+		List<Map<String, Object>> booklist = libraryDAO.adminlibrarylist();
+		return booklist;
 	}
+	
+//	@Override
+//	public ModelAndView adminlibrarylist(Map<String, String> book_list) {
+//		List<Map<String, Object>> requestList=libraryDAO.adminlibrarylist(book_list);
+//
+//		System.out.println(requestList);
+//		
+//		ModelAndView mav=new ModelAndView();
+//		mav.addObject("requestList", requestList);
+//		mav.addObject("requestListSize", requestList.size());
+//		
+//		System.out.println("requestList :"+requestList.size());
+//		
+//		return mav;
+//	}
 
 	@Override
 	public ModelAndView adminsearchbook(Map<String, String> book_list) {
@@ -150,6 +155,8 @@ public class LibraryServiceImpl implements LibraryService{
 		
 		return mav;
 	}
+
+
 	
 
 

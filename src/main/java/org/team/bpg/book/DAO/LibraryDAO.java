@@ -7,7 +7,7 @@ import org.team.bpg.book.VO.BookInfoVO;
 
 public interface LibraryDAO {
 	
-	public List<Map<String, Object>> adminlibrarylist(Map<String, String> book_list);
+//	public List<Map<String, Object>> adminlibrarylist(Map<String, String> book_list);
 	public List<Map<String, Object>> adminsearchbook(Map<String, String> book_list);
 	public void inputlibrary(BookInfoVO bookInfoVO);
 	public List<Map<String, Object>> modfindlibrary(Map<String, String> book_list);
@@ -18,6 +18,7 @@ public interface LibraryDAO {
 	public List<Map<String, Object>> userreservationlist(Map<String, String> book_list);
 	public List<Map<String, Object>> userapplysearch(Map<String, String> book_list);
 	public List<Map<String, Object>> userapplybook(Map<String, String> book_list);
+	public List<Map<String, Object>> adminlibrarylist();
 	
 
 }

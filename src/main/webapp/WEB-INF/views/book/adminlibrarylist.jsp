@@ -188,24 +188,24 @@
 
 			<c:choose>
 				
-				<c:when test="${requestListSize gt 0 }">
-					<c:forEach var="i"  begin="1" end="${requestListSize }">
+				<c:when test="${booklistSize gt 0 }">
+					<c:forEach var="i"  begin="1" end="${booklistSize }">
 						<tr align="center">
-							<td>${requestList.get(i-1).get("BOOKNAME") }</td>
-							<td>${requestList.get(i-1).get("BOOKNUMBER") }</td>
-							<td>${requestList.get(i-1).get("BOOKWRITER") }</td>
-							<td>${requestList.get(i-1).get("BOOKPUBLISHER") }</td>
-							<td>${requestList.get(i-1).get("BOOKDATE") }</td>
-							<td>${requestList.get(i-1).get("BOOKGENRE") }</td>
-							<td>${requestList.get(i-1).get("BOOKRENT") }</td>
-							<td>${requestList.get(i-1).get("BOOKRESERVATION") }</td>
-							<td>${requestList.get(i-1).get("ISBN") }</td>
+							<td>${booklist.get(i-1).get("BOOKNAME") }</td>
+							<td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+							<td>${booklist.get(i-1).get("BOOKWRITER") }</td>
+							<td>${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
+							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
+							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
+							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
+							<td>${booklist.get(i-1).get("BOOKRESERVATION") }</td>
+							<td>${booklist.get(i-1).get("ISBN") }</td>
 							<td>
-							<button onclick="window.open('modfindlibrary.do?bookNumber=${requestList.get(i-1).get('BOOKNUMBER') }','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">수정</button>
+							<button onclick="window.open('modfindlibrary.do?bookNumber=${booklist.get(i-1).get('BOOKNUMBER') }','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">수정</button>
 							</td>
 							<td>
 								<form action="librarydelete.do" method="post">
-										<input type="hidden" name="bookNumber" value="${requestList.get(i-1).get('BOOKNUMBER') }">
+										<input type="hidden" name="bookNumber" value="${booklist.get(i-1).get('BOOKNUMBER') }">
 										<button onclick="return check()" type="submit" aria-hidden="true">삭제</button>
 								</form>
 							</td>

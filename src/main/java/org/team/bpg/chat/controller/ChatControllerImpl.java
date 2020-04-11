@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,11 @@ public class ChatControllerImpl implements ChatController{
 	
 	@Autowired
 	MemberVO member;
+	
+	@RequestMapping(value = "cal.do")
+	public String goCal(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/cal";
+	}
 	
 	@RequestMapping(value = "/searchMember.do"
 					//consumes = "application/json",
@@ -48,6 +54,8 @@ public class ChatControllerImpl implements ChatController{
 				System.out.println("bookcount : " + searchMember.getMem_bookcount());
 				resultMap.put("mem_id", searchMember.getMem_id());		
 				resultMap.put("mem_bookcount", searchMember.getMem_bookcount());
+				
+				
 			}else {
 				System.out.println("searchMember is null");
 			}
