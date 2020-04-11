@@ -70,7 +70,7 @@
 								<th>상태</th>
 								<th>확인</th>
 							</tr>
-						
+			
 							<c:forEach var="i" begin="1" end="${requestListSize}">
 								<tr>
 									<td>${i}</td>
