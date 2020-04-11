@@ -28,10 +28,10 @@
 		if(userRequest != null && userRequest != undefined){
 			if(username == null) username = "비회원";
 			var content = "<div>" +
-					"<img src='https://i.imgur.com/i3zdWmq.png' alt ='mail top image'/><br>"+
+					"<img src='https://i.imgur.com/jlDhg6k.png' alt ='mail top image'/><br>"+
 						"<div style='margin: 3px 0px 9px 16px; width:317px;font-size:12px'>" +
 								"<b>회원명</b>&nbsp;&nbsp;" + username +"<br>"
-								+"<b>내용</b>&nbsp;&nbsp;"+ userRequest + "<br>" +
+								+"<b>문의 내용</b>&nbsp;&nbsp;"+ userRequest + "<br>" +
 							"</div>"+
 					"<img src='https://i.imgur.com/gXAx6Oa.png' alt ='mail bottom image'/>" +
 				"</div>";
@@ -119,12 +119,22 @@
 		var borrow_bookNumber = user_defined.borrow_bookNuumber;
 		
 		message = decodeURIComponent(message);
-		console.log("message : " + message);
+		
+		if(event.data.output.generic[0].description){
+			var desc = event.data.output.generic[0].description;
+			console.log("desc :" + desc);
+		}
+		
 		console.log("user ID : " + userId);
 		
 		if(message.includes('지도')){
 			setTimeout(addMap, 300);
-		}else if(userId != null && check_me == true){
+		}else if(desc){
+			if(desc.includes('지도'))setTimeout(addMap, 300);
+		}
+		
+		if(userId != null && check_me == true){
+			console.log("this is in receive check me");
 			setTimeout(function(){
 				console.log('in setTimeout');
 				checkMember(userId);
