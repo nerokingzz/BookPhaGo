@@ -59,7 +59,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#" title="" class="not-box-openm">
+								<a href="myLib_main.do" title="" class="not-box-openm">
 									<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
 									마이 라이브러리
 								</a>
