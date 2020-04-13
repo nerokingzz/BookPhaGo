@@ -40,18 +40,18 @@ public class HomeController {
 		
 		HttpSession session=request.getSession(true);
 		
-//		//일반회원테스트
+//		
 //		session.setAttribute("user_id", "shyguy_hulk");
 //		session.setAttribute("user_position", "general");
 		
-		//관리자테스트
+		
 		session.setAttribute("user_id", "captain_A");
 		session.setAttribute("user_position", "admin");
 		
 		return "index";
 	}
 	
-	//마이라이브러리 이동
+	
 	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
 	public String myLibMain(HttpServletRequest request, HttpServletResponse response) {
 		return "mylib/myLib_main";
@@ -61,8 +61,6 @@ public class HomeController {
 	
 	
 	
-	
-	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
 	@RequestMapping(value = "/watson.do", method = RequestMethod.GET)
 	public String goWatson(Model model, HttpServletRequest request, HttpServletResponse response) {
 		return "chat/watson";
@@ -70,14 +68,13 @@ public class HomeController {
 	
 	
 	
-	// send.jsp 페이지로 이동시켜주는 메소드
+	
 	@RequestMapping(value = "/send.do", method = RequestMethod.GET)
 	public String goSend(Model model, HttpServletRequest request, HttpServletResponse response) {
 		return "chat/send";
 	}
 	
 	
-	// receive.jsp 페이지로 이동시켜주는 메소드
 	@RequestMapping(value = "/receive.do", method = RequestMethod.GET)
 	public String goReceive(Model model, HttpServletRequest request, HttpServletResponse response) {
 		return "chat/receive";

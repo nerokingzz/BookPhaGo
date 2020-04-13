@@ -77,33 +77,32 @@
 						<td width="200">
 							<p align="right">isbn :</p>
 						</td>
-						<td width="400"><input type="text" name="isbn" id="input1">
-							<input type="button" value="검색" onclick="searchIsbn()"></td>
+						<td width="400"><input type="text" name="isbn" id="pinput" readonly>
+							<input type="button" value="검색" onclick="searchIsbn()" ></td>
 					</tr>
 					<tr>
 						<td width="200">
 							<p align="right">도서명 :</p>
 						</td>
-						<td width="400"><input type="text" id="bookName" disabled></td>
+						<td width="400"><input type="text" id="pinputt" readonly></td>
 					</tr>
 					<tr>
 						<td width="200">
 							<p align="right">지은이 :</p>
 						</td>
-						<td width="400"><input type="text" id="bookWriter" disabled></td>
+						<td width="400"><input type="text" id="pinputtt" readonly></td>
 					</tr>
 					<tr>
 						<td width="200">
 							<p align="right">출판사 :</p>
 						</td>
-						<td width="400"><input type="text" id="bookPublisher"
-							disabled></td>
+						<td width="400"><input type="text" id="pinputttt" readonly></td>
 					</tr>
 					<tr>
 						<td width="200">
 							<p align="right">발행일 :</p>
 						</td>
-						<td width="400"><input type="text" id="bookDate" disabled></td>
+						<td width="400"><input type="text" id="pinputtttt" readonly></td>
 					</tr>
 					<tr>
 						<td width="200">
@@ -249,6 +248,7 @@
     	    return false;
     	}
     }
+    
     function inputCheck(){
     	if (confirm("추가 하시겠습니까??") == true){    //확인
     	    return true;
@@ -256,5 +256,9 @@
     	    return false;
     	}
     }
-
+	
+    function searchIsbn() {
+    	var popUrl = "adminisbnsearchlist.do";
+    	window.open(popUrl,"","width=1200,height=400");
+    }
 </script>

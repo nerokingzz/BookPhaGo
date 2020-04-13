@@ -81,4 +81,16 @@
 
  		insert into B_BOOK_RESERVATION values (#{user_id}, #{reservationNumber}, #{bookNumber}, #{resesrvationDate})
  	</insert>
+ 	
+ 	<!-- 관리자 isbn 검색 -->
+ 	<select id="adminisbnsearch" parameterType="hashmap" resultType="hashmap">
+ 		select A.bookName, A.bookWriter, A.bookpublisher, A.bookdate, A.isbn
+		from B_BOOK_OFFICIAL A left outer join B_BOOK_LIB B on A.isbn=B.isbn
+		where B.isbn is null and A.${search_option} like '%'||#{search_value}||'%'
+ 	</select>
+ 	
+ 	<!-- 관리자 isbn 검색 페이지 -->
+ 	<select id="adminisbnsearchlist"  resultType="hashmap">
+ 		SELECT * from B_BOOK_OFFICIAL
+ 	</select>
 </mapper>

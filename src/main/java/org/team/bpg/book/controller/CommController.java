@@ -88,8 +88,19 @@ public class CommController {
 	
 	//관리자 도서 수정
 	@RequestMapping(value="modifylibrary")
-	public void modifylibrary(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		libraryService.modifylibrary(bookInfoVO);
+	public void modifylibrary(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String bookNumber = request.getParameter("bookNumber");
+		String bookGenre = request.getParameter("bookGenre");
+		String bookRent = request.getParameter("bookRent");
+		String bookReservation = request.getParameter("bookReservation");
+		
+		Map<String, String> book_list=new HashMap<String, String>();
+		book_list.put("bookNumber", bookNumber);
+		book_list.put("bookGenre", bookGenre);
+		book_list.put("bookRent", bookRent);
+		book_list.put("bookReservation", bookReservation);
+		
+		libraryService.modifylibrary(book_list);
 	}
 	
 	//관리자 도서 삭제 
@@ -159,7 +170,7 @@ public class CommController {
 		String user_id=(String)session.getAttribute("user_id");
 		String bookNumber = request.getParameter("bookNumber");
 		String resesrvationDate = "2020-04-20";
-				
+	
 		Map<String, String> book_list=new HashMap<String, String>();
 		book_list.put("bookNumber", bookNumber);
 		book_list.put("user_id", user_id);
@@ -183,10 +194,7 @@ public class CommController {
 		HttpSession session=request.getSession();
 		String user_id=(String)session.getAttribute("user_id");
 		session.setAttribute("user_id", user_id);
-		
-		String bookName = request.getParameter("bookName");
-		System.out.println(bookName);
-		
+				
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("book/userapply");
 		return mv;
@@ -241,5 +249,38 @@ public class CommController {
 		mav.addObject("booklistSize", booklist.size());
 		mav.setViewName("book/userapplyinfo");
 		return mav;
+	}
+	
+	//관리자 isbn search 리스트
+	@RequestMapping(value="adminisbnsearchlist")
+	public ModelAndView userisbnsearchlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		
+		List<Map<String, Object>> booklist = libraryService.adminisbnsearchlist();
+		
+		mav.addObject("booklist", booklist);
+		mav.addObject("booklistSize", booklist.size());
+		mav.setViewName("book/adminisbnsearchlist");
+		return mav;		
+	}
+		
+	//관리자 isbn search
+	@RequestMapping(value="adminisbnsearch")
+	public ModelAndView adminisbnsearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		
+		String search_option = request.getParameter("search_option");
+		String search_value = request.getParameter("search_value");
+		
+		Map<String, String> book_list=new HashMap<String, String>();
+		book_list.put("search_value", search_value);
+		book_list.put("search_option", search_option);
+		
+		List<Map<String, Object>> booklist = libraryService.adminisbnsearch(book_list);
+		
+		mav.addObject("booklist", booklist);
+		mav.addObject("booklistSize", booklist.size());
+		mav.setViewName("book/adminisbnsearchlist");
+		return mav;		
 	}
 }

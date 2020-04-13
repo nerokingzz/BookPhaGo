@@ -40,12 +40,6 @@ public class LibraryServiceImpl implements LibraryService{
 	}
 
 	@Override
-	public void modifylibrary(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		libraryDAO.modifylibrary(bookInfoVO);
-	}
-
-	@Override
 	public void librarydelete(BookInfoVO bookInfoVO) {
 		// TODO Auto-generated method stub
 		libraryDAO.librarydelete(bookInfoVO);
@@ -89,5 +83,22 @@ public class LibraryServiceImpl implements LibraryService{
 	@Override
 	public void insertuserreservation(Map<String, String> book_list) {
 		libraryDAO.insertuserreservation(book_list);
+	}
+
+	@Override
+	public void modifylibrary(Map<String, String> book_list) {
+		libraryDAO.modifylibrary(book_list);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminisbnsearch(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.adminisbnsearch(book_list);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> adminisbnsearchlist() {
+		List<Map<String, Object>> booklist =  libraryDAO.adminisbnsearchlist();
+		return booklist;
 	}
 }
