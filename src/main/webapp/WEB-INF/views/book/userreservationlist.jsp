@@ -12,10 +12,10 @@
 <br>
 <form action="userreservation.do" method="get">
 	<c:choose>
-		<c:when test="${requestListSize gt 0 }">
-			<c:forEach var="i" begin="1" end="${requestListSize }">
-				<input type="hidden" name="bookNumber" value="${requestList.get(i-1).get('BOOKNUMBER') }">
-				<p align="center"><td width="400"><input type="text" style = "text-align:center;" name="bookNumber" value="${requestList.get(i-1).get('BOOKNAME') }" disabled>를 예약하시겠습니까?</td></p>
+		<c:when test="${booklistSize gt 0 }">
+			<c:forEach var="i" begin="1" end="${booklistSize }">
+				<input type="hidden" name="bookNumber" value="${booklist.get(i-1).get('BOOKNUMBER') }">
+				<p align="center"><td width="400"><input type="text" style = "text-align:center;" name="bookNumber" value="${booklist.get(i-1).get('BOOKNAME') }" disabled>를 예약하시겠습니까?</td></p>
 			</c:forEach>
 		</c:when>
 	
@@ -28,6 +28,7 @@
 
 <script type="text/javascript">
 function CloseWindow() {
-	window.close();
+	opener.document.location.reload();
+	self.close();
 }
 </script>

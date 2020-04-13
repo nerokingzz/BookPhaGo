@@ -14,41 +14,17 @@ public class LibraryServiceImpl implements LibraryService{
 	
 	@Autowired
 	private LibraryDAO libraryDAO;
-
+	
 	@Override
 	public List<Map<String, Object>> adminlibrarylist() {
 		List<Map<String, Object>> booklist = libraryDAO.adminlibrarylist();
 		return booklist;
 	}
-	
-//	@Override
-//	public ModelAndView adminlibrarylist(Map<String, String> book_list) {
-//		List<Map<String, Object>> requestList=libraryDAO.adminlibrarylist(book_list);
-//
-//		System.out.println(requestList);
-//		
-//		ModelAndView mav=new ModelAndView();
-//		mav.addObject("requestList", requestList);
-//		mav.addObject("requestListSize", requestList.size());
-//		
-//		System.out.println("requestList :"+requestList.size());
-//		
-//		return mav;
-//	}
 
 	@Override
-	public ModelAndView adminsearchbook(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.adminsearchbook(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
+	public List<Map<String, Object>> adminsearchbook(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist = libraryDAO.adminsearchbook(book_list);
+		return booklist;
 	}
 
 	@Override
@@ -58,15 +34,9 @@ public class LibraryServiceImpl implements LibraryService{
 	}
 
 	@Override
-	public ModelAndView modfindlibrary(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.modfindlibrary(book_list);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		
-		return mav;
+	public List<Map<String, Object>> modfindlibrary(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist = libraryDAO.modfindlibrary(book_list);
+		return booklist;
 	}
 
 	@Override
@@ -80,85 +50,44 @@ public class LibraryServiceImpl implements LibraryService{
 		// TODO Auto-generated method stub
 		libraryDAO.librarydelete(bookInfoVO);
 	}
-
-	@Override
-	public ModelAndView userlibrarylist(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.userlibrarylist(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
-	}
-
-	@Override
-	public ModelAndView usersearchbook(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.usersearchbook(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
-	}
-
-	@Override
-	public ModelAndView userreservationlist(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.userreservationlist(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
-	}
-
-	@Override
-	public ModelAndView userapplysearch(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.userapplysearch(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
-	}
-
-	@Override
-	public ModelAndView userapplybook(Map<String, String> book_list) {
-		List<Map<String, Object>> requestList=libraryDAO.userapplybook(book_list);
-
-		System.out.println(requestList);
-		
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("requestList :"+requestList.size());
-		
-		return mav;
-	}
-
-
 	
+	@Override
+	public List<Map<String, Object>> userlibrarylist() {
+		List<Map<String, Object>> booklist =  libraryDAO.userlibrarylist();
+		return booklist;
+	}
 
+	@Override
+	public List<Map<String, Object>> usersearchbook(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.usersearchbook(book_list);
+		return booklist;
+	}
+	
+	@Override
+	public List<Map<String, Object>> userreservationlist(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.userreservationlist(book_list);
+		return booklist;
+	}
+	
+	@Override
+	public List<Map<String, Object>> userapplysearch(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.userapplysearch(book_list);
+		return booklist;
+	}
 
+	@Override
+	public List<Map<String, Object>> userapplybook(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.userapplybook(book_list);
+		return booklist;
+	}
 
+	@Override
+	public void userreservation(Map<String, String> book_list) {
+		libraryDAO.userreservation(book_list);
+	}
+
+	@Override
+	public void insertuserreservation(Map<String, String> book_list) {
+		libraryDAO.insertuserreservation(book_list);
+	}
 }

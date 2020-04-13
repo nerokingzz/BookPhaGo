@@ -19,7 +19,7 @@
 	<form method="post" action="modifylibrary.do">
 		<table align="center">
 			<c:choose>
-				<c:when test="${requestListSize==0 }">
+				<c:when test="${booklistSize==0 }">
 					<br>
 					<br>
 					<br>
@@ -28,42 +28,42 @@
 					<p align="center">잘못된 값 입력</p>
 				</c:when>
 
-				<c:when test="${requestListSize gt 0 }">
-					<c:forEach var="i" begin="1" end="${requestListSize }">
+				<c:when test="${booklistSize gt 0 }">
+					<c:forEach var="i" begin="1" end="${booklistSize }">
 						<tr>
 							<td width="200">
 								<p align="right">도서번호 :
 							</td>
 							<td width="400"><input type="text" name="bookNumber"
-								value="${requestList.get(i-1).get('BOOKNUMBER') }"></td>
+								value="${booklist.get(i-1).get('BOOKNUMBER') }"></td>
 						</tr>
 						<tr>
 							<td width="200">
 								<p align="right">장르 :
 							</td>
 							<td width="400"><input type="text" name="bookGenre"
-								value="${requestList.get(i-1).get('BOOKGENRE') }"></td>
+								value="${booklist.get(i-1).get('BOOKGENRE') }"></td>
 						</tr>
 						<tr>
 							<td width="200">
 								<p align="right">대출여부 :
 							</td>
 							<td width="400"><input type="text" name="bookRent"
-								value="${requestList.get(i-1).get('BOOKRENT') }"></td>
+								value="${booklist.get(i-1).get('BOOKRENT') }"></td>
 						</tr>
 						<tr>
 							<td width="200">
 								<p align="right">예약여부 :
 							</td>
 							<td width="400"><input type="text" name="bookReservation"
-								value="${requestList.get(i-1).get('BOOKRESERVATION') }"></td>
+								value="${booklist.get(i-1).get('BOOKRESERVATION') }"></td>
 						</tr>
 						<tr>
 							<td width="200">
 								<p align="right">isbn :
 							</td>
 							<td width="400"><input type="text" name="isbn"
-								value="${requestList.get(i-1).get('ISBN') }" disabled></td>
+								value="${booklist.get(i-1).get('ISBN') }" disabled></td>
 						</tr>
 						<tr align="center">
 							<td colspan="2" width="400"><input type="submit"
@@ -81,10 +81,10 @@
 
 <script type="text/javascript">
 function modify_check(){
-	if (confirm("수정 하시겠습니까??") == true){    //확인
-	    return true;
-	}else{   //취소
-	    return false;
-	}
+	
+	opener.location.href="adminlibrarylist.do"
+	window.close();
+	
+	
 }
 </script>

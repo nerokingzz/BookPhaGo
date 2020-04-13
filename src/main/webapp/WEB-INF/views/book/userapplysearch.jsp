@@ -35,7 +35,7 @@
 			
 			<c:choose>
 				
-				<c:when test="${requestListSize gt 0 }">
+				<c:when test="${booklistSize gt 0 }">
 				<tr align="center" bgcolor="lightgreen">
 					<td width="7%"><b>도서명</b>
 					<td width="7%"><b>저자</b>
@@ -43,14 +43,14 @@
 					<td width="7%"><b>발행일</b>
 					<td width="7%"><b>isbn</b>
 					<td width="7%"><b>선택</b></td>
-					<c:forEach var="i"  begin="1" end="${requestListSize }">
+					<c:forEach var="i"  begin="1" end="${booklistSize }">
 						<tr align="center">
-							<td><input type="text" id="cInput" value="${requestList.get(i-1).get('BOOKNAME') }" 
+							<td><input type="text" id="cInput" value="${booklist.get(i-1).get('BOOKNAME') }" 
 								 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px; text-align:center;" readonly></td>
-							<td>${requestList.get(i-1).get("BOOKWRITER") }</td>
-							<td>${requestList.get(i-1).get("BOOKPUBLISHER") }</td>
-							<td>${requestList.get(i-1).get("BOOKDATE") }</td>
-							<td><input type="text" id="cInputt" value="${requestList.get(i-1).get('ISBN') }" 
+							<td>${booklist.get(i-1).get("BOOKWRITER") }</td>
+							<td>${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
+							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
+							<td><input type="text" id="cInputt" value="${booklist.get(i-1).get('ISBN') }" 
 								 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px; text-align:center;" readonly></td>
 							<td>
 								<input type="button" value="선택하기" onclick="setParentText();">

@@ -67,21 +67,22 @@
 			
 			<c:choose>
 				
-				<c:when test="${requestListSize gt 0 }">
-					<c:forEach var="i"  begin="1" end="${requestListSize }">
+				<c:when test="${booklistSize gt 0 }">
+					<c:forEach var="i"  begin="1" end="${booklistSize }">
 						<tr align="center">
 							<td>${i }
-							<td>${requestList.get(i-1).get("BOOKNAME") }</td>
-							<td>${requestList.get(i-1).get("BOOKNUMBER") }</td>
-							<td>${requestList.get(i-1).get("BOOKWRITER") }</td>
-							<td>${requestList.get(i-1).get("BOOKPUBLISHER") }</td>
-							<td>${requestList.get(i-1).get("BOOKDATE") }</td>
-							<td>${requestList.get(i-1).get("BOOKGENRE") }</td>
-							<td>${requestList.get(i-1).get("BOOKRENT") }</td>
+							<td>${booklist.get(i-1).get("BOOKNAME") }</td>
+							<td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+							<td>${booklist.get(i-1).get("BOOKWRITER") }</td>
+							<td>${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
+							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
+							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
+							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
 							<td>
-							<input type="button" id="${requestList.get(i-1).get('BOOKRESERVATION') }" value= "${requestList.get(i-1).get('BOOKRESERVATION') }" onClick="calculate(${requestList.get(i-1).get('BOOKNUMBER') });">
+							<input type="button" id="${booklist.get(i-1).get('BOOKRESERVATION') }" value= "${booklist.get(i-1).get('BOOKRESERVATION') }" onClick="calculate(${booklist.get(i-1).get('BOOKNUMBER') });">
 						
 							</td>
+							
 						</tr>
 					</c:forEach>
 				</c:when>

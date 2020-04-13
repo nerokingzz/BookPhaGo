@@ -66,4 +66,19 @@
  	<insert id="userapplybook" parameterType="hashmap">
  		INSERT INTO B_BOOK_REQUEST VALUES (#{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState})
  	</insert>
+ 	
+ 	<!-- 사용자 도서 예약 bookReservation 변경-->
+ 	<update id="userreservationupdate" parameterType="hashmap">
+ 		update B_BOOK_LIB set bookReservation = '예약불가' where bookNumber = #{bookNumber}
+ 	</update>
+ 	
+ 	<!-- 사용자 도서 예약 -->
+ 	<insert id="insertuserreservation" parameterType="hashmap">
+		 <selectKey keyProperty="reservationNumber" resultType="integer"  order="BEFORE">
+			SELECT NO_SEQ.nextval From DUAL
+		</selectKey>
+
+
+ 		insert into B_BOOK_RESERVATION values (#{user_id}, #{reservationNumber}, #{bookNumber}, #{resesrvationDate})
+ 	</insert>
 </mapper>

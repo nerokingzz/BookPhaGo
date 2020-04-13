@@ -18,7 +18,7 @@ public class BootController {
 	@RequestMapping(value = "/goBoot.do", method = RequestMethod.GET)
 	public String goBoot(Model model, HttpServletRequest request, HttpServletResponse response) {
 		String bootPage = request.getParameter("bootPage");
-		System.out.println(bootPage + "로 이동합니다.");
+		System.out.println(bootPage + "bootPage.");
 		/*
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
