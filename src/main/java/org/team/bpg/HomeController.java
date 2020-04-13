@@ -48,7 +48,7 @@ public class HomeController {
 		session.setAttribute("user_id", "captain_A");
 		session.setAttribute("user_position", "admin");
 		
-		return "home";
+		return "index";
 	}
 	
 	//마이라이브러리 이동
