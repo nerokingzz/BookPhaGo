@@ -51,6 +51,13 @@ public class HomeController {
 		return "home";
 	}
 	
+	//마이라이브러리 이동
+	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
+	public String myLibMain(HttpServletRequest request, HttpServletResponse response) {
+		return "mylib/myLib_main";
+	}
+	
+	
 	
 	
 	

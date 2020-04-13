@@ -14,7 +14,6 @@
 
 <body>
 
-	<h3>신고하기</h3>
 	<form action="mylib_declare_request.do" method="post" enctype="multipart/form-data">
 		신고날짜<input type="text" id="current_info" name="declare_date"> <br> <!-- hidden으로 변경 -->
 		신고자아이디<input type="text" name="do_user" value="${user_id}"> <br>
