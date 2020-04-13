@@ -38,14 +38,12 @@ public class ChatBookControllerImpl {
 		book_list.put("search_value", search_value);
 		
 		ModelAndView mav=new ModelAndView();
-
 		
-		
-		mav=libraryService.usersearchbook(book_list);
+		List<Map<String, Object>> list =libraryService.usersearchbook(book_list);
 		
 		System.out.println("getting mav's info..." + mav.getModel());
 		
-		
+		mav.addObject("usserlist", list);
 		
 		mav.setViewName("book/userlibrarylist");
 		

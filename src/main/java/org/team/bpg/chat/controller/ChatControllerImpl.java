@@ -32,6 +32,12 @@ public class ChatControllerImpl implements ChatController{
 		return "chat/cal";
 	}
 	
+	
+	@RequestMapping(value = "index.do")
+	public String goIndex(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/index";
+	}
+	
 	@RequestMapping(value = "/searchMember.do"
 					//consumes = "application/json",
 					)

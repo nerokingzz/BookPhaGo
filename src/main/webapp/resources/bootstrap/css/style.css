@@ -358,8 +358,8 @@ header {
 }
 .search-bar {
 	float: left;
-	width: 280px;
-	margin-top: 9px;
+	width: 100%;
+	margin-top: -2em;
 }
 .search-bar form {
 	float: left;
@@ -370,10 +370,12 @@ header {
 	width: 100%;
 	background-color: #fff;
 	height: 38px;
-	color: #b2b2b2;
-	font-size: 12px;
+	color: black;
+	font-size: 15px;
 	border: 0;
 	padding: 0 10px;
+	height: 3.5em;
+    margin: 0px 0.2em 0px 0.2em;
 }
 .search-bar form button {
 	position: absolute;
@@ -383,6 +385,7 @@ header {
 	width: 38px;
 	height: 100%;
 	border: 0;
+	margin-right : -4px;
 }
 .search-bar form button i {
 	color: #e44d3a;
@@ -392,8 +395,8 @@ header {
 
 nav {
 	float: left;
-	width: 60%;
-	text-align: right;
+	width: 80%;
+	text-align: left;
 	padding-right: 13px;
 }
 nav ul li {
@@ -536,7 +539,7 @@ nav > ul > li > a:hover {
 
 .user-account {
 	float: right;
-	width: 110px;
+	width: 160px;
 	border-left: 1px solid #dd3e2b;
 	border-right: 1px solid #dd3e2b;
 	box-sizing: border-box;
@@ -4384,6 +4387,7 @@ a:hover {
 	width: 100%;
 	padding: 70px 0;
 }
+
 .acc-leftbar {
 	float: left;
 	width: 100%;
@@ -5820,6 +5824,7 @@ a:hover {
 	margin-top: 130px;
 }
 .Company-overview{
+	padding-top: 50px;
 	padding-bottom: 50px;
 }
 .bennertext{
@@ -5878,8 +5883,10 @@ a:hover {
     font-weight: 500;
 }
 .services{
-	padding-top: 80px;
+	padding-top: 15px;
 	padding-bottom: 80px;
+	margin-top : 15px;
+	text-align : center;
 }
 .video{
 	padding-bottom: 40px;
@@ -6839,3 +6846,186 @@ ul#myTab {
     font-size: 14px;
     color: #666666;
 }
+
+/* 김민선 추가 부 시작*/
+/* 인덱스 페이지 속 네모 선택 버튼 시작 */
+.ftco-section {
+  padding: 6em 0;
+  position: relative; }
+  @media (max-width: 767.98px) {
+    .ftco-section {
+      padding: 6em 0; } }
+
+.ftco-no-pt {
+  padding-top: 0 !important; }
+
+.ftco-no-pb {
+  padding-bottom: 0 !important; }
+  
+  
+  @media (min-width: 768px)
+.col-md-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  
+  .no-gutters > .col, .no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+@media (min-width: 768px)
+.col-md-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+
+
+.top-category.active, .top-category:hover {
+    background: #E44D3A;
+    border-left: none;
+}
+
+  .top-category:hover a{
+    color : #fff;
+}
+
+
+.top-category {
+    padding: 30px;
+    background: #fff;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+  
+  /* 인덱스 페이지 속 네모 선택 버튼 끝 */
+  
+  
+  .tabmenu{ 
+  max-width:100%;
+  margin: 0 0 80px 0;
+  position:relative; 
+  height : 260px;
+}
+.tabmenu ul li{
+  display: block;
+  width:33.33%; 
+  float:left;  
+  text-align:center; 
+  background :#f9f9f9;
+  line-height:40px;
+}
+.tabmenu label{
+  display:block;
+  width:100%; 
+  height:40px;
+  line-height:40px;
+}
+.tabmenu input{display:none;}
+.tabCon{
+  display:none; 
+  text-align:left; 
+  padding: 20px;
+  position:absolute; 
+  left:0;
+  top:40px; 
+  box-sizing: border-box; 
+  border : 5px solid #f9f9f9;
+  height : 100%;
+  overflow : auto;
+  background-color: white;
+}
+.tabmenu input:checked ~ label{
+  background:#E44D3A;
+  color:white;
+}
+.tabmenu input:checked ~ .tabCon{
+  display:block;
+}
+  
+ .account-tabs-setting2 {
+	float: left;
+	width: 100%;
+	padding: 30px 0;
+	margin-bottom : 50px;
+	height : 200px;
+} 
+
+.profile-account-setting2{
+	margin : 30px 0px 10px 0px;
+}
+
+
+
+/* ============== companies-info ============== */
+
+.companies-info2 {
+	padding: 0px 0 50px;
+}
+
+.company-title2 {
+	float: left;
+	width: 25%;
+	margin-bottom: 20px;
+	padding: 0 15px;
+}
+
+.company-title2 h3 {
+	color: #000000;
+	font-size: 20px;
+	font-weight: 600;
+	background-color: #fff;
+	padding: 10px 15px;
+}
+
+.profile-account-setting3{
+	margin : 00px 0px 50px 0px;
+}
+
+.col-lg-15{
+	margin : 20px 0px 20px 0;
+}
+
+
+.acc-setting2 {
+	float: left;
+	width: 100%;
+	height: 350px;
+	background-color: #fff;
+	border-left: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	-webkit-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-moz-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-ms-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-o-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+}
+
+
+.acc-setting2 form {
+	float: left;
+	width: 100%;
+}
+.acc-setting2 > h3 {
+	float: left;
+	width: 100%;
+	color: #000000;
+	font-weight: 600;
+	font-size: 18px;
+	text-transform: capitalize;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 17px 20px;
+}
+  
+  /* 김민선 추가 부 끝*/
