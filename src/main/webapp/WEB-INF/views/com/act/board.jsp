@@ -9,6 +9,8 @@
 <body>
 
 	${articleListSize}
+	${comInfo.get("COMMUNITY_NAME")}
+	커뮤니티 아이디: <%=request.getParameter("community_id")%>
 	
 	<h3>게시글목록</h3>
 

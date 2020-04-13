@@ -42,9 +42,13 @@
 				method:"GET",
 				success:function(data) {
 					console.log(data[0].BOARD_NAME);
+					console.log(data[0].COMMUNITY_ID);
+					console.log(data[0].BOARD_ID);
 					
 					for (var i=0; i<data.length; i++) {
-						$("#board_list").append("<li><a href='com_act_board.do?page=board&community_id=${comInfo.get("COMMUNITY_ID")}&board_id="+data[i].BOARD_ID+"'>"+data[i].BOARD_NAME+"</a></li>");
+						
+						$("#board_list").append("<li><a href='com_act_board.do?page=board&board_id="+data[i].BOARD_ID+"&community_id="+data[i].COMMUNITY_ID+"'>"+data[i].BOARD_NAME+"</a></li>");
+						
 					}
 
 				}

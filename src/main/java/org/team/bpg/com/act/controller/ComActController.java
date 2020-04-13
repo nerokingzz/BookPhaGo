@@ -76,7 +76,6 @@ public class ComActController {
 	public void comAddBoard(@ModelAttribute BoardInfoVO boardInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		comActService.comAddBoard(boardInfoVo);
-
 	}
 	
 	//게시판 리스트 가져오기
@@ -102,6 +101,9 @@ public class ComActController {
 		ModelAndView mav=new ModelAndView();
 		List<Map<String, Object>> articleList=comActService.articleList(request);
 		
+		Map<String, Object> comInfo=comActService.comInfo(request);
+		
+		mav.addObject("comInfo", comInfo);
 		mav.addObject("articleList", articleList);
 		mav.addObject("articleListSize", articleList.size());
 		mav.addObject("pageInfo", request.getParameter("page"));

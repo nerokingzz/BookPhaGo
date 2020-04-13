@@ -8,6 +8,7 @@
 </head>
 <body>
 
+	커뮤니티 아이디: <%=request.getParameter("community_id")%>
 	<h3>멤버 리스트</h3>
 
 </body>

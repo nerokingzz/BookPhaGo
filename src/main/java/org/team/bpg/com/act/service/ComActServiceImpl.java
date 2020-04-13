@@ -79,6 +79,9 @@ public class ComActServiceImpl implements ComActService {
 		info.put("board_id", board_id);
 
 		List<Map<String, Object>> articleList=comActDao.articleList(board_id);
+		
+		System.out.println("가져온 글 리스트");
+		System.out.println(articleList);
 		return articleList;
 	}
 }

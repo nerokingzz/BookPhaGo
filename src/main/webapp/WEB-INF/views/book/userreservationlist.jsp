@@ -23,12 +23,14 @@
 	<br><br><br>
 	<p align="center"><td><input type="submit" onclick="CloseWindow();" value="È®ÀÎ"> <input type="button" onclick="CloseWindow();" value="´Ý±â"></td></p>
 </form>
-</body>
-</html>
 
 <script type="text/javascript">
 function CloseWindow() {
-	opener.document.location.reload();
-	self.close();
+	opener.location.href="userlibrarylist.do";
+	window.close();
 }
 </script>
+
+</body>
+</html>
+

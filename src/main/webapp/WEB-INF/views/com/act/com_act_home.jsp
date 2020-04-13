@@ -10,6 +10,9 @@
 
 </head>
 
+<script type="text/javascript">
+	alert('${comInfo.get("COMMUNITY_NAME")}');
+</script>
 
 <body>
 
