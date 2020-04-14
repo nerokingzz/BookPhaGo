@@ -27,6 +27,11 @@ public class ChatControllerImpl implements ChatController{
 	@Autowired
 	MemberVO member;
 	
+	@RequestMapping("chart.do")
+	public String goChart(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/chart";
+	}
+	
 	@RequestMapping(value = "cal.do")
 	public String goCal(Model model, HttpServletRequest request, HttpServletResponse response) {
 		return "chat/cal";
@@ -54,8 +59,6 @@ public class ChatControllerImpl implements ChatController{
 			
 		
 			if(searchMember != null) {
-			//	hmp001_d002VO = (Hmp001_d002VO)list.get(0);
-			//	resultMap = BeanUtils.describe(member);
 				System.out.println("id : " + searchMember.getMem_id());
 				System.out.println("bookcount : " + searchMember.getMem_bookcount());
 				resultMap.put("mem_id", searchMember.getMem_id());		
