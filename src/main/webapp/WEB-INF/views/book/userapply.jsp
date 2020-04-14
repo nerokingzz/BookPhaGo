@@ -19,7 +19,7 @@
 	<table>
 		<tr>
 			<td>사용자 ID :
-			<td><input type="text" name="user_id" value="${user_id }"></td>
+			<td><input type="text" name="user_id" value="${user_id }" readonly></td>
 		</tr>
 		<tr>
 			<td>도서명 :

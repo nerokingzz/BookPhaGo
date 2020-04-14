@@ -53,7 +53,7 @@
 							<td><input type="text" id="cInputt" value="${booklist.get(i-1).get('ISBN') }" 
 								 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px; text-align:center;" readonly></td>
 							<td>
-								<input type="button" value="선택하기" onclick="setParentText();">
+								<input type="button" value="선택하기" onclick="setParentText('${i}');">
 							</td>
 						</tr>
 					</c:forEach>
@@ -63,11 +63,37 @@
 	</table>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>	
 
 <script type="text/javascript">
-function setParentText(){
-    opener.document.getElementById("pInput").value = document.getElementById("cInput").value
-    opener.document.getElementById("pInputt").value = document.getElementById("cInputt").value
+	
+	var isbnlist=new Array();
+	var booknamelist=new Array();
+	
+	$(document).ready(function() {
+		//community_id 배열
+		$("input[id=cInputt]").each(function(index, item) {
+			isbnlist.push($(item).val());
+		});
+		
+	});
+	
+	$(document).ready(function() {
+		//community_id 배열
+		$("input[id=cInput]").each(function(index, item) {
+			booknamelist.push($(item).val());
+		});
+		
+	});
+	
+function setParentText(i){
+
+	var isbn = isbnlist[i-1];
+	var bookname = booknamelist[i-1];
+	
+	window.opener.document.getElementById("pInput").value = bookname;
+	window.opener.document.getElementById("pInputt").value = isbn;
+    
     window.close();
 }
 

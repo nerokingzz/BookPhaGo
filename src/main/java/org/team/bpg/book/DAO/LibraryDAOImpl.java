@@ -39,13 +39,6 @@ public class LibraryDAOImpl implements LibraryDAO{
 		return booklist;
 	}
 
-
-	@Override
-	public void modifylibrary(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		sqlSession.update("book.modifylibrary", bookInfoVO);
-	}
-
 	@Override
 	public void librarydelete(BookInfoVO bookInfoVO) {
 		// TODO Auto-generated method stub
@@ -91,5 +84,22 @@ public class LibraryDAOImpl implements LibraryDAO{
 	public void insertuserreservation(Map<String, String> book_list) {
 		sqlSession.insert("book.insertuserreservation", book_list);
 		
+	}
+
+	@Override
+	public void modifylibrary(Map<String, String> book_list) {
+		sqlSession.update("book.modifylibrary", book_list);
+	}
+
+	@Override
+	public List<Map<String, Object>> adminisbnsearch(Map<String, String> book_list) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.adminisbnsearch", book_list);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> adminisbnsearchlist() {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.adminisbnsearchlist");
+		return booklist;
 	}
 }
