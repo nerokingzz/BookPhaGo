@@ -32,7 +32,7 @@
 				method:"POST",
 				success:function(data) {
 					alert(data);
-					opener.location.href="mylib_declare_request_list.do";
+					opener.location.href="admin_main.do?page=dec_A";
 					window.close();
 				}
 			});

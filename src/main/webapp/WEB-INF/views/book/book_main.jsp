@@ -37,23 +37,17 @@
 		var pageInfo='${pageInfo}';
 		console.log(pageInfo);
 		
-		if (pageInfo == 'score') {
-			alert("도서평가로 바로 이동");
+		if (pageInfo == 'search') {
+			alert("도서검색으로 바로 이동");
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab").attr("aria-selected", "true");
 			$("#nav-acc").attr("class", "tab-pane fade show active");
 			
-		} else if (pageInfo == 'favor') {
-			alert("취향분석으로 바로 이동");
+		} else if (pageInfo == 'apply') {
+			alert("도서신청으로 바로 이동");
 			$("#nav-status-tab").attr("class", "nav-item nav-link active");
 			$("#nav-status-tab").attr("aria-selected", "true");
 			$("#nav-status").attr("class", "tab-pane fade show active");
-			
-		} else if (pageInfo == 'declare') {
-			alert("신고하기로 바로이동");
-			$("#nav-password-tab").attr("class", "nav-item nav-link active");
-			$("#nav-password-tab").attr("aria-selected", "true");
-			$("#nav-password").attr("class", "tab-pane fade show active");
 			
 		} else {
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
@@ -62,16 +56,12 @@
 		}
 	})
 	
-	function score() {
-		location.href="myLib_main.do?page=score";
+	function search() {
+		location.href="book_main.do?page=search";
 	}
 	
-	function favor() {
-		location.href="myLib_main.do?page=favor";
-	}
-	
-	function declare() {
-		location.href="myLib_main.do?page=declare";
+	function apply() {
+		location.href="book_main.do?page=apply";
 	}
 	
 	
@@ -213,10 +203,9 @@
 						<div class="col-lg-3">
 							<div class="acc-leftbar">
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
-									<a><b>마이라이브러리</b></a>
-								    <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="score()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서평가</a>
-								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="favor()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>취향분석</a>
-								    <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="declare()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>신고하기</a>
+									<a><b>도서</b></a>
+								    <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="search()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서평가</a>
+								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="apply()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>취향분석</a>
 								  </div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -224,20 +213,16 @@
 							<div class="tab-content" id="nav-tabContent">
 								<div class="tab-pane fade" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
 									<div class="acc-setting">
-										<h3>도서평가</h3>
+										<h3>도서검색</h3>
+										<jsp:include page="userlibrarylist.jsp">
 											
 									</div><!--acc-setting end-->
 								</div>
 							  	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
 							  		<div class="acc-setting">
-							  			<h3>취향분석</h3>
+							  			<h3>도서신청</h3>
+							  			<jsp:include page="userapplyinfo.jsp"></jsp:include>
 							  		</div><!--acc-setting end-->
-							  	</div>
-							  	<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
-							  		<div class="acc-setting">
-										<h3>신고하기</h3>
-										<jsp:include page="declare/mylib_declare_form.jsp"></jsp:include>
-									</div><!--acc-setting end-->
 							  	</div>
 							</div>
 						</div>

@@ -51,16 +51,6 @@ public class HomeController {
 		return "index";
 	}
 	
-	//마이라이브러리 이동
-	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
-	public String myLibMain(HttpServletRequest request, HttpServletResponse response) {
-		return "mylib/myLib_main";
-	}
-	
-	
-	
-	
-	
 	
 	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
 	@RequestMapping(value = "/watson.do", method = RequestMethod.GET)
