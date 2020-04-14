@@ -51,20 +51,9 @@ public class HomeController {
 		return "index";
 	}
 	
-	
-<<<<<<< HEAD
+
 	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
-=======
-	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
-	public String myLibMain(HttpServletRequest request, HttpServletResponse response) {
-		return "mylib/myLib_main";
-	}
-	
-	
-	
-	
-	
->>>>>>> refs/remotes/origin/master
+
 	@RequestMapping(value = "/watson.do", method = RequestMethod.GET)
 	public String goWatson(Model model, HttpServletRequest request, HttpServletResponse response) {
 		return "chat/watson";
