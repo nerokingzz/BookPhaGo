@@ -1,6 +1,8 @@
 package org.team.bpg.chat.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.chat.service.ChatService;
 import org.team.bpg.chat.vo.MemberVO;
 
@@ -24,8 +27,10 @@ public class ChatControllerImpl implements ChatController{
 	@Autowired
 	ChatService service;
 	
+	
 	@Autowired
 	MemberVO member;
+	
 	
 	@RequestMapping("chart.do")
 	public String goChart(Model model, HttpServletRequest request, HttpServletResponse response) {
