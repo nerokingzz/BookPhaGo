@@ -2,13 +2,11 @@ package org.team.bpg.member.vo;
 
 import java.util.Date;
 
-public class MemberVO {
+public class BoardVO {
 
 	private String bno;
 	private String userId;
-	private String userId1;
 	private String userPass;
-	private String userPass1;
 	private String userName;
 	private String userEmail;
 	private String userTel;
@@ -17,6 +15,7 @@ public class MemberVO {
 	private String userTaste1;
 	private String userTaste2;
 	private String userTaste3;
+	private String pageNum;
 	private Date regDate;
 	
 	public String getUserId() {
@@ -77,30 +76,21 @@ public class MemberVO {
 	public void setUserTaste2(String userTaste2) {
 		this.userTaste2 = userTaste2;
 	}
+	
 	public String getUserTaste3() {
 		return userTaste3;
 	}
 	public void setUserTaste3(String userTaste3) {
 		this.userTaste3 = userTaste3;
 	}
-	public String getBno() {
-		return bno;
+	
+	public String getPageNum() {
+		return pageNum;
 	}
-	public void setBno(String bno) {
-		this.bno = bno;
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
 	}
-	public String getUserPass1() {
-		return userPass1;
-	}
-	public void setUserPass1(String userPass1) {
-		this.userPass1 = userPass1;
-	}
-	public String getUserId1() {
-		return userId1;
-	}
-	public void setUserId1(String userId1) {
-		this.userId1 = userId1;
-	}
+
 	
 	public Date getRegDate() {
 		return regDate;
@@ -115,7 +105,12 @@ public class MemberVO {
 		return "MemberVO [userId=" + userId + ", userPass=" + userPass + ", userName=" + userName + ", regDate="
 				+ regDate + "]";
 	}
-	
+	public String getBno() {
+		return bno;
+	}
+	public void setBno(String bno) {
+		this.bno = bno;
+	}
 
 
 	
