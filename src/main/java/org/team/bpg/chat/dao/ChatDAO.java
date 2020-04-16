@@ -1,6 +1,6 @@
 package org.team.bpg.chat.dao;
 
-import org.team.bpg.chat.vo.MemberVO;
+import org.team.bpg.member.vo.MemberVO;
 
 public interface ChatDAO {
 	public void memberRequest(String id);

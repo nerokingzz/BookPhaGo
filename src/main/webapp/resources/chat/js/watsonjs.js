@@ -1,5 +1,6 @@
+
    
-   const options = {
+const options = {
           integrationID: "17492039-629e-4de1-bd22-7e87d039b29a", // The ID of this integration.
           region: "kr-seo", // The region your integration is hosted in.
          showLauncher: false
@@ -27,20 +28,20 @@
 			}, 200);
 			//search_bookName = null;
 		}
-		var userName = user_defined.username;
+		var chat_userName = user_defined.username;
 		var userRequest = user_defined.gita_userRequest;
 		
 		if(userRequest != null && userRequest != undefined){
-			sendMail(userName, userRequest);
+			sendMail(chat_userName, userRequest);
 		}
 	}
 	
-	function sendMail(userName, userRequest){
-		if(userName == null) userName = "비회원";
+	function sendMail(chat_userName, userRequest){
+		if(chat_userName == null) chat_userName = "비회원";
 		var content = "<div>" +
 				"<img src='https://i.imgur.com/jlDhg6k.png' alt ='mail top image'/><br>"+
 					"<div style='margin: 3px 0px 9px 16px; width:317px;font-size:12px'>" +
-							"<b>회원명</b>&nbsp;&nbsp;" + userName +"<br>"
+							"<b>회원명</b>&nbsp;&nbsp;" + chat_userName +"<br>"
 							+"<b>문의 내용</b>&nbsp;&nbsp;"+ userRequest + "<br>" +
 						"</div>"+
 				"<img src='https://i.imgur.com/gXAx6Oa.png' alt ='mail bottom image'/>" +
@@ -103,13 +104,13 @@
 	function checkId(event){
 		console.log('I am in checkId');
 		
-		var userId = decodeURIComponent(event.data.context.global.system.user_id);
-		console.log("현재 접속한 유저의 아이디 : " + userId);
+		var chat_userId = decodeURIComponent(event.data.context.global.system.user_id);
+		console.log("현재 접속한 유저의 아이디 : " + chat_userId);
 		
-		if(!userId.includes('IBM')){
+		if(!chat_userId.includes('IBM')){
 			console.log(event.data.context.skills['main skill'].user_defined);
 			event.data.context.skills['main skill'].user_defined.is_login = true;
-			event.data.context.skills['main skill'].user_defined.username = userId;
+			event.data.context.skills['main skill'].user_defined.username = chat_userId;
 		}	
 	}
 
@@ -122,7 +123,7 @@
 		var message = JSON.stringify(event.data.output.generic[0].text);
 		
 		var user_defined = event.data.context.skills['main skill'].user_defined;
-		var userId = user_defined.username;
+		var chat_userId = user_defined.username;
 		var check_me =  user_defined.check_me;
 		var is_borrow =  user_defined.is_borrow;
 		var borrow_bookNumber = user_defined.borrow_bookNuumber;
@@ -134,7 +135,7 @@
 			console.log("desc :" + desc);
 		}
 		
-		console.log("user ID : " + userId);
+		console.log("user ID : " + chat_userId);
 		
 		if(message.includes('지도')){
 			setTimeout(addMap, 300);
@@ -142,11 +143,11 @@
 			if(desc.includes('지도'))setTimeout(addMap, 300);
 		}
 		
-		if(userId != null && check_me == true){
+		if(chat_userId != null && check_me == true){
 			console.log("this is in receive check me");
 			setTimeout(function(){
 				console.log('in setTimeout');
-				checkMember(userId);
+				checkMember(chat_userId);
 			}, 100);
 		}
 	}
@@ -180,47 +181,3 @@
       console.log('error data : ' + event.data);
    }
    
-   
-
-   window.loadWatsonAssistantChat(options).then(function(instance) {
-	   /*
-      $('#login').on('click',function(){
-         $('#status').html('현재 상태 : 회원');
-         var user_id = encodeURI($('#newID').val());
-         //charCodeAt(0).toString(16)
-         console.log("id : " + user_id);
-         instance.updateUserID(user_id);
-      });
-      
-      */
-	   
-	   
-	   if(sessionStorage.getItem("member")){
-		   var member = sessionStorage.getItem("member");
-		   var user_id =  member.userId;
-		   instance.updateUserID(user_id);
-		   console.log("session에 저장된 회원 아이디 ...." + user_id);
-	   }
-	   
-	   
-	   
-      const button = document.querySelector('.chatLauncher');
-
-      
-       button.addEventListener('click', () => {
-         instance.openWindow();
-       });
-
-      //instance.on({ type: 'window:open', handler: windowOpen });
-       
-      instance.on({ type: 'pre:receive', handler: preRecieve });
-      instance.on({ type: 'receive', handler: receive });
-      instance.on({ type: 'send', handler: send });
-      instance.on({ type: 'error', handler: error });
-      console.log("instance.... " + JSON.stringify(instance));
-      
-       instance.render().then(() => {
-            button.style.display = 'block';
-            button.classList.add('open');
-          });
-   });

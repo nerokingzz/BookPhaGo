@@ -3,6 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%@ include file="../chat/watson.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,10 +131,14 @@ function fn_idChk(){
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id">
-													<i class="la la-user"></i>
-													<button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" >Check</button>
-
+													<input type="text" id="userId" name="userId" placeholder="Id" style="width: 70%;">
+													<i class="la la-user" style="margin: 12px 0 0 0;"></i>
+													<button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" style="
+														    width: 28%;
+														    font-size: 15px;
+														    text-align: center;
+														    padding: 11px;
+														">Check</button>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">

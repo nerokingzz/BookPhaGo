@@ -5,7 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
-import org.team.bpg.chat.vo.MemberVO;
+import org.team.bpg.member.vo.MemberVO;
 
 
 

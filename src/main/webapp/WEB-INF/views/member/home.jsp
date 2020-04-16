@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
+<%@ include file="../chat/watson.jsp" %>
 <html>
 <head>
 	<title>Home</title>
@@ -66,7 +67,6 @@
 				<button id="memberUpdateBtn" type="button">회원정보수정</button>
 				<button id="memberDeleteBtn" type="button">회원탈퇴</button>
 				<button id="logoutBtn" type="button">로그아웃</button>
-					
 			</div>
 		</c:if>
 		
@@ -81,5 +81,6 @@
 		</c:if>
 
 	</form>
+
 </body>
 </html>
