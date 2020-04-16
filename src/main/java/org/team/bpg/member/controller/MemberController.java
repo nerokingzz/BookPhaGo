@@ -1,18 +1,31 @@
 package org.team.bpg.member.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+import java.lang.reflect.Member;
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import org.team.bpg.member.service.MemberService;
+import org.team.bpg.member.vo.Criteria;
 import org.team.bpg.member.vo.MemberVO;
+import org.team.bpg.member.vo.PageMaker;
+import org.team.bpg.member.vo.SearchCriteria;
 
 @Controller
 public class MemberController {
@@ -43,6 +56,7 @@ public class MemberController {
 			// 존재하지 않는다면 -> register
 		} catch (Exception e) {
 			throw new RuntimeException();
+			
 		}
 		
 		
@@ -137,4 +151,80 @@ public class MemberController {
 			int result = service.idChk(vo);
 			return result;
 		}
+		
+		
+		//관리자게시판
+		@RequestMapping(value = "/member/writeView", method = RequestMethod.GET)
+		public void writeView() throws Exception{
+			logger.info("writeView");
+			
+		}
+		
+		// 게시판 글 작성
+		@RequestMapping(value = "/member/write", method = RequestMethod.POST)
+		public String write(MemberVO memberVO) throws Exception{
+			logger.info("write");
+			
+			service.write(memberVO);
+			
+			return "redirect:/";
+		}
+		
+		
+		
+		
+		
+		//test
+		
+		
+		
+		@RequestMapping(value = "list", method = RequestMethod.GET)
+		public String list(Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
+			logger.info("list");
+			
+			model.addAttribute("list",service.list(scri));
+			
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(scri);
+			pageMaker.setTotalCount(service.listCount(scri));
+			
+			model.addAttribute("pageMaker", pageMaker);
+
+			return "member/list";
+			
+		}
+		
+		
+		@RequestMapping(value="adminDelete", method = RequestMethod.GET)
+		public ModelAndView adminDelete(@RequestParam("id") String id,
+				HttpServletRequest request, HttpServletResponse response) throws Exception{
+			service.adminDelete(id);
+			ModelAndView mav = new ModelAndView("redirect: list");
+			return mav;
+		}
+
+		
+		@RequestMapping(value = "sign", method = RequestMethod.GET)
+		public String sign() throws Exception {
+			return "member/sign-in";
+		}
+		
+		
+		
+		//테스트
+	/*
+	 * @RequestMapping(value = "list", method = RequestMethod.GET) public String
+	 * list(Model model) throws Exception{ logger.info("list");
+	 * 
+	 * model.addAttribute("list",service.list());
+	 * 
+	 * return "member/list"; }
+	 * 
+	 * @RequestMapping(value = "testForm", method = RequestMethod.GET) public String
+	 * test(Model model) throws Exception{ logger.info("test");
+	 * 
+	 * model.addAttribute("test",service.list());
+	 * 
+	 * return "member/test"; }
+	 */	
 }

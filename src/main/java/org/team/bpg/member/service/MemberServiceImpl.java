@@ -1,10 +1,16 @@
 package org.team.bpg.member.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+
 import org.team.bpg.member.dao.MemberDAO;
+import org.team.bpg.member.vo.BoardVO;
+import org.team.bpg.member.vo.Criteria;
 import org.team.bpg.member.vo.MemberVO;
+import org.team.bpg.member.vo.SearchCriteria;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -45,4 +51,28 @@ public class MemberServiceImpl implements MemberService {
 		int result = dao.idChk(vo);
 		return result;
 	}
+	
+	
+	//관리자게시판		
+	// 게시글 작성
+	@Override
+	public void write(MemberVO memberVO) throws Exception {
+		dao.write(memberVO);
+	}
+
+	@Override
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
+
+		return dao.list(scri);
+	}
+	
+	public int listCount(SearchCriteria scri) throws Exception {
+		return dao.listCount(scri);
+	}
+	
+	@Override
+	public int adminDelete(String id) throws Exception {
+		return dao.adminDelete(id);
+	}
+	
 }

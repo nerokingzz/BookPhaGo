@@ -3,27 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
-	<!-- 게시판 글 작성 -->
+	<!-- 회원가입 -->
 	<insert id="register" parameterType="org.team.bpg.member.vo.MemberVO">
-	    insert into member(userid, userpass, username, useremail, usertel, userage, usergender)
-	                  values(#{userId}, #{userPass}, #{userName}, #{userEmail}, #{userTel}, #{userAge}, #{userGender})
+	    insert into member(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3 )
+	                  values(member_seq.nextval, #{userId}, #{userPass}, #{userName}, #{userEmail}, #{userAge}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3} )
    
     </insert>
    
    <!-- 로그인 -->
 	<select id="login" resultType="org.team.bpg.member.vo.MemberVO">
-		SELECT USERID, USERPASS 
-		  FROM MEMBER
-		 WHERE USERID = #{userId}
-		   AND USERPASS = #{userPass}   
+		select userid, userpass 
+		  from member
+		 where userid = #{userId}
+		   and userpass = #{userPass}   
 	</select>
 	
 	<!-- 회원정보 수정 -->
 	<update id="memberUpdate">
-		UPDATE MEMBER SET 
-		USERPASS = #{userPass},
-		USERNAME = #{userName}
-		WHERE USERID = #{userId}
+		update member set 
+		userpass = #{userPass},
+		username = #{userName},
+		useremail = #{userEmail},
+		usertel = #{userTel},
+		userage = #{userAge},
+		usergender = #{userGender},
+		usertaste1 = #{userTaste1},
+		usertaste2 = #{userTaste2},
+		usertaste3 = #{userTaste3}
+		where userid = #{userId}
 	</update>
 	
 	<!-- 회원탈퇴 -->
@@ -45,5 +52,46 @@
 	SELECT COUNT(*) FROM member
 	WHERE USERID = #{userId}
 </select>
+
+	<!-- 관리자 회원삭제 -->
+<delete id="adminDelete" parameterType="String">
+	DELETE FROM member
+	WHERE USERID = #{userId} 
+</delete>
+
+
+	<!-- 게시판 목록 -->
+<select id="listPage" resultType="org.team.bpg.member.vo.BoardVO" parameterType="org.team.bpg.member.vo.Criteria">
+	select bno, userid, userpass, username, useremail, usertel, userage, usergender, usertaste1, usertaste2, usertaste3, regdate
+		 FROM ( 
+		 	select bno, userid, userpass, username, useremail, usertel, userage, usergender, usertaste1, usertaste2, usertaste3, regdate, 
+		               row_number() over(order by bno desc) as rnum
+		         from member 
+		           WHERE 1=1 
+		         	<include refid="search"></include>
+		                       ) mp
+		where rnum between #{rowStart} and #{rowEnd}
+
+</select>
+
+<select id="listCount" resultType="int">
+
+		select count(bno)
+		  from member
+		   WHERE 1=1
+		  <include refid="search"></include>
+		 and bno > 0
+
+	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND userId LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND userName LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND userEmail LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND userTel LIKE '%' || #{keyword} || '%'</if>
+			<!-- <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if> -->
+		</if>
+	</sql>
 </mapper>
 

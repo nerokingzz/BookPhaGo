@@ -1,10 +1,15 @@
 package org.team.bpg.member.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.team.bpg.member.vo.BoardVO;
+import org.team.bpg.member.vo.Criteria;
 import org.team.bpg.member.vo.MemberVO;
+import org.team.bpg.member.vo.SearchCriteria;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -48,5 +53,32 @@ public class MemberDAOImpl implements MemberDAO {
 	public int idChk(MemberVO vo) throws Exception {
 		int result = sql.selectOne("memberMapper.idChk", vo);
 		return result;
+	}
+	
+	
+	
+	//관리자게시판
+
+	// 게시글 작성
+	@Override
+	public void write(MemberVO memberVO) throws Exception {
+		sql.insert("memberMapper.insert", memberVO);
+	}
+
+	@Override
+	public List<BoardVO> list(SearchCriteria scri) throws Exception {
+	
+		return sql.selectList("memberMapper.listPage", scri);
+	}
+	
+	@Override
+	public int listCount(SearchCriteria scri) throws Exception {
+	
+		return sql.selectOne("memberMapper.listCount", scri);
+	}
+	
+	@Override
+	public int adminDelete(String id) throws Exception {
+		return sql.delete("memberMapper.adminDelete", id);
 	}
 }
