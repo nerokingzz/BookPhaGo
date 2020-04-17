@@ -1,9 +1,12 @@
 package org.team.bpg.chat.service;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,34 +37,6 @@ public class ChatServiceImpl implements ChatService {
 		return null;
 	}
 
-	@Override
-	public void createCSV(List<RequestLogVO> list) {
-		String filePath = "C:\\Users\\Administrator\\Desktop\\request_csv_list.csv";
-		 // 현재 인코딩을 확인한다.
-       String enc = new java.io.OutputStreamWriter(System.out).getEncoding(); 
-       System.out.println( "현재 인코딩 : "  + enc);
-        
-       try {
-            
-           String strArray = "";
-          for(int i = 0; i < list.size(); i++) {
-       	   strArray += list.get(i).getUserId();
-       	   strArray += ",";
-       	   strArray += list.get(i).getInputText();
-       	   strArray += ",";
-       	   strArray += list.get(i).getRequestTime();
-       	   strArray += "\r\n";
-          }
-           
-           BufferedWriter writer = new BufferedWriter(
-                   new OutputStreamWriter(new FileOutputStream(filePath), "MS949")
-                   );
-           writer.write(strArray);
-           writer.close();
-       } catch (IOException e) {
-            
-           e.printStackTrace();
-       }
-	}
+	
 
 }

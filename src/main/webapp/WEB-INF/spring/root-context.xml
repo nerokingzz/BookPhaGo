@@ -41,5 +41,10 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 	
-		
+	<!-- 0417 김민선 추가부 시작 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <bean id="fileViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    	<property name="order" value="0" />
+	</bean>
+		<!-- 0417 김민선 추가부 끝 -->
 </beans>
