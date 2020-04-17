@@ -33,7 +33,7 @@
 				method:"POST",
 				success:function(data) {
 					alert(data);
-					opener.location.href="com_esta_request_list.do";
+					opener.location.href="admin_main.do?page=com_A";
 					window.close();
 				}
 			});

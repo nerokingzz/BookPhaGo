@@ -40,7 +40,7 @@ public class HomeController {
 		
 		HttpSession session=request.getSession(true);
 		
-//		
+		
 //		session.setAttribute("user_id", "shyguy_hulk");
 //		session.setAttribute("user_position", "general");
 		

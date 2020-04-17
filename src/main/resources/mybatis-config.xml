@@ -7,6 +7,7 @@
 	
 	<typeAliases>
 		<typeAlias type="org.team.bpg.com.esta.vo.ComInfoVO" alias="comInfoVo"/>
+		<typeAlias type="org.team.bpg.com.act.vo.ComMemberVO" alias="comMemberVo"/>
 		<typeAlias type="org.team.bpg.com.act.vo.BoardInfoVO" alias="boardInfoVo"/>
 		<typeAlias type="org.team.bpg.chat.vo.BookVO" alias="BookVO"/>
 		<typeAlias type="org.team.bpg.chat.vo.MemberVO" alias="MemberVO"/>

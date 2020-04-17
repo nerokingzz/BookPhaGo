@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.service.LibraryService;
+import org.team.bpg.com.esta.service.ComEstaService;
 import org.team.bpg.mylib.dec.service.MyLibDeclareService;
 
 @Controller
@@ -19,6 +20,9 @@ public class PageController {
 	
 	@Autowired
 	private MyLibDeclareService myLibDeclareService;
+	
+	@Autowired
+	private ComEstaService comEstaService;
 	
 	@Autowired
 	private LibraryService libraryService;
@@ -48,6 +52,13 @@ public class PageController {
 	}
 	
 	//커뮤니티메뉴 첫 화면 보여주기
+	@RequestMapping(value="com_main", method=RequestMethod.GET)
+	public ModelAndView comMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("com/com_main");
+		return mav;
+	}
 	
 	//마이라이브러리메뉴 첫 화면 보여주기
 	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
@@ -59,9 +70,7 @@ public class PageController {
 		
 		if (pageInfo != null) {
 			if (pageInfo.equals("favor")) {
-				List<Map<String, Object>> requestList=myLibDeclareService.myLibDeclareRequestList(request);
-				mav.addObject("requestList", requestList);
-				mav.addObject("requestListSize", requestList.size());
+
 				
 			} else if (pageInfo.equals("score")) {
 				
@@ -95,8 +104,14 @@ public class PageController {
 			} else if (pageInfo.equals("book_status_A")) {
 				
 			} else if (pageInfo.equals("com_A")) {
+				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
+				mav.addObject("comRequestList", comRequestList);
+				mav.addObject("comRequestListSize", comRequestList.size());
 				
 			} else if (pageInfo.equals("dec_A")) {
+				List<Map<String, Object>> decRequestList=myLibDeclareService.myLibDeclareRequestList(request);
+				mav.addObject("decRequestList", decRequestList);
+				mav.addObject("decRequestListSize", decRequestList.size());
 				
 			} else if (pageInfo.equals("chat_A")) {
 				

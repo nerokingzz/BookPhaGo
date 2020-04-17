@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.team.bpg.com.act.dao.ComActDao;
 import org.team.bpg.com.act.vo.BoardInfoVO;
+import org.team.bpg.com.act.vo.ComMemberVO;
 
 @Service
 public class ComActServiceImpl implements ComActService {
@@ -28,10 +30,18 @@ public class ComActServiceImpl implements ComActService {
 	}
 
 	@Override
-	public Map<String, Object> comInfo(HttpServletRequest request) {
+	public Object[] comInfo(HttpServletRequest request) {
 		
 		String community_idd=request.getParameter("community_id");
 		int community_id=Integer.parseInt(community_idd);
+		
+		//로그인한 회원이 이 커뮤니티의 멤버인지 확인
+		HttpSession session=request.getSession();
+		String user_id=(String)session.getAttribute("user_id");
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("user_id", user_id);
+		info.put("community_id", community_id);
+		List<Map<String, Object>> memList=comActDao.comMemChk(info);
 		
 		System.out.println("가져올 커뮤니티 아이디");
 		System.out.println(community_id);
@@ -41,7 +51,21 @@ public class ComActServiceImpl implements ComActService {
 		System.out.println("가져온 커뮤니티 정보");
 		System.out.println(comInfo);
 		
-		return comInfo;
+		String memChk="x";
+		String memAuth="mem";;
+		
+		if (memList.size() > 0) {
+			
+			//커뮤니티의 운영자인지 확인
+			if (comInfo.get("COMMUNITY_CAPTAIN").equals(user_id)) {
+				memAuth="cap";
+			}
+			
+			memChk="o";
+		}
+		
+		Object[] data= {memChk, comInfo, memAuth};
+		return data;
 	}
 
 	@Override
@@ -83,5 +107,31 @@ public class ComActServiceImpl implements ComActService {
 		System.out.println("가져온 글 리스트");
 		System.out.println(articleList);
 		return articleList;
+	}
+
+	@Override
+	public void comActMem(ComMemberVO comMemberVo) {
+		comActDao.comActMem(comMemberVo);
+		
+	}
+
+	@Override
+	public String comMemNickChk(HttpServletRequest request) {
+		String community_idd=request.getParameter("community_id");
+		int community_id=Integer.parseInt(community_idd);
+		String member_nickname=request.getParameter("member_nickname");
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("community_id", community_id);
+		info.put("member_nickname", member_nickname);
+		List<Map<String, Object>> memList=comActDao.comMemNickChk(info);
+		
+		String chkResult="o";
+		
+		if (memList.size() > 0) {
+			chkResult="x";
+		}
+		
+		return chkResult;
 	}
 }

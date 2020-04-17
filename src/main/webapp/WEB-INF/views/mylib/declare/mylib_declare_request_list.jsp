@@ -24,9 +24,8 @@
 	
 		<%-- 일반회원용 리스트 --%>
 		<c:when test="${user_position eq 'general'}"> <!-- eq : == -->
-			<h3>${user_id}님의 신고 내역</h3>
 			<c:choose>
-				<c:when test="${requestListSize gt 0}">	<!-- gt : > -->  
+				<c:when test="${decRequestListSize gt 0}">	<!-- gt : > -->  
 					<table>
 						<thead>
 							<tr>
@@ -39,15 +38,15 @@
 								<th>상태</th>
 							</tr>
 						
-							<c:forEach var="i" begin="1" end="${requestListSize}">
+							<c:forEach var="i" begin="1" end="${decRequestListSize}">
 								<tr>
 									<td>${i}</td>
-									<td>${requestList.get(i-1).get("DECLARE_DATE")}</td>
-									<td>${requestList.get(i-1).get("BE_DONE_USER")}</td>
-									<td>${requestList.get(i-1).get("DECLARE_CATEGORY")}</td>
-									<td>${requestList.get(i-1).get("DECLARE_REASON")}</td>
-									<td><img alt="첨부" width="100" height="100" src="${contextPath }/declareImage.do?declare_id=${requestList.get(i-1).get("DECLARE_ID")}"></td>
-									<td>${requestList.get(i-1).get("DECLARE_STATUS")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_DATE")}</td>
+									<td>${decRequestList.get(i-1).get("BE_DONE_USER")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_CATEGORY")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_REASON")}</td>
+									<td><img alt="첨부" width="100" height="100" src="${contextPath }/declareImage.do?declare_id=${decRequestList.get(i-1).get("DECLARE_ID")}"></td>
+									<td>${decRequestList.get(i-1).get("DECLARE_STATUS")}</td>
 								</tr>
 							</c:forEach>
 						</thead>
@@ -58,10 +57,9 @@
 		
 		<%-- 관리자용 리스트 --%>
 		<c:when test="${user_position eq 'admin'}"> <!-- eq : == -->
-			<h3>신고 내역</h3>
 			
 			<c:choose>
-				<c:when test="${requestListSize gt 0}">	<!-- gt : > -->  
+				<c:when test="${decRequestListSize gt 0}">	<!-- gt : > -->  
 					<table>
 						<thead>
 							<tr>
@@ -75,20 +73,20 @@
 								<th>상태</th>
 							</tr>
 						
-							<c:forEach var="i" begin="1" end="${requestListSize}">
+							<c:forEach var="i" begin="1" end="${decRequestListSize}">
 								<tr>
 									<td>${i}</td>
-									<td>${requestList.get(i-1).get("DECLARE_DATE")}</td>
-									<td>${requestList.get(i-1).get("DO_USER")}</td>
-									<td>${requestList.get(i-1).get("BE_DONE_USER")}</td>
-									<td>${requestList.get(i-1).get("DECLARE_CATEGORY")}</td>
-									<td>${requestList.get(i-1).get("DECLARE_REASON")}</td>
-									<td><img alt="첨부" width="100" height="100" src="${contextPath }/declareImage.do?declare_id=${requestList.get(i-1).get("DECLARE_ID")}"></td>
-									<td>${requestList.get(i-1).get("DECLARE_STATUS")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_DATE")}</td>
+									<td>${decRequestList.get(i-1).get("DO_USER")}</td>
+									<td>${decRequestList.get(i-1).get("BE_DONE_USER")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_CATEGORY")}</td>
+									<td>${decRequestList.get(i-1).get("DECLARE_REASON")}</td>
+									<td><img alt="첨부" width="100" height="100" src="${contextPath }/declareImage.do?declare_id=${decRequestList.get(i-1).get("DECLARE_ID")}"></td>
+									<td>${decRequestList.get(i-1).get("DECLARE_STATUS")}</td>
 									<td>
 										<input type="hidden" name="index" value="${i}">
-										<input type="hidden" name="declare_id" value='${requestList.get(i-1).get("DECLARE_ID")}'>										
-										<input type="button" value="처리" onclick="stsAdmin('${i}')">
+										<input type="hidden" name="declare_id" value='${decRequestList.get(i-1).get("DECLARE_ID")}'>										
+										<input type="button" value="처리" onclick="decStsAdmin('${i}')">
 									</td>
 								</tr>
 							</c:forEach>
@@ -123,7 +121,7 @@
 			
 		});
 		
-		function stsAdmin(i) {
+		function decStsAdmin(i) {
 			alert(i);
 			alert(idList[i-1]);
 			var declare_id=idList[i-1];

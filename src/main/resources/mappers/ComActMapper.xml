@@ -34,5 +34,22 @@
  		SELECT * FROM M_COMMUNITY_ARTICLE WHERE board_id=#{board_id}
  	</select>
  	
+ 	<!-- 멤버 가입 insert -->
+ 	<insert id="com_mem" parameterType="comMemberVo">
+ 		INSERT INTO M_COMMUNITY_MEMBER (member_nickname, member_id, community_id, member_join_date, member_position, member_answer1, member_answer2, member_visit_count, member_article_count, member_reply_count, member_join_status)
+ 		VALUES (#{member_nickname}, #{member_id}, #{community_id}, #{member_join_date}, #{member_position}, #{member_answer1}, #{member_answer2}, #{member_visit_count}, #{member_article_count}, #{member_reply_count}, #{member_join_status})
+ 	</insert>
+ 	
+ 	<!-- 멤버 닉네임 중복체크 -->
+ 	<select id="com_mem_nick_chk" parameterType="hashmap" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_MEMBER WHERE community_id=#{community_id} and member_nickname=#{member_nickname}
+ 	</select>
+ 	
+ 	<!-- 특정멤버 select -->
+ 	<select id="com_mem_chk" parameterType="hashmap" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_MEMBER WHERE community_id=#{community_id} and member_id=#{user_id}
+ 	</select>
+ 	
+ 	
  	
 </mapper>
