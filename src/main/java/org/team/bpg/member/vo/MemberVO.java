@@ -2,6 +2,9 @@ package org.team.bpg.member.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component("MemberVO")
 public class MemberVO {
 
 	private String bno;
@@ -17,6 +20,7 @@ public class MemberVO {
 	private String userTaste1;
 	private String userTaste2;
 	private String userTaste3;
+	private String userBadcnt;
 	private Date regDate;
 	
 	public String getUserId() {
@@ -101,6 +105,12 @@ public class MemberVO {
 	public void setUserId1(String userId1) {
 		this.userId1 = userId1;
 	}
+	public String getUserBadcnt() {
+		return userBadcnt;
+	}
+	public void setUserBadcnt(String userBadcnt) {
+		this.userBadcnt = userBadcnt;
+	}
 	
 	public Date getRegDate() {
 		return regDate;
@@ -115,6 +125,8 @@ public class MemberVO {
 		return "MemberVO [userId=" + userId + ", userPass=" + userPass + ", userName=" + userName + ", regDate="
 				+ regDate + "]";
 	}
+
+
 	
 
 

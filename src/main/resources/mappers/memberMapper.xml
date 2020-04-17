@@ -14,8 +14,8 @@
 	<select id="login" resultType="org.team.bpg.member.vo.MemberVO">
 		select userid, userpass 
 		  from member
-		 where userid = #{userId}
-		   and userpass = #{userPass}   
+		 where userid = #{userId1}
+		   and userpass = #{userPass1}   
 	</select>
 	
 	<!-- 회원정보 수정 -->
@@ -24,7 +24,6 @@
 		userpass = #{userPass},
 		username = #{userName},
 		useremail = #{userEmail},
-		usertel = #{userTel},
 		userage = #{userAge},
 		usergender = #{userGender},
 		usertaste1 = #{userTaste1},
@@ -62,9 +61,9 @@
 
 	<!-- 게시판 목록 -->
 <select id="listPage" resultType="org.team.bpg.member.vo.BoardVO" parameterType="org.team.bpg.member.vo.Criteria">
-	select bno, userid, userpass, username, useremail, usertel, userage, usergender, usertaste1, usertaste2, usertaste3, regdate
+	select bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, regdate
 		 FROM ( 
-		 	select bno, userid, userpass, username, useremail, usertel, userage, usergender, usertaste1, usertaste2, usertaste3, regdate, 
+		 	select bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, regdate, 
 		               row_number() over(order by bno desc) as rnum
 		         from member 
 		           WHERE 1=1 
@@ -89,7 +88,7 @@
 			<if test="searchType == 't'.toString()">AND userId LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'c'.toString()">AND userName LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND userEmail LIKE '%' || #{keyword} || '%'</if>
-			<if test="searchType == 'tc'.toString()">AND userTel LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (userTaste1 LIKE '%' || #{keyword} || '%') or (userTaste2 LIKE '%' || #{keyword} || '%') or (userTaste3 LIKE '%' || #{keyword} || '%')</if>
 			<!-- <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if> -->
 		</if>
 	</sql>

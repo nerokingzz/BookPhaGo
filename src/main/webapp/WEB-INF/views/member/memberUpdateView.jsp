@@ -110,10 +110,6 @@
 					<input class="form-control" type="email" id="userEmail" name="userEmail" />
 				</div>
 				<div class="form-group has-feedback">
-					<label class="control-label" for="userTel">전화번호</label>
-					<input class="form-control" type="text" id="userTel" name="userTel" placeholder="(-) 빼고 번호만 입력" />
-				</div>
-				<div class="form-group has-feedback">
 					<label class="control-label" for="userAge">나이</label>
 					<input class="form-control" type="text" id="userAge" name="userAge" />
 				</div>		

@@ -35,10 +35,7 @@
 			location.href="delete.do";
 		})
 		
- 		/* $("#login").on("click", function(){
-			location.href="home.do";
-		})
-		 */
+ 
 	})
 	
 
@@ -49,11 +46,11 @@
 		<c:if test="${member == null}">
 			<div>
 				<label for="userId">ID</label>
-				<input type="text" id="userId" name="userId">
+				<input type="text" id="userId1" name="userId1">
 			</div>
 			<div>
 				<label for="userPass">PW</label>
-				<input type="password" id="userPass" name="userPass">
+				<input type="password" id="userPass1" name="userPass1">
 			</div>
 			<div>
 				<button id= "login" type="submit">로그인</button>

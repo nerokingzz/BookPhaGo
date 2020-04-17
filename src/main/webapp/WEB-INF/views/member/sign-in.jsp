@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
@@ -32,17 +32,60 @@
 
 <script type="text/javascript">
 
+$(document).ready(function(){
+	
+	$("#submit").on("click", function(){
+		if($("#userId").val()==""){
+			alert("아이디를 입력해주세요.");
+			$("#userId").focus();
+			return false;
+		}
+		if($("#userPass").val()==""){
+			alert("비밀번호를 입력해주세요.");
+			$("#userPass").focus();
+			return false;
+		}
+		
+		if($("#userPass").val() != $("#userPasschk").val()){
+	        alert("비밀번호가 서로 다릅니다. 비밀번호를 확인해 주세요."); 
+	        $("#userPass").focus();
+	        return false; 
+	    }
+		
+		if($("#userName").val()==""){
+			alert("이름을 입력해주세요.");
+			$("#userName").focus();
+			return false;
+		}
+		var idChkVal = $("#idChk").val();
+		if(idChkVal == "N"){
+			alert("ID중복확인 버튼을 눌러주세요.");
+		}else if(idChkVal == "Y"){
+			$("#regForm").submit();
+		}
+	});
+})
+
+$("#login").on("click", function(){
+			if(msg==false){
+				alert("로그인 실패");
+			}
+			else{
+				alert("로그인 성공");	
+			}
+		})
+
 function fn_idChk(){
 	$.ajax({
 		url : "idChk.do",
 		type : "post",
 		dataType : "json",
-		data : {"userId" : $("#userId1").val()},
+		data : {"userId" : $("#userId").val()},
 		success : function(data){
 			if(data == 1){
 					alert("이미 가입된 아이디입니다.");
 			}else if(data == 0){
-				if(($("#userId1").val()).length>3){
+				if(($("#userId").val()).length>3){
 				$("#idChk").attr("value", "Y");
 				alert("사용가능한 아이디입니다.");
 				}
@@ -54,6 +97,43 @@ function fn_idChk(){
 	})
 }
 
+function validate() {
+	var re = /^[a-zA-Z0-9]{4,12}$/	//아이디,비밀번호
+	var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	//이메일
+	var re3 = /^[a-zA-Z가-힣]{2,10}$/		//이름
+	var re5 = /^[0-9]{1,3}$/	//나이
+	
+	var userId = document.getElementById("userId");
+	var userPass = document.getElementById("userPass");
+	var userName= document.getElementById("userName");
+	var userEmail = document.getElementById("userEmail");
+	
+	 if(!check(re,userId,"아이디는 4~12자의 영문, 숫자로만 입력")) {
+           return false;
+       }
+	  if(!check(re,userPass,"비밀번호는 4~12자의 영문, 숫자로만 입력")) {	 
+           return false;
+       }
+	  if(!check(re3,userName,"이름은 2~10자의 영문,한글만 입력")) {	 
+           return false;
+       }
+	  if(!check(re2, userEmail, "적합하지 않은 이메일 형식입니다.")) {
+           return false;
+       }
+	  if(!check(re5,userAge,"나이는 1~3자의 숫자만 입력")) {	 
+           return false;
+       }
+
+      alert("회원가입이 완료되었습니다.");
+}
+ function check(re, what, message) {
+       if(re.test(what.value)) {
+           return true;
+       }
+       alert(message);
+
+       //return false;
+   }
 
 </script>
 
@@ -88,13 +168,13 @@ function fn_idChk(){
 										<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id">
+													<input type="text" id="userId1" name="userId1" placeholder="Id">
 													<i class="la la-user"></i>
 												</div><!--sn-field end-->
 											</div>
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="password" id="userPass" name="userPass" placeholder="Password">
+													<input type="password" id="userPass1" name="userPass1" placeholder="Password">
 													<i class="la la-lock"></i>
 												</div>
 											</div>
@@ -107,7 +187,7 @@ function fn_idChk(){
 														</label>
 														<small>Remember me</small>
 													</div><!--fgt-sec end-->
-													<a href="#" title="">Forgot Password?</a>
+													<a href="/test" title="">Forgot Password?</a>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
@@ -130,10 +210,14 @@ function fn_idChk(){
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id">
-													<i class="la la-user"></i>
-													<button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" >Check</button>
-
+													<input type="text" id="userId" name="userId" placeholder="Id" style="width: 70%;">
+                                       <i class="la la-user" style="margin: 12px 0 0 0;"></i>
+                                       <button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" style="
+                                              width: 28%;
+                                              font-size: 15px;
+                                              text-align: center;
+                                              padding: 11px;
+                                          ">Check</button>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
@@ -290,7 +374,7 @@ function fn_idChk(){
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button type="button" id="submit">Get Started</button>
+													<button type="button" id="submit1">Get Started</button>
 												</div>
 											</div>
 										</form>

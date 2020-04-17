@@ -16,6 +16,14 @@
 		        });
 		      }); 
 
+		 function d_click(){
+			    if(confirm("삭제하시겠습니까?")){
+			        return true;
+			    } else {
+			        return false;
+			    }
+			}
+		 
 		</script>
 	</head>
 	<body>
@@ -27,7 +35,7 @@
 			<section id="container">
 				<form role="form" method="get">
 					<table>
-						<tr><th>페이지번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th><th>전화번호</th><th>나이</th><th>성별</th><th>취향1</th><th>취향2</th><th>취향3</th><th>가입일</th><th>회원삭제</th></tr>
+						<tr><th>페이지번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th><th>나이</th><th>성별</th><th>취향1</th><th>취향2</th><th>취향3</th><th>가입일</th><th>회원삭제</th></tr>
 						
 						<c:forEach items="${list}" var = "list">
 							<tr>
@@ -36,7 +44,6 @@
 								<td><c:out value="${list.userPass}" /></td>
 								<td><c:out value="${list.userName}" /></td>
 								<td><c:out value="${list.userEmail}" /></td>
-								<td><c:out value="${list.userTel}" /></td>
 								<td><c:out value="${list.userAge}" /></td>
 								<td><c:out value="${list.userGender}" /></td>
 								<td><c:out value="${list.userTaste1}" /></td>
@@ -48,7 +55,7 @@
 									<c:when test="${list.userId eq 'admin'}">
 									</c:when>
 									<c:otherwise>
-										<td><a href="adminDelete.do?id=${list.userId}" onclick="delete_click()" id="delete_click">회원삭제</a></td>
+										<td><a href="adminDelete.do?id=${list.userId}" onclick="d_click();" id="delete_click">회원삭제</a></td>
 									</c:otherwise>
 								</c:choose>
 								
@@ -83,7 +90,7 @@
       <option value="t"<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>아이디</option>
       <option value="c"<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>이름</option>
       <option value="w"<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>이메일</option>
-      <option value="tc"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>전화번호</option>
+      <option value="tc"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>취향</option>
     </select>
 
     <input type="text" name="keyword" id="keywordInput" value="${scri.keyword}"/>
