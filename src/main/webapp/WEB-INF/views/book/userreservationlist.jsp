@@ -35,11 +35,11 @@ function change() {
 	var bookNumber=$("input:hidden[name=bookNumber]").val();
 	
 	$.ajax({
-		url:"userreservation.do",
+		url:"book_main.do?page=search",
 		data:{"bookNumber" : bookNumber},
 		method:"POST",
 		success:function(data) {
-			opener.location.href="userlibrarylist.do";
+			opener.location.href="book_main.do?page=search";
 			window.close();
 		}
 	});

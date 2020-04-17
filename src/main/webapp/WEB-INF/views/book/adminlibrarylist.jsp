@@ -8,15 +8,6 @@
 <meta charset="EUC-KR">
 <title>도서 정보 출력</title>
 <style>
-.cls1 {
-	font-size: 40px;
-	text-align: center;
-}
-
-.cls2 {
-	font-size: 20px;
-	text-align: center;
-}
 
 /* The Modal (background) */
 .modal {
@@ -57,7 +48,7 @@
 </head>
 <body>
 
-<p class="cls1">도서 정보</p>
+
 
 	<!-- Trigger/Open The Modal -->
 	<p align="center">
@@ -70,8 +61,9 @@
 		<!-- Modal content -->
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<form method="get" action="inputlibrary.do">
+			<form method="get" action="admin_main.do">
 				<h3 style="text-align: center">도서 등록창</h3>
+				<input type="hidden" name="page" value="book_A">
 				<table align="center">
 					<tr>
 						<td width="200">
@@ -114,7 +106,18 @@
 						<td width="200">
 							<p align="right">장르 :</p>
 						</td>
-						<td width="400"><input type="text" name="bookGenre"></td>
+						<td width="400"><select class="form-control"  name="bookGenre">
+										<option value="총류">총류</option>
+										<option value="철학">철학</option>
+										<option value="종교">종교</option>
+										<option value="사회과학">사회과학</option>
+										<option value="자연과학">자연과학</option>
+										<option value="기술과학">기술과학</option>
+										<option value="예술">예술</option>
+										<option value="언어">언어</option>
+										<option value="문학">문학</option>
+										<option value="역사">역사</option>
+									</select></td>
 					</tr>
 					<tr>
 						<td width="200">
@@ -134,6 +137,7 @@
 						<td width="200">
 							<p>&nbsp;</p>
 						</td>
+						
 						<td width="400"><input onclick="return inputCheck()" type="submit" value="도서등록"> <input
 							type="reset" value="다시입력"></td>
 					</tr>
@@ -146,7 +150,8 @@
 	<div >
 				<div ></div>
 				<div >
-					<form action="adminsearchbook.do" method="get">
+					<form action="admin_main.do" method="get">
+					<input type="hidden" name="page" value="book_A">
 						<table>
 							<tr>
 								<td style="text-align: center;">
@@ -169,8 +174,12 @@
 				</div>
 				<div></div>
 			</div>
-	
+
 	<br>
+	
+ <h3>도서정보</h3>
+ 
+ 	
 	<table align="center" border="1">
 		<tr align="center" bgcolor="lightgreen">
 			<td width="7%"><b>도서명</b>
@@ -203,7 +212,8 @@
 							<button onclick="window.open('modfindlibrary.do?bookNumber=${booklist.get(i-1).get('BOOKNUMBER') }','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">수정</button>
 							</td>
 							<td>
-								<form action="librarydelete.do" method="post">
+								<form action="admin_main.do" method="post">
+										<input type="hidden" name="page" value="book_A">
 										<input type="hidden" name="bookNumber" value="${booklist.get(i-1).get('BOOKNUMBER') }">
 										<button onclick="return check()" type="submit" aria-hidden="true">삭제</button>
 								</form>

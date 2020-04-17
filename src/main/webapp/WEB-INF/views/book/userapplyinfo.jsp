@@ -1,44 +1,149 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+*{
+  margin:0; padding:0;
+  font-size:15px; 
+  line-height:1.3;
+}
+ul{list-style:none;}
+
+.tabmenu{ 
+  max-width:1000px; 
+  margin: 0 auto; 
+  position:relative; 
+}
+.tabmenu ul li{
+  display:  inline-block;
+  width:50%; 
+  float:left;  
+  text-align:center; 
+  background :#f9f9f9;
+}
+.tabmenu ul li a{
+  display:block;
+  line-height:40px;
+  height:40px;
+  text-decoration:none; 
+  color: #000;
+}
+.tabCon{
+  display:none; 
+  text-align:left; 
+  padding: 20px;
+  position:absolute; 
+  left:0; top:40px; height:800px; 
+  box-sizing: border-box; 
+  border : 5px solid #f9f9f9;
+}
+.btnCon:target  {
+  background : #ccc;
+}
+.btnCon:target .tabCon{
+  display: block;
+}	
+	</style>
 </head>
 <body>
-<p align="center"><h3>µµ¼­ ½ÅÃ» ½Ã½ºÅÛ</h3>
 
-<form method="post" name="form">
-    <input type="submit" value="½ÅÃ»¾È³»" onclick="javascript: form.action='userapplyinfo';"/>
-    <input type="submit" value="µµ¼­½ÅÃ»" onclick="javascript: form.action='userapply';"/>
+
+<section class="profile-account-setting2">
+		<div class="container">
+			<div class="acount-tabs-setting">
+				<div >
+					<div>
+							<div class="tabmenu">
+						  <ul>
+						    <li id="tab1" class="btnCon"><a class="btn first" href="#tab1">menu1</a>
+						      <div class="tabCon" >
+						      	â—‹ <input  style = "text-align:center; display:inline;" type="text" value="í¬ë§ë„ì„œ ì‹ ì²­ì•ˆë‚´" disabled><br><br>
+								ï¼Šì‹ ì²­ëŒ€ìƒ : íšŒì›ê°€ì…í•œ ëª¨ë“  ì‚¬ìš©ì<br><br>
+								
+								* ì‹ ì²­ë°©ë²•  :  í¬ë§í•˜ì‹œëŠ” ë„ì„œê°€ ì†Œì¥ëœ ìë£Œì¸ì§€ í™•ì¸í•˜ì‹œê³  ë„ì„œê°€ ì—†ëŠ” ê²½ìš° í™ˆí˜ì´ì§€ë‚´ í¬ë§ë„ì„œ ì‹ ì²­í™”ë©´ì—ì„œ ë„ì„œì •ë³´ë¥¼ ì •í™•í•˜ê²Œ ê¸°ì¬í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.<br><br>
+								
+								* ì‹ ì²­ê¶Œìˆ˜  :  1ì¸ ì›” 2ê¶Œ<br><br>
+								
+								* ì†Œìš”ê¸°ê°„ :  1~2ê°œì›” ì†Œìš”  <br><br>
+								
+								â—‹ <input  style = "text-align:center; display:inline" type="text" value="í¬ë§ë„ì„œ ì‹ ì²­ê²°ê³¼ í™•ì¸" disabled> <br><br>
+								* í™ˆí˜ì´ì§€ ë‚´ <ë§ˆì´ ë¼ì´ë¸ŒëŸ¬ë¦¬ -> í˜„í™©ì¡°íšŒ ->  ë„ì„œ ì‹ ì²­ í˜„í™©> ì—ì„œ í™•ì¸ ê°€ëŠ¥í•©ë‹ˆë‹¤. <br><br>
+								
+								* ê° ì§„í–‰ìƒíƒœëŠ” ì•„ë˜ì™€ ê°™ìŠµë‹ˆë‹¤. <br><br>
+								 - ì‹ ì²­ì¤‘  : ë‹´ë‹¹ìê°€ ê²€í† ì¤‘ì¸ ìƒíƒœ <br><br>
+								 - ì²˜ë¦¬ì¤‘  : êµ¬ì…í•˜ì—¬ ì •ë¦¬í•˜ê³  ìˆëŠ” ìƒíƒœ <br><br>
+								 - ì·¨ì†Œë¨ : êµ¬ì…ì—ì„œ ì œì™¸ëœ ìƒíƒœ(ì‚¬ìœ ) <br><br>
+								 
+								 â—‹ <input  style = "text-align:center; display:inline" type="text" value="í¬ë§ë„ì„œ ì„ ì • ì œì™¸ ê¸°ì¤€" disabled> <br><br>
+								* ë„ì„œê´€ë‚´ ì´ë¯¸ ì†Œì¥ì¤‘ì´ê±°ë‚˜ ì¤‘ë³µì‹ ì²­ë„ì„œ<br><br>
+								
+								* ê³ ê°€ì˜ ë„ì„œ <br><br>
+								
+								* ì„ ì •ì ì¸ ë„ì„œ <br><br>
+								
+								* ë¬¸ì œì§‘ í˜¹ì€ ìˆ˜í—˜ì„œ ë˜ëŠ” ë§Œí™”ë„ì„œ <br><br>
+								
+								* í’ˆì ˆì´ê±°ë‚˜ ì ˆíŒëœ ë„ì„œ <br><br>
+						      </div>
+						    </li>
+						    <li id="tab2" class="btnCon"><a class="btn" href="#tab2">menu2</a>
+						      <div class="tabCon" >It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</div>
+						      
+						    </li> 
+						  </ul>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form method="post" name="form">
+    <input type="submit" value="ì‹ ì²­ì•ˆë‚´" onclick="javascript: form.action='userapplyinfo';"/>
+    <input type="submit" value="ë„ì„œì‹ ì²­" onclick="javascript: form.action='userapply';"/>
 </form><br>
-¡Û <input  style = "text-align:center;" type="text" value="Èñ¸Áµµ¼­ ½ÅÃ»¾È³»" disabled><br><br>
-£ª½ÅÃ»´ë»ó : È¸¿ø°¡ÀÔÇÑ ¸ğµç »ç¿ëÀÚ<br><br>
+â—‹ <input  style = "text-align:center;" type="text" value="í¬ë§ë„ì„œ ì‹ ì²­ì•ˆë‚´" disabled><br><br>
+ï¼Šì‹ ì²­ëŒ€ìƒ : íšŒì›ê°€ì…í•œ ëª¨ë“  ì‚¬ìš©ì<br><br>
 
-* ½ÅÃ»¹æ¹ı  :  Èñ¸ÁÇÏ½Ã´Â µµ¼­°¡ ¼ÒÀåµÈ ÀÚ·áÀÎÁö È®ÀÎÇÏ½Ã°í µµ¼­°¡ ¾ø´Â °æ¿ì È¨ÆäÀÌÁö³» Èñ¸Áµµ¼­ ½ÅÃ»È­¸é¿¡¼­ µµ¼­Á¤º¸¸¦ Á¤È®ÇÏ°Ô ±âÀçÇØÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.<br><br>
+* ì‹ ì²­ë°©ë²•  :  í¬ë§í•˜ì‹œëŠ” ë„ì„œê°€ ì†Œì¥ëœ ìë£Œì¸ì§€ í™•ì¸í•˜ì‹œê³  ë„ì„œê°€ ì—†ëŠ” ê²½ìš° í™ˆí˜ì´ì§€ë‚´ í¬ë§ë„ì„œ ì‹ ì²­í™”ë©´ì—ì„œ ë„ì„œì •ë³´ë¥¼ ì •í™•í•˜ê²Œ ê¸°ì¬í•´ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.<br><br>
 
-* ½ÅÃ»±Ç¼ö  :  1ÀÎ ¿ù 2±Ç<br><br>
+* ì‹ ì²­ê¶Œìˆ˜  :  1ì¸ ì›” 2ê¶Œ<br><br>
 
-* ¼Ò¿ä±â°£ :  1~2°³¿ù ¼Ò¿ä  <br><br>
+* ì†Œìš”ê¸°ê°„ :  1~2ê°œì›” ì†Œìš”  <br><br>
 
-¡Û <input  style = "text-align:center;" type="text" value="Èñ¸Áµµ¼­ ½ÅÃ»°á°ú È®ÀÎ" disabled> <br><br>
-* È¨ÆäÀÌÁö ³» <¸¶ÀÌ ¶óÀÌºê·¯¸® -> ÇöÈ²Á¶È¸ ->  µµ¼­ ½ÅÃ» ÇöÈ²> ¿¡¼­ È®ÀÎ °¡´ÉÇÕ´Ï´Ù. <br><br>
+â—‹ <input  style = "text-align:center;" type="text" value="í¬ë§ë„ì„œ ì‹ ì²­ê²°ê³¼ í™•ì¸" disabled> <br><br>
+* í™ˆí˜ì´ì§€ ë‚´ <ë§ˆì´ ë¼ì´ë¸ŒëŸ¬ë¦¬ -> í˜„í™©ì¡°íšŒ ->  ë„ì„œ ì‹ ì²­ í˜„í™©> ì—ì„œ í™•ì¸ ê°€ëŠ¥í•©ë‹ˆë‹¤. <br><br>
 
-* °¢ ÁøÇà»óÅÂ´Â ¾Æ·¡¿Í °°½À´Ï´Ù. <br><br>
- - ½ÅÃ»Áß  : ´ã´çÀÚ°¡ °ËÅäÁßÀÎ »óÅÂ <br><br>
- - Ã³¸®Áß  : ±¸ÀÔÇÏ¿© Á¤¸®ÇÏ°í ÀÖ´Â »óÅÂ <br><br>
- - Ãë¼ÒµÊ : ±¸ÀÔ¿¡¼­ Á¦¿ÜµÈ »óÅÂ(»çÀ¯) <br><br>
+* ê° ì§„í–‰ìƒíƒœëŠ” ì•„ë˜ì™€ ê°™ìŠµë‹ˆë‹¤. <br><br>
+ - ì‹ ì²­ì¤‘  : ë‹´ë‹¹ìê°€ ê²€í† ì¤‘ì¸ ìƒíƒœ <br><br>
+ - ì²˜ë¦¬ì¤‘  : êµ¬ì…í•˜ì—¬ ì •ë¦¬í•˜ê³  ìˆëŠ” ìƒíƒœ <br><br>
+ - ì·¨ì†Œë¨ : êµ¬ì…ì—ì„œ ì œì™¸ëœ ìƒíƒœ(ì‚¬ìœ ) <br><br>
  
- ¡Û <input  style = "text-align:center;" type="text" value="Èñ¸Áµµ¼­ ¼±Á¤ Á¦¿Ü ±âÁØ" disabled> <br><br>
-* µµ¼­°ü³» ÀÌ¹Ì ¼ÒÀåÁßÀÌ°Å³ª Áßº¹½ÅÃ»µµ¼­<br><br>
+ â—‹ <input  style = "text-align:center;" type="text" value="í¬ë§ë„ì„œ ì„ ì • ì œì™¸ ê¸°ì¤€" disabled> <br><br>
+* ë„ì„œê´€ë‚´ ì´ë¯¸ ì†Œì¥ì¤‘ì´ê±°ë‚˜ ì¤‘ë³µì‹ ì²­ë„ì„œ<br><br>
 
-* °í°¡ÀÇ µµ¼­ <br><br>
+* ê³ ê°€ì˜ ë„ì„œ <br><br>
 
-* ¼±Á¤ÀûÀÎ µµ¼­ <br><br>
+* ì„ ì •ì ì¸ ë„ì„œ <br><br>
 
-* ¹®Á¦Áı È¤Àº ¼öÇè¼­ ¶Ç´Â ¸¸È­µµ¼­ <br><br>
+* ë¬¸ì œì§‘ í˜¹ì€ ìˆ˜í—˜ì„œ ë˜ëŠ” ë§Œí™”ë„ì„œ <br><br>
 
-* Ç°ÀıÀÌ°Å³ª ÀıÆÇµÈ µµ¼­ <br><br>
+* í’ˆì ˆì´ê±°ë‚˜ ì ˆíŒëœ ë„ì„œ <br><br> -->
 </body>
 </html>

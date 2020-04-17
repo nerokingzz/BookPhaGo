@@ -28,21 +28,9 @@ public class LibraryServiceImpl implements LibraryService{
 	}
 
 	@Override
-	public void inputlibrary(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		libraryDAO.inputlibrary(bookInfoVO);
-	}
-
-	@Override
 	public List<Map<String, Object>> modfindlibrary(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist = libraryDAO.modfindlibrary(book_list);
 		return booklist;
-	}
-
-	@Override
-	public void librarydelete(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		libraryDAO.librarydelete(bookInfoVO);
 	}
 	
 	@Override
@@ -66,12 +54,6 @@ public class LibraryServiceImpl implements LibraryService{
 	@Override
 	public List<Map<String, Object>> userapplysearch(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist =  libraryDAO.userapplysearch(book_list);
-		return booklist;
-	}
-
-	@Override
-	public List<Map<String, Object>> userapplybook(Map<String, String> book_list) {
-		List<Map<String, Object>> booklist =  libraryDAO.userapplybook(book_list);
 		return booklist;
 	}
 
@@ -101,4 +83,22 @@ public class LibraryServiceImpl implements LibraryService{
 		List<Map<String, Object>> booklist =  libraryDAO.adminisbnsearchlist();
 		return booklist;
 	}
+
+	@Override
+	public void librarydelete(Map<String, String> book_list) {
+		libraryDAO.librarydelete(book_list);
+		
+	}
+
+	@Override
+	public void inputlibrary(Map<String, String> book_list) {
+		libraryDAO.inputlibrary(book_list);
+	}
+
+	@Override
+	public void userapplybook(Map<String, String> book_list) {
+		libraryDAO.userapplybook(book_list);
+	}
+
+
 }

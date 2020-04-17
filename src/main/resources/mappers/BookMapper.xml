@@ -19,8 +19,8 @@
  	</select>
  	
  	<!-- 관리자 도서등록 -->
- 	<insert id="inputlibrary" parameterType="bookInfoVO">
- 		INSERT INTO B_BOOK_LIB (bookNumber, bookGenre, bookRent, bookReservation, isbn) VALUES (#{bookNumber}, #{bookGenre}, #{bookRent}, #{bookReservation}, #{isbn})
+ 	<insert id="inputlibrary" parameterType="hashmap">
+ 		INSERT INTO B_BOOK_LIB VALUES (#{bookNumber}, #{bookGenre}, #{bookRent}, #{bookReservation}, #{isbn})
  	</insert>
  	
  	<!-- 관리자 도서수정목록 -->
@@ -33,8 +33,8 @@
  		update B_BOOK_LIB set bookNumber=#{bookNumber},bookGenre=#{bookGenre},bookRent=#{bookRent},bookReservation=#{bookReservation} where bookNumber=#{bookNumber}
  	</update>
  	
- 	<!-- 관리자 도서 삭제 -->
- 	<delete id="librarydelete" parameterType="bookInfoVO">
+	<!-- 관리자 도서 삭제 -->
+ 	<delete id="librarydelete" parameterType="hashmap">
  		DELETE FROM B_BOOK_LIB WHERE bookNumber=#{bookNumber}
  	</delete>
  	
