@@ -4,6 +4,10 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 @Component("MemberVO")
 public class MemberVO {
 
@@ -20,7 +24,11 @@ public class MemberVO {
 	private String userTaste1;
 	private String userTaste2;
 	private String userTaste3;
+<<<<<<< HEAD
 	private String userBadcnt;
+=======
+	private String badcnt;
+>>>>>>> refs/remotes/origin/master
 	private Date regDate;
 	
 	public String getUserId() {
@@ -117,6 +125,13 @@ public class MemberVO {
 	}
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+	
+	public String getBadcnt() {
+		return badcnt;
+	}
+	public void setBadcnt(String badcnt) {
+		this.badcnt = badcnt;
 	}
 	
 	

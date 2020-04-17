@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%@ include file="../chat/watson.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -211,6 +212,7 @@ function validate() {
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
 													<input type="text" id="userId" name="userId" placeholder="Id" style="width: 70%;">
+<<<<<<< HEAD
                                        <i class="la la-user" style="margin: 12px 0 0 0;"></i>
                                        <button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" style="
                                               width: 28%;
@@ -218,6 +220,15 @@ function validate() {
                                               text-align: center;
                                               padding: 11px;
                                           ">Check</button>
+=======
+													<i class="la la-user" style="margin: 12px 0 0 0;"></i>
+													<button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N" style="
+														    width: 28%;
+														    font-size: 15px;
+														    text-align: center;
+														    padding: 11px;
+														">Check</button>
+>>>>>>> refs/remotes/origin/master
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">

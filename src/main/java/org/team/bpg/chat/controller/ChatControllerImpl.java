@@ -1,6 +1,8 @@
 package org.team.bpg.chat.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.chat.service.ChatService;
-import org.team.bpg.chat.vo.MemberVO;
+import org.team.bpg.member.vo.MemberVO;
 
 
 
@@ -24,8 +27,15 @@ public class ChatControllerImpl implements ChatController{
 	@Autowired
 	ChatService service;
 	
+	
 	@Autowired
 	MemberVO member;
+	
+	
+	@RequestMapping("chart.do")
+	public String goChart(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/chart";
+	}
 	
 	@RequestMapping(value = "cal.do")
 	public String goCal(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -54,12 +64,13 @@ public class ChatControllerImpl implements ChatController{
 			
 		
 			if(searchMember != null) {
-			//	hmp001_d002VO = (Hmp001_d002VO)list.get(0);
-			//	resultMap = BeanUtils.describe(member);
-				System.out.println("id : " + searchMember.getMem_id());
-				System.out.println("bookcount : " + searchMember.getMem_bookcount());
-				resultMap.put("mem_id", searchMember.getMem_id());		
-				resultMap.put("mem_bookcount", searchMember.getMem_bookcount());
+				System.out.println("name : " + searchMember.getUserName());
+				resultMap.put("username", searchMember.getUserName());
+				resultMap.put("badcnt", searchMember.getBadcnt());	
+				resultMap.put("usertaste1", searchMember.getUserTaste1());		
+				resultMap.put("usertaste2", searchMember.getUserTaste2());	
+				resultMap.put("usertaste3", searchMember.getUserTaste3());	
+				
 				
 				
 			}else {

@@ -5,7 +5,7 @@
 <mapper namespace="memberMapper">
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="org.team.bpg.member.vo.MemberVO">
-	    insert into member(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3 )
+	    insert into U_USER_INFO(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3 )
 	                  values(member_seq.nextval, #{userId}, #{userPass}, #{userName}, #{userEmail}, #{userAge}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3} )
    
     </insert>
@@ -13,14 +13,20 @@
    <!-- 로그인 -->
 	<select id="login" resultType="org.team.bpg.member.vo.MemberVO">
 		select userid, userpass 
+<<<<<<< HEAD
 		  from member
 		 where userid = #{userId1}
 		   and userpass = #{userPass1}   
+=======
+		  from U_USER_INFO
+		 where userid = #{userId}
+		   and userpass = #{userPass}   
+>>>>>>> refs/remotes/origin/master
 	</select>
 	
 	<!-- 회원정보 수정 -->
 	<update id="memberUpdate">
-		update member set 
+		update U_USER_INFO set 
 		userpass = #{userPass},
 		username = #{userName},
 		useremail = #{userEmail},
@@ -34,27 +40,27 @@
 	
 	<!-- 회원탈퇴 -->
 <delete id="memberDelete">
-	DELETE FROM member
+	DELETE FROM U_USER_INFO
 	WHERE USERID = #{userId}
 	  AND USERPASS = #{userPass} 
 </delete>
 
 <!-- 패스워드 체크 -->
 <select id="passChk" resultType="int">
-	SELECT COUNT(*) FROM member
+	SELECT COUNT(*) FROM U_USER_INFO
 	WHERE USERID = #{userId}
 	  AND USERPASS = #{userPass}
 </select>
 
 	<!-- 아이디 중복 체크 -->
 <select id="idChk" resultType="int" parameterType="org.team.bpg.member.vo.MemberVO">
-	SELECT COUNT(*) FROM member
+	SELECT COUNT(*) FROM U_USER_INFO
 	WHERE USERID = #{userId}
 </select>
 
 	<!-- 관리자 회원삭제 -->
 <delete id="adminDelete" parameterType="String">
-	DELETE FROM member
+	DELETE FROM U_USER_INFO
 	WHERE USERID = #{userId} 
 </delete>
 
@@ -65,7 +71,7 @@
 		 FROM ( 
 		 	select bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, regdate, 
 		               row_number() over(order by bno desc) as rnum
-		         from member 
+		         from U_USER_INFO 
 		           WHERE 1=1 
 		         	<include refid="search"></include>
 		                       ) mp
@@ -76,7 +82,7 @@
 <select id="listCount" resultType="int">
 
 		select count(bno)
-		  from member
+		  from U_USER_INFO
 		   WHERE 1=1
 		  <include refid="search"></include>
 		 and bno > 0
@@ -88,7 +94,11 @@
 			<if test="searchType == 't'.toString()">AND userId LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'c'.toString()">AND userName LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND userEmail LIKE '%' || #{keyword} || '%'</if>
+<<<<<<< HEAD
 			<if test="searchType == 'tc'.toString()">AND (userTaste1 LIKE '%' || #{keyword} || '%') or (userTaste2 LIKE '%' || #{keyword} || '%') or (userTaste3 LIKE '%' || #{keyword} || '%')</if>
+=======
+			<if test="searchType == 'tc'.toString()">AND  LIKE '%' || #{keyword} || '%'</if>
+>>>>>>> refs/remotes/origin/master
 			<!-- <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if> -->
 		</if>
 	</sql>

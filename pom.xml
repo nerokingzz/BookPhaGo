@@ -149,7 +149,7 @@
 		</dependency>
 		
 		
-		<!-- 200407 IBM 챗봇 구동을 위한 dependency 추가 시작-->
+		<!-- 200413 IBM 챗봇 구동을 위한 dependency 추가 시작-->
 		<dependency>
 			<groupId>com.ibm.watson</groupId>
 			<artifactId>ibm-watson</artifactId>
@@ -170,10 +170,8 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>1.5.3</version>
-		</dependency>   
-
-
-	<!-- 200407 IBM 챗봇 구동을 위한 dependency 추가 끝 -->
+		</dependency>
+	<!-- 200413 IBM 챗봇 구동을 위한 dependency 추가 끝 -->
 		      
 		   		 <!--member             -->     
         <dependency>

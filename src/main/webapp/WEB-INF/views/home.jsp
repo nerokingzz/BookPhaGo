@@ -31,5 +31,7 @@
 <a href="list.do">리스트</a>
 <a href="sign.do>">로그인페이지</a>
 
+<%@ include file="chat/watson.jsp" %>
+
 </body>
 </html>
