@@ -90,11 +90,11 @@ function change() {
 	var bookReservation = $("input:text[name=bookReservation]").val();
 	
 	$.ajax({
-		url:"modifylibrary.do",
+		url:"admin_main.do?page=book_A",
 		data:{"bookNumber" : bookNumber, "bookGenre" : bookGenre, "bookRent" : bookRent, "bookReservation" : bookReservation},
 		method:"POST",
 		success:function(data) {
-			opener.location.href="adminlibrarylist.do";
+			opener.location.href="admin_main.do?page=book_A";
 			window.close();
 		}
 	});

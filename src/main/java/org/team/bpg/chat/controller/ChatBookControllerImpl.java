@@ -1,5 +1,6 @@
 package org.team.bpg.chat.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,42 +14,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.team.bpg.book.VO.BookInfoVO;
 import org.team.bpg.book.service.LibraryService;
 
-@Controller
+@RestController
 public class ChatBookControllerImpl {
 	
 	@Autowired
 	private LibraryService libraryService;
 	
-	
-	@RequestMapping(value="/chat_usersearchbook.do", method=RequestMethod.GET)
-	public ModelAndView chat_userSearchBook (HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("i am in usersearchBook");
-		//챗봇을 통한 도서 검색으로는 '도서명'만 지원하도록 일단 구현.
-		String search_option = "bookName";
-		String search_value = request.getParameter("search_value");
+	@ResponseBody
+	@RequestMapping("chatSearchBook.do")
+	public List<Map<String, Object>> chatSearchBook (@RequestParam("searchKeyword") String searchKeyword){
+
+
+		Map<String, String> _searchKeyword = new HashMap<>();
+		//챗봇을 통한 도서 검색은 도서명을 기준으로 한 검색
+		_searchKeyword.put("search_option", "bookName");
+		_searchKeyword.put("search_value", searchKeyword);
+		List<Map<String, Object>> booklist;
 		
 		
-		Map<String, String> book_list=new HashMap<String, String>();
-		book_list.put("search_option", search_option);
-		book_list.put("search_value", search_value);
+		booklist = libraryService.usersearchbook(_searchKeyword);
 		
-		ModelAndView mav=new ModelAndView();
-		
-		List<Map<String, Object>> list =libraryService.usersearchbook(book_list);
-		
-		System.out.println("getting mav's info..." + mav.getModel());
-		
-		mav.addObject("usserlist", list);
-		
-		mav.setViewName("book/userlibrarylist");
-		
-		return mav;
+
+		return booklist;
 	}
-	
 
 }

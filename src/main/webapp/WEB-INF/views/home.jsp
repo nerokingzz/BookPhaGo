@@ -27,9 +27,11 @@
 <a href="userapplyinfo.do">사용자 도서신청목록</a>
 <br>
 
-<a href="registerForm.do">회원가입</a>
 <a href="loginForm.do">로그인</a>
-<a href="update.do">정보수정</a>
+<a href="list.do">리스트</a>
+<a href="sign.do>">로그인페이지</a>
+
+<%@ include file="chat/watson.jsp" %>
 
 </body>
 </html>

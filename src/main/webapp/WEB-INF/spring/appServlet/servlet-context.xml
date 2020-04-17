@@ -19,9 +19,15 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
-		
+	<!-- 김민선 챗봇 로그 다운로드 기능 추가부 시작 -->		
+		<beans:property name="order" value="1" />
 	</beans:bean>
 	
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	<!-- 김민선 챗봇 로그 다운로드 기능 추가부 끝 -->
+		
 	<!-- 다중파일 업로드 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -31,7 +37,5 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="org.team.bpg" />
-	
-	
 	
 </beans:beans>

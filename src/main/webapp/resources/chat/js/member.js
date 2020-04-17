@@ -27,8 +27,11 @@ function checkMember(userId){
 				if(result.error !== null && result.error !== undefined){
 					container.append(result.error);
 				}else{
-					container.append("<span style = 'background-color:orange'>회원 성명</span>&nbsp;&nbsp;" + result.mem_id + "<br>");
-					container.append("<span style = 'background-color:orange'>현재 대여 권수</span>&nbsp;&nbsp;" + result.mem_bookcount);
+					container.append("<span style = 'background-color:orange'>회원 성명</span>&nbsp;&nbsp;" + result.username + "<br>");
+					container.append("<span style = 'background-color:orange'>경고 횟수</span>&nbsp;&nbsp;" + result.badcnt + "<br>");
+					container.append("<span style = 'background-color:orange'>회원 취향 1</span>&nbsp;&nbsp;" + result.usertaste1 + "<br>");
+					container.append("<span style = 'background-color:orange'>회원 취향 2</span>&nbsp;&nbsp;" + result.usertaste2 + "<br>");
+					container.append("<span style = 'background-color:orange'>회원 취향 3</span>&nbsp;&nbsp;" + result.usertaste3 + "<br>");
 				}
 			
 			},

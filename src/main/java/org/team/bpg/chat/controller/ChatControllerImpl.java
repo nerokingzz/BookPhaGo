@@ -1,6 +1,12 @@
 package org.team.bpg.chat.controller;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.chat.service.ChatService;
-import org.team.bpg.chat.vo.MemberVO;
+import org.team.bpg.chat.service.LogService;
+import org.team.bpg.chat.vo.RequestLogVO;
+import org.team.bpg.member.vo.MemberVO;
 
 
 
@@ -25,7 +36,46 @@ public class ChatControllerImpl implements ChatController{
 	ChatService service;
 	
 	@Autowired
+	LogService logService;
+	
+	
+	@Autowired
 	MemberVO member;
+	
+	@RequestMapping(value = "down.do", method = RequestMethod.GET)
+	public ModelAndView down(HttpServletRequest request){
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		//Date nowdate = new Date();
+		//String dateString = formatter.format(nowdate);
+		
+		//String filePath = "C:\\Users\\Administrator\\Desktop\\chat_log_"+dateString+".csv";
+		 // 현재 인코딩을 확인한다.
+		
+		//File file = new File(filePath);
+		//request.setAttribute("fileName", "이름_재지정.txt");   //다운 받을 시 이름을 결정합니다. 빼게되면 기존에 저장된 이름으로 받습니다.
+		/////////////////////////////////////////////////////////////
+		List<RequestLogVO> vo;
+		File file;
+		try {
+			vo = logService.exportRequestLogs();
+			file = logService.createCSV(vo);
+			return new ModelAndView("fileDownloadView","fileDownload", file);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("error가 발생하여 try catch문 안에서 끝나버렸음 ㅜㅜ!!");
+			return null;
+		}
+
+		/////////////////////////////////////////////////////////////
+
+	}
+	
+
+	@RequestMapping("download.do")
+	public String goDownload(Model model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/download";
+	}
 	
 	@RequestMapping(value = "cal.do")
 	public String goCal(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -54,12 +104,13 @@ public class ChatControllerImpl implements ChatController{
 			
 		
 			if(searchMember != null) {
-			//	hmp001_d002VO = (Hmp001_d002VO)list.get(0);
-			//	resultMap = BeanUtils.describe(member);
-				System.out.println("id : " + searchMember.getMem_id());
-				System.out.println("bookcount : " + searchMember.getMem_bookcount());
-				resultMap.put("mem_id", searchMember.getMem_id());		
-				resultMap.put("mem_bookcount", searchMember.getMem_bookcount());
+				System.out.println("name : " + searchMember.getUserName());
+				resultMap.put("username", searchMember.getUserName());
+				resultMap.put("badcnt", searchMember.getBadcnt());	
+				resultMap.put("usertaste1", searchMember.getUserTaste1());		
+				resultMap.put("usertaste2", searchMember.getUserTaste2());	
+				resultMap.put("usertaste3", searchMember.getUserTaste3());	
+				
 				
 				
 			}else {

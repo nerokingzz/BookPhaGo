@@ -4,28 +4,25 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="chatMapper">
-
-
-	<resultMap id="chatMapperResult01" type="BookVO">
-		<result property="book_id" column="book_id"  />
-		<result property="book_isborrowed" column="book_isborrowed" />
-	</resultMap>
 	
 	
 	<resultMap id="chatMapperResult02" type="MemberVO">
-		<result property="mem_id" column="mem_id"  />
-		<result property="mem_bookcount" column="mem_bookcount" />
+		<result property="userName" column="USERNAME"  />
+		<result property="badcnt" column="BADCNT"  />
+		<result property="userTaste1" column="USERTASTE1"  />
+		<result property="userTaste2" column="USERTASTE2"  />
+		<result property="userTaste3" column="USERTASTE3"  />
 	</resultMap>
 	
 	
 	<select id="searchMember" resultMap="chatMapperResult02" parameterType="String"> 
       <![CDATA[
-         select mem_id, mem_bookcount
-         from   t_member
+         select USERNAME, BADCNT, USERTASTE1, USERTASTE2, USERTASTE3
+         from  U_USER_INFO
       ]]>
 		<where>
 			<if test=" value != ''  and  value != null">
-				mem_id = #{value}
+				USERID = #{value}
 			</if>
 		</where>
 	</select>

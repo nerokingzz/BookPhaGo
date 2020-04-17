@@ -25,7 +25,7 @@ public class CommController {
 	@Autowired
 	private LibraryService libraryService;
 	
-	//°ü¸®ÀÚ µµ¼­ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="adminlibrarylist")
 	public ModelAndView adminlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -38,7 +38,7 @@ public class CommController {
 		return mav;		
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	@RequestMapping(value="adminsearchbook")
 	public ModelAndView adminsearchbook (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String search_option = request.getParameter("search_option");
@@ -60,15 +60,25 @@ public class CommController {
 		return mav;
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ µî·Ï
 	@RequestMapping(value="inputlibrary")
-	public void inputlibrary(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		libraryService.inputlibrary(bookInfoVO);
-		RequestDispatcher dis = request.getRequestDispatcher("adminlibrarylist.do");
-		dis.forward(request, response);
+	public void inputlibrary(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String isbn = request.getParameter("isbn");
+		String bookNumber = request.getParameter("bookNumber");
+		String bookGenre = request.getParameter("bookGenre");
+		String bookRent = request.getParameter("bookRent");
+		String bookReservation = request.getParameter("bookReservation");
+		
+		Map<String, String> book_list=new HashMap<String, String>();
+		book_list.put("bookNumber", bookNumber);
+		book_list.put("isbn", isbn);
+		book_list.put("bookGenre", bookGenre);
+		book_list.put("bookRent", bookRent);
+		book_list.put("bookReservation", bookReservation);
+		
+		libraryService.inputlibrary(book_list);
 	}
-	
-	//°ü¸®ÀÚ µµ¼­ ¼öÁ¤ ¸ñ·Ï
+
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="modfindlibrary")
 	public ModelAndView modfindlibrary(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String bookNumber = request.getParameter("bookNumber");
@@ -86,7 +96,7 @@ public class CommController {
 		return mav;	
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ ¼öÁ¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="modifylibrary")
 	public void modifylibrary(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String bookNumber = request.getParameter("bookNumber");
@@ -103,15 +113,17 @@ public class CommController {
 		libraryService.modifylibrary(book_list);
 	}
 	
-	//°ü¸®ÀÚ µµ¼­ »èÁ¦ 
 	@RequestMapping(value="librarydelete")
-	public void librarydelete(@ModelAttribute BookInfoVO bookInfoVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		libraryService.librarydelete(bookInfoVO);
-		RequestDispatcher dis = request.getRequestDispatcher("adminlibrarylist.do");
-		dis.forward(request, response);
+	public void librarydelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String bookNumber = request.getParameter("bookNumber");
+	
+		Map<String, String> book_list=new HashMap<String, String>();
+		book_list.put("bookNumber", bookNumber);
+		
+		libraryService.librarydelete(book_list);
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="userlibrarylist")
 	public ModelAndView userlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -124,7 +136,7 @@ public class CommController {
 		return mav;	
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ °Ë»ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	@RequestMapping(value="usersearchbook")
 	public ModelAndView usersearchbook (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String search_option = request.getParameter("search_option");
@@ -145,7 +157,7 @@ public class CommController {
 		return mav;
 	}
 
-	//»ç¿ëÀÚ µµ¼­ ¿¹¾à ¸ñ·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value="userreservationlist")
 	public ModelAndView userreservationlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String bookNumber = request.getParameter("bookNumber");
@@ -163,7 +175,7 @@ public class CommController {
 		return mav;
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ¿¹¾à
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="userreservation")
 	public void userreservation(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
@@ -181,14 +193,14 @@ public class CommController {
 		
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ½ÅÃ»¾È³»
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½È³ï¿½
 	@RequestMapping(value="userapplyinfo")
 	public ModelAndView userapplyinfo(ModelAndView mv) throws Exception {
 		mv.setViewName("book/userapplyinfo");
 		return mv;
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ½ÅÃ» ÆäÀÌÁö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="userapply")
 	public ModelAndView userapply(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
@@ -200,14 +212,14 @@ public class CommController {
 		return mv;
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ½ÅÃ» °Ë»öÆäÀÌÁö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="userapplysearch")
 	public ModelAndView userapplysearchbook(ModelAndView mv) throws Exception {
 		mv.setViewName("book/userapplysearch");
 		return mv;
 	}
 	
-	//»ç¿ëÀÚ µµ¼­ ½ÅÃ» °Ë»ö 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ë»ï¿½ 
 	@RequestMapping(value="userapplysearchbook")
 	public ModelAndView userapplysearchbook (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String search_value = request.getParameter("search_value");
@@ -225,16 +237,14 @@ public class CommController {
 		return mav;
 	}
 
-	//»ç¿ëÀÚ µµ¼­ ½ÅÃ» 
+	
 	@RequestMapping(value="userapplybook")
-	public ModelAndView userapplybook (HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void userapplybook(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String user_id = request.getParameter("user_id");
 		String isbn = request.getParameter("isbn");
 		String applyDate = request.getParameter("applyDate");
 		String applyReason = request.getParameter("applyReason");
-		String applyState = "½ÅÃ»Áß";
-		
-		ModelAndView mav=new ModelAndView();
+		String applyState = "ì‹ ì²­ì¤‘";
 		
 		Map<String, String> book_list=new HashMap<String, String>();
 		book_list.put("userid", user_id);
@@ -243,15 +253,11 @@ public class CommController {
 		book_list.put("applyReason", applyReason);
 		book_list.put("applyState", applyState);
 		
-		List<Map<String, Object>> booklist = libraryService.userapplybook(book_list);
+		libraryService.userapplybook(book_list);
 		
-		mav.addObject("booklist", booklist);
-		mav.addObject("booklistSize", booklist.size());
-		mav.setViewName("book/userapplyinfo");
-		return mav;
 	}
 	
-	//°ü¸®ÀÚ isbn search ¸®½ºÆ®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ isbn search ï¿½ï¿½ï¿½ï¿½Æ®
 	@RequestMapping(value="adminisbnsearchlist")
 	public ModelAndView userisbnsearchlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
@@ -264,7 +270,7 @@ public class CommController {
 		return mav;		
 	}
 		
-	//°ü¸®ÀÚ isbn search
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ isbn search
 	@RequestMapping(value="adminisbnsearch")
 	public ModelAndView adminisbnsearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
