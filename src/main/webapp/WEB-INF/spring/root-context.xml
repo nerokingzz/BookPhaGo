@@ -21,14 +21,7 @@
     	
     	<property name="username" value="bookphago" />
     	<property name="password" value="bookphago" />
-<<<<<<< HEAD
-=======
-    	!-->
-    	 <!-- 
- 	    <property name="username" value="qwe" />
-    	<property name="password" value="qwe" />  -->
-    	
->>>>>>> refs/remotes/origin/master
+
     	
     	 
 	</bean>
