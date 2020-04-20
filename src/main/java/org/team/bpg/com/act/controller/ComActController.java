@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.com.act.service.ComActService;
 import org.team.bpg.com.act.vo.BoardInfoVO;
+import org.team.bpg.com.act.vo.ComMemberVO;
 
 @Controller
 public class ComActController {
@@ -46,9 +47,15 @@ public class ComActController {
 		
 		ModelAndView mav=new ModelAndView();
 		
-		Map<String, Object> comInfo=comActService.comInfo(request);
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("community_id", request.getParameter("community_id"));
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
 		
 		
 		mav.setViewName("com/act/com_act_home");
@@ -62,14 +69,18 @@ public class ComActController {
 		String pageInfo=request.getParameter("page");
 		
 		ModelAndView mav=new ModelAndView();
-		Map<String, Object> comInfo=comActService.comInfo(request);
+		
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		
 		mav.addObject("comInfo", comInfo);
-		mav.addObject("pageInfo", request.getParameter("page"));
+		mav.addObject("pageInfo", pageInfo);
 		mav.addObject("community_id", community_id);
 		
 		mav.setViewName("com/act/com_act_home");
 		return mav;
 	}
+	
 	
 	//게시판 추가하기
 	@RequestMapping(value="com_add_board", method=RequestMethod.POST)
@@ -101,7 +112,8 @@ public class ComActController {
 		ModelAndView mav=new ModelAndView();
 		List<Map<String, Object>> articleList=comActService.articleList(request);
 		
-		Map<String, Object> comInfo=comActService.comInfo(request);
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("articleList", articleList);
@@ -113,6 +125,35 @@ public class ComActController {
 		
 		return mav;
 		
+	}
+	
+	//커뮤니티 가입하기 폼 보여주기
+	@RequestMapping(value="com_act_mem_form", method=RequestMethod.GET)
+	public ModelAndView comActMemForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("comInfo", comInfo);
+		mav.setViewName("com/act/com_act_mem_form");
+		return mav;
+	}
+	
+	//커뮤니티 가입하기
+	@RequestMapping(value="com_act_mem", method=RequestMethod.POST)
+	public void comActMem(@ModelAttribute ComMemberVO comMemberVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		comActService.comActMem(comMemberVo);
+		
+	}
+	
+	//커뮤니티 닉네임 중복체크
+	@ResponseBody
+	@RequestMapping(value="com_mem_nick_chk", method=RequestMethod.POST)
+	public String comMemNickChk(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String chkResult=comActService.comMemNickChk(request);
+		
+		return chkResult;
 	}
 	
 }

@@ -275,12 +275,13 @@
 								<div class="tab-pane fade" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">
 									<div class="acc-setting">
 										<h3>커뮤니티관리</h3>
-											
+										<jsp:include page="../com/esta/com_esta_request_list.jsp"></jsp:include>
 									</div><!--acc-setting end-->
 								</div>
 							  	<div class="tab-pane fade" id="nav-status2" role="tabpanel" aria-labelledby="nav-status-tab">
 							  		<div class="acc-setting">
 							  			<h3>신고관리</h3>
+							  			<jsp:include page="../mylib/declare/mylib_declare_request_list.jsp"></jsp:include>
 							  		</div><!--acc-setting end-->
 							  	</div>
 							  	<div class="tab-pane fade" id="nav-password2" role="tabpanel" aria-labelledby="nav-password-tab">

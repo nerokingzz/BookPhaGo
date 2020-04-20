@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.team.bpg.com.act.vo.BoardInfoVO;
+import org.team.bpg.com.act.vo.ComMemberVO;
 
 @Repository
 public class ComActDaoImpl implements ComActDao {
@@ -44,5 +45,24 @@ public class ComActDaoImpl implements ComActDao {
 	public List<Map<String, Object>> articleList(int board_id) {
 		List<Map<String, Object>> articleList=sqlSession.selectList("com_act.com_article_list", board_id);
 		return articleList;
+	}
+
+	@Override
+	public List<Map<String, Object>> comMemChk(Map<String, Object> info) {
+		
+		List<Map<String, Object>> memList=sqlSession.selectList("com_act.com_mem_chk", info);
+		return memList;
+	}
+
+	@Override
+	public void comActMem(ComMemberVO comMemberVo) {
+		sqlSession.insert("com_act.com_mem", comMemberVo);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> comMemNickChk(Map<String, Object> info) {
+		List<Map<String, Object>> memList=sqlSession.selectList("com_act.com_mem_nick_chk", info);
+		return memList;
 	}
 }
