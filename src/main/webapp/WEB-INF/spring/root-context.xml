@@ -17,20 +17,12 @@
     <!-- oracle -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-<<<<<<< HEAD
     	<property name="url" value="jdbc:oracle:thin:@bookphago.ckukyd1prukq.ap-northeast-2.rds.amazonaws.com:1521:BPG" />
-=======
-    	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
-    	
->>>>>>> refs/remotes/origin/master
     	<property name="username" value="bookphago" />
     	<property name="password" value="bookphago" />
 
-<<<<<<< HEAD
-=======
-    	
-    	 
->>>>>>> refs/remotes/origin/master
+
+
 	</bean>
 	
 	<!-- SqlSessionFactory 객체 주입 -->
