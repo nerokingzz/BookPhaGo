@@ -17,18 +17,10 @@
     <!-- oracle -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-    	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
-    	<!-- 
+    	<property name="url" value="jdbc:oracle:thin:@bookphago.ckukyd1prukq.ap-northeast-2.rds.amazonaws.com:1521:BPG" />
     	<property name="username" value="bookphago" />
     	<property name="password" value="bookphago" />
-    	!-->
-    	 <!-- 
- 	    <property name="username" value="qwe" />
-    	<property name="password" value="qwe" />  -->
-    	
-    	
-	   <property name="username" value="scott" />
-       <property name="password" value="tiger" />
+
 	</bean>
 	
 	<!-- SqlSessionFactory 객체 주입 -->
@@ -46,5 +38,14 @@
     <bean id="fileViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
     	<property name="order" value="0" />
 	</bean>
-		<!-- 0417 김민선 추가부 끝 -->
+	<!-- 0417 김민선 추가부 끝 -->
+		
+		
+	<!-- 김민선 locale 추가부 시작 -->
+	<!-- 
+	<bean class=“org.team.bpg.LocaleChangeController” >
+		<property name=“localeResolver” ref=“localeResolver” />
+	</bean> -->
+	 <bean class="org.springframework.web.servlet.i18n.SessionLocaleResolver" id ="localeResolver"/>
+	<!-- 김민선 locale 추가부 끝 -->
 </beans>
