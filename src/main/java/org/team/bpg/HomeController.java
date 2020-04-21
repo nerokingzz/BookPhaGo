@@ -50,7 +50,7 @@ public class HomeController {
 		
 		return "index";
 	}
-	
+
 
 	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
 
