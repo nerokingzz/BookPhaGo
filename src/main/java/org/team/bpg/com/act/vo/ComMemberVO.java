@@ -12,7 +12,6 @@ public class ComMemberVO {
 	private int member_visit_count;
 	private int member_article_count;
 	private int member_reply_count;
-	private String member_join_status;
 	
 	public String getMember_nickname() {
 		return member_nickname;
@@ -74,12 +73,6 @@ public class ComMemberVO {
 	public void setMember_reply_count(int member_reply_count) {
 		this.member_reply_count = member_reply_count;
 	}
-	public String getMember_join_status() {
-		return member_join_status;
-	}
-	public void setMember_join_status(String member_join_status) {
-		this.member_join_status = member_join_status;
-	}
 	
 	@Override
 	public String toString() {
@@ -87,8 +80,10 @@ public class ComMemberVO {
 				+ community_id + ", member_join_date=" + member_join_date + ", member_position=" + member_position
 				+ ", member_answer1=" + member_answer1 + ", member_answer2=" + member_answer2 + ", member_visit_count="
 				+ member_visit_count + ", member_article_count=" + member_article_count + ", member_reply_count="
-				+ member_reply_count + ", member_join_status=" + member_join_status + "]";
+				+ member_reply_count + "]";
 	}
+	
+
 	
 	
 	

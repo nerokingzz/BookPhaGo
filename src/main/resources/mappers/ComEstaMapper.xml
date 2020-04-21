@@ -7,7 +7,7 @@
 	<insert id="com_esta_insert" parameterType="comInfoVo">
 		<!-- 시퀀스 사용 -->
 		<selectKey keyProperty="community_id" resultType="integer" order="BEFORE">
-			SELECT seq_auto_increment.NEXTVAL FROM DUAL
+			SELECT seq_auto_com.NEXTVAL FROM DUAL
 		</selectKey>
 		
     	INSERT INTO M_COMMUNITY_INFO (community_id, community_name, community_establish_date, community_category, community_description, community_aim, community_member_count, community_establish_status, community_captain)

@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.team.bpg.com.act.dao.ComActDao;
+import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.utils.PageVO;
 
 @Service
 public class ComActServiceImpl implements ComActService {
@@ -91,25 +93,6 @@ public class ComActServiceImpl implements ComActService {
 	}
 
 	@Override
-	public List<Map<String, Object>> articleList(HttpServletRequest request) {
-		String community_idd=request.getParameter("community_id");
-		int community_id=Integer.parseInt(community_idd);
-		
-		String board_idd=request.getParameter("board_id");
-		int board_id=Integer.parseInt(board_idd);
-		
-		Map<String, Object> info=new HashMap<String,Object>();
-		info.put("community_id", community_id);
-		info.put("board_id", board_id);
-
-		List<Map<String, Object>> articleList=comActDao.articleList(board_id);
-		
-		System.out.println("가져온 글 리스트");
-		System.out.println(articleList);
-		return articleList;
-	}
-
-	@Override
 	public void comActMem(ComMemberVO comMemberVo) {
 		comActDao.comActMem(comMemberVo);
 		
@@ -133,5 +116,79 @@ public class ComActServiceImpl implements ComActService {
 		}
 		
 		return chkResult;
+	}
+
+	@Override
+	public List<Map<String, Object>> comBoardAdmin(HttpServletRequest request) {
+		String community_idd=request.getParameter("community_id");
+		int community_id=Integer.parseInt(community_idd);
+		List<Map<String, Object>> boardList=comActDao.comBoardAdmin(community_id);
+		return boardList;
+	}
+
+	@Override
+	public void boardAdmin(HttpServletRequest request) {
+		System.out.println("변경할 게시판정보");
+		System.out.println(request.getParameter("board_id"));
+		System.out.println(request.getParameter("board_status"));
+		
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		String board_status=request.getParameter("board_status");
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("board_id", board_id);
+		info.put("board_status", board_status);
+		
+		comActDao.boardAdmin(info);
+		
+		
+		
+	}
+
+	@Override
+	public Map<String, Object> boardInfo(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		Map<String, Object> boardInfo=comActDao.boardInfo(board_id);
+		return boardInfo;
+	}
+
+	
+	@Override
+	public int countArticle(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		int articleCount=comActDao.countArticle(board_id);
+		return articleCount;
+	}
+
+	@Override
+	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		
+		System.out.println("가져올 게시판 아이디:" + board_id);
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("board_id", board_id);
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<ArticleInfoVO> articleList=comActDao.articleList(info);
+		return articleList;
+	}
+
+	@Override
+	public Map<String, Object> articleInfo(HttpServletRequest request) {
+		String article_idd=request.getParameter("article_id");
+		int article_id=Integer.parseInt(article_idd);
+		
+		Map<String, Object> articleInfo=comActDao.articleInfo(article_id);
+
+		return articleInfo;
 	}
 }

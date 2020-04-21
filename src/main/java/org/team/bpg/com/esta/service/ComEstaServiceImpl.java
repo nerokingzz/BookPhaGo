@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.team.bpg.com.act.vo.ComMemberVO;
 import org.team.bpg.com.esta.dao.ComEstaDao;
 import org.team.bpg.com.esta.vo.ComInfoVO;
 
@@ -51,6 +52,11 @@ public class ComEstaServiceImpl implements ComEstaService {
 			admin_sts+="("+admin_msg+")";
 		} else if (admin_sts.equals("agree")) {
 			admin_sts="수락";
+			
+			//커뮤니티 개설이 수락되면 운영자를 커뮤니티 멤버로 자동 등록시키기
+
+			
+			
 		}
 		
 		System.out.println(admin_sts);

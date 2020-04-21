@@ -7,6 +7,7 @@ public class BoardInfoVO {
 	private String board_name;
 	private int board_article_count;
 	private String board_category;
+	private String board_status;
 	
 	public BoardInfoVO() {
 		// TODO Auto-generated constructor stub
@@ -52,11 +53,22 @@ public class BoardInfoVO {
 		this.board_category = board_category;
 	}
 
+	public String getBoard_status() {
+		return board_status;
+	}
+
+	public void setBoard_status(String board_status) {
+		this.board_status = board_status;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardInfoVo [board_id=" + board_id + ", community_id=" + community_id + ", board_name=" + board_name
-				+ ", board_article_count=" + board_article_count + ", board_category=" + board_category + "]";
+		return "BoardInfoVO [board_id=" + board_id + ", community_id=" + community_id + ", board_name=" + board_name
+				+ ", board_article_count=" + board_article_count + ", board_category=" + board_category
+				+ ", board_status=" + board_status + "]";
 	}
+
+
 
 
 }

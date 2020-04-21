@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>커뮤니티 홈</title>
+	<title>커뮤니티 게시판관리</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -29,10 +29,12 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
-<script type="text/javascript">
-	alert("${memChk}");
-	alert("${memAuth}");
-</script>
+	<script type="text/javascript">
+		function addBoard() {
+			window.open("com_add_board.do?community_id=${comInfo.get('COMMUNITY_ID')}", "게시판추가", "width=500, height=500");
+		}
+		
+	</script>
 
 <body>	
 
@@ -199,7 +201,7 @@
 									<div class="suggestions full-width">
 										<div class="sd-title">
 											<h3>게시판목록</h3>
-											<div id="board_list"></div>
+											<i class="la la-ellipsis-v"></i>
 										</div><!--sd-title end-->
 
 									</div><!--suggestions end-->
@@ -221,326 +223,59 @@
 										<div class="post-bar">
 											<div class="post_topbar">
 												<div class="usy-dt">
-													<img src="${contextPath}/resources/bootstrap/images/resources/us-pic.png" alt="">
 													<div class="usy-name">
-														<h3>John Doe</h3>
-														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-													</div>
-												</div>
-												<div class="ed-opts">
-													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-													<ul class="ed-options">
-														<li><a href="#" title="">Edit Post</a></li>
-														<li><a href="#" title="">Unsaved</a></li>
-														<li><a href="#" title="">Unbid</a></li>
-														<li><a href="#" title="">Close</a></li>
-														<li><a href="#" title="">Hide</a></li>
-													</ul>
-												</div>
-											</div>
-											<div class="epi-sec">
-												<ul class="descp">
-													<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-													<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-												</ul>
-												<ul class="bk-links">
-													<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-													<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-												</ul>
-											</div>
-											<div class="job_descp">
-												<h3>Senior Wordpress Developer</h3>
-												<ul class="job-dt">
-													<li><a href="#" title="">Full Time</a></li>
-													<li><span>$30 / hr</span></li>
-												</ul>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-												<ul class="skill-tags">
-													<li><a href="#" title="">HTML</a></li>
-													<li><a href="#" title="">PHP</a></li>
-													<li><a href="#" title="">CSS</a></li>
-													<li><a href="#" title="">Javascript</a></li>
-													<li><a href="#" title="">Wordpress</a></li> 	
-												</ul>
-											</div>
-											<div class="job-status-bar">
-												<ul class="like-com">
-													<li>
-														<a href="#"><i class="fas fa-heart"></i> Like</a>
-														<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-														<span>25</span>
-													</li> 
-													<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-												</ul>
-												<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-											</div>
-										</div><!--post-bar end-->
-										<div class="top-profiles">
-											<div class="pf-hd">
-												<h3>Top Profiles</h3>
-												<i class="la la-ellipsis-v"></i>
-											</div>
-											<div class="profiles-slider">
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user1.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user2.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user3.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user1.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user2.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user3.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-											</div><!--profiles-slider end-->
-										</div><!--top-profiles end-->
-										<div class="post-bar">
-											<div class="post_topbar">
-												<div class="usy-dt">
-													<img src="${contextPath}/resources/bootstrap/images/resources/us-pic.png" alt="">
-													<div class="usy-name">
-														<h3>John Doe</h3>
-														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-													</div>
-												</div>
-												<div class="ed-opts">
-													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-													<ul class="ed-options">
-														<li><a href="#" title="">Edit Post</a></li>
-														<li><a href="#" title="">Unsaved</a></li>
-														<li><a href="#" title="">Unbid</a></li>
-														<li><a href="#" title="">Close</a></li>
-														<li><a href="#" title="">Hide</a></li>
-													</ul>
-												</div>
-											</div>
-											<div class="epi-sec">
-												<ul class="descp">
-													<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-													<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-												</ul>
-												<ul class="bk-links">
-													<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-													<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-													<li><a href="#" title="" class="bid_now">Bid Now</a></li>
-												</ul>
-											</div>
-											<div class="job_descp">
-												<h3>Senior Wordpress Developer</h3>
-												<ul class="job-dt">
-													<li><a href="#" title="">Full Time</a></li>
-													<li><span>$30 / hr</span></li>
-												</ul>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-												<ul class="skill-tags">
-													<li><a href="#" title="">HTML</a></li>
-													<li><a href="#" title="">PHP</a></li>
-													<li><a href="#" title="">CSS</a></li>
-													<li><a href="#" title="">Javascript</a></li>
-													<li><a href="#" title="">Wordpress</a></li> 	
-												</ul>
-											</div>
-											<div class="job-status-bar">
-												<ul class="like-com">
-													<li>
-														<a href="#"><i class="fas fa-heart"></i> Like</a>
-														<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-														<span>25</span>
-													</li> 
-													<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-												</ul>
-												<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-											</div>
-										</div><!--post-bar end-->
-										<div class="posty">
-											<div class="post-bar no-margin">
-												<div class="post_topbar">
-													<div class="usy-dt">
-														<img src="${contextPath}/resources/bootstrap/images/resources/us-pc2.png" alt="">
-														<div class="usy-name">
-															<h3>John Doe</h3>
-															<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-														</div>
-													</div>
-													<div class="ed-opts">
-														<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-														<ul class="ed-options">
-															<li><a href="#" title="">Edit Post</a></li>
-															<li><a href="#" title="">Unsaved</a></li>
-															<li><a href="#" title="">Unbid</a></li>
-															<li><a href="#" title="">Close</a></li>
-															<li><a href="#" title="">Hide</a></li>
-														</ul>
-													</div>
-												</div>
-												<div class="epi-sec">
-													<ul class="descp">
-														<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-														<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-													</ul>
-													<ul class="bk-links">
-														<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-														<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-													</ul>
-												</div>
-												<div class="job_descp">
-													<h3>Senior Wordpress Developer</h3>
-													<ul class="job-dt">
-														<li><a href="#" title="">Full Time</a></li>
-														<li><span>$30 / hr</span></li>
-													</ul>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-													<ul class="skill-tags">
-														<li><a href="#" title="">HTML</a></li>
-														<li><a href="#" title="">PHP</a></li>
-														<li><a href="#" title="">CSS</a></li>
-														<li><a href="#" title="">Javascript</a></li>
-														<li><a href="#" title="">Wordpress</a></li> 	
-													</ul>
-												</div>
-												<div class="job-status-bar">
-													<ul class="like-com">
-														<li>
-															<a href="#"><i class="fas fa-heart"></i> Like</a>
-															<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-															<span>25</span>
-														</li> 
-														<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-													</ul>
-													<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-												</div>
-											</div><!--post-bar end-->
-											<div class="comment-section">
-												<a href="#" class="plus-ic">
-													<i class="la la-plus"></i>
-												</a>
-												<div class="comment-sec">
-													<ul>
-														<li>
-															<div class="comment-list">
-																<div class="bg-img">
-																	<img src="${contextPath}/resources/bootstrap/images/resources/bg-img1.png" alt="">
-																</div>
-																<div class="comment">
-																	<h3>John Doe</h3>
-																	<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																	<p>Lorem ipsum dolor sit amet, </p>
-																	<a href="#" title="" class="active"><i class="fa fa-reply-all"></i>Reply</a>
-																</div>
-															</div><!--comment-list end-->
-															<ul>
-																<li>
-																	<div class="comment-list">
-																		<div class="bg-img">
-																			<img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
-																		</div>
-																		<div class="comment">
-																			<h3>John Doe</h3>
-																			<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																			<p>Hi John </p>
-																			<a href="#" title=""><i class="fa fa-reply-all"></i>Reply</a>
-																		</div>
-																	</div><!--comment-list end-->
-																</li>
-															</ul>
-														</li>
-														<li>
-															<div class="comment-list">
-																<div class="bg-img">
-																	<img src="${contextPath}/resources/bootstrap/images/resources/bg-img3.png" alt="">
-																</div>
-																<div class="comment">
-																	<h3>John Doe</h3>
-																	<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at.</p>
-																	<a href="#" title=""><i class="fa fa-reply-all"></i>Reply</a>
-																</div>
-															</div><!--comment-list end-->
-														</li>
-													</ul>
-												</div><!--comment-sec end-->
-												<div class="post-comment">
-													<div class="cm_img">
-														<img src="${contextPath}/resources/bootstrap/images/resources/bg-img4.png" alt="">
-													</div>
-													<div class="comment_box">
-														<form>
-															<input type="text" placeholder="Post a comment">
-															<button type="submit">Send</button>
-														</form>
-													</div>
-												</div><!--post-comment end-->
-											</div><!--comment-section end-->
-										</div><!--posty end-->
-										<div class="process-comm">
-											<div class="spinner">
-												<div class="bounce1"></div>
-												<div class="bounce2"></div>
-												<div class="bounce3"></div>
-											</div>
-										</div><!--process-comm end-->
-									</div><!--posts-section end-->
-								</div><!--main-ws-sec end-->
-							</div>
+														<input type="button" value="게시판추가" onclick="addBoard()">
+														<div class="dff-tab current" id="tab-3">
+														<c:choose>
+															<c:when test="${boardListSize gt 0}">	<!-- gt : > -->  
+																<table>
+																	<thead>
+																		<tr>
+																			<th>번호</th>
+																			<th>이름</th>
+																			<th>게시글수</th>
+																			<th>분류</th>
+																			<th>상태</th>
+																			<th>확인</th>
+																			<th>변경</th>
+																		</tr>
+																	
+																		<c:forEach var="i" begin="1" end="${boardListSize}">
+																			<tr>
+																				<td>${i}</td>
+																				<td>${boardList.get(i-1).get("BOARD_NAME")}</td>
+																				<td>${boardList.get(i-1).get("BOARD_ARTICLE_COUNT")}</td>
+																				<td>${boardList.get(i-1).get("BOARD_CATEGORY")}</td>
+																				<td>${boardList.get(i-1).get("BOARD_STATUS")}</td>
+																				<td>
+																					<input type="hidden" name="index" value="${i}">
+																					<input type="hidden" name="board_id" value='${boardList.get(i-1).get("BOARD_ID")}'>	
+																														
+																					활성화<input type="radio" id="board_o" name="board_status_change" value="o">
+																					비활성화<input type="radio" id="board_x" name="board_status_change" value="x">
+																				</td>
+																				<td>
+																					<input type="button" value="처리" onclick="boardStsAdmin('${i}')">
+																				</td>
+																			</tr>
+																		</c:forEach>
+																	</thead>
+																</table>
+															</c:when>
+														</c:choose>
 
-						</div>
-					</div><!-- main-section-data end-->
-				</div> 
+														</div><!--dff-tab end-->
+													</div>
+												</div>
+											</div>
+										</div><!--posts-section end-->
+									</div><!--main-ws-sec end-->
+								</div>
+
+							</div>
+						</div><!-- main-section-data end-->
+					</div> 
+				</div>
 			</div>
 		</main>
 
@@ -818,29 +553,53 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">
-		var community_id=${comInfo.get("COMMUNITY_ID")};
+		
+		var indexList=new Array();
+		var idList=new Array();
+		
+		//활성, 비활성 선택
 		$(document).ready(function() {
-			$.ajax({
-				url:"board_list.do",
-				contentType: 'application/json; charset=utf-8',
-				data:{"community_id" : community_id},
-				method:"GET",
-				success:function(data) {
-					console.log(data[0].BOARD_NAME);
-					console.log(data[0].COMMUNITY_ID);
-					console.log(data[0].BOARD_ID);
-					
-					for (var i=0; i<data.length; i++) {
-						
-						$("#board_list").append("<li><a href='com_act_board.do?board_id="+data[i].BOARD_ID+"&community_id="+data[i].COMMUNITY_ID+"'>"+data[i].BOARD_NAME+"</a></li>");
-						
+			
+			//index 배열
+			$("input[name=index]").each(function(index, item) {
+				indexList.push($(item).val());
+			});
+			alert(indexList);
+			
+			//community_id 배열
+			$("input[name=board_id]").each(function(index, item) {
+				idList.push($(item).val());
+			});
+			alert(idList);
+			
+			
+		});
+		
+		function boardStsAdmin(i) {
+			alert(i);
+			alert(idList[i-1]);
+			var community_id=${comInfo.get('COMMUNITY_ID') };
+			var board_id=idList[i-1];
+			var board_status=$("input[name=board_status_change]:checked").val();
+			
+			$(document).ready(function() {
+				$.ajax({
+					url:"board_admin.do",
+					contentType: 'application/json; charset=utf-8',
+					data:{"community_id" : community_id, "board_id" : board_id, "board_status" : board_status},
+					method:"GET",
+					success:function(data) {
+						location.href="com_board.do?community_id="+community_id;
 					}
-
-				}
-				
+					
+				})
 			})
-		})
+			
+		}
+
 	</script>
+
+<script src="resources/com/js/utils.js"></script>
 
 
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>

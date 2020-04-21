@@ -29,6 +29,9 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 
+<script type="text/javascript">
+	alert("${user_position}");
+</script>
 
 <body>
 		

@@ -28,10 +28,6 @@
    
 
    <div class="wrapper">
-      
-
-
-<<<<<<< HEAD
       <header>
          <div class="container">
             <div class="header-data">
@@ -61,7 +57,6 @@
             </div><!--header-data end-->
          </div>
       </header>   
-=======
 		<header>
 			<div class="container">
 				<div class="header-data">
@@ -105,29 +100,7 @@
             </div>
          </div>
       </section>
-=======
-		<!-- 		
-		<section class="forum-sec">
-			<div class="container">
-				<div class="forum-links">
-					<ul>
-						<li class="active"><a href="#" title="">Latest</a></li>
-						<li><a href="#" title="">Unanswered</a></li>
-						<li><a href="#" title="">Treading</a></li>
-						<li><a href="#" title="">Popular This Week</a></li>
-						<li><a href="#" title="">Popular of Month</a></li>
-					</ul>
-				</div>
-				<div class="forum-links-btn">
-					<a href="#" title=""><i class="fa fa-bars"></i></a>
-				</div>
-			</div>
-		</section>
-		 -->
-		
->>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 
-<<<<<<< HEAD
       <section class="forum-page">
          <div class="container">
             <div class="forum-questions-sec">
@@ -343,7 +316,6 @@
             </div><!--forum-questions-sec end-->
          </div>
       </section><!--forum-page end-->
-=======
 		<section class="forum-page">
 			<div class="container">
 				<div class="forum-questions-sec">
@@ -569,7 +541,6 @@
 				</div><!--forum-questions-sec end-->
 			</div>
 		</section><!--forum-page end-->
->>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 
       <footer>
          <div class="footy-sec mn no-margin">
