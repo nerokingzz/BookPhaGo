@@ -191,4 +191,10 @@ public class ComActServiceImpl implements ComActService {
 
 		return articleInfo;
 	}
+
+	@Override
+	public void articleSubmit(ArticleInfoVO articleInfoVo, HttpServletRequest request) {
+		comActDao.articleSubmit(articleInfoVo);
+		
+	}
 }

@@ -34,6 +34,8 @@
 	alert("${memAuth}");
 </script>
 
+<script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
+
 <body>	
 
 	<div class="wrapper">	
@@ -215,49 +217,27 @@
                                         <div class="post-bar">
                                             <div class="post_topbar">
                                                 <div class="usy-dt">
-                                                    <img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
                                                     <div class="usy-name">
-                                                        <h3>John Doe</h3>
-                                                        <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
+                                                        <h3>${articleInfo.get("ARTICLE_TITLE") }</h3>
+                                                        <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${articleInfo.get("ARTICLE_WRITER") }</span>
                                                     </div>
                                                 </div>
                                                 <div class="ed-opts">
-                                                    <a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-                                                    <ul class="ed-options">
-                                                        <li><a href="#" title="">Edit Post</a></li>
-                                                        <li><a href="#" title="">Unsaved</a></li>
-                                                        <li><a href="#" title="">Unbid</a></li>
-                                                        <li><a href="#" title="">Close</a></li>
-                                                        <li><a href="#" title="">Hide</a></li>
-                                                    </ul>
+                                                    ${articleInfo.get("ARTICLE_DATE") }
                                                 </div>
                                             </div>
                                             <div class="epi-sec">
                                                 <ul class="descp">
-                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
+                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>좋아요</span></li>
+                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>싫어요</span></li>
                                                 </ul>
                                                 <ul class="bk-links">
-                                                    <li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-                                                    <li><a href="#" title=""><i class="la la-envelope"></i></a></li>
+                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_WRITER') }" title="">수정하기</a></li>
+                                                    <li><a href="#" title="">삭제하기</a></li>
                                                 </ul>
                                             </div>
                                             <div class="job_descp accountnone">
-                                                <h3>Senior Wordpress Developer</h3>
-                                                <ul class="job-dt">
-                                                    <li>
-                                                        <a href="#">Full Time</a>
-                                                    </li>
-                                                    <li><span>$600 / Mannual</span></li>
-                                                </ul>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porttitor ligula et dolor dignissim, sit amet efficitur felis maximus. Suspendisse metus magna, tempus eu ultrices et, maximus id tellus. Ut eu lacinia ante, id facilisis enim. s. ut suscipit urna sollicitudin at...<a href="#" title="">view more</a></p>
-                                                <ul class="skill-tags">
-                                                    <li><a href="#" title="">HTML</a></li>
-                                                    <li><a href="#" title="">PHP</a></li>
-                                                    <li><a href="#" title="">CSS</a></li>
-                                                    <li><a href="#" title="">Javascript</a></li>
-                                                    <li><a href="#" title="">Wordpress</a></li>
-                                                </ul>
+												${articleInfo.get("ARTICLE_CONTENT") }
                                             </div>
                                             <div class="job-status-bar btm-line">                                                
                                                 <ul class="like-com">

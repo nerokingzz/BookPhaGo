@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.team.bpg.com.act.vo.ArticleInfoVO;
+import org.team.bpg.mylib.dec.vo.DeclareInfoVO;
 
 @Repository
 public class MyLibDeclareDaoImpl implements MyLibDeclareDao {
@@ -41,5 +43,18 @@ public class MyLibDeclareDaoImpl implements MyLibDeclareDao {
 	public void declareAdmin(Map<String, String> sts_info) {
 		sqlSession.update("mylib_declare.declare_admin", sts_info);
 		
+	}
+
+	@Override
+	public int countDeclare() {
+		int declareCount=sqlSession.selectOne("mylib_declare.declare_count");
+		return declareCount;
+	}
+
+	@Override
+	public List<DeclareInfoVO> declareList(Map<String, Object> info) {
+		List<DeclareInfoVO> declareList=sqlSession.selectList("mylib_declare.declare_list", info);
+		System.out.println("신고목록"+declareList);
+		return declareList;
 	}
 }

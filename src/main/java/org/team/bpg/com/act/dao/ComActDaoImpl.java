@@ -107,4 +107,10 @@ public class ComActDaoImpl implements ComActDao {
 		System.out.println("글정보"+articleInfo);
 		return articleInfo;
 	}
+
+	@Override
+	public void articleSubmit(ArticleInfoVO articleInfoVo) {
+		sqlSession.insert("com_act.article_submit", articleInfoVo);
+		
+	}
 }
