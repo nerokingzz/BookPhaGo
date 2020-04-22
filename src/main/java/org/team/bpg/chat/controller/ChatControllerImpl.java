@@ -42,18 +42,15 @@ public class ChatControllerImpl implements ChatController{
 	@Autowired
 	MemberVO member;
 	
+	
+	@RequestMapping("/getRank.do")
+	public String goRank(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+		return "chat/getRank";
+	}
+	
 	@RequestMapping(value = "down.do", method = RequestMethod.GET)
 	public ModelAndView down(HttpServletRequest request){
-		//SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		//Date nowdate = new Date();
-		//String dateString = formatter.format(nowdate);
-		
-		//String filePath = "C:\\Users\\Administrator\\Desktop\\chat_log_"+dateString+".csv";
-		 // 현재 인코딩을 확인한다.
-		
-		//File file = new File(filePath);
-		//request.setAttribute("fileName", "이름_재지정.txt");   //다운 받을 시 이름을 결정합니다. 빼게되면 기존에 저장된 이름으로 받습니다.
-		/////////////////////////////////////////////////////////////
+
 		List<RequestLogVO> vo;
 		File file;
 		try {

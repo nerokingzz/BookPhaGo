@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,39 +43,49 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public List<RequestLogVO> exportRequestLogs() throws UnsupportedEncodingException {
 		Assistant assistant = this.assistant;
+		String cursor = "";
 
 		String filter = "language::ko,request.context.system.assistant_id::f9343fcd-8c38-425c-ae72-28dcfd5ade16";
-
-		ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(900).build();
-
-		LogCollection response = assistant.listAllLogs(options).execute().getResult();
-
-		String logResult = response.toString();
-		List<Log> logList = response.getLogs();
-
+		
 		List<RequestLogVO> logObjectList = new ArrayList<RequestLogVO>();
 
-		for (Log log : logList) {
-			RequestLogVO vo = new RequestLogVO();
-			String userID = "";
-			String requestText = "";
-			String requestTime = log.getRequestTimestamp().toString();
-			userID = log.getRequest().context().getMetadata().userId();
+		while (true) {
 
-			if (userID != null) {
-				if (userID.contains("anonymous_IBMuid"))
-					userID = "비회원";
-				userID = URLDecoder.decode(userID, "UTF-8");
+			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(500).cursor(cursor).build();
+
+			LogCollection response = assistant.listAllLogs(options).execute().getResult();
+
+			// String logResult = response.toString();
+			List<Log> logList = response.getLogs();
+
+			for (Log log : logList) {
+
+				RequestLogVO vo = new RequestLogVO();
+				String userID = "";
+				String requestText = "";
+				String requestTime = log.getRequestTimestamp().toString();
+				requestTime = getRequestTime(requestTime);
+				userID = log.getRequest().context().getMetadata().userId();
+
+				if (userID != null) {
+					if (userID.contains("anonymous_IBMuid"))
+						userID = "비회원";
+					userID = URLDecoder.decode(userID, "UTF-8");
+				}
+
+				requestText = log.getRequest().input().getText();
+				vo.setUserId(userID);
+				vo.setInputText(requestText);
+				vo.setRequestTime(requestTime);
+				logObjectList.add(vo);
 			}
 
-			requestText = log.getRequest().input().getText();
-
-			vo.setUserId(userID);
-			vo.setInputText(requestText);
-			vo.setRequestTime(requestTime);
-			logObjectList.add(vo);
-		}
-		
+			if (response.getPagination().getNextCursor() == null) {
+				break;
+			} else {
+				cursor = response.getPagination().getNextCursor();
+			}
+		}		
 		return logObjectList;
 	}
 	
@@ -114,7 +126,24 @@ public class LogServiceImpl implements LogService {
        }
 	}
 
+	
+	public String getRequestTime(String timeStamp) {
 
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			SimpleDateFormat output = new SimpleDateFormat("MM-dd HH:mm");
+			sdf.setTimeZone(TimeZone.getTimeZone("KST"));
+			Date d;
+			d = sdf.parse(timeStamp);
+			String formattedTime = output.format(d);
+			return formattedTime;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 	
 
 }
