@@ -8,14 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.com.act.service.ComActService;
+import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.utils.PageVO;
 
 @Controller
 public class ComActController {
@@ -57,38 +61,71 @@ public class ComActController {
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
 		
-		
 		mav.setViewName("com/act/com_act_home");
 		return mav;
 	}
 	
-	//커뮤니티 메인 화면
-	@RequestMapping(value="com_act_home_main", method=RequestMethod.GET)
-	public ModelAndView comMainChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String community_id=request.getParameter("community_id");
-		String pageInfo=request.getParameter("page");
-		
-		ModelAndView mav=new ModelAndView();
+	
+	//게시판 관리 화면 보여주기
+	@RequestMapping(value="com_board", method=RequestMethod.GET)
+	public ModelAndView comBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Map<String, Object>> boardList=comActService.comBoardAdmin(request);
 		
 		Object[] data=comActService.comInfo(request);
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		ModelAndView mav=new ModelAndView();
 		
 		mav.addObject("comInfo", comInfo);
-		mav.addObject("pageInfo", pageInfo);
-		mav.addObject("community_id", community_id);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("boardList", boardList);
+		mav.addObject("boardListSize", boardList.size());
 		
-		mav.setViewName("com/act/com_act_home");
+		mav.setViewName("com/act/com_board");
 		return mav;
 	}
 	
+	//게시판 추가 화면 보여주기
+	@RequestMapping(value="com_add_board", method=RequestMethod.GET)
+	public ModelAndView comAddBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.setViewName("com/act/add_board");
+		
+		return mav;
+		
+	}
 	
 	//게시판 추가하기
-	@RequestMapping(value="com_add_board", method=RequestMethod.POST)
+	@RequestMapping(value="add_board", method=RequestMethod.POST)
 	public void comAddBoard(@ModelAttribute BoardInfoVO boardInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		comActService.comAddBoard(boardInfoVo);
 	}
 	
+	//게시판 상태변경
+	@ResponseBody
+	@RequestMapping(value="board_admin", method=RequestMethod.GET)
+	public List<Map<String, Object>> boardAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		comActService.boardAdmin(request);
+		List<Map<String, Object>> boardList=comActService.comBoardAdmin(request);
+		return boardList;
+	}
+	
+	
+
 	//게시판 리스트 가져오기
 	@ResponseBody
 	@RequestMapping(value="board_list", method=RequestMethod.GET)
@@ -101,29 +138,44 @@ public class ComActController {
 		return boardList;
 	}
 	
-	//게시판 가져오기
+	//하나의 게시판 보여주기
 	@RequestMapping(value="com_act_board", method=RequestMethod.GET)
-	public ModelAndView comActBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("보여줄 게시판 정보");
-		System.out.println(request.getParameter("community_id"));
-		System.out.println(request.getParameter("board_id"));
-		System.out.println(request.getParameter("page"));
-		
-		ModelAndView mav=new ModelAndView();
-		List<Map<String, Object>> articleList=comActService.articleList(request);
-		
+	public String comActBoard(PageVO pageVo, Model model,
+			@RequestParam(value="nowPage", required=false)String nowPage,
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		Object[] data=comActService.comInfo(request);
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
 		
-		mav.addObject("comInfo", comInfo);
-		mav.addObject("articleList", articleList);
-		mav.addObject("articleListSize", articleList.size());
-		mav.addObject("pageInfo", request.getParameter("page"));
-		mav.addObject("community_id", request.getParameter("community_id"));
+		model.addAttribute("boardInfo", boardInfo);
+		model.addAttribute("comInfo", comInfo);
+		model.addAttribute("memChk", memChk);
+		model.addAttribute("memAuth", memAuth);
 		
-		mav.setViewName("com/act/com_act_home");
+		int articleCount = comActService.countArticle(request);
+		System.out.println("글 겟수" + articleCount);
 		
-		return mav;
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+		
+		pageVo = new PageVO(articleCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		List<ArticleInfoVO> articleList=comActService.articleList(pageVo, request);
+		model.addAttribute("paging", pageVo);
+		model.addAttribute("articleList", articleList);
+		model.addAttribute("articleListSize", articleList.size());
+		
+		return "com/act/board";
 		
 	}
 	
@@ -155,5 +207,31 @@ public class ComActController {
 		
 		return chkResult;
 	}
+	
+	//글 본문 보여주기
+	@RequestMapping(value="com_article", method=RequestMethod.GET)
+	public ModelAndView articleContent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> articleInfo=comActService.articleInfo(request);
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("articleInfo", articleInfo);
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		
+		mav.setViewName("com/act/article");
+		
+		return mav;
+	}
+	
 	
 }

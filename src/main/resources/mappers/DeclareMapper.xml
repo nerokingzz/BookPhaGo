@@ -11,7 +11,7 @@
 	<insert id="mylib_declare_insert" parameterType="java.util.Map">
 		<!-- 시퀀스 사용 -->
 		<selectKey keyProperty="declare_id" resultType="integer" order="BEFORE">
-			SELECT seq_auto_increment.NEXTVAL FROM DUAL
+			SELECT seq_auto_dec.NEXTVAL FROM DUAL
 		</selectKey>
 		
       	INSERT INTO M_MYLIB_DECLARE (declare_id, do_user, be_done_user, declare_date, declare_reason, declare_category, declare_image_data, declare_status)

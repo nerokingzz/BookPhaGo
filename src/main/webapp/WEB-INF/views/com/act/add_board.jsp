@@ -9,10 +9,11 @@
 <body>
 
 	<h3>게시판 추가하기</h3>
-	<form action="com_add_board.do" method="post">
+	<form action="add_board.do" method="post">
 		게시판 이름<input type="text" name="board_name"> <br>
 		커뮤니티 아이디<input type="text" name="community_id" value='${comInfo.get("COMMUNITY_ID")}'> <br> <!-- hidden으로 변경 -->
 		게시글수<input type="text" name="board_article_count" value="0"> <br> <!-- hidden으로 변경 -->
+		<input type="hidden" name="board_status" value="o">
 		<select name="board_category">
 			<option value="BD">--분류--</option>
 			<option value="BD000">일반</option> 

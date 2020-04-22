@@ -219,60 +219,61 @@
 										</div><!--search_form end-->										
 									</div><!--post-topbar end-->
 									<div class="posts-section">
-									<div class="post-bar">
-										<div class="post_topbar">
-											<div class="usy-dt">
-												<div class="usy-name">
-													<div class="dff-tab current" id="tab-3">
-														<form style="float:left;width:100%;" action="com_act_mem" method="post">
-															<input type="hidden" name="member_id" value="${user_id }">
-															<input type="hidden" name="community_id" value="${comInfo.get('COMMUNITY_ID') }">
-															<input type="hidden" name="member_join_date" id="current_info">
-															<input type="hidden" name="member_position" value="일반">
-															<input type="hidden" name="member_visit_count" value="0">
-															<input type="hidden" name="member_article_count" value="0">
-															<input type="hidden" name="member_reply_count" value="0">
-															<div class="row">
-
-																<div class="col-lg-6 no-pdd">
-																	<div class="sn-field">
-																		닉네임<input id="member_nickname" style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_nickname">
+										<div class="post-bar">
+											<div class="post_topbar">
+												<div class="usy-dt">
+													<div class="usy-name">
+														<div class="dff-tab current" id="tab-3">
+															<form style="float:left;width:100%;" action="com_act_mem" method="post">
+																<input type="hidden" name="member_id" value="${user_id }">
+																<input type="hidden" name="community_id" value="${comInfo.get('COMMUNITY_ID') }">
+																<input type="hidden" name="member_join_date" id="current_info">
+																<input type="hidden" name="member_position" value="일반">
+																<input type="hidden" name="member_visit_count" value="0">
+																<input type="hidden" name="member_article_count" value="0">
+																<input type="hidden" name="member_reply_count" value="0">
+																<div class="row">
+	
+																	<div class="col-lg-6 no-pdd">
+																		<div class="sn-field">
+																			닉네임<input id="member_nickname" style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_nickname">
+																		</div>
+																	</div>
+																	
+																	<div class="col-lg-6 no-pdd">
+																		<div class="sn-field">
+																			<input type="button" value="중복확인" style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:30px;" onclick="mem_nick_chk()">
+																			
+																		</div>
+																	</div>
+	
+																	<div class="col-lg-12 no-pdd">
+																		<div class="sn-field">
+																			가장 인상깊게 읽은 책은?<input style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_answer1">
+																		</div>
+																	</div>
+																	<div class="col-lg-12 no-pdd">
+																		<div class="sn-field">
+																			평소 좋아하는 작가는?<input style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_answer2">
+																		</div>
+																	</div>
+																	<div class="col-lg-12 no-pdd">
+																		<button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:30px;" type="submit" value="submit">가입신청</button>
 																	</div>
 																</div>
-																
-																<div class="col-lg-6 no-pdd">
-																	<div class="sn-field">
-																		<input type="button" value="중복확인" style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:30px;" onclick="mem_nick_chk()">
-																		
-																	</div>
-																</div>
-
-																<div class="col-lg-12 no-pdd">
-																	<div class="sn-field">
-																		가장 인상깊게 읽은 책은?<input style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_answer1">
-																	</div>
-																</div>
-																<div class="col-lg-12 no-pdd">
-																	<div class="sn-field">
-																		평소 좋아하는 작가는?<input style="width:100%;padding:0 15px 0 40px;color:#b2b2b2;font-size:14px;border:1px solid #e5e5e5;" type="text" name="member_answer2">
-																	</div>
-																</div>
-																<div class="col-lg-12 no-pdd">
-																	<button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:30px;" type="submit" value="submit">가입신청</button>
-																</div>
-															</div>
-														</form>
-													</div><!--dff-tab end-->
+															</form>
+														</div><!--dff-tab end-->
+													</div>
 												</div>
 											</div>
-										</div>
-									</div><!--posts-section end-->
-								</div><!--main-ws-sec end-->
-							</div>
+										</div><!--posts-section end-->
+									</div><!--main-ws-sec end-->
+								</div>
 
-						</div>
-					</div><!-- main-section-data end-->
-				</div> 
+							</div>
+						</div><!-- main-section-data end-->
+					</div> 
+				</div>
 			</div>
 		</main>
 
