@@ -9,8 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.mylib.dec.dao.MyLibDeclareDao;
 import org.team.bpg.mylib.dec.vo.DeclareInfoVO;
+import org.team.bpg.utils.PageVO;
 
 @Service
 public class MyLibDeclareServiceImpl implements MyLibDeclareService {
@@ -89,5 +91,24 @@ public class MyLibDeclareServiceImpl implements MyLibDeclareService {
 		
 		myLibDeclareDao.declareAdmin(sts_info);
 		
+	}
+
+	@Override
+	public int countDeclare(HttpServletRequest request) {
+		int declareCount=myLibDeclareDao.countDeclare();
+		return declareCount;
+	}
+
+	@Override
+	public List<DeclareInfoVO> declareList(PageVO pageVo, HttpServletRequest request) {
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<DeclareInfoVO> declareList=myLibDeclareDao.declareList(info);
+		return declareList;
 	}
 }

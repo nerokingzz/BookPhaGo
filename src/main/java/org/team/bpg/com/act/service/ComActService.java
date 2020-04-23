@@ -27,6 +27,8 @@ public interface ComActService {
 	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request);
 	
 	public Map<String, Object> articleInfo(HttpServletRequest request);
+	
+	public void articleSubmit(ArticleInfoVO articleInfoVo, HttpServletRequest request);
 
 	
 }

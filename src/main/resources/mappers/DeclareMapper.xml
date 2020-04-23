@@ -37,7 +37,28 @@
   	<update id="declare_admin" parameterType="hashmap">
  		UPDATE M_MYLIB_DECLARE SET declare_status=#{declare_status}
  		WHERE declare_id=#{declare_id}
- 	</update> 
+ 	</update>
+ 	
+ 	
+ 	<!-- 신고 select paging -->
+ 	<!-- 총 신고 갯수 -->
+ 	<select id="declare_count" parameterType="integer" resultType="integer">
+ 		SELECT COUNT(*) FROM M_MYLIB_DECLARE
+ 	</select>
+ 	
+ 	<!-- 페이징 처리 후 신고 조회 -->
+ 	<select id="declare_list" parameterType="hashmap" resultType="declareInfoVo">
+ 		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM M_MYLIB_DECLARE
+						ORDER BY declare_id DESC 
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
  	
  	
 </mapper>

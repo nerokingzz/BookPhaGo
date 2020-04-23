@@ -32,6 +32,10 @@
 <script type="text/javascript">
 	alert("${memChk}");
 	alert("${memAuth}");
+	
+	function articleWrite() {
+		location.href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }";
+	}
 </script>
 
 <body>	
@@ -210,7 +214,7 @@
 									<div class="post-topbar">
 										<h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1>
 										${boardInfo.get("BOARD_NAME") }
-										<input type="button" value="글쓰기">
+										<input type="button" value="글쓰기" onclick="articleWrite()">
 									</div><!--post-topbar end-->
 									<div class="posts-section">
 				                    	<div class="col-12">

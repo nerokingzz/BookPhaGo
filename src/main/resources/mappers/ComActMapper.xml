@@ -87,6 +87,17 @@
  		SELECT * FROM M_COMMUNITY_ARTICLE WHERE article_id=#{article_id}
  	</select>
  	
+ 	<!-- 글 등록 insert -->
+ 	<insert id="article_submit" parameterType="articleInfoVo">
+ 		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="article_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_article.NEXTVAL FROM DUAL
+		</selectKey>
+		
+ 		INSERT INTO M_COMMUNITY_ARTICLE (article_id, board_id, article_title, article_date, article_content, article_view_count, article_good_count, article_bad_count, article_reply_count, article_writer)
+ 		VALUES (#{article_id}, #{board_id}, #{article_title}, #{article_date}, #{article_content}, #{article_view_count}, #{article_good_count}, #{article_bad_count}, #{article_reply_count}, #{article_writer})
+ 	</insert>
+ 	
  	
  	
  	

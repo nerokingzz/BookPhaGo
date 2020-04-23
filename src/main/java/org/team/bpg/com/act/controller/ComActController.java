@@ -1,5 +1,10 @@
 package org.team.bpg.com.act.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.com.act.service.ComActService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
@@ -145,6 +151,12 @@ public class ComActController {
 			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		System.out.println("값확인");
+		System.out.println(pageVo);
+		System.out.println(model);
+		System.out.println(nowPage);
+		System.out.println(cntPerPage);
+		
 		Object[] data=comActService.comInfo(request);
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -214,6 +226,8 @@ public class ComActController {
 		Object[] data=comActService.comInfo(request);
 		
 		Map<String, Object> articleInfo=comActService.articleInfo(request);
+		System.out.println("글정보"+articleInfo);
+		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
@@ -232,6 +246,55 @@ public class ComActController {
 		
 		return mav;
 	}
+	
+	//글쓰기 화면 보여주기
+	@RequestMapping(value="com_article_write", method=RequestMethod.GET)
+	public ModelAndView articleWrite(@RequestParam(value="article_id", required=false)String article_id, HttpServletRequest request, HttpServletResponse response) {
+		
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		ModelAndView mav=new ModelAndView();
+		
+		if (article_id != null) {
+			//글수정 눌렀을때
+			System.out.println("수정할 글 번호 : " + article_id);
+			Map<String, Object> articleInfo=comActService.articleInfo(request);
+			mav.addObject("articleInfo", articleInfo);
+		} else {
+			//글쓰기 눌렀을때
+			
+		}
+		
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.setViewName("com/act/article_write");
+		
+		return mav;
+		
+	}
+	
+	//글등록
+	@ResponseBody
+	@RequestMapping(value="article_submit", method=RequestMethod.POST)
+	public String articleSubmit(@ModelAttribute ArticleInfoVO articleInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		comActService.articleSubmit(articleInfoVo, request);
+		return "ok";
+	}
+	
+	
+
+	
+
+	
 	
 	
 }

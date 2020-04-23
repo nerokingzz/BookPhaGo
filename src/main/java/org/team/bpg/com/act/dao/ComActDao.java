@@ -30,4 +30,6 @@ public interface ComActDao {
 	
 	public Map<String, Object> articleInfo(int article_id);
 	
+	public void articleSubmit(ArticleInfoVO articleInfoVo);
+	
 }

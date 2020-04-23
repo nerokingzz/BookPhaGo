@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.service.LibraryService;
+import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.esta.service.ComEstaService;
 import org.team.bpg.mylib.dec.service.MyLibDeclareService;
+import org.team.bpg.mylib.dec.vo.DeclareInfoVO;
+import org.team.bpg.utils.PageVO;
 
 @Controller
 public class PageController {
@@ -226,9 +229,28 @@ public class PageController {
 				mav.addObject("comRequestListSize", comRequestList.size());
 				
 			} else if (pageInfo.equals("dec_A")) {
-				List<Map<String, Object>> decRequestList=myLibDeclareService.myLibDeclareRequestList(request);
-				mav.addObject("decRequestList", decRequestList);
-				mav.addObject("decRequestListSize", decRequestList.size());
+				int declareCount = myLibDeclareService.countDeclare(request);
+				
+				String nowPage=request.getParameter("nowPage");
+				String cntPerPage=request.getParameter("cntPerPage");
+				
+				if (nowPage == null && cntPerPage == null) {
+					nowPage = "1";
+					cntPerPage = "5";
+				} else if (nowPage == null) {
+					nowPage = "1";
+				} else if (cntPerPage == null) { 
+					cntPerPage = "5";
+				}
+				
+				PageVO pageVo=new PageVO();
+				
+				pageVo = new PageVO(declareCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				List<DeclareInfoVO> declareList=myLibDeclareService.declareList(pageVo, request);
+				
+				mav.addObject("paging", pageVo);
+				mav.addObject("decRequestList", declareList);
+				mav.addObject("decRequestListSize", declareList.size());
 				
 			} else if (pageInfo.equals("chat_A")) {
 				
