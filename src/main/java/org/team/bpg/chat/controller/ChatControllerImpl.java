@@ -51,11 +51,11 @@ public class ChatControllerImpl implements ChatController{
 	@RequestMapping(value = "down.do", method = RequestMethod.GET)
 	public ModelAndView down(HttpServletRequest request){
 
-		List<RequestLogVO> vo;
+		List<RequestLogVO> list;
 		File file;
 		try {
-			vo = logService.exportRequestLogs();
-			file = logService.createCSV(vo);
+			list = logService.exportRequestLogs();
+			file = logService.createCSV(list);
 			return new ModelAndView("fileDownloadView","fileDownload", file);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

@@ -44,10 +44,8 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/test/*.do"/>
-			<mvc:mapping path="/*/*.do"/>
-			<mvc:mapping path="*/indexLocale.do"/>
-			<beans:bean class="org.team.bpg.LocaleInterceptor" />
+			<mvc:mapping path="/*.do"/>
+				<beans:bean class="org.team.bpg.LocaleInterceptor" />
 			</mvc:interceptor>
 	</mvc:interceptors>
 	

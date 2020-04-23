@@ -4,11 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>  
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <% request.setCharacterEncoding("UTF-8"); %>
+<!-- chatbot start -->
+<jsp:include page="chat/watson.jsp"></jsp:include>
+<!-- chatbot end -->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title><spring:message code="site.title" text="북파고"/></title>
+	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -45,22 +49,6 @@
 
 
 		<header>
-		<select name="locale">
-    		<option value="">GLOBAL</option>
-    		<option value="ko">한국어</option>
-    		<option value="en">English</option>
-    		<option value="cn">中文</option>
-    		<option value="jp">日本語</option>
-		</select>
-		<script>
-			$('select[name=locale]').change(function() {
-				var lang = $(this).val();
-				if(lang==""){
-				} else{
-					location.href="${contextPath}/test/locale.do?locale="+lang;
-				}
-			});
-	</script>
 			<div class="container">
 				<div class="header-data">
 					<div class="logo">
@@ -124,8 +112,8 @@
 							</c:choose>
 						</ul>
 					</nav><!--nav end-->
-					
-					<div class="menu-btn">
+				
+				<div class="menu-btn">
 						<a href="#" title=""><i class="fa fa-bars"></i></a>
 					</div><!--menu-btn end-->
 					
@@ -133,15 +121,16 @@
 						<c:when test="${user_position ne null}">
 							<div class="user-account">
 								<div class="user-info">
-									<a href="" title="">정보수정</a> <br>
-									<a href="" title="">로그아웃</a>
+									<a href="" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
+									<p style="text-indent:1.2em;line-height:1;" />
+									<a href="" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
 								</div>
 							</div>
 						</c:when>
 						<c:when test="${user_position eq null}">
 							<div class="user-account">
 								<div class="user-info">
-									<a href="sign.do" title="">로그인/회원가입</a>
+									<a href="sign.do" title=""><spring:message code="top.right.sign" text="로그인/회원가입"/></a>
 								</div>
 							</div>
 						
@@ -158,6 +147,8 @@
 		</div>
 			<div class="bennertext">
 			<div class="innertitle">
+			<h2>Bookphago</h2>
+			<p><spring:message code="mid.banner"  text="당신만을 위한 똑똑한 책 어플리케이션을 만나보세요!"/></p><br>
 				<div class="search-bar">
 						<form>
 							<input type="text" name="search" placeholder="Search...">
@@ -342,11 +333,37 @@
 						<li><a href="about.html" title="">과장 : 김민선</a></li>
 						<li><a href="#" title="">CEO : 서종대</a></li>
 						<li><a href="#" title="">그냥 : 이동주</a></li>
-					</ul>
+						<li>
+							<div>
+								<select name="locale">
+									<option value="">GLOBAL</option>
+									<option value="ko">한국어</option>
+									<option value="en">English</option>
+									<option value="cn">中文</option>
+									<option value="jp">日本語</option>
+								</select>
+							</div>
+						</li>
+				</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
 					<img class="fl-rgt" src="${contextPath}/resources/bootstrap/images/logo2.png" alt="">
 				</div>
 			</div>
+			
+
+				<script>
+					$('select[name=locale]')
+							.change(
+									function() {
+										var lang = $(this).val();
+										if (lang == "") {
+										} else {
+											location.href = "${contextPath}/locale.do?locale="
+													+ lang;
+										}
+									});
+				</script>
+
 		</footer><!--footer end-->
 
 

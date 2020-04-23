@@ -18,7 +18,7 @@
 
 <body>
 <button type="button" class="chatLauncher" style="display:none;">
-  <div><img id="chatIcon" src = "https://i.imgur.com/kUp8LmR.png"></div>
+  <div><img id="chatIcon" src = "https://i.imgur.com/c8zoHF0.png"></div>
 </button>
 </body>
 <script src = "resources/chat/js/map.js" ></script>

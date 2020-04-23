@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller("localeController")
 public class LocaleController {
-	@RequestMapping(value="/test/locale.do", method= {RequestMethod.GET})
+	@RequestMapping(value="/locale.do", method= {RequestMethod.GET})
 	public String locale(HttpServletRequest request, HttpServletResponse response) 
 						throws Exception{
-		System.out.println("I am in locale Controller");
-		
 		return "index";
 	}
 
