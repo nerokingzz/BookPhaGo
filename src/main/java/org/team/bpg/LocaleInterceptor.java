@@ -13,11 +13,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class LocaleInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-		System.out.println("I am in Interceptor");
 		HttpSession session = request.getSession();
 		String locale = request.getParameter("locale");
 		if(locale == null) locale="ko";
-		System.out.println("now the locale is..." + locale);
 		session.setAttribute("org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE", new Locale(locale));
 		
 		return true;

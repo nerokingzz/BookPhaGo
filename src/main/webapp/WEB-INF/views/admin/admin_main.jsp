@@ -68,7 +68,9 @@
 			$("#nav-status2").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'chat_A') {
-			alert("챗봇관리로 바로이동");
+			/* 0423 김민선 수정부 alert -> console.log 시작*/
+			console.log("챗봇관리로 바로이동");
+			/* 0423 김민선 수정부 alert -> console.log 끝*/
 			$("#nav-password-tab2").attr("class", "nav-item nav-link active");
 			$("#nav-password-tab2").attr("aria-selected", "true");
 			$("#nav-password2").attr("class", "tab-pane fade show active");
@@ -111,131 +113,9 @@
 <body>	
 
 	<div class="wrapper">	
-
-		<header>
-			<div class="container">
-				<div class="header-data">
-					<div class="logo">
-						<a href="/" title=""><img src="${contextPath}/resources/bootstrap/images/logo.png" alt=""></a>
-					</div><!--logo end-->
-					<nav>
-						<ul>
-							<li>
-								<a href="/" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon1.png" alt=""></span>
-									홈
-								</a>
-							</li>
-							<li>
-								<a href="book_main.do" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon2.png" alt=""></span>
-									도서
-								
-								</a>
-								<ul>
-									<li><a href="book_main.do?page=search" title="">도서검색</a></li>
-									<li><a href="book_main.do?page=apply" title="">도서신청</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="com_main.do" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
-									커뮤니티
-								</a>
-							</li>
-							<li>
-								<a href="myLib_main.do" title="" class="not-box-openm">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
-									마이라이브러리
-								</a>
-								<ul>
-									<li><a href="myLib_main.do?page=score" title="">도서평가</a></li>
-									<li><a href="myLib_main.do?page=favor" title="">취향분석</a></li>
-									<li><a href="myLib_main.do?page=declare" title="">신고하기</a></li>
-								</ul>
-								
-							</li>
-
-							<c:choose>
-								<c:when test="${user_position eq 'admin'}">
-									<li>
-										<a href="admin_main.do" title="" class="not-box-open">
-											<span><img src="${contextPath}/resources/bootstrap/images/icon7.png" alt=""></span>
-											관리자전용
-										</a>
-										<ul>
-											<li><a href="admin_main.do?page=user_A" title="">회원관리</a></li>
-											<li><a href="admin_main.do?page=book_A" title="">도서관리</a></li>
-											<li><a href="admin_main.do?page=book_status_A" title="">현황관리</a></li>
-											<li><a href="admin_main.do?page=com_A" title="">커뮤니티관리</a></li>
-											<li><a href="admin_main.do?page=dec_A" title="">신고관리</a></li>
-											<li><a href="admin_main.do?page=chat_A" title="">챗봇관리</a></li>
-										</ul>
-									</li>
-								</c:when>
-							</c:choose>
-						</ul>
-					</nav><!--nav end-->
-					
-					<div class="menu-btn">
-						<a href="#" title=""><i class="fa fa-bars"></i></a>
-					</div><!--menu-btn end-->
-					
-					<c:choose>
-						<c:when test="${user_position ne null}">
-							<div class="user-account">
-								<div class="user-info">
-									<img src="${contextPath}/resources/bootstrap/images/resources/user.png" alt="">
-									<a href="#" title="">Minseon Kim</a>
-									<i class="la la-sort-down"></i>
-								</div>
-								<div class="user-account-settingss">
-									<h3>Online Status</h3>
-									<ul class="on-off-status">
-										<li>
-											<div class="fgt-sec">
-												<input type="radio" name="cc" id="c5">
-												<label for="c5">
-													<span></span>
-												</label>
-												<small>Online</small>
-											</div>
-										</li>
-										<li>
-											<div class="fgt-sec">
-												<input type="radio" name="cc" id="c6">
-												<label for="c6">
-													<span></span>
-												</label>
-												<small>Offline</small>
-											</div>
-										</li>
-									</ul>
-									<h3>Custom Status</h3>
-									<div class="search_form">
-										<form>
-											<input type="text" name="search">
-											<button type="submit">Ok</button>
-										</form>
-									</div><!--search_form end-->
-									<h3>Setting</h3>
-									<ul class="us-links">
-										<li><a href="profile-account-setting.html" title="">Account Setting</a></li>
-										<li><a href="#" title="">Privacy</a></li>
-										<li><a href="#" title="">Faqs</a></li>
-										<li><a href="#" title="">Terms & Conditions</a></li>
-									</ul>
-									<h3 class="tc"><a href="sign-in.html" title="">Logout</a></h3>
-								</div><!--user-account-settingss end-->
-							</div>
-						</c:when>
-					</c:choose>
-					
-				</div><!--header-data end-->
-			</div>
-		</header><!--header end-->
-
-
+		<!-- header start -->
+			<jsp:include page="../header.jsp"></jsp:include>
+		<!-- header end -->
 		<section class="profile-account-setting">
 			<div class="container">
 				<div class="account-tabs-setting">
@@ -249,7 +129,7 @@
 								    <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="book_status_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>현황관리</a>
 								    <a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>커뮤니티관리</a>
 								    <a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
-								    <a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>챗봇관리</a>
+								    <a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
 								  </div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -287,6 +167,7 @@
 							  	<div class="tab-pane fade" id="nav-password2" role="tabpanel" aria-labelledby="nav-password-tab">
 							  		<div class="acc-setting">
 										<h3>챗봇관리</h3>
+										<jsp:include page="../chat/getRank.jsp"></jsp:include>
 									</div><!--acc-setting end-->
 							  	</div>
 							</div>
@@ -295,21 +176,9 @@
 				</div><!--account-tabs-setting end-->
 			</div>
 		</section>
-		<footer>
-			<div class="footy-sec mn no-margin">
-				<div class="container">
-					<ul>
-						<li><a href="help-center.html" title="">대표이사 : 심동현</a></li>
-						<li><a href="about.html" title="">과장 : 김민선</a></li>
-						<li><a href="#" title="">CEO : 서종대</a></li>
-						<li><a href="#" title="">그냥 : 이동주</a></li>
-					</ul>
-					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
-					<img class="fl-rgt" src="${contextPath}/resources/bootstrap/images/logo2.png" alt="">
-				</div>
-			</div>
-		</footer><!--footer end-->
-
+	<!-- footer start -->
+	<jsp:include page="../footer.jsp"></jsp:include>
+	<!-- footer end -->
 	</div><!--theme-layout end-->
 
 <script>

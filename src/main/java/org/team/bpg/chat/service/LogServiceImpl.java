@@ -29,14 +29,14 @@ import com.ibm.watson.assistant.v1.model.LogCollection;
 @Transactional(propagation = Propagation.REQUIRED)
 public class LogServiceImpl implements LogService {
 	
-	private IamAuthenticator authenticator = new IamAuthenticator("ANyIMEYJfIaxhSkiW7A4BOUWpzjXvESa-ODxVh4GPd24");
-	private Assistant assistant = new Assistant("2020-04-14", authenticator);
+	private IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
+	private Assistant assistant = new Assistant("2020-04-23", authenticator);
 
 	public LogServiceImpl() {
 		// service endpoint
 		assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
 		// assistant id
-		String workspaceId = "f9343fcd-8c38-425c-ae72-28dcfd5ade16";
+		String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
 	}
 	
 
@@ -45,7 +45,7 @@ public class LogServiceImpl implements LogService {
 		Assistant assistant = this.assistant;
 		String cursor = "";
 
-		String filter = "language::ko,request.context.system.assistant_id::f9343fcd-8c38-425c-ae72-28dcfd5ade16";
+		String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
 		
 		List<RequestLogVO> logObjectList = new ArrayList<RequestLogVO>();
 
@@ -94,7 +94,7 @@ public class LogServiceImpl implements LogService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date nowdate = new Date();
 		String dateString = formatter.format(nowdate);
-		String filePath = "C:\\Users\\Administrator\\Desktop\\chat_log_"+dateString+".csv";
+		String filePath = "C:\\Users\\Administrator\\Desktop\\Bookphago_Log_"+dateString+".csv";
 		
        String enc = new java.io.OutputStreamWriter(System.out).getEncoding(); 
        System.out.println( "현재 인코딩 : "  + enc);
@@ -102,6 +102,12 @@ public class LogServiceImpl implements LogService {
        try {
             
            String strArray = "";
+           strArray += "유저ID";
+           strArray += ",";
+           strArray += "채팅 내역";
+           strArray += ",";
+           strArray += "일시";
+           strArray += "\r\n";
           for(int i = 0; i < list.size(); i++) {
        	   strArray += list.get(i).getUserId();
        	   strArray += ",";
