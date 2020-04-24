@@ -38,45 +38,37 @@
 		console.log(pageInfo);
 		
 		if (pageInfo == 'user_A') {
-			alert("회원관리로 바로 이동");
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab").attr("aria-selected", "true");
 			$("#nav-acc").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'book_A') {
-			alert("도서관리로 바로 이동");
 			$("#nav-status-tab").attr("class", "nav-item nav-link active");
 			$("#nav-status-tab").attr("aria-selected", "true");
 			$("#nav-status").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'book_status_A') {
-			alert("현황관리로 바로이동");
 			$("#nav-password-tab").attr("class", "nav-item nav-link active");
 			$("#nav-password-tab").attr("aria-selected", "true");
 			$("#nav-password").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'com_A') {
-			alert("커뮤니티관리로 바로이동");
 			$("#nav-acc-tab2").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab2").attr("aria-selected", "true");
 			$("#nav-acc2").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'dec_A') {
-			alert("신고관리로 바로이동");
 			$("#nav-status-tab2").attr("class", "nav-item nav-link active");
 			$("#nav-status-tab2").attr("aria-selected", "true");
 			$("#nav-status2").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'chat_A') {
-			/* 0423 김민선 수정부 alert -> console.log 시작*/
-			console.log("챗봇관리로 바로이동");
-			/* 0423 김민선 수정부 alert -> console.log 끝*/
+
 			$("#nav-password-tab2").attr("class", "nav-item nav-link active");
 			$("#nav-password-tab2").attr("aria-selected", "true");
 			$("#nav-password2").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'rent_A') {
-			alert("도서대출로 바로 이동");
 			$("#nav-acc-tab3").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab3").attr("aria-selected", "true");
 			$("#nav-acc3").attr("class", "tab-pane fade show active");

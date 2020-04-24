@@ -106,13 +106,13 @@
 			$("input[name=index]").each(function(index, item) {
 				indexList.push($(item).val());
 			});
-			alert(indexList);
+			//alert(indexList);
 			
 			//community_id 배열
 			$("input[name=community_id]").each(function(index, item) {
 				idList.push($(item).val());
 			});
-			alert(idList);
+			//alert(idList);
 			
 		});
 		

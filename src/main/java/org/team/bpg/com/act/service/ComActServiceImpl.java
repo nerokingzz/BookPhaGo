@@ -13,6 +13,7 @@ import org.team.bpg.com.act.dao.ComActDao;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Service
@@ -181,6 +182,33 @@ public class ComActServiceImpl implements ComActService {
 		List<ArticleInfoVO> articleList=comActDao.articleList(info);
 		return articleList;
 	}
+	
+	@Override
+	public int countvote(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		int voteCount=comActDao.voteArticle(board_id);
+		return voteCount;
+	}
+
+	@Override
+	public List<VoteInfoVO> voteList(PageVO pageVo, HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		
+		System.out.println("가져올 게시판 아이디:" + board_id);
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("board_id", board_id);
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<VoteInfoVO> voteList=comActDao.voteList(info);
+		return voteList;
+	}
 
 	@Override
 	public Map<String, Object> articleInfo(HttpServletRequest request) {
@@ -191,10 +219,38 @@ public class ComActServiceImpl implements ComActService {
 
 		return articleInfo;
 	}
+	
+	@Override
+	public Map<String, Object> voteInfo(HttpServletRequest request) {
+		String vote_idd=request.getParameter("vote_id");
+		int vote_id=Integer.parseInt(vote_idd);
+		
+		Map<String, Object> voteInfo=comActDao.voteInfo(vote_id);
+
+		return voteInfo;
+	}
 
 	@Override
 	public void articleSubmit(ArticleInfoVO articleInfoVo, HttpServletRequest request) {
 		comActDao.articleSubmit(articleInfoVo);
 		
 	}
+
+	@Override
+	public void voteSubmit(VoteInfoVO voteInfoVo, HttpServletRequest request) {
+		comActDao.voteSubmit(voteInfoVo);
+		
+	}
+
+	@Override
+	public String boardCategory(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		String board_category=comActDao.boardCategory(board_id);
+		return board_category;
+	}
+
+
+
+
 }

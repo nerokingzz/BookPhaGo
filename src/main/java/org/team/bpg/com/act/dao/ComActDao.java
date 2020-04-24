@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 public interface ComActDao {
@@ -28,8 +29,15 @@ public interface ComActDao {
 	public int countArticle(int board_id);
 	public List<ArticleInfoVO> articleList(Map<String, Object> info);
 	
+	public int voteArticle(int board_id);
+	public List<VoteInfoVO> voteList(Map<String, Object> info);
+	
 	public Map<String, Object> articleInfo(int article_id);
+	public Map<String, Object> voteInfo(int vote_id);
 	
 	public void articleSubmit(ArticleInfoVO articleInfoVo);
+	public void voteSubmit(VoteInfoVO voteInfoVo);
+	
+	public String boardCategory(int board_id);
 	
 }

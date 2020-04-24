@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.team.bpg.com.act.service.ComActService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Controller
@@ -169,23 +171,59 @@ public class ComActController {
 		model.addAttribute("memChk", memChk);
 		model.addAttribute("memAuth", memAuth);
 		
-		int articleCount = comActService.countArticle(request);
-		System.out.println("글 겟수" + articleCount);
+		String board_category=comActService.boardCategory(request);
+		System.out.println("이 게시판의 종류" + board_category);
 		
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "10";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) { 
-			cntPerPage = "10";
+		if (board_category.equals("BD000")) {
+			
+			//일반게시판일때
+			int articleCount = comActService.countArticle(request);
+			System.out.println("글 갯수" + articleCount);
+			
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) { 
+				cntPerPage = "10";
+			}
+			
+			pageVo = new PageVO(articleCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			List<ArticleInfoVO> articleList=comActService.articleList(pageVo, request);
+			model.addAttribute("paging", pageVo);
+			model.addAttribute("articleList", articleList);
+			model.addAttribute("articleListSize", articleList.size());
+			
+		} else if (board_category.equals("BD001")) {
+			
+			//투표게시판일때
+			int voteCount = comActService.countvote(request);
+			System.out.println("투표 갯수" + voteCount);
+			
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) { 
+				cntPerPage = "10";
+			}
+			
+			pageVo = new PageVO(voteCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			List<VoteInfoVO> voteList=comActService.voteList(pageVo, request);
+			model.addAttribute("paging", pageVo);
+			model.addAttribute("voteList", voteList);
+			model.addAttribute("voteListSize", voteList.size());
+			
+			//현재 진행중인 투표 가져오기
+			
+			
 		}
 		
-		pageVo = new PageVO(articleCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		List<ArticleInfoVO> articleList=comActService.articleList(pageVo, request);
-		model.addAttribute("paging", pageVo);
-		model.addAttribute("articleList", articleList);
-		model.addAttribute("articleListSize", articleList.size());
+
+		
+
 		
 		return "com/act/board";
 		
@@ -281,13 +319,108 @@ public class ComActController {
 		
 	}
 	
+	//투표 등록 화면 보여주기
+	@RequestMapping(value="com_vote_write", method=RequestMethod.GET)
+	public ModelAndView voteWrite(@RequestParam(value="vote_id", required=false)String vote_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		ModelAndView mav=new ModelAndView();
+		
+		if (vote_id != null) {
+			//투표관리 눌렀을때
+			System.out.println("관리할 투표 번호 : " + vote_id);
+			
+		} else {
+			//투표등록 눌렀을때
+		}
+		
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.setViewName("com/act/vote_write");
+		
+		return mav;
+	}
+	
 	//글등록
 	@ResponseBody
 	@RequestMapping(value="article_submit", method=RequestMethod.POST)
 	public String articleSubmit(@ModelAttribute ArticleInfoVO articleInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String func=request.getParameter("func");
+		String article_id=request.getParameter("article_id");
 		
-		comActService.articleSubmit(articleInfoVo, request);
+		if (func.equals("update")) {
+			System.out.println("글 수정");
+			System.out.println("이글번호" + article_id);
+			//comActService.articleUpdate(articleInfoVo, request);
+			
+		} else if (func.equals("insert")) {
+			System.out.println("글 등록");
+			article_id=null;
+			System.out.println("이글번호" + article_id);
+			
+			comActService.articleSubmit(articleInfoVo, request);
+		}
+			
 		return "ok";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="vote_submit", method=RequestMethod.POST)
+	public String voteSubmit(@ModelAttribute VoteInfoVO voteInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String func=request.getParameter("func");
+		String vote_id=request.getParameter("vote_id");
+		
+		System.out.println(voteInfoVo);
+		
+		if (func.equals("update")) {
+			System.out.println("투표 수정");
+			System.out.println("이투표번호" + vote_id);
+			
+		} else if (func.equals("insert")) {
+			System.out.println("투표 등록");
+			vote_id=null;
+			System.out.println("이투표번호" + vote_id);
+			
+			comActService.voteSubmit(voteInfoVo, request);
+		}
+		
+		return "ok";
+	}
+	
+	//투표 본문 가져오기
+	@RequestMapping(value="com_vote", method=RequestMethod.GET)
+	public ModelAndView voteInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> voteInfo=comActService.voteInfo(request);
+		System.out.println("투표정보"+voteInfo);
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("voteInfo", voteInfo);
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		
+		mav.setViewName("com/act/vote");
+		
+		return mav;
 	}
 	
 	

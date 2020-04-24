@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 public interface ComActService {
@@ -26,9 +27,16 @@ public interface ComActService {
 	public int countArticle(HttpServletRequest request);
 	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request);
 	
+	public int countvote(HttpServletRequest request);
+	public List<VoteInfoVO> voteList(PageVO pageVo, HttpServletRequest request);
+	
 	public Map<String, Object> articleInfo(HttpServletRequest request);
+	public Map<String, Object> voteInfo(HttpServletRequest request);
 	
 	public void articleSubmit(ArticleInfoVO articleInfoVo, HttpServletRequest request);
+	public void voteSubmit(VoteInfoVO voteInfoVo, HttpServletRequest request);
+	
+	public String boardCategory(HttpServletRequest request);
 
 	
 }

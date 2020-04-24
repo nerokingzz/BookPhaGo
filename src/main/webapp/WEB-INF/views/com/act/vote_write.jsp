@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>커뮤니티 홈</title>
+	<title>투표 등록</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -29,6 +29,36 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
+<script type="text/javascript">
+
+	function voteSubmit(func) {
+		var func=func;
+		var vote_id=$('input[name=vote_id]').val();
+		var board_id=$('input[name=board_id]').val();
+		var vote_title=$('input[name=vote_title]').val();
+		var selection_option1=$('input[name=selection_option1]').val();
+		var selection_option2=$('input[name=selection_option2]').val();
+		var selection_option3=$('input[name=selection_option3]').val();
+		var selection_option4=$('input[name=selection_option4]').val();
+		var selection_option5=$('input[name=selection_option5]').val();
+		var vote_start=$('input[name=vote_start]').val();
+		var vote_end=$('input[name=vote_end]').val();
+		var vote_status=$('select[name=vote_status]').val();
+		var vote_participate_count=$('input[name=vote_participate_count]').val();
+		
+		$.ajax({
+			type:"POST",
+			url:"vote_submit.do",
+			data:{"func" : func, "vote_id" : vote_id, "board_id" : board_id, "vote_title" : vote_title, "selection_option1" : selection_option1, "selection_option2" : selection_option2, "selection_option3" : selection_option3, "selection_option4" : selection_option4, "selection_option5" : selection_option5, "vote_start" : vote_start, "vote_end" : vote_end, "vote_status" : vote_status, "vote_participate_count" : vote_participate_count},
+			success:function() {
+				alert('등록완료');
+			}
+		})
+		
+		 
+	}
+</script>
+
 <body>	
 
 	<div class="wrapper">	
@@ -144,6 +174,7 @@
 										<li><a href="profile-account-setting.html" title="">Account Setting</a></li>
 										<li><a href="#" title="">Privacy</a></li>
 										<li><a href="#" title="">Faqs</a></li>
+					
 										<li><a href="#" title="">Terms & Conditions</a></li>
 									</ul>
 									<h3 class="tc"><a href="sign-in.html" title="">Logout</a></h3>
@@ -204,332 +235,36 @@
 								<div class="main-ws-sec">
 									<div class="post-topbar">
 										<h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1>
-										${comInfo.get("COMMUNITY_DESCRIPTION") }
-										<div class="search_form">
-											<form>
-												<input type="text" name="search" placeholder="커뮤니티 내 검색">
-												<button type="submit">검색</button>
-											</form>
-										</div><!--search_form end-->										
+										${boardInfo.get("BOARD_NAME") }
 									</div><!--post-topbar end-->
-									<div class="posts-section">
-										<div class="post-bar">
-											<div class="post_topbar">
-												<div class="usy-dt">
-													<img src="${contextPath}/resources/bootstrap/images/resources/us-pic.png" alt="">
-													<div class="usy-name">
-														<h3>John Doe</h3>
-														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-													</div>
-												</div>
-												<div class="ed-opts">
-													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-													<ul class="ed-options">
-														<li><a href="#" title="">Edit Post</a></li>
-														<li><a href="#" title="">Unsaved</a></li>
-														<li><a href="#" title="">Unbid</a></li>
-														<li><a href="#" title="">Close</a></li>
-														<li><a href="#" title="">Hide</a></li>
-													</ul>
-												</div>
+                                    <div class="posts-section">
+                                    	<div class="post-bar">
+											<div class="row justify-content-md-center">
+												<input type="text" name="vote_title" placeholder="투표 주제">
+												<input type="date" name="vote_start">
+												<input type="date" name="vote_end">
+												
+												<input type="text" name="selection_option1" placeholder="선택지1">
+												<input type="text" name="selection_option2" placeholder="선택지2">
+												<input type="text" name="selection_option3" placeholder="선택지3">
+												<input type="text" name="selection_option4" placeholder="선택지4">
+												<input type="text" name="selection_option5" placeholder="선택지5">
+												
+												<select name="vote_status">
+													<option value="VS">--분류--</option>
+													<option value="ing">진행중</option> 
+													<option value="end">마감</option>
+												</select> <br>
+												
+												<input type="hidden" name="vote_id" value="0">
+												<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">
+												<input type="hidden" name="vote_participate_count" value="0">
+												
+												<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('insert')" style="width: 20%; font-weight: bold" value="등록">
+												<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('update')" style="width: 20%; font-weight: bold" value="수정">
 											</div>
-											<div class="epi-sec">
-												<ul class="descp">
-													<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-													<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-												</ul>
-												<ul class="bk-links">
-													<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-													<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-												</ul>
-											</div>
-											<div class="job_descp">
-												<h3>Senior Wordpress Developer</h3>
-												<ul class="job-dt">
-													<li><a href="#" title="">Full Time</a></li>
-													<li><span>$30 / hr</span></li>
-												</ul>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-												<ul class="skill-tags">
-													<li><a href="#" title="">HTML</a></li>
-													<li><a href="#" title="">PHP</a></li>
-													<li><a href="#" title="">CSS</a></li>
-													<li><a href="#" title="">Javascript</a></li>
-													<li><a href="#" title="">Wordpress</a></li> 	
-												</ul>
-											</div>
-											<div class="job-status-bar">
-												<ul class="like-com">
-													<li>
-														<a href="#"><i class="fas fa-heart"></i> Like</a>
-														<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-														<span>25</span>
-													</li> 
-													<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-												</ul>
-												<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-											</div>
-										</div><!--post-bar end-->
-										<div class="top-profiles">
-											<div class="pf-hd">
-												<h3>Top Profiles</h3>
-												<i class="la la-ellipsis-v"></i>
-											</div>
-											<div class="profiles-slider">
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user1.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user2.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user3.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user1.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user2.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-												<div class="user-profy">
-													<img src="${contextPath}/resources/bootstrap/images/resources/user3.png" alt="">
-													<h3>John Doe</h3>
-													<span>Graphic Designer</span>
-													<ul>
-														<li><a href="#" title="" class="followw">Follow</a></li>
-														<li><a href="#" title="" class="envlp"><img src="${contextPath}/resources/bootstrap/images/envelop.png" alt=""></a></li>
-														<li><a href="#" title="" class="hire">hire</a></li>
-													</ul>
-													<a href="#" title="">View Profile</a>
-												</div><!--user-profy end-->
-											</div><!--profiles-slider end-->
-										</div><!--top-profiles end-->
-										<div class="post-bar">
-											<div class="post_topbar">
-												<div class="usy-dt">
-													<img src="${contextPath}/resources/bootstrap/images/resources/us-pic.png" alt="">
-													<div class="usy-name">
-														<h3>John Doe</h3>
-														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-													</div>
-												</div>
-												<div class="ed-opts">
-													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-													<ul class="ed-options">
-														<li><a href="#" title="">Edit Post</a></li>
-														<li><a href="#" title="">Unsaved</a></li>
-														<li><a href="#" title="">Unbid</a></li>
-														<li><a href="#" title="">Close</a></li>
-														<li><a href="#" title="">Hide</a></li>
-													</ul>
-												</div>
-											</div>
-											<div class="epi-sec">
-												<ul class="descp">
-													<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-													<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-												</ul>
-												<ul class="bk-links">
-													<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-													<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-													<li><a href="#" title="" class="bid_now">Bid Now</a></li>
-												</ul>
-											</div>
-											<div class="job_descp">
-												<h3>Senior Wordpress Developer</h3>
-												<ul class="job-dt">
-													<li><a href="#" title="">Full Time</a></li>
-													<li><span>$30 / hr</span></li>
-												</ul>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-												<ul class="skill-tags">
-													<li><a href="#" title="">HTML</a></li>
-													<li><a href="#" title="">PHP</a></li>
-													<li><a href="#" title="">CSS</a></li>
-													<li><a href="#" title="">Javascript</a></li>
-													<li><a href="#" title="">Wordpress</a></li> 	
-												</ul>
-											</div>
-											<div class="job-status-bar">
-												<ul class="like-com">
-													<li>
-														<a href="#"><i class="fas fa-heart"></i> Like</a>
-														<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-														<span>25</span>
-													</li> 
-													<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-												</ul>
-												<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-											</div>
-										</div><!--post-bar end-->
-										<div class="posty">
-											<div class="post-bar no-margin">
-												<div class="post_topbar">
-													<div class="usy-dt">
-														<img src="${contextPath}/resources/bootstrap/images/resources/us-pc2.png" alt="">
-														<div class="usy-name">
-															<h3>John Doe</h3>
-															<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">3 min ago</span>
-														</div>
-													</div>
-													<div class="ed-opts">
-														<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
-														<ul class="ed-options">
-															<li><a href="#" title="">Edit Post</a></li>
-															<li><a href="#" title="">Unsaved</a></li>
-															<li><a href="#" title="">Unbid</a></li>
-															<li><a href="#" title="">Close</a></li>
-															<li><a href="#" title="">Hide</a></li>
-														</ul>
-													</div>
-												</div>
-												<div class="epi-sec">
-													<ul class="descp">
-														<li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span>Epic Coder</span></li>
-														<li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>India</span></li>
-													</ul>
-													<ul class="bk-links">
-														<li><a href="#" title=""><i class="la la-bookmark"></i></a></li>
-														<li><a href="#" title=""><i class="la la-envelope"></i></a></li>
-													</ul>
-												</div>
-												<div class="job_descp">
-													<h3>Senior Wordpress Developer</h3>
-													<ul class="job-dt">
-														<li><a href="#" title="">Full Time</a></li>
-														<li><span>$30 / hr</span></li>
-													</ul>
-													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at. Etiam id magna sit amet... <a href="#" title="">view more</a></p>
-													<ul class="skill-tags">
-														<li><a href="#" title="">HTML</a></li>
-														<li><a href="#" title="">PHP</a></li>
-														<li><a href="#" title="">CSS</a></li>
-														<li><a href="#" title="">Javascript</a></li>
-														<li><a href="#" title="">Wordpress</a></li> 	
-													</ul>
-												</div>
-												<div class="job-status-bar">
-													<ul class="like-com">
-														<li>
-															<a href="#"><i class="fas fa-heart"></i> Like</a>
-															<img src="${contextPath}/resources/bootstrap/images/liked-img.png" alt="">
-															<span>25</span>
-														</li> 
-														<li><a href="#" class="com"><i class="fas fa-comment-alt"></i> Comment 15</a></li>
-													</ul>
-													<a href="#"><i class="fas fa-eye"></i>Views 50</a>
-												</div>
-											</div><!--post-bar end-->
-											<div class="comment-section">
-												<a href="#" class="plus-ic">
-													<i class="la la-plus"></i>
-												</a>
-												<div class="comment-sec">
-													<ul>
-														<li>
-															<div class="comment-list">
-																<div class="bg-img">
-																	<img src="${contextPath}/resources/bootstrap/images/resources/bg-img1.png" alt="">
-																</div>
-																<div class="comment">
-																	<h3>John Doe</h3>
-																	<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																	<p>Lorem ipsum dolor sit amet, </p>
-																	<a href="#" title="" class="active"><i class="fa fa-reply-all"></i>Reply</a>
-																</div>
-															</div><!--comment-list end-->
-															<ul>
-																<li>
-																	<div class="comment-list">
-																		<div class="bg-img">
-																			<img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
-																		</div>
-																		<div class="comment">
-																			<h3>John Doe</h3>
-																			<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																			<p>Hi John </p>
-																			<a href="#" title=""><i class="fa fa-reply-all"></i>Reply</a>
-																		</div>
-																	</div><!--comment-list end-->
-																</li>
-															</ul>
-														</li>
-														<li>
-															<div class="comment-list">
-																<div class="bg-img">
-																	<img src="${contextPath}/resources/bootstrap/images/resources/bg-img3.png" alt="">
-																</div>
-																<div class="comment">
-																	<h3>John Doe</h3>
-																	<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt=""> 3 min ago</span>
-																	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam luctus hendrerit metus, ut ullamcorper quam finibus at.</p>
-																	<a href="#" title=""><i class="fa fa-reply-all"></i>Reply</a>
-																</div>
-															</div><!--comment-list end-->
-														</li>
-													</ul>
-												</div><!--comment-sec end-->
-												<div class="post-comment">
-													<div class="cm_img">
-														<img src="${contextPath}/resources/bootstrap/images/resources/bg-img4.png" alt="">
-													</div>
-													<div class="comment_box">
-														<form>
-															<input type="text" placeholder="Post a comment">
-															<button type="submit">Send</button>
-														</form>
-													</div>
-												</div><!--post-comment end-->
-											</div><!--comment-section end-->
-										</div><!--posty end-->
-										<div class="process-comm">
-											<div class="spinner">
-												<div class="bounce1"></div>
-												<div class="bounce2"></div>
-												<div class="bounce3"></div>
-											</div>
-										</div><!--process-comm end-->
-									</div><!--posts-section end-->
+										</div>
+                                    </div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
 							</div>
 
@@ -837,13 +572,14 @@
 		})
 	</script>
 
-
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
+
+	<script src="resources/com/js/utils.js"></script>
 
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Repository
@@ -100,6 +101,19 @@ public class ComActDaoImpl implements ComActDao {
 		System.out.println("글목록"+articleList);
 		return articleList;
 	}
+	
+	@Override
+	public int voteArticle(int board_id) {
+		int voteCount=sqlSession.selectOne("com_act.vote_count", board_id);
+		return voteCount;
+	}
+
+	@Override
+	public List<VoteInfoVO> voteList(Map<String, Object> info) {
+		List<VoteInfoVO> voteList=sqlSession.selectList("com_act.vote_list", info);
+		System.out.println("투표목록"+voteList);
+		return voteList;
+	}
 
 	@Override
 	public Map<String, Object> articleInfo(int article_id) {
@@ -107,10 +121,33 @@ public class ComActDaoImpl implements ComActDao {
 		System.out.println("글정보"+articleInfo);
 		return articleInfo;
 	}
+	
+	@Override
+	public Map<String, Object> voteInfo(int vote_id) {
+		Map<String, Object> voteInfo=sqlSession.selectOne("com_act.vote_info", vote_id);
+		System.out.println("투표정보"+voteInfo);
+		return voteInfo;
+	}
 
 	@Override
 	public void articleSubmit(ArticleInfoVO articleInfoVo) {
 		sqlSession.insert("com_act.article_submit", articleInfoVo);
 		
 	}
+
+	@Override
+	public void voteSubmit(VoteInfoVO voteInfoVo) {
+		sqlSession.insert("com_act.vote_submit", voteInfoVo);
+		
+	}
+
+	@Override
+	public String boardCategory(int board_id) {
+		String board_category=sqlSession.selectOne("com_act.board_category", board_id);
+		return board_category;
+	}
+
+
+
+
 }

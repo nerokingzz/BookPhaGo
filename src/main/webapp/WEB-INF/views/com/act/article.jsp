@@ -28,11 +28,6 @@
 		String user_id=(String)session.getAttribute("user_id");
 		String user_position=(String)session.getAttribute("user_position");
 	%>
-	
-<script type="text/javascript">
-	alert("${memChk}");
-	alert("${memAuth}");
-</script>
 
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 
@@ -232,7 +227,7 @@
                                                     <li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span>싫어요</span></li>
                                                 </ul>
                                                 <ul class="bk-links">
-                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_WRITER') }" title="">수정하기</a></li>
+                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_ID') }" title="">수정하기</a></li>
                                                     <li><a href="#" title="">삭제하기</a></li>
                                                 </ul>
                                             </div>
