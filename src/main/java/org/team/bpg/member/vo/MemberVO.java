@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component("MemberVO")
 public class MemberVO {
 
-	private String bno;
-	private String userId;
-	private String userId1;
-	private String userPass;
-	private String userPass1;
+	private int bno;
+	private String userId; //로그인에 사용
+	private String userId1; //회원가입에 사용
+	private String userPass; //로그인에 사용
+	private String userPass1; //회원가입에 사용
 	private String userName;
 	private String userEmail;
 	private String userTel;
@@ -21,112 +21,288 @@ public class MemberVO {
 	private String userTaste1;
 	private String userTaste2;
 	private String userTaste3;
-	private String badcnt;
+	private int badcnt;
+	private String badsts;
+	private String stopstart;
+	private String stopend;
+	private int applycnt;
+	private int borrowcnt;
+	private int reservecnt;
+	private String userposition;
 	private Date regDate;
 	
+	
+	
+	public int getBno() {
+		return bno;
+	}
+
+
+
+	public void setBno(int bno) {
+		this.bno = bno;
+	}
+
+
+
 	public String getUserId() {
 		return userId;
 	}
+
+
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+
+
+	public String getUserId1() {
+		return userId1;
+	}
+
+
+
+	public void setUserId1(String userId1) {
+		this.userId1 = userId1;
+	}
+
+
+
 	public String getUserPass() {
 		return userPass;
 	}
+
+
+
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
 	}
+
+
+
+	public String getUserPass1() {
+		return userPass1;
+	}
+
+
+
+	public void setUserPass1(String userPass1) {
+		this.userPass1 = userPass1;
+	}
+
+
+
 	public String getUserName() {
 		return userName;
 	}
+
+
+
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
+
+
 	public String getUserEmail() {
 		return userEmail;
 	}
+
+
+
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+
+
+
 	public String getUserTel() {
 		return userTel;
 	}
+
+
+
 	public void setUserTel(String userTel) {
 		this.userTel = userTel;
 	}
+
+
+
 	public String getUserAge() {
 		return userAge;
 	}
+
+
+
 	public void setUserAge(String userAge) {
 		this.userAge = userAge;
 	}
-	
+
+
+
 	public String getUserGender() {
 		return userGender;
 	}
+
+
+
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
 	}
-	
+
+
+
 	public String getUserTaste1() {
 		return userTaste1;
 	}
+
+
+
 	public void setUserTaste1(String userTaste1) {
 		this.userTaste1 = userTaste1;
 	}
 
+
+
 	public String getUserTaste2() {
 		return userTaste2;
 	}
+
+
+
 	public void setUserTaste2(String userTaste2) {
 		this.userTaste2 = userTaste2;
 	}
+
+
+
 	public String getUserTaste3() {
 		return userTaste3;
 	}
+
+
+
 	public void setUserTaste3(String userTaste3) {
 		this.userTaste3 = userTaste3;
 	}
-	public String getBno() {
-		return bno;
+
+
+
+	public int getBadcnt() {
+		return badcnt;
 	}
-	public void setBno(String bno) {
-		this.bno = bno;
+
+
+
+	public void setBadcnt(int badcnt) {
+		this.badcnt = badcnt;
 	}
-	public String getUserPass1() {
-		return userPass1;
+
+
+
+	public String getBadsts() {
+		return badsts;
 	}
-	public void setUserPass1(String userPass1) {
-		this.userPass1 = userPass1;
+
+
+
+	public void setBadsts(String badsts) {
+		this.badsts = badsts;
 	}
-	public String getUserId1() {
-		return userId1;
+
+
+
+	public String getStopstart() {
+		return stopstart;
 	}
-	public void setUserId1(String userId1) {
-		this.userId1 = userId1;
+
+
+
+	public void setStopstart(String stopstart) {
+		this.stopstart = stopstart;
 	}
-	
+
+
+
+	public String getStopend() {
+		return stopend;
+	}
+
+
+
+	public void setStopend(String stopend) {
+		this.stopend = stopend;
+	}
+
+
+
+	public int getApplycnt() {
+		return applycnt;
+	}
+
+
+
+	public void setApplycnt(int applycnt) {
+		this.applycnt = applycnt;
+	}
+
+
+
+	public int getBorrowcnt() {
+		return borrowcnt;
+	}
+
+
+
+	public void setBorrowcnt(int borrowcnt) {
+		this.borrowcnt = borrowcnt;
+	}
+
+
+
+	public int getReservecnt() {
+		return reservecnt;
+	}
+
+
+
+	public void setReservecnt(int reservecnt) {
+		this.reservecnt = reservecnt;
+	}
+
+
+
+	public String getUserposition() {
+		return userposition;
+	}
+
+
+
+	public void setUserposition(String userposition) {
+		this.userposition = userposition;
+	}
+
+
+
 	public Date getRegDate() {
 		return regDate;
 	}
+
+
+
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	
-	public String getBadcnt() {
-		return badcnt;
-	}
-	public void setBadcnt(String badcnt) {
-		this.badcnt = badcnt;
-	}
-	
-	
+
+
+
 	@Override
 	public String toString() {
 		return "MemberVO [userId=" + userId + ", userPass=" + userPass + ", userName=" + userName + ", regDate="
 				+ regDate + "]";
 	}
+	
 	
 
 

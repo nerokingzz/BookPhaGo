@@ -123,7 +123,7 @@
 								<div class="user-info">
 									<a href="" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
 									<p style="text-indent:1.2em;line-height:1;" />
-									<a href="" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
+									<a href="logout.do" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
 								</div>
 							</div>
 						</c:when>

@@ -5,15 +5,14 @@
 <mapper namespace="memberMapper">
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="org.team.bpg.member.vo.MemberVO">
-	    insert into u_user_info(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3 )
-	                  values(member_seq.nextval, #{userId1}, #{userPass1}, #{userName}, #{userEmail}, #{userAge}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3} )
+	    insert into u_user_info(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, badcnt, stopstart, stopend, borrowcnt, applycnt, reservecnt )
+	                  values(member_seq.nextval, #{userId1}, #{userPass1}, #{userName}, #{userEmail}, #{userAge}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3}, #{badcnt},  #{stopstart}, #{stopend}, #{borrowcnt}, #{applycnt}, #{reservecnt} )
    
     </insert>
    
    <!-- 로그인 -->
 	<select id="login" resultType="org.team.bpg.member.vo.MemberVO">
 		select *
-
 		  from u_user_info
 		 where userid = #{userId}
 		   and userpass = #{userPass}   

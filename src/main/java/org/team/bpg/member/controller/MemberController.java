@@ -43,7 +43,10 @@ public class MemberController {
 	
 	// 회원가입 post
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String postRegister(MemberVO vo) throws Exception {
+	public String postRegister(MemberVO vo, HttpServletRequest request) throws Exception {
+		
+		System.out.println("히든값 : " + request.getParameter("borrowcnt"));
+		
 		logger.info("post register");
 		int result = service.idChk(vo);
 		try {
@@ -77,12 +80,15 @@ public class MemberController {
 		
 		if(login == null) {
 			session.setAttribute("member", null);
+
 			rttr.addFlashAttribute("msg", false);
 			return "member/sign-in";
 		}
 		else{
-			session.setAttribute("member", login);
-			return "member/home";
+			System.out.println("로그인한 아이디" + login.getUserId());
+			session.setAttribute("user_id", login.getUserId());
+			session.setAttribute("user_position", login.getUserposition());
+			return "index";
 		}
 		
 	}
@@ -92,7 +98,7 @@ public class MemberController {
 		
 		session.invalidate();
 		
-		return "home";
+		return "index";
 	}
 	
 	// 정보 수정

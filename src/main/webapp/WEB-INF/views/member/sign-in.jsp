@@ -62,10 +62,14 @@ $(document).ready(function(){
 })
 
 function test(){
+	var id=$('input[name=userId1]').val();
+	console.log(id);
+	
 	$.ajax({
         url : "idChk.do",
         type : "POST",
         dataType : "json",
+        async : false,
         data : $("#regForm").serializeArray(),
         success: function(data){
            
@@ -98,13 +102,12 @@ function validate() {
 		var chk=document.regForm.cc.checked;
 		
 		
-		if (idChkVal == "N") {
+		/* if (idChkVal == "N") {
 			alert("ID중복확인 버튼을 눌러주세요.");
-			$("#userId1").focus();
 			return false;
-		}
+		} */
 		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
-			$("#userPass1").focus();
+			$("#userId1").focus();
 			return false;
 		}
 		if (!check(re, userPass1, "비밀번호는 4~12자의 영문, 숫자로만 입력")) {
@@ -124,10 +127,10 @@ function validate() {
 			$("#userEmail").focus();
 			return false;
 		}
-		if (!check(re5, userAge, "생년월일은 4자리의 숫자만 입력")) {
+/* 		if (!check(re5, userAge, "생년월일은 4자리의 숫자만 입력")) {
 			$("#userAge").focus();
 			return false;
-		}
+		} */
 		if (regForm.userGender.value == "") {
 			alert("성별 미입력.");
 			return false;
@@ -205,7 +208,7 @@ function validate() {
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
-												<button type="submit" value="submit" id="login">Sign in</button>
+												<button type="submit" value="submit" id="login">로그인</button>
 											</div>
 											
 										</div>
@@ -344,8 +347,16 @@ function validate() {
 														</div><!--fgt-sec end-->
 													</div>
 												</div>
+												
+													
+													<input type="hidden" name="badcnt" value="0">
+													<input type="hidden" name="stopstart" value="0000-00-00">
+													<input type="hidden" name="stopend" value="0000-00-00">
+													<input type="hidden" name="borrowcnt" value="0">
+													<input type="hidden" name="applycnt" value="0">
+													<input type="hidden" name="reservecnt" value="0">
 												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="submit">Get Started</button>
+													<button type="submit" id="submit">회원가입</button>
 												</div>
 											</div>
 										</form>
