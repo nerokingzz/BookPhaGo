@@ -140,7 +140,6 @@
                             <a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
                             <a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
                             <a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서대출</a>
-                            
                           </div>
                      </div><!--acc-leftbar end-->
                   </div>
@@ -149,7 +148,6 @@
                         <div class="tab-pane fade" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
                            <div class="acc-setting">
                               <h3>회원관리</h3>
-                                 
                            </div><!--acc-setting end-->
                         </div>
                           <div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
@@ -179,15 +177,15 @@
                              <div class="acc-setting">
                               <h3>챗봇관리</h3>
                               <jsp:include page="../chat/getRank.jsp" flush="true"></jsp:include>
-                           </div><!--acc-setting end-->
-                        
+                           	 </div><!--acc-setting end-->
                           </div>
+                         
+                          <div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
+                          	<div class="acc-setting">
+                            	<h3>도서대출</h3>
+                                <jsp:include page="../book/adminrentandreturn.jsp"></jsp:include>
+                            </div><!--acc-setting end-->
                           </div>
-                                <div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
-                                    <div class="acc-setting">
-                                       <h3>도서대출</h3>
-                                 <jsp:include page="../book/adminrentandreturn.jsp"></jsp:include>
-                                 </div><!--acc-setting end-->
                      </div>
                   </div>
                </div>
