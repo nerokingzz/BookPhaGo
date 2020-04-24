@@ -12,10 +12,14 @@
 	font-size: 20px;
 	text-align: center;
 }
+.cls2 {
+	text-align: center;
+}
 </style>
 </head>
 <body>
 	<h3 class="cls1">도서 정보 수정창</h3>
+	<h6 class="cls2">(도서 수정은 대출여부/예약여부만 가능합니다)</h6>
 		<table align="center">
 			<c:choose>
 				<c:when test="${booklistSize==0 }">
@@ -29,6 +33,13 @@
 
 				<c:when test="${booklistSize gt 0 }">
 					<c:forEach var="i" begin="1" end="${booklistSize }">
+						<tr>
+							<td width="200">
+								<p align="right">도서명 :
+							</td>
+							<td width="400"><input type="text" name="bookName"
+								value="${booklist.get(i-1).get('BOOKNAME') }" readonly></td>
+						</tr>
 						<tr>
 							<td width="200">
 								<p align="right">도서번호 :
@@ -85,13 +96,12 @@ function CloseWindow() {
 
 function change() {
 	var bookNumber = $("input:text[name=bookNumber]").val();
-	var bookGenre = $("input:text[name=bookGenre]").val();
 	var bookRent = $("input:text[name=bookRent]").val();
 	var bookReservation = $("input:text[name=bookReservation]").val();
 	
 	$.ajax({
 		url:"admin_main.do?page=book_A",
-		data:{"bookNumber" : bookNumber, "bookGenre" : bookGenre, "bookRent" : bookRent, "bookReservation" : bookReservation},
+		data:{"bookNumber" : bookNumber, "bookRent" : bookRent, "bookReservation" : bookReservation},
 		method:"POST",
 		success:function(data) {
 			opener.location.href="admin_main.do?page=book_A";

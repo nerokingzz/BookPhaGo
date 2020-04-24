@@ -98,4 +98,43 @@ public class LibraryDAOImpl implements LibraryDAO{
 	public void userapplybook(Map<String, String> book_list) {
 		sqlSession.insert("book.userapplybook", book_list);
 	}
+
+	@Override
+	public String booknumbersearch(String bookGenre) {
+		String booklist=sqlSession.selectOne("book.booknumbersearch", bookGenre);
+		return booklist;
+	}
+
+	@Override
+	public String applybookcheck(String isbn) {
+		String booklist=sqlSession.selectOne("book.applybookcheck", isbn);
+		return booklist;
+	}
+
+	@Override
+	public String searchuserid(String userid) {
+		String booklist=sqlSession.selectOne("book.searchuserid", userid);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchbnumber(String bookNumber) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.searchbnumber", bookNumber);
+		return booklist;
+	}
+
+	@Override
+	public void userborrow(String userid) {
+		sqlSession.update("book.userborrow", userid);
+	}
+
+	@Override
+	public void insertbookrent(Map<String, String> book_list) {
+		sqlSession.insert("book.insertbookrent", book_list);
+	}
+
+	@Override
+	public void updatebooklib(Map<String, String> book_list) {
+		sqlSession.update("book.updatebooklib", book_list);
+	}
 }

@@ -14,7 +14,8 @@
 
 </head>
 <body>
-
+<div>&nbsp</div>
+<div>&nbsp</div>
 
 <div >
 				<div ></div>
@@ -72,7 +73,7 @@
 							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
 							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
 							<td>
-							<input type="button" id="${booklist.get(i-1).get('BOOKRESERVATION') }" value= "${booklist.get(i-1).get('BOOKRESERVATION') }" onClick="calculate(${booklist.get(i-1).get('BOOKNUMBER') });">
+							<input type="button" class="load-list" id="${booklist.get(i-1).get('BOOKNUMBER') }" value= "${booklist.get(i-1).get('BOOKRESERVATION') }">
 							</td>
 						</tr>
 					</c:forEach>
@@ -82,17 +83,22 @@
 </table>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>	
 
 <script type="text/javascript">
-function calculate(value){
-    var e = window.event,
-        btn = e.target || e.srcElement;
-    //alert(btn.id);
-
-    if(btn.id == "예약가능"){
-    	var popUrl = "userreservationlist.do?bookNumber="+value;
-    	window.open(popUrl,"","width=400,height=400");
-
-    }
-}
+$(document).on('click', '.load-list', function(){
+		var a = $(this).attr('id');  
+		var b = $(this).attr('value');  
+		c(a,b);
+	});
+	
+	function c(a,b){
+		var a1 = a;
+		var b1 = b;
+		
+		if(b1 == '예약가능'){
+			var popUrl = "userreservationlist.do?bookNumber="+a1;
+	    	window.open(popUrl,"","width=400,height=400");
+		}
+	}
 </script>

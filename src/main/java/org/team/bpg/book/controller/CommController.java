@@ -11,9 +11,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.team.bpg.book.VO.BookInfoVO;
@@ -262,10 +265,10 @@ public class CommController {
 	public ModelAndView userisbnsearchlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav=new ModelAndView();
 		
-		List<Map<String, Object>> booklist = libraryService.adminisbnsearchlist();
-		
-		mav.addObject("booklist", booklist);
-		mav.addObject("booklistSize", booklist.size());
+//		List<Map<String, Object>> booklist = libraryService.adminisbnsearchlist();
+//		
+//		mav.addObject("booklist", booklist);
+//		mav.addObject("booklistSize", booklist.size());
 		mav.setViewName("book/adminisbnsearchlist");
 		return mav;		
 	}
@@ -289,4 +292,92 @@ public class CommController {
 		mav.setViewName("book/adminisbnsearchlist");
 		return mav;		
 	}
+	
+	@Transactional
+	@RequestMapping(value="a")
+	public @ResponseBody  Map<String , Object> saveCode(@RequestBody Map<String, Object> param) {
+		String bookGenre = (String)param.get("bookGenre");
+		
+		System.out.println(bookGenre);
+		
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		
+		try {
+			String booklist = libraryService.booknumbersearch(bookGenre);
+			if(booklist != null) {
+				book_list.put("bookNumber", booklist);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return book_list;
+	}
+	
+	@Transactional
+	@RequestMapping(value="b")
+	public @ResponseBody  Map<String , Object> applybookCode(@RequestBody Map<String, Object> param) {
+		String isbn = (String)param.get("isbn");
+		
+		System.out.println(isbn);
+		
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		
+		try {
+			String booklist = libraryService.applybookcheck(isbn);
+			if(booklist != null) {
+				book_list.put("bookNumber", booklist);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return book_list;
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value="c")
+	public @ResponseBody  Map<String , Object> searchuserid(@RequestBody Map<String, Object> param) {
+		String userid = (String)param.get("userid");
+		
+		System.out.println(userid);
+		
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		
+		try {
+			String booklist = libraryService.searchuserid(userid);
+			if(booklist != null) {
+				book_list.put("borrowcnt", booklist);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return book_list;
+		
+	}
+	
+	@Transactional
+	@RequestMapping(value="d")
+	public @ResponseBody  Map<String , Object> searchbnumber(@RequestBody Map<String, Object> param) {
+		String bookNumber = (String)param.get("bookNumber");
+		
+		System.out.println(bookNumber);
+		
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		
+		try {
+			List<Map<String, Object>> booklist = libraryService.searchbnumber(bookNumber);
+			if(booklist != null) {
+				book_list.put("booklist", booklist);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return book_list;
+		
+	}
+	
 }

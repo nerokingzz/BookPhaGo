@@ -156,11 +156,21 @@ public class PageController {
 			} else if (pageInfo.equals("book_A")) {
 				String search_option = request.getParameter("search_option");
 				String search_value = request.getParameter("search_value");
-				String bookNumber = request.getParameter("bookNumber");
+				String isbn = request.getParameter("isbn");
+				String bookName = request.getParameter("bookName");
+				String bookContents = request.getParameter("bookContents");
+				String bookWriter = request.getParameter("bookWriter");
+				String bookTrans = request.getParameter("bookTrans");
+				String bookPublisher = request.getParameter("bookPublisher");
+				String bookDate = request.getParameter("bookDate");
 				String bookGenre = request.getParameter("bookGenre");
+				String bookNumber = request.getParameter("bookNumber");
+				String bookThum = request.getParameter("bookThum");
 				String bookRent = request.getParameter("bookRent");
 				String bookReservation = request.getParameter("bookReservation");
-				String isbn = request.getParameter("isbn");
+				
+				
+				
 				
 				//도서 리스트
 				if(search_option == null && search_value == null && bookNumber == null && bookGenre == null && bookRent == null && bookReservation == null && isbn == null) {
@@ -193,10 +203,9 @@ public class PageController {
 					mav.addObject("booklistSize", booklist.size());
 				} 
 				//도서 수정
-				else if (search_option == null && search_value == null && bookNumber != null && bookGenre != null && bookRent != null && bookReservation != null && isbn == null) {
+				else if (search_option == null && search_value == null && bookNumber != null && bookGenre == null && bookRent != null && bookReservation != null && isbn == null) {
 					Map<String, String> book_list=new HashMap<String, String>();
 					book_list.put("bookNumber", bookNumber);
-					book_list.put("bookGenre", bookGenre);
 					book_list.put("bookRent", bookRent);
 					book_list.put("bookReservation", bookReservation);
 					
@@ -207,9 +216,16 @@ public class PageController {
 					System.out.println(search_option);
 					
 					Map<String, String> book_list=new HashMap<String, String>();
-					book_list.put("bookNumber", bookNumber);
 					book_list.put("isbn", isbn);
+					book_list.put("bookName", bookName);
+					book_list.put("bookContents", bookContents);
+					book_list.put("bookWriter", bookWriter);
+					book_list.put("bookTrans", bookTrans);
+					book_list.put("bookPublisher", bookPublisher);
+					book_list.put("bookDate", bookDate);
 					book_list.put("bookGenre", bookGenre);
+					book_list.put("bookNumber", bookNumber);
+					book_list.put("bookThum", bookThum);
 					book_list.put("bookRent", bookRent);
 					book_list.put("bookReservation", bookReservation);
 					
@@ -254,6 +270,28 @@ public class PageController {
 				
 			} else if (pageInfo.equals("chat_A")) {
 				
+			} else if (pageInfo.equals("rent_A")) {
+				String userid = request.getParameter("userid");
+				String bookNumber = request.getParameter("bookNumber1");
+				
+				String bookState = "대출중";
+				String bookState1 = "대출불가";
+				String bookState2 = "예약가능";
+				System.out.println("1111111");
+				
+				Map<String, String> book_list=new HashMap<String, String>();
+				book_list.put("userid", userid);
+				book_list.put("bookNumber", bookNumber);
+				book_list.put("bookState", bookState);
+				book_list.put("bookState1", bookState1);
+				book_list.put("bookState2", bookState2);
+				
+				if(userid != null && bookNumber != null) {
+					libraryService.userborrow(userid);
+					libraryService.insertbookrent(book_list);
+					libraryService.updatebooklib(book_list);
+					System.out.println("도서대출완료");
+				}
 			}
 		} else {
 			

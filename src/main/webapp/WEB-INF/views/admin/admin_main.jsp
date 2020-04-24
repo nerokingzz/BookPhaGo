@@ -75,7 +75,13 @@
 			$("#nav-password-tab2").attr("aria-selected", "true");
 			$("#nav-password2").attr("class", "tab-pane fade show active");
 			
-		} else {
+		} else if (pageInfo == 'rent_A') {
+			alert("도서대출로 바로 이동");
+			$("#nav-acc-tab3").attr("class", "nav-item nav-link active");
+			$("#nav-acc-tab3").attr("aria-selected", "true");
+			$("#nav-acc3").attr("class", "tab-pane fade show active");
+			
+		}else {
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab").attr("aria-selected", "true");
 			$("#nav-acc").attr("class", "tab-pane fade show active");
@@ -106,7 +112,9 @@
 		location.href="admin_main.do?page=chat_A";
 	}
 	
-	
+	function rent_A() {
+		location.href="admin_main.do?page=rent_A";
+	}
 
 </script>
 
@@ -130,6 +138,7 @@
 								    <a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>커뮤니티관리</a>
 								    <a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
 								    <a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
+								 	<a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서대출</a>
 								  </div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -170,6 +179,12 @@
 										<jsp:include page="../chat/getRank.jsp"></jsp:include>
 									</div><!--acc-setting end-->
 							  	</div>
+							  	<div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
+									<div class="acc-setting">
+										<h3>도서대출</h3>
+											<jsp:include page="../book/adminrentandreturn.jsp"></jsp:include>
+									</div><!--acc-setting end-->
+								</div>
 							</div>
 						</div>
 					</div>

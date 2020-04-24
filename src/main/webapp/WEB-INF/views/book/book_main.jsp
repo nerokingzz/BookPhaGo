@@ -220,8 +220,7 @@
 							  	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
 							  		<div class="acc-setting">
 							  			<h3>도서신청</h3>
-							  				
-							  				
+			
 							<div>
 							<div class="login-sec">
 								<ul class="sign-control">
@@ -265,33 +264,26 @@
 										<div>
 											<form action="book_main.do" method="get">
 												<input type="hidden" name="page" value="apply">  
-												<table>
-													<tr>
-														<td>사용자 ID :
-														<td><input type="text" name="user_id" value="${user_id }" readonly></td>
-													</tr>
-													<tr>
-														<td>도서명 :
-														<td><input type="text" name="bookName" id="pInput" readonly>
-														<input type="button" value="검색" onclick="userapplysearchbook();"></td>
-														
-													</tr>
-													<tr>
-														<td>isbn :
-														<td><input type="text" name="isbn" id="pInputt" readonly></td>
-													</tr>
-													<tr>
-														<td>선청날짜 :
-														<td><input type="text" name="applyDate" id="current_info" readonly></td>
-													</tr>
-													<tr>
-														<td>사유 :
-														<td><input type="text" name="applyReason"></td>
-													</tr>
-													<tr>
-														<td style="text-align: center;"><button type="submit" onclick="return check()" >신청하기</button></td>
-													</tr>
-												</table>
+												<div class="row">
+				                                <div class="col-md-12 col-sm-12"><br>
+				                                   <h6>사용자 ID : <input type="text" name="user_id" value="${user_id }" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                	<h6>도서명 : <input type="text" name="bookName" id="pInput" readonly><input type="button" style = "background-color:#e44d3a;font-weight:bold " value="검색" onclick="userapplysearchbook();"></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="current_info" readonly></h6><br>
+				                                </div>
+				                                 <div class="col-md-12 col-sm-12">
+				                                	<h6>사유 : <input type="text" name="applyReason"></h6>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                               <button type="submit" onclick="return check()" >신청하기</button>
+				                               </div>
+				                            </div>
 											</form>
 										</div>
 										
@@ -347,6 +339,7 @@
 						
 							  		</div><!--acc-setting end-->
 							  	</div>
+							  	
 							</div>
 						</div>
 					</div>
@@ -359,7 +352,7 @@
 					<ul>
 						<li><a href="help-center.html" title="">대표이사 : 심동현</a></li>
 						<li><a href="about.html" title="">과장 : 김민선</a></li>
-						<li><a href="#" title="">CEO : 서종대</a></li>
+						<li><a href="#" title="">그냥 : 서종대</a></li>
 						<li><a href="#" title="">그냥 : 이동주</a></li>
 					</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
@@ -385,7 +378,7 @@
 <script type="text/javascript">
 	function userapplysearchbook() {
 		var popUrl = "userapplysearch.do";
-    	window.open(popUrl,"","width=1200,height=400");
+    	window.open(popUrl,"","width=1200,height=800");
 	}
 	
 	function check(){
