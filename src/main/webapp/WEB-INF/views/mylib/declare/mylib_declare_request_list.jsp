@@ -159,13 +159,11 @@
 			$("input[name=index]").each(function(index, item) {
 				indexList.push($(item).val());
 			});
-			alert(indexList);
 			
 			//declare_id 배열
 			$("input[name=declare_id]").each(function(index, item) {
 				idList.push($(item).val());
 			});
-			alert(idList);
 			
 		});
 		

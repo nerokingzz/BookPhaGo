@@ -44,11 +44,7 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-<<<<<<< HEAD
-			<mvc:mapping path="/locale.do"/>
-=======
 			<mvc:mapping path="/*.do"/>
->>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 				<beans:bean class="org.team.bpg.LocaleInterceptor" />
 			</mvc:interceptor>
 	</mvc:interceptors>
