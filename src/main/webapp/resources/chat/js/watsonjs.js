@@ -34,6 +34,9 @@ const options = {
 		if(userRequest != null && userRequest != undefined){
 			sendMail(chat_userName, userRequest);
 		}
+		
+		
+		
 	}
 	
 	function sendMail(chat_userName, userRequest){
@@ -150,6 +153,32 @@ const options = {
 				checkMember(chat_userId);
 			}, 100);
 		}
+		
+		
+		var isCalulate = user_defined.is_calculate;
+		
+		if(isCalulate == true){
+			var calFormula = user_defined.gita_calFormula;
+			if(calFormula != null){
+				try{
+					var calResult = eval(calFormula);
+					console.log("답은 .." + calResult);
+					setTimeout(function() {
+						var calResultDiv = $('.calResult').last();
+						calResultDiv.append("답은 " + calResult + "입니다!");
+					}, 50);
+
+				}catch(EvalError){
+					setTimeout(function() {
+						var calResultDiv = $('.calResult').last();
+						calResultDiv.append("입력식이 올바르지 않습니다.");
+					}, 50);
+				}
+			}
+				event.data.context.skills['main skill'].user_defined.is_calculate = false;
+			}
+
+		
 	}
 	
 	

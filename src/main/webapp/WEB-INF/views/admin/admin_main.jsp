@@ -130,7 +130,10 @@
 								    <a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>커뮤니티관리</a>
 								    <a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
 								    <a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
+<<<<<<< HEAD
+=======
 								 	<a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서대출</a>
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 								  </div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -168,7 +171,11 @@
 							  	<div class="tab-pane fade" id="nav-password2" role="tabpanel" aria-labelledby="nav-password-tab">
 							  		<div class="acc-setting">
 										<h3>챗봇관리</h3>
+<<<<<<< HEAD
+										<jsp:include page="../chat/getRank.jsp" flush="true"></jsp:include>
+=======
 										<jsp:include page="../chat/getRank.jsp"></jsp:include>
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 									</div><!--acc-setting end-->
 							  	</div>
 							  	<div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
