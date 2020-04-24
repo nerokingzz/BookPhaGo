@@ -259,7 +259,5 @@ hr.stat{
 		</div>
 	</div>
 </div>
- 
-
 </body>
 </html>

@@ -1,25 +1,26 @@
 $('.helpforum a').on('click', function(e) {
-		e.preventDefault();
-		$.ajax({
-			url : '/chat/down.do',
-			type : 'get',
-			success : function(result) {
-				alert("다운로드가 완료되었습니다!");
-			},
-			beforeSend:function(){
-				$('.wrap-loading').removeClass('display-none');
-			},
-			complete:function(){
-				$('.wrap-loading').addClass('display-none');
-			},
-			//에러 처리 필요함.
-			error : function(result, status) {
-				alert("에러가 발생하였습니다.");
-			}
-		})
+      e.preventDefault();
+      $.ajax({
+         url : '/chat/down.do',
+         type : 'get',
+         success : function(result) {
+            alert("다운로드가 완료되었습니다!");
+         },
+         beforeSend:function(){
+            $('.wrap-loading').removeClass('display-none');
+         },
+         complete:function(){
+            $('.wrap-loading').addClass('display-none');
+         },
+         //에러 처리 필요함.
+         error : function(result, status) {
+            alert("에러가 발생하였습니다.");
+         }
+      })
 
-	})
+   })
 
+   
 	function logLoad(){
 		
 		//누적 이용자수, 누적 로그 수, 누적 실패대화 수를 구해오는 ajax
@@ -51,7 +52,6 @@ $('.helpforum a').on('click', function(e) {
 			},
 			complete:function(){
 				$('h1#totalID img').css("display","none");
-
 				$('h1#totalLog img').css("display","none");
 				
 				$('h1#failCount img').css("display","none");
@@ -63,31 +63,30 @@ $('.helpforum a').on('click', function(e) {
 		})
 
 
-	
+   
 
-	//금일 이용자수와 총 log 수를 구해오는 ajax
-		$.ajax({
-			url: 'log/todayID.do',
-			async: true,
-			type : 'post',
-			success : function(result){
-				console.log("todayID result is..." + result);
-				var todayID = $('h1#todayID');
-				
+   //금일 이용자수와 수를 구해오는 ajax
+      $.ajax({
+         url: 'log/todayID.do',
+         async: true,
+         type : 'post',
+         success : function(result){
+            console.log("todayID result is..." + result);
+            var todayID = $('h1#todayID');
+            
 
-				todayID.append(result);
-
+            todayID.append(result);
 			},
-			beforeSend:function(){
-				var todayID = $('h1#todayID');
-				todayID.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
+		beforeSend:function(){
+			var todayID = $('h1#todayID');
+			todayID.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
 			},
-			complete:function(){
-				$('h1#todayID img').css("display","none");	
+		complete:function(){
+			$('h1#todayID img').css("display","none");	
 			},
 			//에러 처리 필요함.
-			error : function(result, status){
-				console.log("todayID ajax에서 에러가 발생하였습니다.");
+		error : function(result, status){
+			console.log("todayID ajax에서 에러가 발생하였습니다.");
 			}
 		})
 	
@@ -156,3 +155,4 @@ $('.helpforum a').on('click', function(e) {
 			}
 		})
 	}
+

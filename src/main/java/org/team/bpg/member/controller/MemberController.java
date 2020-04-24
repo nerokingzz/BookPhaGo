@@ -49,18 +49,13 @@ public class MemberController {
 		
 		logger.info("post register");
 		int result = service.idChk(vo);
-		try {
-			if(result == 1) {
-				return "register.do";
-			}else if(result == 0) {
-				service.register(vo);
-			}
-			// 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
-			// 존재하지 않는다면 -> register
-		} catch (Exception e) {
-			throw new RuntimeException();
-			
+		
+		if(result == 1) {
+			return "register.do";
+		}else if(result == 0) {
+			service.register(vo);
 		}
+		
 		return "member/sign-in";
 	}
 	

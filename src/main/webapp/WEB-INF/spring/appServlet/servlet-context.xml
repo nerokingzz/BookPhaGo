@@ -44,6 +44,7 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<mvc:mapping path="/locale.do"/>
 			<mvc:mapping path="/*.do"/>
 				<beans:bean class="org.team.bpg.LocaleInterceptor" />
 			</mvc:interceptor>
