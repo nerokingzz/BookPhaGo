@@ -11,25 +11,16 @@
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-<style>
-.cls1 {
-	font-size: 40px;
-	text-align: center;
-}
 
-.cls2 {
-	font-size: 20px;
-	text-align: center;
-}
-</style>
 </head>
 <body>
-<p class="cls1">도서 검색</p>
+
 
 <div >
 				<div ></div>
 				<div >
-					<form action="usersearchbook.do" method="get">
+					<form action="book_main.do" method="get">
+					<input type="hidden" name="page" value="search">
 						<table>
 							<tr>
 								<td style="text-align: center;">
@@ -52,6 +43,8 @@
 				</div>
 				<div></div>
 			</div>
+
+<h3>도서정보</h3>
 
 <table align="center" border="1">
 		<tr align="center" bgcolor="lightgreen">
@@ -80,9 +73,7 @@
 							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
 							<td>
 							<input type="button" id="${booklist.get(i-1).get('BOOKRESERVATION') }" value= "${booklist.get(i-1).get('BOOKRESERVATION') }" onClick="calculate(${booklist.get(i-1).get('BOOKNUMBER') });">
-						
 							</td>
-							
 						</tr>
 					</c:forEach>
 				</c:when>

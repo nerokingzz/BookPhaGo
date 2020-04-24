@@ -20,9 +20,8 @@
 	
 		<%-- 일반회원용 리스트 --%>
 		<c:when test="${user_position eq 'general'}"> <!-- eq : == -->
-			<h3>${user_id}님의 커뮤니티 신청 내역</h3>
 			<c:choose>
-				<c:when test="${requestListSize gt 0}">	<!-- gt : > -->  
+				<c:when test="${comRequestListSize gt 0}">	<!-- gt : > -->  
 					<table>
 						<thead>
 							<tr>
@@ -35,15 +34,15 @@
 								<th>상태</th>
 							</tr>
 						
-							<c:forEach var="i" begin="1" end="${requestListSize}">
+							<c:forEach var="i" begin="1" end="${comRequestListSize}">
 								<tr>
 									<td>${i}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_NAME")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_AIM")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_NAME")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_AIM")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
 								</tr>
 							</c:forEach>
 						</thead>
@@ -54,10 +53,9 @@
 		
 		<%-- 관리자용 리스트 --%>
 		<c:when test="${user_position eq 'admin'}"> <!-- eq : == -->
-			<h3>커뮤니티 신청 내역</h3>
 			
 			<c:choose>
-				<c:when test="${requestListSize gt 0}">	<!-- gt : > -->  
+				<c:when test="${comRequestListSize gt 0}">	<!-- gt : > -->  
 					<table>
 						<thead>
 							<tr>
@@ -71,19 +69,19 @@
 								<th>확인</th>
 							</tr>
 			
-							<c:forEach var="i" begin="1" end="${requestListSize}">
+							<c:forEach var="i" begin="1" end="${comRequestListSize}">
 								<tr>
 									<td>${i}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_NAME")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_AIM")}</td>
-									<td>${requestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_NAME")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_AIM")}</td>
+									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
 									<td>
 										<input type="hidden" name="index" value="${i}">
-										<input type="hidden" name="community_id" value='${requestList.get(i-1).get("COMMUNITY_ID")}'>										
-										<input type="button" value="처리" onclick="stsAdmin('${i}')">
+										<input type="hidden" name="community_id" value='${comRequestList.get(i-1).get("COMMUNITY_ID")}'>										
+										<input type="button" value="처리" onclick="comStsAdmin('${i}')">
 									</td>
 								</tr>
 							</c:forEach>
@@ -118,7 +116,7 @@
 			
 		});
 		
-		function stsAdmin(i) {
+		function comStsAdmin(i) {
 			alert(i);
 			alert(idList[i-1]);
 			var community_id=idList[i-1];

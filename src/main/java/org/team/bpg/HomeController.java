@@ -40,7 +40,7 @@ public class HomeController {
 		
 		HttpSession session=request.getSession(true);
 		
-//		
+		
 //		session.setAttribute("user_id", "shyguy_hulk");
 //		session.setAttribute("user_position", "general");
 		
@@ -50,7 +50,7 @@ public class HomeController {
 		
 		return "index";
 	}
-	
+
 
 	// 왓슨 챗봇 페이지로 이동시켜주는 메소드
 

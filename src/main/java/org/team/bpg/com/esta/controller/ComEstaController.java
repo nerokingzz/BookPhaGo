@@ -38,13 +38,13 @@ public class ComEstaController {
 	@RequestMapping(value="com_esta_request_list", method=RequestMethod.GET)
 	public ModelAndView comEstaRequestList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<Map<String, Object>> requestList=comEstaService.comEstaRequestList(request);
+		List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
 		
 		ModelAndView mav=new ModelAndView();
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
+		mav.addObject("comRequestList", comRequestList);
+		mav.addObject("comRequestListSize", comRequestList.size());
 		
-		System.out.println("사이즈:"+requestList.size());
+		System.out.println("사이즈:"+comRequestList.size());
 		
 		mav.setViewName("com/esta/com_esta_request_list");
 		return mav;	

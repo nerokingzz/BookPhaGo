@@ -26,23 +26,10 @@ public class LibraryDAOImpl implements LibraryDAO{
 		return booklist;
 	}
 
-
-	@Override
-	public void inputlibrary(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		sqlSession.insert("book.inputlibrary", bookInfoVO);
-	}
-
 	@Override
 	public List<Map<String, Object>> modfindlibrary(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.modfindlibrary", book_list);
 		return booklist;
-	}
-
-	@Override
-	public void librarydelete(BookInfoVO bookInfoVO) {
-		// TODO Auto-generated method stub
-		sqlSession.delete("book.librarydelete", bookInfoVO);
 	}
 
 	@Override
@@ -66,12 +53,6 @@ public class LibraryDAOImpl implements LibraryDAO{
 	@Override
 	public List<Map<String, Object>> userapplysearch(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.userapplysearch", book_list);
-		return booklist;
-	}
-
-	@Override
-	public List<Map<String, Object>> userapplybook(Map<String, String> book_list) {
-		List<Map<String, Object>> booklist=sqlSession.selectList("book.userapplybook", book_list);
 		return booklist;
 	}
 
@@ -101,5 +82,20 @@ public class LibraryDAOImpl implements LibraryDAO{
 	public List<Map<String, Object>> adminisbnsearchlist() {
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.adminisbnsearchlist");
 		return booklist;
+	}
+
+	@Override
+	public void librarydelete(Map<String, String> book_list) {
+		sqlSession.delete("book.librarydelete", book_list);
+	}
+
+	@Override
+	public void inputlibrary(Map<String, String> book_list) {
+		sqlSession.insert("book.inputlibrary", book_list);
+	}
+
+	@Override
+	public void userapplybook(Map<String, String> book_list) {
+		sqlSession.insert("book.userapplybook", book_list);
 	}
 }

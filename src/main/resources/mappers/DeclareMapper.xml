@@ -11,7 +11,7 @@
 	<insert id="mylib_declare_insert" parameterType="java.util.Map">
 		<!-- 시퀀스 사용 -->
 		<selectKey keyProperty="declare_id" resultType="integer" order="BEFORE">
-			SELECT seq_auto_increment.NEXTVAL FROM DUAL
+			SELECT seq_auto_dec.NEXTVAL FROM DUAL
 		</selectKey>
 		
       	INSERT INTO M_MYLIB_DECLARE (declare_id, do_user, be_done_user, declare_date, declare_reason, declare_category, declare_image_data, declare_status)
@@ -37,7 +37,28 @@
   	<update id="declare_admin" parameterType="hashmap">
  		UPDATE M_MYLIB_DECLARE SET declare_status=#{declare_status}
  		WHERE declare_id=#{declare_id}
- 	</update> 
+ 	</update>
+ 	
+ 	
+ 	<!-- 신고 select paging -->
+ 	<!-- 총 신고 갯수 -->
+ 	<select id="declare_count" parameterType="integer" resultType="integer">
+ 		SELECT COUNT(*) FROM M_MYLIB_DECLARE
+ 	</select>
+ 	
+ 	<!-- 페이징 처리 후 신고 조회 -->
+ 	<select id="declare_list" parameterType="hashmap" resultType="declareInfoVo">
+ 		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM M_MYLIB_DECLARE
+						ORDER BY declare_id DESC 
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
  	
  	
 </mapper>

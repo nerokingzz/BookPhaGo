@@ -39,5 +39,11 @@ function checkMember(userId){
 				container.append("error alert!");
 			}
 		})
+		
+		
+		
+		
+		
+		
 	 
 }

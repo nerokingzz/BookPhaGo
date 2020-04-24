@@ -35,4 +35,5 @@ public class ComEstaDaoImpl implements ComEstaDao {
 		sqlSession.update("com_esta.com_esta_admin", sts_info);
 		
 	}
+
 }
