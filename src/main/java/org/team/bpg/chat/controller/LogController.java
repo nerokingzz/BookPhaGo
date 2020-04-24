@@ -68,8 +68,14 @@ public class LogController {
 	
 	@RequestMapping("totalID.do")
 	//기간에 관계 없이 전체 기간에 걸쳐 누적된 User ID 개수를 구한다.
-	public int collectTotalIDs() {
+	public List<Integer> collectTotalIDs() {
+		List<Integer> resultList = new ArrayList<Integer>();
+		
 		List<String> originList = new ArrayList<String>();
+		
+ 
+		int logCount = 0; //누적 로그 수
+		int failCount = 0; //누적 실패 대화 수
 		
 		while (true) {
 			
@@ -80,10 +86,18 @@ public class LogController {
 			// String logResult = response.toString();
 			List<Log> logList = response.getLogs();
 
+			
 			for (Log log : logList) {
+				
+				if(log.getResponse().getEntities().size() == 0 && log.getResponse().getIntents().size() == 0 
+						&& log.getRequest().input().getText().isEmpty() == false) {
+					failCount++;
+				}
+				
 				String userID = "";
 				userID = log.getRequest().context().getMetadata().userId();
 				originList.add(userID);
+				logCount++;
 			}
 			if (response.getPagination().getNextCursor() == null) {
 				break;
@@ -92,14 +106,20 @@ public class LogController {
 			}
 		}
 		int result = getDistinct(originList);
-		return result;
+		
+		
+		resultList.add(result); //누적 사용자 수
+		resultList.add(logCount); //누적 로그 수
+		resultList.add(failCount); //누적 실패대화 수
+		
+		return resultList;
 	}
 	
 	
 	@RequestMapping("todayID.do")
 	//오늘의 userID 개수 수집해 중복을 제거합니다.
-	public List<Integer> collectTodayIDs() {
-		List<Integer> resultList = new ArrayList<Integer>();
+	public int collectTodayIDs() {
+		
 		
 		
 		List<String> originList = new ArrayList<String>();
@@ -113,7 +133,7 @@ public class LogController {
 		
 		filter += ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
 		
-		int logCount = 0;
+
 		while (true) {
 			
 			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
@@ -124,10 +144,10 @@ public class LogController {
 			List<Log> logList = response.getLogs();
 
 			for (Log log : logList) {
+
 				String userID = "";
 				userID = log.getRequest().context().getMetadata().userId();
 				originList.add(userID);
-				logCount++;
 			}
 			if (response.getPagination().getNextCursor() == null) {
 				break;
@@ -138,9 +158,7 @@ public class LogController {
 		int todayResult = getDistinct(originList);
 		
 		
-		resultList.add(todayResult);
-		resultList.add(logCount);
-		return resultList;
+		return todayResult;
 	}
 	
 	

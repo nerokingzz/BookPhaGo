@@ -17,7 +17,7 @@ public class LogTest {
 
 		
 		List<String> userIDList = new ArrayList<String>();
-		List<String> logIDList = new ArrayList<String>();
+		List<String> sessionIDList = new ArrayList<String>();
 		List<String> conversationIDList = new ArrayList<String>();
 		
 		
@@ -48,10 +48,14 @@ public class LogTest {
 			List<Log> logList = response.getLogs();
 
 			for (Log log : logList) {
-				logIDList.add(log.getLogId());
-				conversationIDList.add(log.getRequest().context().getConversationId());
-				userIDList.add(log.getRequest().context().getMetadata().userId());
-				logCount++;
+
+				
+				if(log.getResponse().getEntities().size() == 0 && log.getResponse().getIntents().size() == 0 
+						&& log.getRequest().input().getText().isEmpty() == false) {
+					System.out.println("message with weak understanding..." + log.getRequest().input().getText());
+				}
+				
+				
 			}
 			if (response.getPagination().getNextCursor() == null) {
 				break;
@@ -61,12 +65,12 @@ public class LogTest {
 			
 			
 		}
-		
+		/*
 		System.out.println("Log의 총 개수는 " + logCount + "개입니다.");
-		System.out.println("Log ID의 개수는 " + getDistinctLogic(logIDList) + "개입니다.");
+		System.out.println("Session ID의 개수는 " + getDistinctLogic(sessionIDList) + "개입니다.");
 		System.out.println("Conversation ID의 개수는 " + getDistinctLogic(conversationIDList) + "개입니다.");
 		System.out.println("User ID의 개수는 " + getDistinctLogic(userIDList) + "개입니다.");
-
+		*/
 		
 	}
 	

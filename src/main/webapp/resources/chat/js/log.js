@@ -22,25 +22,39 @@ $('.helpforum a').on('click', function(e) {
 
 	$(document).ready(function(){
 
-		//누적 이용자수를 구해오는 ajax
+		//누적 이용자수, 누적 로그 수, 누적 실패대화 수를 구해오는 ajax
 		$.ajax({
 			url: 'log/totalID.do',
 			async: true,
 			type : 'post',
 			success : function(result){
-				console.log("totalID result is..." + result);
-				var container = $('h1#totalID');
-				container.append(result);
+				var container1 = $('h1#totalID');
+				container1.append(result[0]);
 				
+				
+				var totalLog = $('h1#totalLog');
+				totalLog.append(result[1]);
+				
+				var failCount = $('h1#failCount');
+				failCount.append(result[2]);
 				
 			},
 			beforeSend:function(){
 				var container = $('h1#totalID');
-				container.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
+				container.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
+				
+				var totalLog = $('h1#totalLog');
+				totalLog.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
+				
+				var failCount = $('h1#failCount');
+				failCount.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
 			},
 			complete:function(){
-				var container = $('h1#totalID');
 				$('h1#totalID img').css("display","none");
+
+				$('h1#totalLog img').css("display","none");
+				
+				$('h1#failCount img').css("display","none");
 			},
 			//에러 처리 필요함.
 			error : function(result, status){
@@ -62,23 +76,16 @@ $('.helpforum a').on('click', function(e) {
 				console.log("todayID result is..." + result);
 				var todayID = $('h1#todayID');
 				
-				//result[0] = todayID
-				todayID.append(result[0]);
-				
-				//result[1] = totalLogCount
-				var totalLog = $('h1#totalLog');
-				totalLog.append(result[1]);
+
+				todayID.append(result);
+
 			},
 			beforeSend:function(){
 				var todayID = $('h1#todayID');
-				todayID.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
-			
-				var totalLog = $('h1#totalLog');
-				totalLog.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
+				todayID.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
 			},
 			complete:function(){
 				$('h1#todayID img').css("display","none");	
-				$('h1#totalLog img').css("display","none");
 			},
 			//에러 처리 필요함.
 			error : function(result, status){
@@ -101,7 +108,7 @@ $('.helpforum a').on('click', function(e) {
 				var intentRank = 1;
 				container.append("<div class = 'trends_panel'></div>");
 				var panel = $('.trends_panel').last();
-				panel.append("<h5>Top Intents</h5><br><hr><br>");
+				panel.append("<h5>Top 대화유형</h5><br><hr><br>");
 				for(key in result[0]){
 					if(intentRank > 5){
 						break;
@@ -119,7 +126,7 @@ $('.helpforum a').on('click', function(e) {
 				container.append("<br>");
 				container.append("<div class = 'trends_panel'></div>");
 				var panel = $('.trends_panel').last();
-				panel.append("<h5>Top Entities</h5><br><hr><br>");
+				panel.append("<h5>Top 대화 키워드</h5><br><hr><br>");
 				var entityRank = 1;
 				for(key in result[1]){
 					if(entityRank > 5){

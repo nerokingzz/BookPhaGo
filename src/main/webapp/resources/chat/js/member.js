@@ -1,6 +1,6 @@
 
 function checkMember(userId){
-	console.log("i amm in checkMember");
+	console.log("i am in checkMember");
 	var mem_id = decodeURI(userId);
 	
 	console.log("id : " + mem_id);

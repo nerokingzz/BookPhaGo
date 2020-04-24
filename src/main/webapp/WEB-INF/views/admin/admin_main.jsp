@@ -167,7 +167,7 @@
 							  	<div class="tab-pane fade" id="nav-password2" role="tabpanel" aria-labelledby="nav-password-tab">
 							  		<div class="acc-setting">
 										<h3>챗봇관리</h3>
-										<jsp:include page="../chat/getRank.jsp"></jsp:include>
+										<jsp:include page="../chat/getRank.jsp" flush="true"></jsp:include>
 									</div><!--acc-setting end-->
 							  	</div>
 							</div>
