@@ -36,9 +36,19 @@
 			location.href="delete.do";
 		})
 		
- 
-	})
-	
+		$("#login").on("click", function(){
+            if($("#userId").val()==""){
+               alert("ID를 입력해주세요.");
+               $("#userId").focus();
+               return false;
+            }
+            if($("#userPass").val()==""){
+                alert("비밀번호를 입력해주세요.");
+                $("#userPass").focus();
+                return false;
+             }
+	})	
+})
 
 </script>
 <body>
@@ -47,17 +57,19 @@
 		<c:if test="${member == null}">
 			<div>
 				<label for="userId">ID</label>
-				<input type="text" id="userId1" name="userId1">
+				<input type="text" id="userId" name="userId">
 			</div>
 			<div>
 				<label for="userPass">PW</label>
-				<input type="password" id="userPass1" name="userPass1">
+				<input type="password" id="userPass" name="userPass">
 			</div>
 			<div>
 				<button id= "login" type="submit">로그인</button>
 				<button id="registerBtn" type="button">회원가입</button>
+				
 			</div>
-		</c:if>
+		
+			</c:if>
 		<c:if test="${member != null}">
 			<div>
 				<h1><p>${member.userId}님 로그인</p></h1>
@@ -78,6 +90,7 @@
 		</c:if>
 
 	</form>
+
 
 </body>
 </html>

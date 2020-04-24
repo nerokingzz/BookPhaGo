@@ -29,7 +29,9 @@
 
 <a href="loginForm.do">로그인</a>
 <a href="list.do">리스트</a>
-<a href="sign.do>">로그인페이지</a>
+<a href="sign.do">로그인페이지</a>
+<a href="update1.do">회원정보수정</a>
+<a href="update1.do">회원탈퇴</a>
 
 <%@ include file="chat/watson.jsp" %>
 

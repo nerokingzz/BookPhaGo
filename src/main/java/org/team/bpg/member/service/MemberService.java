@@ -21,7 +21,10 @@ public interface MemberService {
 	public int passChk(MemberVO vo) throws Exception;
 	
 	public int idChk(MemberVO vo) throws Exception;
-
+	
+	public String passForgot(MemberVO vo) throws Exception;
+	
+	public int passForgot1(MemberVO vo) throws Exception;
 	
 	//관리자
 	public void write(MemberVO memberVO) throws Exception;
@@ -31,6 +34,8 @@ public interface MemberService {
 	public int listCount(SearchCriteria scri) throws Exception;
 	
 	public int adminDelete(String id) throws Exception;
+
+	
 	
 	
 	

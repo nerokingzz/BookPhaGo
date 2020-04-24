@@ -29,114 +29,51 @@
 
 <script type="text/javascript">
 
-
-
 $(document).ready(function(){
-
-	$("#login").on("click", function(){
-        if($("#userId").val()==""){
-           alert("아이디를 입력해주세요.");
-           $("#userId").focus();
-           return false;
-        }
-        if($("#userPass").val()==""){
-            alert("비밀번호를 입력해주세요.");
-            $("#userPass").focus();
-            return false;
-         }
-        
-        $.ajax({
-            url : "passChk.do",
-            type : "POST",
-            dataType : "json",
-            data : $("#homeForm").serializeArray(),
-            success: function(data){
-               
-               if(data==0){
-                  alert("로그인 실패. \n아이디와 비밀번호를 확인해주세요.");
-                  return false;
-              	 }  
-               }
-         })
-	})
+    // 취소
+    $("#cancle").on("click", function(){
+       
+       location.href = "sign.do";
+                 
+    })
 })
-
-function test(){
-	$.ajax({
-        url : "idChk.do",
-        type : "POST",
-        dataType : "json",
-        data : $("#regForm").serializeArray(),
-        success: function(data){
-           
-        	if(data == 1){
-				alert("이미 가입된 아이디입니다.");
-			}else if(data == 0){
-				$("#idChk").attr("value", "Y");
-				alert("사용가능한 아이디입니다.");
-			}
-           }
-     })
-}
 
 function validate() {
 
-		var re = /^[a-zA-Z0-9]{4,12}$/	//아이디,비밀번호
-		var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	//이메일
-		var re3 = /^[a-zA-Z가-힣]{2,10}$/		//이름
-		var re5 = /^[A-Za-z0-9_\-]{4}$/;	//나이
-		var re6 = /^[가-힣]{2}$/
+	var re = /^[a-zA-Z0-9]{4,12}$/	//아이디,비밀번호
+	var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	//이메일
+	var re3 = /^[a-zA-Z가-힣]{2,10}$/		//이름
+	var re5 = /^[A-Za-z0-9_\-]{4}$/;	//나이
+	var re6 = /^[가-힣]{2}$/
+	
+	var userId1 = document.getElementById("userId1");
+	var userPass1 = document.getElementById("userPass");
+	var userPasschk = document.getElementById("userPasschk");
+	var userName= document.getElementById("userName");
+	var userEmail = document.getElementById("userEmail");
+	var userGender = document.getElementById("userGender");
 		
-		var userId1 = document.getElementById("userId1");
-		var userPass1 = document.getElementById("userPass1");
-		var userPasschk = document.getElementById("userPasschk");
-		var userName= document.getElementById("userName");
-		var userEmail = document.getElementById("userEmail");
-		var userGender = document.getElementById("userGender");
-		var userAge = document.getElementById("userAge");
-		var idChkVal = $("#idChk").val();
-		var chk=document.regForm.cc.checked;
-		
-		
-		if (idChkVal == "N") {
-			alert("ID중복확인 버튼을 눌러주세요.");
-			$("#userId1").focus();
-			return false;
-		}
-		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
-			$("#userPass1").focus();
-			return false;
-		}
-		if (!check(re, userPass1, "비밀번호는 4~12자의 영문, 숫자로만 입력")) {
-			$("#userPass1").focus();
-			return false;
-		}
-		if (regForm.userPass1.value != regForm.userPasschk.value) {
-			alert("비밀번호가 일치하지않음");
-			$("#userPasschk").focus();
-			return false;
-		}
-		if (!check(re3, userName, "이름은 2~10자의 영문,한글만 입력")) {
-			$("#userName").focus();
-			return false;
-		}
-		if (!check(re2, userEmail, "적합하지 않은 이메일 형식.")) {
-			$("#userEmail").focus();
-			return false;
-		}
-		if (!check(re5, userAge, "생년월일은 4자리의 숫자만 입력")) {
-			$("#userAge").focus();
-			return false;
-		}
-		if (regForm.userGender.value == "") {
-			alert("성별 미입력.");
-			return false;
-		}
-		if(!chk){
-            alert("약관에 동의해 주세요");
-            return false;
-        } 
-		alert("회원가입이 완료되었습니다.");
+	if (!check(re, userPass, "비밀번호는 4~12자의 영문, 숫자로만 입력")) {
+		return false;
+	}
+	if (!check(re3, userName, "이름은 2~10자의 영문,한글만 입력")) {
+		return false;
+	}
+	if (!check(re2, userEmail, "적합하지 않은 이메일 형식")) {
+		return false;
+	}
+	if (!check(re5, userAge, "생년월일은 4자리의 숫자만 입력")) {
+		return false;
+	}
+	if (regForm.userGender.value == "") {
+		alert("성별 미입력");
+		return false;
+	}
+	if (regForm.userPass.value != regForm.userPasschk.value) {
+		alert("비밀번호가 일치하지않음");
+		return false;
+	}
+		alert("정보수정이 완료되었습니다");
 	}
 	function check(re, what, message) {
 		if (re.test(what.value)) {
@@ -146,13 +83,9 @@ function validate() {
 
 		//return false;
 	}
-	
-	
-
 </script>
 
 <body class="sign-in">
-	
 
 	<div class="wrapper">		
 
@@ -172,13 +105,13 @@ function validate() {
 						<div class="col-lg-6">
 							<div class="login-sec">
 								<ul class="sign-control">
-									<li data-tab="tab-1" class="current"><a href="#" title="">Sign in</a></li>				
-									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>				
+									<!-- <li data-tab="tab-1" ><a href="#" title="">Sign in</a></li>				
+									<li data-tab="tab-2" class="current"><a href="#" title="">modify</a></li>			 -->
 								</ul>			
-								<div class="sign_in_sec current" id="tab-1">
+								<%-- <div class="sign_in_sec current" id="tab-1">
 									
 									<h3>Sign in</h3>
-									<form id="homeForm" name='homeForm' method="post" action="login.do">
+									<form id="homeForm" name='homeForm' method="post" action="login1.do">
 										<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
@@ -197,47 +130,46 @@ function validate() {
 													<div class="fgt-sec">
 														<input type="checkbox" name="cc" id="c1">
 														<label for="c1">
-															<!-- <span></span> -->
+															<span></span>
 														</label>
-														<!-- <small>Remember me</small> -->
+														<small>Remember me</small>
 													</div><!--fgt-sec end-->
-														<a href="forgot.do" title="">Forgot Password?</a>
+													<a href="#" title="">Forgot Password?</a>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
 												<button type="submit" value="submit" id="login">Sign in</button>
 											</div>
-											
+											<div>
+												<c:if test="${msg == false}">
+													<p>로그인 후에 작성하실 수 있습니다.</p>
+												</c:if>
+											</div>
 										</div>
 									</form>
 									<div class="login-resources">
-										<!-- <h4>Login Via Social Account</h4> -->
+										<h4>Login Via Social Account</h4>
 										<ul>
-											<!-- <li><a href="#" title="" class="fb"><i class="fa fa-facebook"></i>Login Via Facebook</a></li>
-											<li><a href="#" title="" class="tw"><i class="fa fa-twitter"></i>Login Via Twitter</a></li> -->
+											<li><a href="#" title="" class="fb"><i class="fa fa-facebook"></i>Login Via Facebook</a></li>
+											<li><a href="#" title="" class="tw"><i class="fa fa-twitter"></i>Login Via Twitter</a></li>
 										</ul>
 									</div><!--login-resources end-->
-								</div><!--sign_in_sec end-->
-								<div class="sign_in_sec" id="tab-2">
-									<h3>Sign up</h3>
-									<div class="dff-tab current" id="tab-3">
-										<form action="register.do" method="post" id="regForm" name="regForm"  onsubmit="return validate();">
+								</div><!--sign_in_sec end--> --%>
+								<div class="sign_in_sec current" id="tab-2">
+									<h3>Modify</h3>
+									<div class="dff-tab current" id="tab-2">
+										<form action="memberUpdate.do" method="post" id="regForm" name="regForm"  onsubmit="return validate();">
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId1" name="userId1" placeholder="Id" style="width: 70%;">
-													<i class="la la-user" style="margin: 12px 0 0 0;"></i>
-													<button class="idChk" type="button" id="idChk" onclick="test();" value="N" style="
-														    width: 28%;
-														    font-size: 15px;
-														    text-align: center;
-														    padding: 11px;
-														">Check</button>
+													<input type="text" id="userId" name="userId" placeholder="Id" value="${member.userId}" readonly="readonly">
+													<i class="la la-user"></i>
+													
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPass1" name="userPass1" placeholder="Password">
+														<input type="password" id="userPass" name="userPass" placeholder="Password" value="${member.userPass}">
 														<i class="la la-lock"></i>
 													</div>
 												</div>
@@ -249,29 +181,40 @@ function validate() {
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userName"name="userName" placeholder="Name">
+														<input type="text" id="userName"name="userName" placeholder="Name" value="${member.userName}">
 														<i class="la la-user"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userEmail" name="userEmail" placeholder="Email">
+														<input type="text" id="userEmail" name="userEmail" placeholder="Email" value="${member.userEmail}">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userAge" name="userAge" placeholder="Age    ex)1999">
+														<input type="text" id="userAge" name="userAge" placeholder="Age" value="${member.userAge}">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<select name="userGender">
-															<option value="">성별</option>
-															<option id="userGender" name="userGender" value="남자">남자</option>
-															<option id="userGender" name="userGender" value="여자">여자</option>
-														</select>
+														<c:choose>
+															<c:when test="${member.userGender=='남자'}">
+																<select name="userGender">
+																	<option value="">성별</option>
+																	<option id="userGender" name="userGender" value="남자" selected="selected">남자</option>
+																	<option id="userGender" name="userGender" value="여자">여자</option>
+																</select>
+															</c:when>
+															<c:otherwise>
+																<select name="userGender">
+																	<option value="">성별</option>
+																	<option id="userGender" name="userGender" value="남자">남자</option>
+																	<option id="userGender" name="userGender" value="여자" selected="selected">여자</option>
+																</select>
+															</c:otherwise>
+														</c:choose>
 														<i class="la la-dropbox"></i>
 														<span><i class="fa fa-ellipsis-h"></i></span>
 													</div>
@@ -279,7 +222,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste1">
-															<option value="BO">관심분야1</option>
+															<option value="">관심분야1</option>
 															<option value="BO000">총류</option>
 															<option value="BO001">철학</option>
 															<option value="BO002">종교</option>
@@ -298,7 +241,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste2">
-															<option value="BO">관심분야1</option>
+															<option value="">관심분야1</option>
 															<option value="BO000">총류</option>
 															<option value="BO001">철학</option>
 															<option value="BO002">종교</option>
@@ -317,7 +260,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste3">
-															<option value="BO">관심분야1</option>
+															<option value="">관심분야1</option>
 															<option value="BO000">총류</option>
 															<option value="BO001">철학</option>
 															<option value="BO002">종교</option>
@@ -338,19 +281,20 @@ function validate() {
 														<div class="fgt-sec">
 															<input type="checkbox" name="cc" id="c2">
 															<label for="c2">
-																<span></span>
+															<!-- 	<span></span> -->
 															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+															<!-- <small>Yes, I understand and agree to the workwise Terms & Conditions.</small> -->
 														</div><!--fgt-sec end-->
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="submit">Get Started</button>
+													<button type="submit" id="submit">확인</button>
+													<button type="button" id="cancle">취소</button>
 												</div>
 											</div>
 										</form>
 									</div><!--dff-tab end-->
-									<div class="dff-tab" id="tab-4">
+									<div class="dff-tab" id="tab-3">
 										<form>
 											<div class="row">
 												<div class="col-lg-12 no-pdd">
@@ -380,7 +324,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="checky-sec st2">
 														<div class="fgt-sec">
-															<input type="checkbox" id="cc" name="cc" id="c3">
+															<input type="checkbox" name="cc" id="c3">
 															<label for="c3">
 																<span></span>
 															</label>
@@ -389,7 +333,7 @@ function validate() {
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button type="button" id="submit1">Get Started</button>
+													<button type="button" id="submit">Get Started</button>
 												</div>
 											</div>
 										</form>

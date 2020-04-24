@@ -52,6 +52,17 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
+	@Override
+	public String passForgot(MemberVO vo) throws Exception {
+		String result = dao.passForgot(vo);
+		return result;
+	}
+	
+	@Override
+	public int passForgot1(MemberVO vo) throws Exception {
+		int result = dao.passForgot1(vo);
+		return result;
+	}
 	
 	//관리자게시판		
 	// 게시글 작성
@@ -74,5 +85,5 @@ public class MemberServiceImpl implements MemberService {
 	public int adminDelete(String id) throws Exception {
 		return dao.adminDelete(id);
 	}
-	
+
 }
