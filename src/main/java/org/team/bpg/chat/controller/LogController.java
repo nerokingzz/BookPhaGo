@@ -62,6 +62,7 @@ public class LogController {
 		String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
 		
 		this.cursor = "";
+<<<<<<< HEAD
 
 	}
 	
@@ -133,10 +134,22 @@ public class LogController {
 		
 		filter += ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
 		
+=======
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 
+	}
+	
+	
+	@RequestMapping("totalID.do")
+	//기간에 관계 없이 전체 기간에 걸쳐 누적된 User ID 개수를 구한다.
+	public int collectTotalIDs() {
+		List<String> originList = new ArrayList<String>();
+		
 		while (true) {
 			
 			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
+<<<<<<< HEAD
+=======
 
 			LogCollection response = assistant.listAllLogs(options).execute().getResult();
 
@@ -144,7 +157,6 @@ public class LogController {
 			List<Log> logList = response.getLogs();
 
 			for (Log log : logList) {
-
 				String userID = "";
 				userID = log.getRequest().context().getMetadata().userId();
 				originList.add(userID);
@@ -155,6 +167,105 @@ public class LogController {
 				cursor = response.getPagination().getNextCursor();
 			}
 		}
+		int result = getDistinct(originList);
+		return result;
+	}
+	
+	
+	@RequestMapping("todayID.do")
+	//오늘의 userID 개수 수집해 중복을 제거합니다.
+	public List<Integer> collectTodayIDs() {
+		List<Integer> resultList = new ArrayList<Integer>();
+		
+		
+		List<String> originList = new ArrayList<String>();
+		String filter = this.filter;
+		
+		//startDate와 endDate를 yyyy-MM-dd 형식으로 바꿔주는 구문
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
+		Date date = new Date();
+		String dateStr = format1.format(date);
+		
+		
+		filter += ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
+		
+		int logCount = 0;
+		while (true) {
+			
+			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
+
+			LogCollection response = assistant.listAllLogs(options).execute().getResult();
+
+			// String logResult = response.toString();
+			List<Log> logList = response.getLogs();
+
+			for (Log log : logList) {
+				String userID = "";
+				userID = log.getRequest().context().getMetadata().userId();
+				originList.add(userID);
+				logCount++;
+			}
+			if (response.getPagination().getNextCursor() == null) {
+				break;
+			} else {
+				cursor = response.getPagination().getNextCursor();
+			}
+		}
+		int todayResult = getDistinct(originList);
+		
+		
+		resultList.add(todayResult);
+		resultList.add(logCount);
+		return resultList;
+	}
+	
+	
+	
+	//intent와 entity의 개수를 count하고 List<Hashmap> 형태로 view에 리턴한다.
+	//현재까지 누적된 모든 데이터를 바탕으로 한다.
+	@RequestMapping("/ranks.do")
+	public List<HashMap> Ranks() {
+
+		List<String> intentList = new ArrayList<String>();
+		List<String> entityList = new ArrayList<String>();
+
+		long start = System.currentTimeMillis();
+		while (true) {
+			
+			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
+
+			LogCollection response = assistant.listAllLogs(options).execute().getResult();
+
+			// String logResult = response.toString();
+			List<Log> logList = response.getLogs();
+
+			for (Log log : logList) {
+
+<<<<<<< HEAD
+				String userID = "";
+				userID = log.getRequest().context().getMetadata().userId();
+				originList.add(userID);
+=======
+				if (log.getResponse().getIntents().size() != 0) {
+					String intent = log.getResponse().getIntents().get(0).intent();
+					intentList.add(intent);
+				}
+				
+				if (log.getResponse().getEntities().size() != 0) {
+					String entity = log.getResponse().getEntities().get(0).entity();
+					entityList.add(entity);
+				}
+				
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
+			}
+			if (response.getPagination().getNextCursor() == null) {
+				break;
+			} else {
+				cursor = response.getPagination().getNextCursor();
+			}
+		}
+<<<<<<< HEAD
 		int todayResult = getDistinct(originList);
 		
 		
@@ -200,6 +311,8 @@ public class LogController {
 				cursor = response.getPagination().getNextCursor();
 			}
 		}
+=======
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 		long end = System.currentTimeMillis();
 
 		System.out.println( "api 실행 소요시간 : " + ( end - start )/1000.0 );

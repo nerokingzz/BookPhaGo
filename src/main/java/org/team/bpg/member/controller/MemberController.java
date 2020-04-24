@@ -43,7 +43,10 @@ public class MemberController {
 	
 	// 회원가입 post
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String postRegister(MemberVO vo) throws Exception {
+	public String postRegister(MemberVO vo, HttpServletRequest request) throws Exception {
+		
+		System.out.println("히든값 : " + request.getParameter("borrowcnt"));
+		
 		logger.info("post register");
 		int result = service.idChk(vo);
 		try {
@@ -52,15 +55,13 @@ public class MemberController {
 			}else if(result == 0) {
 				service.register(vo);
 			}
-			// 요기에서~ 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
+			// 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
 			// 존재하지 않는다면 -> register
 		} catch (Exception e) {
 			throw new RuntimeException();
 			
 		}
-		
-		
-		return "home";
+		return "member/sign-in";
 	}
 	
 	//  로그인 get
@@ -79,12 +80,17 @@ public class MemberController {
 		
 		if(login == null) {
 			session.setAttribute("member", null);
+
 			rttr.addFlashAttribute("msg", false);
-		}else {
-			session.setAttribute("member", login);
+			return "member/sign-in";
+		}
+		else{
+			System.out.println("로그인한 아이디" + login.getUserId());
+			session.setAttribute("user_id", login.getUserId());
+			session.setAttribute("user_position", login.getUserposition());
+			return "index";
 		}
 		
-		return "member/home";
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
@@ -92,10 +98,10 @@ public class MemberController {
 		
 		session.invalidate();
 		
-		return "home";
+		return "index";
 	}
 	
-	
+	// 정보 수정
 	@RequestMapping(value="update", method = RequestMethod.GET)
 	public String updateForm(HttpSession session) {
 		return "member/memberUpdateView";
@@ -174,7 +180,7 @@ public class MemberController {
 		
 		
 		
-		//test
+		//sign-in 페이지
 		
 		
 		
@@ -210,7 +216,103 @@ public class MemberController {
 		}
 		
 		
+		@RequestMapping(value = "test", method = RequestMethod.GET)
+		public String test() throws Exception {
+			return "member/test";
+		}
 		
+		//정보수정
+		@RequestMapping(value = "update1", method = RequestMethod.GET)
+		public String memberUpdateView1() throws Exception {
+			return "member/sign-in-update";
+		}
+		
+		
+		
+		//로그인
+		@RequestMapping(value = "login1", method = RequestMethod.POST)
+		public String login1(MemberVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception{
+			logger.info("post login");
+			
+			HttpSession session = req.getSession();
+			MemberVO login = service.login(vo);
+			
+			if(login == null) {
+				session.setAttribute("member", null);
+				rttr.addFlashAttribute("msg", false);
+				
+			}
+			else{
+				session.setAttribute("member", login);
+				
+			}
+			return "member/sign-in";
+		}
+		
+		// 회원탈퇴 get
+				@RequestMapping(value = "delete1", method = RequestMethod.GET)
+				public String membeDelete() throws Exception {
+					return "member/sign-in-delete";
+				}
+				
+		// 회원 탈퇴 post
+				@RequestMapping(value="memberDelete1", method = RequestMethod.POST)
+				public String memberDelete1(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
+					
+					// 세션에 있는 member를 가져와 member변수에 넣어줍니다.
+					MemberVO member = (MemberVO) session.getAttribute("member");
+					// 세션에있는 비밀번호
+					String sessionPass = member.getUserPass();
+					// vo로 들어오는 비밀번호
+					String voPass = vo.getUserPass();
+					
+					if(!(sessionPass.equals(voPass))) {
+						rttr.addFlashAttribute("msg", false);
+						return "member/sign-in-delete";
+					}
+					service.memberDelete(vo);
+					session.invalidate();
+					return "member/sign-in";
+				}
+		
+				//비밀번호찾기
+				@RequestMapping(value = "forgot")
+				public String forgot() throws Exception {
+					return "member/sign-in-forgot";
+				}
+				
+				//String
+				@ResponseBody
+				@RequestMapping(value="passForgot")
+				public String passForgot(MemberVO vo) throws Exception {
+					String result = service.passForgot(vo);
+					logger.info("passForgot......sakhasjksakbgsjk");
+					
+					logger.info(result);
+					return result;
+				}
+				
+				//int
+				@ResponseBody
+				@RequestMapping(value="passForgot1")
+				public int passForgot1(MemberVO vo) throws Exception {
+					
+					int result = service.passForgot1(vo);
+					
+					return result;
+				}
+				
+				// 비밀번호찾기
+				@RequestMapping(value="pass")
+				public String forgot(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
+						
+					logger.info("pass");
+						return "member/sign-in";
+				
+					
+					
+				}
+				
 		//테스트
 	/*
 	 * @RequestMapping(value = "list", method = RequestMethod.GET) public String

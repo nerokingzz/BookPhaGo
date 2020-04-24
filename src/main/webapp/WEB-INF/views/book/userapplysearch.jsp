@@ -8,97 +8,253 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p align="center">신청 도서 검색
+<h3>책 제목을 검색해주세요.</h3>
+    <input id="bookName" type="text">
+    <button onclick="search(1);">검색</button>
 
-	<div >
-		<form action="userapplysearchbook.do" method="get">
-			<table>
-				<tr>
-					<td style="text-align: center;">
-						<select class="form-control"  name="search_option">
-							<option value="bookName">도서명</option>
-						</select>
-					</td>
-					<td>
-						<div>
-						  <input type="text" name="search_value">
-						</div>
-					</td>
-					<td style="text-align: center;"><button type="submit" >검색</button></td>
-				</tr>					
-			</table>
-		</form>
-	</div>
-	
-	
-	<table align="center" border="1">
-			
-			<c:choose>
-				
-				<c:when test="${booklistSize gt 0 }">
-				<tr align="center" bgcolor="lightgreen">
-					<td width="7%"><b>도서명</b>
-					<td width="7%"><b>저자</b>
-					<td width="7%"><b>출판사</b>
-					<td width="7%"><b>발행일</b>
-					<td width="7%"><b>isbn</b>
-					<td width="7%"><b>선택</b></td>
-					<c:forEach var="i"  begin="1" end="${booklistSize }">
-						<tr align="center">
-							<td><input type="text" id="cInput" value="${booklist.get(i-1).get('BOOKNAME') }" 
-								 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px; text-align:center;" readonly></td>
-							<td>${booklist.get(i-1).get("BOOKWRITER") }</td>
-							<td>${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
-							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
-							<td><input type="text" id="cInputt" value="${booklist.get(i-1).get('ISBN') }" 
-								 style="border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px; text-align:center;" readonly></td>
-							<td>
-								<input type="button" value="선택하기" onclick="setParentText('${i}');">
-							</td>
-						</tr>
-					</c:forEach>
-				</tr>
-				</c:when>
-			</c:choose>
-	</table>
+<div id="here"></div>
+<div id="paging"></div>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>	
 
 <script type="text/javascript">
+function search(paging) {
 	
-	var isbnlist=new Array();
-	var booknamelist=new Array();
-	
-	$(document).ready(function() {
-		//community_id 배열
-		$("input[id=cInputt]").each(function(index, item) {
-			isbnlist.push($(item).val());
-		});
-		
-	});
-	
-	$(document).ready(function() {
-		//community_id 배열
-		$("input[id=cInput]").each(function(index, item) {
-			booknamelist.push($(item).val());
-		});
-		
-	});
-	
-function setParentText(i){
-
-	var isbn = isbnlist[i-1];
-	var bookname = booknamelist[i-1];
-	
-	window.opener.document.getElementById("pInput").value = bookname;
-	window.opener.document.getElementById("pInputt").value = isbn;
-    
-    window.close();
+	var keepPage = paging
+    	
+        $.ajax({
+            method: "GET",
+            url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+            data: { query: $("#bookName").val(), size : "50", page : keepPage}, // 보낼 데이터
+            headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+        })
+            .done(function (msg) { // 응답이 오면 처리를 하는 코드
+            	console.log(msg);
+            	console.log(msg.meta.total_count);
+          		console.log(msg.documents.length);
+          		
+          		var totalData = msg.meta.pageable_count; // 검색결과 제공가능한 문서수 총  //데이터 수
+          		var is_end = msg.meta.is_end; // 현재 페이자가 마지막페에지인지 여부
+           		var total_count = msg.meta.total_count; //전체 검색된 문서수      
+          		var dataPerPage = msg.documents.length; // 한 페이지 길이 // 한 페이지에 나타낼 데이터 수
+          		var pageCount = 5; // 한 화면에 나타낼 페이지수
+          		
+          		
+ // --------------------------도서 검색 페이징         		
+          		function paging(totalData, dataPerPage, pageCount, currentPage) {
+          			console.log("currentPage : " + currentPage);
+          			
+          			var totalPage = Math.ceil(totalData / dataPerPage); 
+          			var pageGroup = Math.ceil(currentPage / pageCount); 
+          			
+          			console.log("pageGroup : " + pageGroup);
+          			
+          			var last = pageGroup * pageCount; // 화면에 보여질 마지막 페이지 번호
+          			if(last > totalPage) last = totalPage;
+          			var first = last - (pageCount-1); //화면에 보여질 첫번째 페이지 번호
+          			if(first<0) first=1;
+          			var next = last+1;
+          			var prev = first-1;
+          			
+          			console.log("last : " + last);
+          	        console.log("first : " + first);
+          	        console.log("next : " + next);
+          	        console.log("prev : " + prev);
+          			
+          	        var $pingingView = $("#paging");
+          	        
+          	        var html = "";
+          	        
+          	        if(prev > 0)
+          	        	html += "<a href='#' id='prev'><</a>";
+          	        	
+          	       	for(var i=first; i<=last; i++) {
+          	       		html += "<a href='#' class='load-list' id=" + i + ">" + i + "</a>";
+          	       	}
+          	       	
+          	       	if(last <totalPage) 
+          	       		html += "<a href='#' id='next'>></a>";
+          	       	
+          	      $("#paging").html(html);    // 페이지 목록 생성
+                  $("#paging a").css("color", "black");
+                  $("#paging a#" + currentPage).css({"text-decoration":"none", 
+                                                     "color":"red", 
+                                                     "font-weight":"bold"});    // 현재 페이지 표시
+                                                     
+                  $("#paging a").click(function(){
+                      
+                      var $item = $(this);
+                      var $id = $item.attr("id");
+                      var selectedPage = $item.text();
+                      
+                      if($id == "next")    selectedPage = next;
+                      if($id == "prev")    selectedPage = prev;
+                      
+                      paging(totalData, dataPerPage, pageCount, selectedPage);
+                  });
+          		}
+          		
+          		
+          			$("document").ready(function(){        
+              	        paging(totalData, dataPerPage, pageCount, 1);
+              	    });
+          		
+          			var select;
+          			$(document).on('click', '.load-list', function(){
+          				select = $(this).attr('id');     			
+              			search1(select);
+              		});
+          		
+          		
+          		
+// ---------------------------도서 검색 목록          		
+            	 var str = "";
+            	document.getElementById("here").innerHTML = str;
+            	
+            	
+ 				str += "<table>";
+            	 for(var i=0;i<dataPerPage;i++){
+            		 var title = msg.documents[i].title; // 제목
+            		 var isbn = msg.documents[i].isbn;
+            		 if(isbn.length > 20) {
+            			 isbn = isbn.substring(11,24); // isbn
+            		 }else {
+            			isbn = msg.documents[i].isbn;
+            		 }
+            		 var writer = msg.documents[i].authors;
+            		 var pub = msg.documents[i].publisher;
+            		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
+            		 str += "<tr>";
+            		for(var j=0; j<1; j++){
+            			str += "<td style='border:1px solid;'>" + thumbnail + "</td>";
+            			str += "<td style='border:1px solid;'>" + title + "</td>";
+            			str += "<td style='border:1px solid;'>" + writer + "</td>";
+            			str += "<td style='border:1px solid;'>" + pub + "</td>";
+            			str += "<td style='border:1px solid;'>" + isbn + "</td>";
+            			str += "<td style='border:1px solid;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+            		}
+            		str += "</tr>";
+            	} 
+            	str += "</table>";
+            	document.getElementById("here").innerHTML = str; 
+            	
+            	$(document).on('click', '.select_input', function(){
+           			var val = $(this).attr('id');
+           			var keepPage = select;
+           			search2(keepPage , val);
+           		});
+            });
 }
 
+function search1(paging) {
+	var keepPage = paging
+	
+    $.ajax({
+        method: "GET",
+        url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+        data: { query: $("#bookName").val(), size : "50", page : keepPage}, // 보낼 데이터
+        headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+    })
+        .done(function (msg) { // 응답이 오면 처리를 하는 코드
+        	console.log(msg);
+        	console.log(msg.meta.total_count);
+      		console.log(msg.documents.length);
+      		
+      		var totalData = msg.meta.pageable_count; // 검색결과 제공가능한 문서수 총  //데이터 수
+      		var is_end = msg.meta.is_end; // 현재 페이자가 마지막페에지인지 여부
+       		var total_count = msg.meta.total_count; //전체 검색된 문서수      
+      		var dataPerPage = msg.documents.length; // 한 페이지 길이 // 한 페이지에 나타낼 데이터 수
+      		var pageCount = 10; // 한 화면에 나타낼 페이지수
+      		 
+      		
+      		var str = "";
+         	document.getElementById("here").innerHTML = str;
+         	
+         	
+				str += "<table>";
+				for(var i=0;i<dataPerPage;i++){
+           		 var title = msg.documents[i].title; // 제목
+           		 var isbn = msg.documents[i].isbn;
+           		 if(isbn.length > 20) {
+           			 isbn = isbn.substring(11,24); // isbn
+           		 }else {
+           			isbn = msg.documents[i].isbn;
+           		 }
+           		 var writer = msg.documents[i].authors;
+           		 var pub = msg.documents[i].publisher;
+           		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
+           		 str += "<tr>";
+           		for(var j=0; j<1; j++){
+           			str += "<td style='border:1px solid;'>" + thumbnail + "</td>";
+           			str += "<td style='border:1px solid;'>" + title + "</td>";
+           			str += "<td style='border:1px solid;'>" + writer + "</td>";
+           			str += "<td style='border:1px solid;'>" + pub + "</td>";
+           			str += "<td style='border:1px solid;'>" + isbn + "</td>";
+           			str += "<td style='border:1px solid;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+           		}
+         		str += "</tr>";
+         	} 
+         	str += "</table>";
+         	document.getElementById("here").innerHTML = str; 
+         	
+       
+         	
+         });
+}
 
-function CloseWindow() {
-	window.close();
+function search2(keepPage, val) {
+	var paging = keepPage
+	var i = val;
+    $.ajax({
+        method: "GET",
+        url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+        data: { query: $("#bookName").val(), size : "50", page : paging}, // 보낼 데이터
+        headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+    })
+        .done(function (msg) { // 응답이 오면 처리를 하는 코드
+        	var isbn = msg.documents[i].isbn;
+        	 if(isbn.length > 20) {
+       			 isbn = isbn.substring(11,24); // isbn
+       		 }else {
+       			isbn = msg.documents[i].isbn;
+       		 }
+        	var title = msg.documents[i].title;
+        	
+        	search3(isbn,title);
+        	
+         });
+}
+
+function search3(isbn,title) {
+	var a = {"isbn" : isbn};
+	var aa = isbn;
+	var bb = title;
+	$.ajax({
+		url:"b.do",
+		data:JSON.stringify(a),
+		method:"POST",
+		contentType: "application/json",
+		success:function(data) {
+			
+			console.log("1111111111111111");
+			
+			var bookinfo = data;
+			var bookNumber = bookinfo.bookNumber;
+			console.log(bookNumber);
+			
+ 			if(bookNumber != undefined) {
+				alert("이미 도서관에 존재하는 도서입니다.");
+			}else {
+				window.opener.document.getElementById("pInput").value = aa;
+				window.opener.document.getElementById("pInputt").value = bb;
+			    
+			    window.close();
+			} 
+			
+		},error:function(request,status,error){
+			console.log("22222222222222");
+		}
+	});
 }
 </script>

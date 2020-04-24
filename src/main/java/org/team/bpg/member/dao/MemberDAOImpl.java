@@ -55,8 +55,19 @@ public class MemberDAOImpl implements MemberDAO {
 		return result;
 	}
 	
+	@Override
+	public String passForgot(MemberVO vo) throws Exception {
+		String result = sql.selectOne("memberMapper.passForgot", vo);
+		return result;
+	}
 	
+	@Override
+	public int passForgot1(MemberVO vo) throws Exception {
+		int result = sql.selectOne("memberMapper.passForgot1", vo);
+		return result;
+	}
 	
+
 	//관리자게시판
 
 	// 게시글 작성

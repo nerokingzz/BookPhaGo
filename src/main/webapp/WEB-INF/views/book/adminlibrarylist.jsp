@@ -35,7 +35,7 @@
 .close {
 	color: #aaa;
 	float: right;
-	font-size: 28px;
+	font-size: 20px;
 	font-weight: bold;
 }
 
@@ -44,6 +44,7 @@
 	text-decoration: none;
 	cursor: pointer;
 }
+
 </style>
 </head>
 <body>
@@ -52,7 +53,7 @@
 
 	<!-- Trigger/Open The Modal -->
 	<p align="center">
-		<button id="myBtn">도서 등록</button>
+		<button style=" width:70px; height:50px; background-color:#e44d3a; border: none; color:#fff; padding: 15px 0; text-align: center; text-decoration: none; display: inline-block; font-size: 13px; margin: 4px; cursor: pointer;" id="myBtn">도서 등록</button>
 	</p>
 	
 	<!-- The Modal -->
@@ -62,87 +63,61 @@
 		<div class="modal-content">
 			<span class="close">&times;</span>
 			<form method="get" action="admin_main.do">
-				<h3 style="text-align: center">도서 등록창</h3>
+				<h3 style="text-align: center">도서 등록창</h3><br>
 				<input type="hidden" name="page" value="book_A">
-				<table align="center">
-					<tr>
-						<td width="200">
-							<p align="right">isbn :</p>
-						</td>
-						<td width="400"><input type="text" name="isbn" id="pinput" readonly>
-							<input type="button" value="검색" onclick="searchIsbn()" ></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">도서명 :</p>
-						</td>
-						<td width="400"><input type="text" id="pinputt" readonly></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">지은이 :</p>
-						</td>
-						<td width="400"><input type="text" id="pinputtt" readonly></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">출판사 :</p>
-						</td>
-						<td width="400"><input type="text" id="pinputttt" readonly></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">발행일 :</p>
-						</td>
-						<td width="400"><input type="text" id="pinputtttt" readonly></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">도서번호 :</p>
-						</td>
-						<td width="400"><input type="text" name="bookNumber"></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">장르 :</p>
-						</td>
-						<td width="400"><select class="form-control"  name="bookGenre">
-										<option value="총류">총류</option>
-										<option value="철학">철학</option>
-										<option value="종교">종교</option>
-										<option value="사회과학">사회과학</option>
-										<option value="자연과학">자연과학</option>
-										<option value="기술과학">기술과학</option>
-										<option value="예술">예술</option>
-										<option value="언어">언어</option>
-										<option value="문학">문학</option>
-										<option value="역사">역사</option>
-									</select></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">대출여부 :</p>
-						</td>
-						<td width="400"><input type="text" name="bookRent"
-							value="대출가능"></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p align="right">예약여부 :</p>
-						</td>
-						<td width="400"><input type="text" name="bookReservation"
-							value="예약불가"></td>
-					</tr>
-					<tr>
-						<td width="200">
-							<p>&nbsp;</p>
-						</td>
-						
-						<td width="400"><input onclick="return inputCheck()" type="submit" value="도서등록"> <input
-							type="reset" value="다시입력"></td>
-					</tr>
-
-				</table>
+				<div class="row">
+				                                <div class="col-md-12 col-sm-12"><br>
+				                                   <h6>isbn : <input type="text" name="isbn" id="isbn" > <input type="button" value="검색" onclick="searchIsbn();"></h6><br>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>도서 제목 : <input type="text" name ="bookName" id="bookName" readonly></h6>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                    <h6>도서 소개 : <input type="text" name="bookContents" id="bookContents" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>도서 저자 : <input type="text" name="bookWriter" id="bookWriter" readonly></h6>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                    <h6>도서 번역자 : <input type="text" name="bookTrans" id="bookTrans" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>출판사 : <input type="text" name="bookPublisher" id="bookPublisher" readonly></h6>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>발행일 : <input type="text" name="bookDate" id="bookDate" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                	<h6>도서 썸네일 : <input type="text" name="bookThum" id="bookThum" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>장르 : <select class="form-control"  name="bookGenre" id="bookGenre" style="width:80px;height:40px;">
+																<option value="총류">총류</option>
+																<option value="철학">철학</option>
+																<option value="종교">종교</option>
+																<option value="사회과학">사회과학</option>
+																<option value="자연과학">자연과학</option>
+																<option value="기술과학">기술과학</option>
+																<option value="예술">예술</option>
+																<option value="언어">언어</option>
+																<option value="문학">문학</option>
+																<option value="역사">역사</option>
+																</select><input type="button" value="검색" onclick="bookNumberinput()" >
+													</h6>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>도서 번호 : <input type="text" name="bookNumber" id="bookNumber"></h6><br>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>대출여부 : <input type="text" name="bookRent" id="bookRent" value="대출가능"></h6>
+				                                </div>
+				                                <div class="col-md-6 col-sm-6">
+				                                	<h6>예약여부 : <input type="text" name="bookReservation" id="bookReservation" value="예약불가"></h6><br><br>
+				                                </div>
+				                                <div style="margin:0 auto;">
+				                                <input onclick="return inputCheck()" type="submit" value="도서등록">
+				                                </div>
+				                            </div>
 			</form>
 		</div>
 	</div>
@@ -181,7 +156,7 @@
  
  	
 	<table align="center" border="1">
-		<tr align="center" bgcolor="lightgreen">
+		<tr align="center" bgcolor="#f8585b">
 			<td width="7%"><b>도서명</b>
 			<td width="7%"><b>도서번호</b>
 			<td width="7%"><b>저자</b>
@@ -225,7 +200,7 @@
 	</table>
 </body>
 </html>
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	  // Get the modal
     var modal = document.getElementById('myModal');
@@ -269,6 +244,43 @@
 	
     function searchIsbn() {
     	var popUrl = "adminisbnsearchlist.do";
-    	window.open(popUrl,"","width=1200,height=400");
+    	window.open(popUrl,"","width=1200,height=800");
+    }
+
+    
+    function bookNumberinput() {
+    	var bookGenre = {"bookGenre" : $('#bookGenre option:selected').val()};
+    	
+    	$.ajax({
+    		url:"a.do",
+    		data:JSON.stringify(bookGenre),
+    		method:"POST",
+    		contentType: "application/json",
+    		success:function(data) {
+    			
+    			console.log("1111111111111111");
+    			
+    			var bookinfo = data;
+    			var bookNumber = bookinfo.bookNumber;
+    			
+    			var bookNumbersplit = bookNumber.split('_');
+    			
+    			var firstbookNumber = bookNumbersplit[0];
+    			
+    			var secondbookNumber = bookNumbersplit[1];
+    			
+    			var secondbookNumber_1 = Number(secondbookNumber)+1;
+    			
+    			var firstbookNumber_1 = firstbookNumber.concat("_",secondbookNumber_1);
+    			
+    			console.log(bookNumbersplit[0]);
+    			console.log(bookNumbersplit[1]);
+    			console.log(secondbookNumber_1);
+    			console.log(firstbookNumber_1);
+    			$('#bookNumber').val(firstbookNumber_1);
+    		},error:function(request,status,error){
+    			console.log("22222222222222");
+    		}
+    	});
     }
 </script>

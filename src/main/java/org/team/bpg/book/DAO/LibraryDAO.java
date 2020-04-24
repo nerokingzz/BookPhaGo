@@ -23,5 +23,12 @@ public interface LibraryDAO {
 	public void librarydelete(Map<String, String> book_list);
 	public void inputlibrary(Map<String, String> book_list);
 	public void userapplybook(Map<String, String> book_list);
+	public String booknumbersearch(String bookGenre);
+	public String applybookcheck(String isbn);
+	public String searchuserid(String userid);
+	public List<Map<String, Object>> searchbnumber(String bookNumber);
+	public void userborrow(String userid);
+	public void insertbookrent(Map<String, String> book_list);
+	public void updatebooklib(Map<String, String> book_list);
 
 }

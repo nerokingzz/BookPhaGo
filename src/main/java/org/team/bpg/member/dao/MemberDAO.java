@@ -22,6 +22,9 @@ public interface MemberDAO {
 	
 	public int idChk(MemberVO vo) throws Exception;
 	
+	public String passForgot(MemberVO vo) throws Exception;
+	
+	public int passForgot1(MemberVO vo) throws Exception;
 	
 	//관리자게시판
 	public void write(MemberVO memberVO) throws Exception;

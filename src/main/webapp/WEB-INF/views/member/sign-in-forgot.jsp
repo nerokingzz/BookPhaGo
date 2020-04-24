@@ -29,66 +29,79 @@
 
 <script type="text/javascript">
 
-
-
-$(document).ready(function(){
+ $(document).ready(function(){
 
 	$("#login").on("click", function(){
         if($("#userId").val()==""){
            alert("아이디를 입력해주세요.");
            $("#userId").focus();
            return false;
-        }
-        if($("#userPass").val()==""){
-            alert("비밀번호를 입력해주세요.");
-            $("#userPass").focus();
+        };
+        if($("#userEmail").val()==""){
+            alert("이메일을 입력해주세요.");
+            $("#userEmail").focus();
             return false;
-         }
+         }; 
+         
+         console.log($("#homeForm").serializeArray());
         
         $.ajax({
-            url : "passChk.do",
-            type : "POST",
-            dataType : "json",
+            url : "passForgot.do",
+            async : false,
             data : $("#homeForm").serializeArray(),
             success: function(data){
+               alert("비밀번호는 "+data + " 입니다 "); 
+              
+               },
                
-               if(data==0){
-                  alert("로그인 실패. \n아이디와 비밀번호를 확인해주세요.");
-                  return false;
-              	 }  
-               }
-         })
+             error: function(){
+            	 console.log("ajax error");
+             }
+           
+         });
+        
+         
+         
+    	
 	})
+
 })
 
-function test(){
-	var id=$('input[name=userId1]').val();
-	console.log(id);
+
+/* $('#ldj').on('click',function(){
+	console.log("ldj clicked");
+	alert("kjdasjsad");
 	
 	$.ajax({
-        url : "idChk.do",
-        type : "POST",
-        dataType : "json",
-        async : false,
-        data : $("#regForm").serializeArray(),
-        success: function(data){
+        url : "passForgot.do",
+        dataType : "JSON",
+        data : $("#homeForm").serializeArray(),
+        success: function(result){
            
-        	if(data == 1){
-				alert("이미 가입된 아이디입니다.");
-			}else if(data == 0){
-				$("#idChk").attr("value", "Y");
-				alert("사용가능한 아이디입니다.");
-			}
-           }
+        	console.log("aa");
+           console.log(result); 
+           
+           },
+           
+         error: function(){
+        	 console.log("ajax error");
+         }
+       
      })
-}
+     
+     alert("끄으으으응ㅌ");
+}) */
 
-function validate() {
+
+
+
+
+/* function validate() {
 
 		var re = /^[a-zA-Z0-9]{4,12}$/	//아이디,비밀번호
 		var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	//이메일
 		var re3 = /^[a-zA-Z가-힣]{2,10}$/		//이름
-		var re5 = /^[A-Za-z0-9_\-]{4}$/;	//나이
+		var re5 = /^[A-Za-z0-9_\-]{5,20}$/;	//나이
 		var re6 = /^[가-힣]{2}$/
 		
 		var userId1 = document.getElementById("userId1");
@@ -97,48 +110,14 @@ function validate() {
 		var userName= document.getElementById("userName");
 		var userEmail = document.getElementById("userEmail");
 		var userGender = document.getElementById("userGender");
-		var userAge = document.getElementById("userAge");
-		var idChkVal = $("#idChk").val();
-		var chk=document.regForm.cc.checked;
-		
-		
-		/* if (idChkVal == "N") {
-			alert("ID중복확인 버튼을 눌러주세요.");
-			return false;
-		} */
+
 		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
-			$("#userId1").focus();
-			return false;
-		}
-		if (!check(re, userPass1, "비밀번호는 4~12자의 영문, 숫자로만 입력")) {
-			$("#userPass1").focus();
-			return false;
-		}
-		if (regForm.userPass1.value != regForm.userPasschk.value) {
-			alert("비밀번호가 일치하지않음");
-			$("#userPasschk").focus();
-			return false;
-		}
-		if (!check(re3, userName, "이름은 2~10자의 영문,한글만 입력")) {
-			$("#userName").focus();
 			return false;
 		}
 		if (!check(re2, userEmail, "적합하지 않은 이메일 형식.")) {
-			$("#userEmail").focus();
 			return false;
 		}
-/* 		if (!check(re5, userAge, "생년월일은 4자리의 숫자만 입력")) {
-			$("#userAge").focus();
-			return false;
-		} */
-		if (regForm.userGender.value == "") {
-			alert("성별 미입력.");
-			return false;
-		}
-		if(!chk){
-            alert("약관에 동의해 주세요");
-            return false;
-        } 
+		
 		alert("회원가입이 완료되었습니다.");
 	}
 	function check(re, what, message) {
@@ -148,10 +127,7 @@ function validate() {
 		alert(message);
 
 		//return false;
-	}
-	
-	
-
+	} */
 </script>
 
 <body class="sign-in">
@@ -175,13 +151,13 @@ function validate() {
 						<div class="col-lg-6">
 							<div class="login-sec">
 								<ul class="sign-control">
-									<li data-tab="tab-1" class="current"><a href="#" title="">Sign in</a></li>				
-									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>				
+									<!-- <li data-tab="tab-1" class="current"><a href="#" title="">Sign in</a></li>				
+									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>	 -->			
 								</ul>			
 								<div class="sign_in_sec current" id="tab-1">
 									
-									<h3>Sign in</h3>
-									<form id="homeForm" name='homeForm' method="post" action="login.do">
+									<h3>Forgot</h3>
+									<form id="homeForm" name='homeForm' method="post">
 										<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
@@ -191,36 +167,37 @@ function validate() {
 											</div>
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="password" id="userPass" name="userPass" placeholder="Password">
+													<input type="email" id="userEmail" name="userEmail" placeholder="Email">
 													<i class="la la-lock"></i>
 												</div>
 											</div>
-											<div class="col-lg-12 no-pdd">
+										<!-- 	<div class="col-lg-12 no-pdd">
 												<div class="checky-sec">
 													<div class="fgt-sec">
 														<input type="checkbox" name="cc" id="c1">
 														<label for="c1">
-															<!-- <span></span> -->
+															<span></span>
 														</label>
-														<!-- <small>Remember me</small> -->
-													</div><!--fgt-sec end-->
-														<a href="forgot.do" title="">Forgot Password?</a>
+														<small>Remember me</small>
+													</div>fgt-sec end
+														<a href="#" title="">Forgot Password?</a>
 												</div>
-											</div>
-											<div class="col-lg-12 no-pdd">
-												<button type="submit" value="submit" id="login">로그인</button>
-											</div>
+											</div> -->
+											
 											
 										</div>
+										<div class="col-lg-12 no-pdd">
+												<button id ="login">Click</button>
+										</div>
 									</form>
-									<div class="login-resources">
-										<!-- <h4>Login Via Social Account</h4> -->
+									<!-- <div class="login-resources">
+										<h4>Login Via Social Account</h4>
 										<ul>
-											<!-- <li><a href="#" title="" class="fb"><i class="fa fa-facebook"></i>Login Via Facebook</a></li>
-											<li><a href="#" title="" class="tw"><i class="fa fa-twitter"></i>Login Via Twitter</a></li> -->
+											<li><a href="#" title="" class="fb"><i class="fa fa-facebook"></i>Login Via Facebook</a></li>
+											<li><a href="#" title="" class="tw"><i class="fa fa-twitter"></i>Login Via Twitter</a></li>
 										</ul>
-									</div><!--login-resources end-->
-								</div><!--sign_in_sec end-->
+									</div>login-resources end -->
+								<!-- </div>sign_in_sec end
 								<div class="sign_in_sec" id="tab-2">
 									<h3>Sign up</h3>
 									<div class="dff-tab current" id="tab-3">
@@ -264,7 +241,7 @@ function validate() {
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userAge" name="userAge" placeholder="Age    ex)1999">
+														<input type="text" id="userAge" name="userAge" placeholder="Age    ex)19990909">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
@@ -344,23 +321,15 @@ function validate() {
 																<span></span>
 															</label>
 															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
-														</div><!--fgt-sec end-->
+														</div>fgt-sec end
 													</div>
 												</div>
-												
-													
-													<input type="hidden" name="badcnt" value="0">
-													<input type="hidden" name="stopstart" value="0000-00-00">
-													<input type="hidden" name="stopend" value="0000-00-00">
-													<input type="hidden" name="borrowcnt" value="0">
-													<input type="hidden" name="applycnt" value="0">
-													<input type="hidden" name="reservecnt" value="0">
 												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="submit">회원가입</button>
+													<button type="submit" id="submit">Get Started</button>
 												</div>
 											</div>
 										</form>
-									</div><!--dff-tab end-->
+									</div>dff-tab end -->
 									<div class="dff-tab" id="tab-4">
 										<form>
 											<div class="row">
@@ -391,7 +360,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="checky-sec st2">
 														<div class="fgt-sec">
-															<input type="checkbox" id="cc" name="cc" id="c3">
+															<input type="checkbox" name="cc" id="c3">
 															<label for="c3">
 																<span></span>
 															</label>

@@ -20,7 +20,7 @@ $('.helpforum a').on('click', function(e) {
 
 	})
 
-	$(document).ready(function(){
+	$(window).load(function(){
 
 		//누적 이용자수, 누적 로그 수, 누적 실패대화 수를 구해오는 ajax
 		$.ajax({
@@ -62,12 +62,10 @@ $('.helpforum a').on('click', function(e) {
 			}
 		})
 
-	
+
 	
 
 	//금일 이용자수와 총 log 수를 구해오는 ajax
-	$(document).ready(function(){
-		
 		$.ajax({
 			url: 'log/todayID.do',
 			async: true,
@@ -127,6 +125,105 @@ $('.helpforum a').on('click', function(e) {
 				container.append("<div class = 'trends_panel'></div>");
 				var panel = $('.trends_panel').last();
 				panel.append("<h5>Top 대화 키워드</h5><br><hr><br>");
+			}
+		})
+
+		//누적 이용자수를 구해오는 ajax
+		$.ajax({
+			url: 'log/totalID.do',
+			async: true,
+			type : 'post',
+			success : function(result){
+				console.log("totalID result is..." + result);
+				var container = $('h1#totalID');
+				container.append(result);
+				
+				
+			},
+			beforeSend:function(){
+				var container = $('h1#totalID');
+				container.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
+			},
+			complete:function(){
+				var container = $('h1#totalID');
+				$('h1#totalID img').css("display","none");
+			},
+			//에러 처리 필요함.
+			error : function(result, status){
+				console.log("totalID ajax에서 에러가 발생하였습니다.");
+			}
+		})
+
+	
+	
+
+	//금일 이용자수를 구해오는 ajax
+		$.ajax({
+			url: 'log/todayID.do',
+			async: true,
+			type : 'post',
+			success : function(result){
+				console.log("todayID result is..." + result);
+				var todayID = $('h1#todayID');
+				
+				//result[0] = todayID
+				todayID.append(result[0]);
+				
+				//result[1] = totalLogCount
+				var totalLog = $('h1#totalLog');
+				totalLog.append(result[1]);
+			},
+			beforeSend:function(){
+				var todayID = $('h1#todayID');
+				todayID.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
+			
+				var totalLog = $('h1#totalLog');
+				totalLog.append("<img style='margin:auto;width:15px' src='/resources/chat/small_loader.gif' />");
+			},
+			complete:function(){
+				$('h1#todayID img').css("display","none");	
+				$('h1#totalLog img').css("display","none");
+			},
+			//에러 처리 필요함.
+			error : function(result, status){
+				console.log("todayID ajax에서 에러가 발생하였습니다.");
+			}
+		})
+	
+		
+		
+		
+		
+		//trends 패널에 등록될 intent와 entity 순위를 가져오는 ajax
+		$.ajax({
+			url: 'log/ranks.do',
+			async: true,
+			type : 'post',
+			success : function(result){
+				//console.log(result[1]);
+				var container = $('#resultDiv');
+				var intentRank = 1;
+				container.append("<div class = 'trends_panel'></div>");
+				var panel = $('.trends_panel').last();
+				panel.append("<h5>Top Intents</h5><br><hr><br>");
+				for(key in result[0]){
+					if(intentRank > 5){
+						break;
+					}
+					var str = "";
+					str += "<div class ='trends_row'>";
+					str += "<span class='rowRank'>"+intentRank+"</span>";
+					str += "<div class ='trends_label'>" + key + "</div>";
+					str += "<div class='trends_value'>" + result[0][key] + "</div></div>";
+					panel.append(str);
+					intentRank++;
+				}
+				
+				
+				container.append("<br>");
+				container.append("<div class = 'trends_panel'></div>");
+				var panel = $('.trends_panel').last();
+				panel.append("<h5>Top Entities</h5><br><hr><br>");
 				var entityRank = 1;
 				for(key in result[1]){
 					if(entityRank > 5){
@@ -157,6 +254,4 @@ $('.helpforum a').on('click', function(e) {
 				console.log("error occured!");
 			}
 		})
-		
 	})
-})

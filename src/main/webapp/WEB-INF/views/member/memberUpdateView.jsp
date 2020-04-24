@@ -107,35 +107,20 @@
 				</div>
 								<div class="form-group has-feedback">
 					<label class="control-label" for="userEmail">이메일</label>
-					<input class="form-control" type="email" id="userEmail" name="userEmail" />
-				</div>
-				<div class="form-group has-feedback">
-					<label class="control-label" for="userTel">전화번호</label>
-					<input class="form-control" type="text" id="userTel" name="userTel" placeholder="(-) 빼고 번호만 입력" />
+					<input class="form-control" type="email" id="userEmail" name="userEmail" value="${member.userEmail}"/>
 				</div>
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userAge">나이</label>
-					<input class="form-control" type="text" id="userAge" name="userAge" />
+					<input class="form-control" type="text" id="userAge" name="userAge" value="${member.userName}"/>
 				</div>		
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userGender">성별 </label>
-					<c:choose>
-					<c:when test="${member.userGender=='남자'}">
-						<input type="radio" name="userGender" value="남자" checked />남자
-						<input type="radio" name="userGender" value="여자" />여자
-					</c:when>
-					<c:otherwise>
-						<input type="radio" name="userGender" value="남자" />남자
-						<input type="radio" name="userGender" value="여자" checked />여자
-					</c:otherwise>
-				</c:choose>
-				
-				
 				<c:choose>
 					<c:when test="${member.userGender=='남자'}">
 						<select name="userGender">
 							<option value="">성별</option>
-							<option id="userGender" name="userGender" value="남자" selected="selected">남자</option>
+							<option id="userGender" name="userGender" value="남자"
+								selected="selected">남자</option>
 							<option id="userGender" name="userGender" value="여자">여자</option>
 						</select>
 					</c:when>
@@ -143,12 +128,13 @@
 						<select name="userGender">
 							<option value="">성별</option>
 							<option id="userGender" name="userGender" value="남자">남자</option>
-							<option id="userGender" name="userGender" value="여자" selected="selected">여자</option>
+							<option id="userGender" name="userGender" value="여자"
+								selected="selected">여자</option>
 						</select>
 					</c:otherwise>
 				</c:choose>
-				
-				</div>
+
+			</div>
 				
 				
 				<div>
@@ -204,5 +190,4 @@
 		</section>
 		
 	</body>
-	
 </html>
