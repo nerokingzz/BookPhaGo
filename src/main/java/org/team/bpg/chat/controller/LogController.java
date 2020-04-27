@@ -55,6 +55,7 @@ public class LogController {
    private int pageLimit = 2000;
    private String cursor = "";
 
+
    public LogController() {
       // service endpoint
       assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
@@ -158,6 +159,7 @@ public class LogController {
       
       return todayResult;
 
+
    }
    
 
@@ -174,6 +176,7 @@ public class LogController {
       while (true) {
          
          ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
+
 
          LogCollection response = assistant.listAllLogs(options).execute().getResult();
 

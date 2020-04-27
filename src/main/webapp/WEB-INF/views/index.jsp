@@ -295,34 +295,6 @@
 		</div>
 	</section>
 
-		<!--  
-		<section class="services">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/blog.png" alt="image">
-							<h2>Our Blog</h2>
-							<a href="#">View Blog</a>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/career.png" alt="image">
-							<h2>Career Opportunites</h2>
-							<a href="#">Join Our Team</a>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/forum.png" alt="image">
-							<h2>Help Forum</h2>
-							<a href="#">Visit Help Forum</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section> -->
 		<footer>
 			<div class="footy-sec mn no-margin">
 				<div class="container">

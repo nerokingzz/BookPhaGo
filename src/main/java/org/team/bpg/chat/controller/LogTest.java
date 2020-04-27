@@ -16,6 +16,7 @@ public class LogTest {
 
 
 		
+
 		List<String> userIDList = new ArrayList<String>();
 		List<String> sessionIDList = new ArrayList<String>();
 		List<String> logIDList = new ArrayList<String>();
@@ -55,8 +56,7 @@ public class LogTest {
 						&& log.getRequest().input().getText().isEmpty() == false) {
 					System.out.println("message with weak understanding..." + log.getRequest().input().getText());
 				}
-				
-				
+
 				logIDList.add(log.getLogId());
 				conversationIDList.add(log.getRequest().context().getConversationId());
 				userIDList.add(log.getRequest().context().getMetadata().userId());
@@ -67,8 +67,6 @@ public class LogTest {
 			} else {
 				cursor = response.getPagination().getNextCursor();
 			}
-			
-			
 		}
 		/*
 		System.out.println("Log의 총 개수는 " + logCount + "개입니다.");
@@ -76,12 +74,13 @@ public class LogTest {
 		System.out.println("Conversation ID의 개수는 " + getDistinctLogic(conversationIDList) + "개입니다.");
 		System.out.println("User ID의 개수는 " + getDistinctLogic(userIDList) + "개입니다.");
 		*/
+
 		System.out.println("Log의 총 개수는 " + logCount + "개입니다.");
 		System.out.println("Log ID의 개수는 " + getDistinctLogic(logIDList) + "개입니다.");
 		System.out.println("Conversation ID의 개수는 " + getDistinctLogic(conversationIDList) + "개입니다.");
 		System.out.println("User ID의 개수는 " + getDistinctLogic(userIDList) + "개입니다.");
 
-		
+
 	}
 	
 	public static int getDistinctLogic(List<String> originList){
