@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
@@ -240,9 +241,9 @@ public class PageController {
 			} else if (pageInfo.equals("book_status_A")) {
 				
 			} else if (pageInfo.equals("com_A")) {
-				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
-				mav.addObject("comRequestList", comRequestList);
-				mav.addObject("comRequestListSize", comRequestList.size());
+//				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
+//				mav.addObject("comRequestList", comRequestList);
+//				mav.addObject("comRequestListSize", comRequestList.size());
 				
 			} else if (pageInfo.equals("dec_A")) {
 				int declareCount = myLibDeclareService.countDeclare(request);
@@ -297,7 +298,13 @@ public class PageController {
 			
 		}
 		
-		mav.setViewName("admin/admin_main");
+		//mav.setViewName("admin/admin_main");
+		mav.setViewName("admin/ibsheet_basic");
 		return mav;
 	}
+	
+	
+	
+	//ibsheet 내부 기능 
+	
 }

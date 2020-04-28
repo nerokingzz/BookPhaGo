@@ -106,7 +106,7 @@
 	}
 	function rent_A() {
 	      location.href="admin_main.do?page=rent_A";
-	   }
+	}
 	
 </script>
 
