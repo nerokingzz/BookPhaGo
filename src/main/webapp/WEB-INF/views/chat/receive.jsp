@@ -1,59 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
-    <%@ include file="watson.jsp" %>   
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style>
-.wrap-loading { /*화면 전체를 어둡게 합니다.*/
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	background: rgba(0, 0, 0, 0.2); /*not in ie */
-	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000',
-		endColorstr='#20000000');
+.chart {
+	width: 100%;
+	min-height: 450px;
 }
 
-.wrap-loading div { /*로딩 이미지*/
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -21px;
-	margin-top: -21px;
-}
-
-.display-none { /*감추기*/
-	display: none;
-}
-
-div#rankSection {
-	border : 1px solid black;
-	margin: 1.5em 0 1.5em 0;
-	display: block;
+.row {
+	margin: 0 !important;
 }
 </style>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+            	
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart1);
+    	function drawChart1() {
+            	          
+            	          var dataRows = [['Date', '대화 수']];
+            	          
+            	          for(var i = 0; i < 10 ; i++){
+            	        	  dataRows.push(['04-05',i]);
+                      		}
+
+            	          var line_data = google.visualization.arrayToDataTable(dataRows);
+
+            	          var chart = new google.visualization.LineChart(document.getElementById('chartNo1'));
+
+            	          
+            	          chart.draw(line_data,{
+            	        	  title: 'Bookphago Performance',
+            	              legend: { position: 'none' },
+            	              chartArea:{
+            	            	  left:50,
+            	            	  top:50,
+            	            	  bottom : 50,
+            	            	  right : 50,
+            	            	  width:"100%",
+            	            	  height:"100%"
+            	            		  },
+            	          });
+            	   }
+            	 
+            	 
+            	 $(window).resize(function(){
+            		  drawChart1();
+            		});
+            	
+    </script>
 </head>
 <body>
-
-<%
-   request.setCharacterEncoding( "utf-8" );
-%>
-<div id="rankSection">
-		<div id="resultDiv">
-			<div class="wrap-loading display-none">
-				<div>
-					<img src="${contextPath}/resources/chat/loader.gif" />
-				</div>
-			</div>
-		</div>
+	<div class="row">
+		<div class="chart" id="chartNo1"></div>
 	</div>
-
-
 </body>
 </html>

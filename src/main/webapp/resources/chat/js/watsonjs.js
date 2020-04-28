@@ -18,6 +18,7 @@ const options = {
    function preRecieve(event){
       console.log('pre:receive');
       checkId(event);
+      
       var user_defined = event.data.context.skills['main skill'].user_defined;
       var search_bookName = JSON.stringify(event.data.context.skills['main skill'].user_defined.search_bookName);
       
@@ -25,8 +26,7 @@ const options = {
          console.log("search_bookName : " + search_bookName);
          setTimeout(function(){
             chat_searchBook(event);
-         }, 200);
-         //search_bookName = null;
+         }, 50);
       }
       var chat_userName = user_defined.username;
       var userRequest = user_defined.gita_userRequest;
@@ -105,6 +105,8 @@ const options = {
    
    //위젯 열 때 실행될 메소드 1. 회원 아이디가 있는지 체크. 있다면 $isLogin을 true로 바꾸기.
    function checkId(event){
+	   
+	   
       console.log('I am in checkId');
       
       var chat_userId = decodeURIComponent(event.data.context.global.system.user_id);
@@ -123,7 +125,7 @@ const options = {
    //챗봇 메시지를 받을 때 설정부
    function receive(event){
       console.log('receive');
-      var message = JSON.stringify(event.data.output.generic[0].text);
+
       
       var user_defined = event.data.context.skills['main skill'].user_defined;
       var chat_userId = user_defined.username;
@@ -131,20 +133,28 @@ const options = {
       var is_borrow =  user_defined.is_borrow;
       var borrow_bookNumber = user_defined.borrow_bookNuumber;
       
-      message = decodeURIComponent(message);
+      if(event.data.output.entities.length != 0 && event.data.output.entities[0].entity){
+    	  var entity = JSON.stringify(event.data.output.entities[0].entity);
+          entity = decodeURIComponent(entity);
+      }
+     
       
-      if(event.data.output.generic[0].description){
+      if(event.data.output.generic.length !=0 && event.data.output.generic[0].description){
          var desc = event.data.output.generic[0].description;
          console.log("desc :" + desc);
       }
       
       console.log("user ID : " + chat_userId);
       
-      if(message.includes('지도')){
-         setTimeout(addMap, 300);
-      }else if(desc){
-         if(desc.includes('지도'))setTimeout(addMap, 300);
-      }
+
+	  if (entity) {
+		  if(entity.includes('지도')){
+			setTimeout(addMap, 300);
+		  }
+	  } else if (desc) {
+		if (desc.includes('지도'))
+			setTimeout(addMap, 300);
+	  }
       
       if(chat_userId != null && check_me == true){
          console.log("this is in receive check me");
@@ -186,7 +196,7 @@ const options = {
    //챗봇 메시지를 보낼 때 설정부
    function send(event) {
       console.log("send....."); 
-      console.log(event.data.context);
+      
       
    }
    

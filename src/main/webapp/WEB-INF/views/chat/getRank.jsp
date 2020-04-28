@@ -92,6 +92,30 @@ div.buttonSection{
     margin-top : -20px;
 }
 
+div#statisticSection{
+	display: block;
+    width: 100%;
+    min-height: 130px;
+    margin: 30px 0 30px 0;
+}
+	
+
+
+div#linechartSection{
+
+	display: block;
+    width: 100%;
+    min-height: 200px;
+    margin-bottom: 20px;
+}
+
+
+div#chart_div{
+	width: 100%;
+    height: auto;
+    margin : auto;
+}
+	
 }
 div#rankSection {
 	margin: 1.5em 0 1.5em 0;
@@ -190,6 +214,7 @@ hr.stat{
 	margin : auto;
 }
 </style>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -209,7 +234,7 @@ hr.stat{
 			</div>
 	</div>
 	<div id = "statisticSection">
-		<section class="companies-info">
+		<div class="companies-info">
 			<div class="container">
 				<div class="companies-list">
 					<div class="row">
@@ -252,7 +277,16 @@ hr.stat{
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
+	</div>
+	<div id="linechartSection">
+		<div style = "margin : 0 36px 0 36px">
+			<h5>일별 대화 수</h5>
+			<br><hr>
+		</div>
+		<div id = "chart_div">
+			
+		</div>
 	</div>
 	<div id="rankSection">
 		<div id="resultDiv">

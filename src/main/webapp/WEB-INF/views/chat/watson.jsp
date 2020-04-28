@@ -15,7 +15,6 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
 </head>
-
 <body>
 <button type="button" class="chatLauncher" style="display:none;">
   <div><img id="chatIcon" src = "https://i.imgur.com/c8zoHF0.png"></div>
@@ -29,44 +28,38 @@
 
 
 window.loadWatsonAssistantChat(options).then(function(instance) {
-	   /*
-   $('#login').on('click',function(){
-      $('#status').html('현재 상태 : 회원');
-      var user_id = encodeURI($('#newID').val());
-      //charCodeAt(0).toString(16)
-      console.log("id : " + user_id);
-      instance.updateUserID(user_id);
-   });
 
- */
-	   var chat_member = "${user_id}";
-		  if(chat_member){
-			  console.log("chat_member는 ...." + chat_member);
-			   if(chat_member != null){
-				   var chat_user_id = "${user_id}";
-				   instance.updateUserID(chat_user_id);
-				   console.log("session에 저장된 회원 아이디 ...." + chat_user_id);
-			   }else{
-				   console.log("session에 저장된 회원 아이디가 없습니다.");
-			   }
-		  }
-		  
-		  
+	//세션에 저장되어있는 유저의 아이디와 유형을 가져온다.
+	var chat_member = "${user_id}";
+	var userPosition = "${user_position}";
+	
+	  
+	if(chat_member){
+		console.log("chat_member는 ...." + chat_member);
+		if(chat_member != null){
+			var chat_user_id = "${user_id}";
+			instance.updateUserID(chat_user_id);
+			console.log("session에 저장된 회원 아이디 ...." + chat_user_id);
+		}else{
+			console.log("session에 저장된 회원 아이디가 없습니다.");
+		}
+	}
 
-   const button = document.querySelector('.chatLauncher');
+   	const button = document.querySelector('.chatLauncher');
 
    
     button.addEventListener('click', () => {
       instance.openWindow();
     });
-
-   //instance.on({ type: 'window:open', handler: windowOpen });
-    
+	
    instance.on({ type: 'pre:receive', handler: preRecieve });
+  
    instance.on({ type: 'receive', handler: receive });
+   instance.once({ type: 'pre:send', handler: function(event){
+	   event.data.context.skills['main skill'].user_defined.user_position = userPosition ;
+   } });
    instance.on({ type: 'send', handler: send });
    instance.on({ type: 'error', handler: error });
-   console.log("instance.... " + JSON.stringify(instance));
    
     instance.render().then(() => {
          button.style.display = 'block';

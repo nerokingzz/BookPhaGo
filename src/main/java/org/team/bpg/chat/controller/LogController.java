@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +55,7 @@ public class LogController {
    private IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
    private Assistant assistant = new Assistant("2020-04-23", authenticator);
    private String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
-   private int pageLimit = 2000;
+   private long pageLimit = 999999;
    private String cursor = "";
 
 
@@ -65,15 +68,27 @@ public class LogController {
       this.cursor = "";
 
    }
-   
+
    
    @RequestMapping("totalID.do")
    //기간에 관계 없이 전체 기간에 걸쳐 누적된 User ID 개수를 구한다.
-   public List<Integer> collectTotalIDs() {
-      List<Integer> resultList = new ArrayList<Integer>();
-      
+   public Map collectTotalIDs() throws ParseException {
+
+      System.out.println("I am in totalID.do");
       List<String> originList = new ArrayList<String>();
       
+      //////////////////////////rank를 위한 list/////////////////////////
+      List<String> intentList = new ArrayList<String>();
+      List<String> entityList = new ArrayList<String>();
+      //////////////////////////rank를 위한 list/////////////////////////
+      
+      /////////////////////////line chart를 위한 list////////////////////
+      List<String> dateList = new ArrayList();
+      /////////////////////////line chart를 위한 list////////////////////
+      
+      
+      
+      long start = System.currentTimeMillis();
  
       int logCount = 0; //누적 로그 수
       int failCount = 0; //누적 실패 대화 수
@@ -99,6 +114,40 @@ public class LogController {
             userID = log.getRequest().context().getMetadata().userId();
             originList.add(userID);
             logCount++;
+            
+            //////////////////////////rank를 위한 if/////////////////////////
+            if (log.getResponse().getIntents().size() != 0) {
+	               String intent = log.getResponse().getIntents().get(0).intent();
+	               intentList.add(intent);
+	            }
+	            
+	            if (log.getResponse().getEntities().size() != 0) {
+	               String entity = log.getResponse().getEntities().get(0).entity();
+	               entityList.add(entity);
+	            }
+            
+
+	        //////////////////////////rank를 위한 if/////////////////////////
+            
+	            
+	            ////////////////////line chart 시작///////////////////////////////
+	            
+	            String timeStamp = log.getRequestTimestamp();
+
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				SimpleDateFormat output = new SimpleDateFormat("MM-dd");
+				sdf.setTimeZone(TimeZone.getTimeZone("KST"));
+				Date d;
+				d = sdf.parse(timeStamp);
+				// 변환된 timestamp 결과물
+				String formattedTime = output.format(d);
+				
+				dateList.add(formattedTime);
+	            
+	            
+	            //////////////////line chart 끝///////////////////////////////
+	            
+	            
          }
          if (response.getPagination().getNextCursor() == null) {
             break;
@@ -109,11 +158,77 @@ public class LogController {
       int result = getDistinct(originList);
       
       
-      resultList.add(result); //누적 사용자 수
-      resultList.add(logCount); //누적 로그 수
-      resultList.add(failCount); //누적 실패대화 수
+
       
-      return resultList;
+      ////////////////////////////////////rank를 위한 sort///////////////////////////
+      
+      
+      long end = System.currentTimeMillis();
+
+      System.out.println( "api 실행 소요시간 : " + ( end - start )/1000.0 );
+
+
+      //ArrayList 안의 중복된 키워드의 개수를 세 주는 부분
+      HashMap<String, Integer> intentCount = new HashMap<String, Integer>();
+        
+      for(int i = 0 ; i < intentList.size() ; i++){ // ArrayList 만큼 반복
+          if (intentCount.containsKey(intentList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+              intentCount.put(intentList.get(i), intentCount.get(intentList.get(i))  + 1);  // key가 이미 있다면 value에 +1
+          } else { // key값이 존재하지 않으면
+              intentCount.put(intentList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
+          }
+      }
+
+      HashMap<String, Integer> entityCount = new HashMap<String, Integer>();
+        
+      for(int i = 0 ; i < entityList.size() ; i++){ // ArrayList 만큼 반복
+          if (entityCount.containsKey(entityList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+              entityCount.put(entityList.get(i), entityCount.get(entityList.get(i))  + 1);  // key가 이미 있다면 value에 +1
+          } else { // key값이 존재하지 않으면
+              entityCount.put(entityList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
+          }
+      }
+      
+      List<HashMap> resultList = new ArrayList();
+      //resultList.add(intentCount);
+      //resultList.add(entityCount);
+      
+      HashMap IntentSortedMap = (HashMap) sortByValue(intentCount);
+      HashMap EntitySortedMap = (HashMap) sortByValue(entityCount);
+      
+      resultList.add(IntentSortedMap);
+      resultList.add(EntitySortedMap);
+      
+      //////////////////////////////////rank를 위한 sort///////////////////////////
+      
+      
+      
+      
+      /////////////////////////////////line chart를 위한 sort 시작////////////////////
+      HashMap<String, Integer> dateCount = new HashMap<String, Integer>();
+      
+      for(int i = 0 ; i < dateList.size() ; i++){ // ArrayList 만큼 반복
+          if (dateCount.containsKey(dateList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+        	  dateCount.put(dateList.get(i), dateCount.get(dateList.get(i))  + 1);  // key가 이미 있다면 value에 +1
+          } else { // key값이 존재하지 않으면
+        	  dateCount.put(dateList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
+          }
+      }
+      
+     //<날짜, 로그 수> 형식으로 담긴 hashMap을 key 기준 오름차순으로 정렬하기 위해 treemap사용
+      TreeMap<String,Integer> tm = new TreeMap<String,Integer>(dateCount);
+      /////////////////////////////////line chart를 위한 sort 끝////////////////////
+      
+      
+      Map resultMap = new HashMap<>();
+      
+      resultMap.put("totalID",result);
+      resultMap.put("logCount",logCount);
+      resultMap.put("failCount",failCount);
+      resultMap.put("ranks", resultList);
+      resultMap.put("linechart", tm);
+      
+      return resultMap;
    }
    
    
@@ -156,6 +271,7 @@ public class LogController {
       }
       
       int todayResult = getDistinct(originList);
+
       
       return todayResult;
 
@@ -163,7 +279,7 @@ public class LogController {
    }
    
 
-   
+   /*
    //intent와 entity의 개수를 count하고 List<Hashmap> 형태로 view에 리턴한다.
    //현재까지 누적된 모든 데이터를 바탕으로 한다.
    @RequestMapping("/ranks.do")
@@ -244,6 +360,7 @@ public class LogController {
       return resultList;
    
    }
+   */
    
    
 
