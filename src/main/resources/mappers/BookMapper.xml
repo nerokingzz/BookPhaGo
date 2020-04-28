@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="book">
-	
- 	<!-- 관리자 도서목록 -->
+	<!-- 관리자 도서목록 -->
  	<select id="adminlibrary_request_list"  resultType="hashmap">
  		SELECT *
  		from B_BOOK_LIB 
@@ -127,11 +126,57 @@
  		<selectKey keyProperty="rentNumber" resultType="integer"  order="BEFORE">
 			SELECT Rent_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, sysdate, sysdate+7 , #{bookState})
+ 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '')
  	</insert>
  	
  	<!-- 도서 대출시 도서정보변경 -->
  	<update id="updatebooklib" parameterType="hashmap">
  		update b_book_lib set bookRent=#{bookState1}, bookReservation=#{bookState2} where bookNumber=#{bookNumber}
+ 	</update>
+ 	
+ 	<!-- 사용자 도서 반납 갯수 여부 -->
+ 	<select id="searchreturn" parameterType="String" resultType="String">
+ 		 	select borrowcnt from u_user_info where userid=#{userid}
+ 	</select>
+ 	
+ 	<!-- 사용자 도서 반납 도서 목록 -->
+ 	<select id="return_bookNumber" parameterType="hashmap" resultType="hashmap">
+ 		 	select a.isbn,a.bookname, a.bookWriter, a.bookpublisher, a.bookdate, a.bookRent 
+ 		 	from b_book_lib A,b_book_rent B 
+ 		 	where a.bookNumber=b.booknumber and userid=#{userid} and state='대출중' and b.bookNumber=#{bookNumber}
+ 	</select>
+ 	
+ 	<!-- 사용자 도서 반납시 borrowcnt 감소 -->
+ 	<update id="userrent" parameterType="hashmap">
+ 		update u_user_info set borrowcnt = borrowcnt - 1 where userid = #{userid}
+ 	</update>
+ 	
+ 	<!-- 도서 반닙시 B_BOOK_RENT변경 -->
+ 	<update id="updatebookrent" parameterType="hashmap">
+ 		update B_BOOK_RENT set RreturnDate=#{RreturnDate}, state=#{bookState} where rentNumber = (select max(rentNumber) from B_BOOK_RENT where userid = #{userid} and bookNumber=#{bookNumber})
+ 	</update>
+ 	
+ 	<!-- 도서 반닙시 B_BOOK_LIB변경 -->
+ 	<update id="updatebooklibreturn" parameterType="hashmap">
+ 		update B_BOOK_LIB set bookRent='대출가능', bookReservation='예약불가' where bookNumber=#{bookNumber}
+ 	</update>
+ 	
+ 	<!-- 사용자 대출현황 조회 -->
+ 	<select id="myLib_rentstatus" parameterType="String" resultType="hashmap">
+ 		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
+		from B_BOOK_LIB A, B_BOOK_RENT B
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id}
+ 	</select>
+ 	
+ 	<!-- 사용자 도서연장 리스트 -->
+ 	<select id="bookextendlist" parameterType="String" resultType="hashmap">
+ 		select bookName,bookNumber
+		from B_BOOK_LIB 
+		where bookNumber=#{bookNumber}
+ 	</select>
+ 	
+ 	<!-- 도서 연장시 B_BOOK_RENT변경 -->
+ 	<update id="updateB_BOOK_RENT" parameterType="String">
+ 		update B_BOOK_RENT set returnDate = returnDate + 7 where bookNumber=#{bookNumber}
  	</update>
 </mapper>

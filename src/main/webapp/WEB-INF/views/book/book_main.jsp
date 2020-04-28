@@ -275,7 +275,7 @@
 				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="current_info" readonly></h6><br>
+				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="today" readonly></h6><br>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
 				                                	<h6>사유 : <input type="text" name="applyReason"></h6>

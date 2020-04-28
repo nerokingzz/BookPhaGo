@@ -131,7 +131,21 @@ public class PageController {
 				
 			} else if (pageInfo.equals("declare")) {
 				
-			} else {
+			} else if (pageInfo.equals("status")) {
+				HttpSession session=request.getSession();
+				String user_id = (String) session.getAttribute("user_id");
+				String bookNumber = request.getParameter("bookNumber");
+				
+				if (user_id != null && bookNumber == null) {
+					List<Map<String, Object>> booklist = libraryService.myLib_rentstatus(user_id);		
+					
+					mav.addObject("booklist", booklist);
+					mav.addObject("booklistSize", booklist.size());
+				} else if(user_id != null && bookNumber != null) {
+					
+					libraryService.updateB_BOOK_RENT(bookNumber);
+				}
+			}else {
 				
 			}
 		} else {
@@ -292,6 +306,28 @@ public class PageController {
 					libraryService.insertbookrent(book_list);
 					libraryService.updatebooklib(book_list);
 					System.out.println("도서대출완료");
+				}
+			}else if (pageInfo.equals("return_A")) {
+				System.out.println("111111111111");
+				String bookReservation = request.getParameter("bookReservationn");
+				String userid = request.getParameter("userid2");
+				String bookNumber = request.getParameter("bookNumber2");
+				String RreturnDate = request.getParameter("RreturnDate");
+				String bookState = "반납완료";
+				
+				System.out.println(bookReservation);
+				
+				
+				if(userid != null && bookNumber != null) {
+					Map<String, String> book_list=new HashMap<String, String>();
+					book_list.put("userid", userid);
+					book_list.put("bookNumber", bookNumber);
+					book_list.put("RreturnDate", RreturnDate);
+					book_list.put("bookState", bookState);
+					
+					libraryService.userrent(userid);
+					libraryService.updatebookrent(book_list);
+					libraryService.updatebooklibreturn(book_list);
 				}
 			}
 		} else {
