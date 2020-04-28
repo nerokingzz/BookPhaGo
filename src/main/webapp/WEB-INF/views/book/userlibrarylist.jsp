@@ -14,8 +14,7 @@
 
 </head>
 <body>
-<div>&nbsp</div>
-<div>&nbsp</div>
+&nbsp&nbsp
 
 <div >
 				<div ></div>
@@ -57,7 +56,6 @@
 			<td width="7%"><b>발행일</b>
 			<td width="7%"><b>장르</b>
 			<td width="7%"><b>대출여부</b>
-			<td width="7%"><b>예약여부</b></td>
 			
 			<c:choose>
 				
@@ -72,9 +70,6 @@
 							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
 							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
 							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
-							<td>
-							<input type="button" class="load-list" id="${booklist.get(i-1).get('BOOKNUMBER') }" value= "${booklist.get(i-1).get('BOOKRESERVATION') }">
-							</td>
 						</tr>
 					</c:forEach>
 				</c:when>

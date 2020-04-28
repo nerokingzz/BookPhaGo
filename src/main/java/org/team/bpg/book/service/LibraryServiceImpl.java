@@ -139,4 +139,48 @@ public class LibraryServiceImpl implements LibraryService{
 		libraryDAO.updatebooklib(book_list);
 	}
 
+	@Override
+	public String searchreturn(String userid) {
+		String booklist = libraryDAO.searchreturn(userid);
+		return booklist;
+	}
+
+	@Override
+	public void userrent(String userid) {
+		libraryDAO.userrent(userid);
+	}
+
+	@Override
+	public void updatebookrent(Map<String, String> book_list) {
+		libraryDAO.updatebookrent(book_list);
+	}
+
+	@Override
+	public void updatebooklibreturn(Map<String, String> book_list) {
+		libraryDAO.updatebooklibreturn(book_list);
+	}
+
+	@Override
+	public List<Map<String, Object>> return_bookNumber(Map<String, Object> book_list) {
+		List<Map<String, Object>> booklist =  libraryDAO.return_bookNumber(book_list);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> myLib_rentstatus(String user_id) {
+		List<Map<String, Object>> booklist = libraryDAO.myLib_rentstatus(user_id);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> bookextendlist(String bookNumber) {
+		List<Map<String, Object>> booklist = libraryDAO.bookextendlist(bookNumber);
+		return booklist;
+	}
+
+	@Override
+	public void updateB_BOOK_RENT(String bookNumber) {
+		libraryDAO.updateB_BOOK_RENT(bookNumber);
+	}
+
 }

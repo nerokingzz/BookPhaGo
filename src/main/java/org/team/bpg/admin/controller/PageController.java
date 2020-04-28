@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
@@ -130,7 +131,21 @@ public class PageController {
 				
 			} else if (pageInfo.equals("declare")) {
 				
-			} else {
+			} else if (pageInfo.equals("status")) {
+				HttpSession session=request.getSession();
+				String user_id = (String) session.getAttribute("user_id");
+				String bookNumber = request.getParameter("bookNumber");
+				
+				if (user_id != null && bookNumber == null) {
+					List<Map<String, Object>> booklist = libraryService.myLib_rentstatus(user_id);		
+					
+					mav.addObject("booklist", booklist);
+					mav.addObject("booklistSize", booklist.size());
+				} else if(user_id != null && bookNumber != null) {
+					
+					libraryService.updateB_BOOK_RENT(bookNumber);
+				}
+			}else {
 				
 			}
 		} else {
@@ -240,9 +255,9 @@ public class PageController {
 			} else if (pageInfo.equals("book_status_A")) {
 				
 			} else if (pageInfo.equals("com_A")) {
-				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
-				mav.addObject("comRequestList", comRequestList);
-				mav.addObject("comRequestListSize", comRequestList.size());
+//				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
+//				mav.addObject("comRequestList", comRequestList);
+//				mav.addObject("comRequestListSize", comRequestList.size());
 				
 			} else if (pageInfo.equals("dec_A")) {
 				int declareCount = myLibDeclareService.countDeclare(request);
@@ -292,12 +307,40 @@ public class PageController {
 					libraryService.updatebooklib(book_list);
 					System.out.println("도서대출완료");
 				}
+			}else if (pageInfo.equals("return_A")) {
+				System.out.println("111111111111");
+				String bookReservation = request.getParameter("bookReservationn");
+				String userid = request.getParameter("userid2");
+				String bookNumber = request.getParameter("bookNumber2");
+				String RreturnDate = request.getParameter("RreturnDate");
+				String bookState = "반납완료";
+				
+				System.out.println(bookReservation);
+				
+				
+				if(userid != null && bookNumber != null) {
+					Map<String, String> book_list=new HashMap<String, String>();
+					book_list.put("userid", userid);
+					book_list.put("bookNumber", bookNumber);
+					book_list.put("RreturnDate", RreturnDate);
+					book_list.put("bookState", bookState);
+					
+					libraryService.userrent(userid);
+					libraryService.updatebookrent(book_list);
+					libraryService.updatebooklibreturn(book_list);
+				}
 			}
 		} else {
 			
 		}
 		
-		mav.setViewName("admin/admin_main");
+		//mav.setViewName("admin/admin_main");
+		mav.setViewName("admin/ibsheet_basic");
 		return mav;
 	}
+	
+	
+	
+	//ibsheet 내부 기능 
+	
 }

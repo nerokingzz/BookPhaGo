@@ -7,7 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.VO.BookInfoVO;
 
 public interface LibraryService {
-
 	public List<Map<String, Object>> adminlibrarylist();
 	public List<Map<String, Object>> adminsearchbook(Map<String, String> book_list);
 	public List<Map<String, Object>> modfindlibrary(Map<String, String> book_list);
@@ -30,4 +29,12 @@ public interface LibraryService {
 	public void userborrow(String userid);
 	public void insertbookrent(Map<String, String> book_list);
 	public void updatebooklib(Map<String, String> book_list);
+	public String searchreturn(String userid);
+	public void userrent(String userid);
+	public void updatebookrent(Map<String, String> book_list);
+	public void updatebooklibreturn(Map<String, String> book_list);
+	public List<Map<String, Object>> return_bookNumber(Map<String, Object> book_list);
+	public List<Map<String, Object>> myLib_rentstatus(String user_id);
+	public List<Map<String, Object>> bookextendlist(String bookNumber);
+	public void updateB_BOOK_RENT(String bookNumber);
 }
