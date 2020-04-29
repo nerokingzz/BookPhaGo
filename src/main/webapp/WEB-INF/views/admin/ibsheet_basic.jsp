@@ -77,7 +77,11 @@
 		         $("#nav-acc-tab3").attr("aria-selected", "true");
 		         $("#nav-acc3").attr("class", "tab-pane fade show active");
 		         
-		      } else {
+		    } else if (pageInfo == 'return_A') {
+				$("#nav-status-tab3").attr("class", "nav-item nav-link active");
+				$("#nav-status-tab3").attr("aria-selected", "true");
+				$("#nav-status3").attr("class", "tab-pane fade show active");
+			} else {
 				$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 				$("#nav-acc-tab").attr("aria-selected", "true");
 				$("#nav-acc").attr("class", "tab-pane fade show active");
@@ -108,8 +112,13 @@
 			location.href="admin_main.do?page=chat_A";
 			
 		}
+		
 		function rent_A() {
 		      location.href="admin_main.do?page=rent_A";
+		}
+		
+		function return_A() {
+			location.href="admin_main.do?page=return_A";
 		}
 		
 	</script>
@@ -243,7 +252,8 @@
                             		<a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
                             		<a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
                             		<a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서대출</a>
-                        	</div>
+                        			<a class="nav-item nav-link" id="nav-status-tab3" data-toggle="tab" href="#nav-status" onclick="return_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>도서반납</a>
+							</div>
                      	</div><!--acc-leftbar end-->
 					</div> <!-- col-lg-3 end -->
                   
@@ -290,9 +300,15 @@
                           	<div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
                           		<div class="acc-setting">
                             		<h3>도서대출</h3>
-                                	<jsp:include page="../book/adminrentandreturn.jsp"></jsp:include>
+                                	<jsp:include page="../book/adminrent.jsp"></jsp:include>
                             	</div><!--acc-setting end-->
                           	</div>
+                          	<div class="tab-pane fade" id="nav-status3" role="tabpanel" aria-labelledby="nav-status-tab">
+							  	<div class="acc-setting">
+							  		<h3>도서반납</h3>
+							  		<jsp:include page="../book/adminreturn.jsp"></jsp:include>
+							  	</div><!--acc-setting end-->
+							</div>
 						</div>
 					</div> <!-- col-lg-9 end -->
 

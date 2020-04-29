@@ -55,6 +55,12 @@
 			$("#nav-password-tab").attr("aria-selected", "true");
 			$("#nav-password").attr("class", "tab-pane fade show active");
 			
+		} else if (pageInfo == 'status') {
+			alert("현황관리로 바로이동");
+			$("#nav-acc-tab2").attr("class", "nav-item nav-link active");
+			$("#nav-acc-tab2").attr("aria-selected", "true");
+			$("#nav-acc2").attr("class", "tab-pane fade show active");
+			
 		} else {
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab").attr("aria-selected", "true");
@@ -74,7 +80,9 @@
 		location.href="myLib_main.do?page=declare";
 	}
 	
-	
+	function status() {
+		location.href="myLib_main.do?page=status";
+	}
 
 </script>
 
@@ -186,7 +194,8 @@
 								    <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="score()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서평가</a>
 								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="favor()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>취향분석</a>
 								    <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="declare()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>신고하기</a>
-								  </div>
+									<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="status()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>현황관리</a>
+								</div>
 							</div><!--acc-leftbar end-->
 						</div>
 						<div class="col-lg-9">
@@ -208,6 +217,155 @@
 										<jsp:include page="declare/mylib_declare_form.jsp"></jsp:include>
 									</div><!--acc-setting end-->
 							  	</div>
+							  	
+							  	<!--  -->
+							  	
+							  	<div class="tab-pane fade" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">
+									<div class="acc-setting">
+										<h3>현황관리</h3>
+										
+										<div>
+								<div class="login-sec">
+								<ul class="sign-control">
+									<li data-tab="tab-1" class="current"><a href="#" title="">도서대출현황</a></li>				
+									<li data-tab="tab-2"><a href="#" title="">도서신청현황</a></li>				
+								</ul>			
+								<div class="sign_in_sec current" id="tab-1">
+									
+								<table align="center" border="1">
+									<tr align="center" bgcolor="#e44d3a">
+										<td width="20%"><b>도서명</b>
+										<td width="8%"><b>도서번호</b>
+										<td width="8%"><b>대출일</b>
+										<td width="8%"><b>반납일</b>
+										<td width="8%"><b>대출상태</b>
+										<td width="8%"><b>반납날짜</b>
+										<td width="8%"><b>연장</b>
+							
+										<c:choose>
+											
+											<c:when test="${booklistSize gt 0 }">
+												<c:forEach var="i"  begin="1" end="${booklistSize }">
+													<tr align="center">
+														<td>${booklist.get(i-1).get("BOOKNAME") }</td>
+														<td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+														<td>${booklist.get(i-1).get('RENTDATE') }</td>
+														<td>${booklist.get(i-1).get("RETURNDATE") }</td>
+														<td>${booklist.get(i-1).get("STATE") }</td>
+														<td>${booklist.get(i-1).get("RRETURNDATE") }</td>
+														<td>	
+															
+															<c:set var="RENTDATE" value="${booklist.get(i-1).get('RENTDATE') }" />
+															<fmt:parseDate value="${RENTDATE}" var="strPlanDate" pattern="yyyy-MM-dd"/>
+															<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+															<c:set var="RETURNDATE" value="${booklist.get(i-1).get('RETURNDATE') }" />
+															<fmt:parseDate value="${RETURNDATE}" var="endPlanDate" pattern="yyyy-MM-dd"/>
+															<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+															<c:set var="DATE" value="${endDate - strDate }" />
+															
+															<jsp:useBean id="today" class="java.util.Date" />
+															<fmt:formatDate var="now" value="${today}" pattern="yyyy-MM-dd" />
+															<fmt:parseDate var="now1" value="${now}" pattern="yyyy-MM-dd"/>
+															<fmt:parseNumber value="${now1.time / (1000*60*60*24)}" integerOnly="true" var="now2"></fmt:parseNumber>
+															<c:set var="RETURNDATE1" value="${booklist.get(i-1).get('RETURNDATE') }" />
+															<fmt:parseDate var="str" value="${RETURNDATE1}" pattern="yyyy-MM-dd" />
+															<fmt:parseNumber value="${str.time / (1000*60*60*24)}" integerOnly="true" var="str2"></fmt:parseNumber>
+															<c:set var="DATE1" value="${str2 - now2 }" />
+															<c:set var="STATE" value="${booklist.get(i-1).get('STATE') }" />
+															<c:if test="${DATE eq '7' && DATE1 gt 0 && STATE eq '대출중' }">
+															<input type="button" class="state" id="${booklist.get(i-1).get('BOOKNUMBER') }" value="연장하기" onClick="">
+															</c:if>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+								</table>
+									
+								</div><!--sign_in_sec end-->
+								<div class="sign_in_sec" id="tab-2">
+										
+									<div class="dff-tab current" id="tab-3">
+										
+										<div>
+											<form action="book_main.do" method="get">
+												<input type="hidden" name="page" value="apply">  
+												<div class="row">
+				                                <div class="col-md-12 col-sm-12"><br>
+				                                   <h6>사용자 ID : <input type="text" name="user_id" value="${user_id }" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                	<h6>도서명 : <input type="text" name="bookName" id="pInput" readonly><input type="button" style = "background-color:#e44d3a;font-weight:bold " value="검색" onclick="userapplysearchbook();"></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="current_info" readonly></h6><br>
+				                                </div>
+				                                 <div class="col-md-12 col-sm-12">
+				                                	<h6>사유 : <input type="text" name="applyReason"></h6>
+				                                </div>
+				                                <div class="col-md-12 col-sm-12">
+				                               <button type="submit" onclick="return check()" >신청하기</button>
+				                               </div>
+				                            </div>
+											</form>
+										</div>
+										
+									</div><!--dff-tab end-->
+									<div class="dff-tab" id="tab-4">
+										<form>
+											<div class="row">
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="text" name="company-name" placeholder="Company Name">
+														<i class="la la-building"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="text" name="country" placeholder="Country">
+														<i class="la la-globe"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="password" name="password" placeholder="Password">
+														<i class="la la-lock"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="password" name="repeat-password" placeholder="Repeat Password">
+														<i class="la la-lock"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="checky-sec st2">
+														<div class="fgt-sec">
+															<input type="checkbox" name="cc" id="c3">
+															<label for="c3">
+																<span></span>
+															</label>
+															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+														</div><!--fgt-sec end-->
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<button type="submit" value="submit">Get Started</button>
+												</div>
+											</div>
+										</form>
+									</div><!--dff-tab end-->
+									</div>		
+									</div><!--login-sec end-->
+									</div>
+									</div><!--acc-setting end-->
+								</div>
+							  	
+							  	<!--  -->
+							  	
 							</div>
 						</div>
 					</div>

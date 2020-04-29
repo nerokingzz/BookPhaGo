@@ -29,7 +29,7 @@
 	margin: 15% auto; /* 15% from the top and centered */
 	padding: 20px;
 	border: 1px solid #888;
-	width: 50%; /* Could be more or less, depending on screen size */
+	/* width: 50%; */ /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {
@@ -43,6 +43,22 @@
 	color: black;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+select {
+width: 70px;
+padding: .8em .5em;
+border: 1px solid #999;
+font-family: inherit;
+background: url('arrow.jpg') no-repeat 95% 50%;
+border-radius: 0px;
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
+
+select::-ms-expand {
+display: none;
 }
 
 </style>
@@ -60,38 +76,35 @@
 	<div id="myModal" class="modal">
 
 		<!-- Modal content -->
-		<div class="modal-content">
+		<div class="modal-content" style="width: 50%;">
 			<span class="close">&times;</span>
 			<form method="get" action="admin_main.do">
-				<h3 style="text-align: center">도서 등록창</h3><br>
+				<h2 style="text-align: center">도서 등록창</h2><br><br>
 				<input type="hidden" name="page" value="book_A">
 				<div class="row">
 				                                <div class="col-md-12 col-sm-12"><br>
-				                                   <h6>isbn : <input type="text" name="isbn" id="isbn" > <input type="button" value="검색" onclick="searchIsbn();"></h6><br>
+				                                   <h6>isbn : <input type="text" name="isbn" id="isbn" > <input type="button" value="검색" onclick="searchIsbn();"></h6><br><br>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
+				                                <div class="col-md-4 col-sm-4">
 				                                	<h6>도서 제목 : <input type="text" name ="bookName" id="bookName" readonly></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                    <h6>도서 소개 : <input type="text" name="bookContents" id="bookContents" readonly></h6><br>
+				                                <div class="col-md-4 col-sm-4">
+				                                    <h6>도서 소개 : <input type="text" name="bookContents" id="bookContents" readonly></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                	<h6>도서 저자 : <input type="text" name="bookWriter" id="bookWriter" readonly></h6>
+				                                <div class="col-md-4 col-sm-4">
+				                                	<h6>도서 저자 : <input type="text" name="bookWriter" id="bookWriter" readonly></h6><br><br>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                    <h6>도서 번역자 : <input type="text" name="bookTrans" id="bookTrans" readonly></h6><br>
+				                                 <div class="col-md-4 col-sm-4">
+				                                    <h6>도서 번역자 : <input type="text" name="bookTrans" id="bookTrans" readonly></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
+				                                 <div class="col-md-4 col-sm-4">
 				                                	<h6>출판사 : <input type="text" name="bookPublisher" id="bookPublisher" readonly></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                	<h6>발행일 : <input type="text" name="bookDate" id="bookDate" readonly></h6><br>
+				                                 <div class="col-md-4 col-sm-4">
+				                                	<h6>발행일 : <input type="text" name="bookDate" id="bookDate" readonly></h6><br><br>
 				                                </div>
-				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서 썸네일 : <input type="text" name="bookThum" id="bookThum" readonly></h6><br>
-				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                	<h6>장르 : <select class="form-control"  name="bookGenre" id="bookGenre" style="width:80px;height:40px;">
+				                                <div class="col-md-4 col-sm-4">
+				                                	<h6>장르 : <select name="bookGenre" id="bookGenre">
 																<option value="총류">총류</option>
 																<option value="철학">철학</option>
 																<option value="종교">종교</option>
@@ -102,53 +115,43 @@
 																<option value="언어">언어</option>
 																<option value="문학">문학</option>
 																<option value="역사">역사</option>
-																</select><input type="button" value="검색" onclick="bookNumberinput()" >
+																</select> <input type="button"  name="search" placeholder="Search..." value="검색" onclick="bookNumberinput()" >
 													</h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
-				                                	<h6>도서 번호 : <input type="text" name="bookNumber" id="bookNumber"></h6><br>
+				                                <div class="col-md-4 col-sm-4">
+				                                	<h6>도서 번호 : <input type="text" name="bookNumber" id="bookNumber"></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
+				                                 <div class="col-md-4 col-sm-4">
+				                                	<h6>도서 썸네일 : <input type="text" name="bookThum" id="bookThum" readonly></h6><br><br>
+				                                </div>
+				                                 <div class="col-md-6 col-sm-6 text-center" >
 				                                	<h6>대출여부 : <input type="text" name="bookRent" id="bookRent" value="대출가능"></h6>
 				                                </div>
-				                                <div class="col-md-6 col-sm-6">
+				                                 <div class="col-md-6 col-sm-6 text-center">
 				                                	<h6>예약여부 : <input type="text" name="bookReservation" id="bookReservation" value="예약불가"></h6><br><br>
 				                                </div>
 				                                <div style="margin:0 auto;">
 				                                <input onclick="return inputCheck()" type="submit" value="도서등록">
 				                                </div>
-				                            </div>
+				 </div>
 			</form>
 		</div>
 	</div>
  
-	<div >
-				<div ></div>
-				<div >
-					<form action="admin_main.do" method="get">
-					<input type="hidden" name="page" value="book_A">
-						<table>
-							<tr>
-								<td style="text-align: center;">
-									<select class="form-control"  name="search_option">
-										<option value="bookName">도서명</option>
-										<option value="bookNumber">도서번호</option>
-										<option value="bookWriter">저자</option>
-										<option value="bookPublisher">출판사</option>
-									</select>
-								</td>
-								<td>
-									<div>
-									  <input type="text" name="search_value"  id="inputSuccess2" aria-describedby="inputSuccess2Status">
-									</div>
-								</td>
-								<td style="text-align: center;"><button type="submit" >검색</button></td>
-							</tr>					
-						</table>
-					</form>
-				</div>
-				<div></div>
-			</div>
+	<div class="search-bar">
+		<form action="admin_main.do" method="get">
+			<input type="hidden" name="page" value="book_A">
+	
+			<select name="search_option">
+				<option value="bookName">도서명</option>
+				<option value="bookNumber">도서번호</option>
+				<option value="bookWriter">저자</option>
+				<option value="bookPublisher">출판사</option>
+			</select>
+		 	<input type="text" name="search_value" placeholder="Search..." style="width:200px; height:43.59px; border: 1px solid;">
+			<button type="submit"><i class="la la-search"></i></button>
+		</form>
+	</div><!--search-bar end-->       
 
 	<br>
 	
@@ -156,18 +159,17 @@
  
  	
 	<table align="center" border="1">
-		<tr align="center" bgcolor="#f8585b">
-			<td width="7%"><b>도서명</b>
-			<td width="7%"><b>도서번호</b>
-			<td width="7%"><b>저자</b>
-			<td width="7%"><b>출판사</b>
-			<td width="7%"><b>발행일</b>
+		<tr align="center" bgcolor="#e44d3a">
+			<td width="20%"><b>도서명</b>
+			<td width="8%"><b>도서번호</b>
+			<td width="8%"><b>저자</b>
+			<td width="8%"><b>출판사</b>
+			<td width="8%"><b>발행일</b>
 			<td width="7%"><b>장르</b>
-			<td width="7%"><b>대출여부</b>
-			<td width="7%"><b>예약여부</b>
-			<td width="7%"><b>ISBN</b>
-			<td width="7%"><b>수정</b>
-			<td width="7%"><b>삭제</b></td>
+			<td width="8%"><b>대출여부</b>
+			<td width="4%"><b>ISBN</b>
+			<td width="5%"><b>수정</b>
+			<td width="5%"><b>삭제</b></td>
 
 			<c:choose>
 				
@@ -181,7 +183,6 @@
 							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
 							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
 							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
-							<td>${booklist.get(i-1).get("BOOKRESERVATION") }</td>
 							<td>${booklist.get(i-1).get("ISBN") }</td>
 							<td>
 							<button onclick="window.open('modfindlibrary.do?bookNumber=${booklist.get(i-1).get('BOOKNUMBER') }','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">수정</button>

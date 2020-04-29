@@ -176,7 +176,7 @@
                           	<div class="tab-pane fade" id="nav-acc3" role="tabpanel" aria-labelledby="nav-acc-tab">
                           		<div class="acc-setting">
                             		<h3>도서대출</h3>
-                                	<jsp:include page="../book/adminrentandreturn.jsp"></jsp:include>
+                         
                             	</div><!--acc-setting end-->
                           	</div>
 						</div>
