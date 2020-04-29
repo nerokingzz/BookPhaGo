@@ -14,6 +14,7 @@
 		wsocket.onmessage = onMessage;
 		wsocket.onclose = onClose;
 	}
+	
 	function disconnect() {
 		wsocket.close();
 	}
