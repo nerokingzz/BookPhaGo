@@ -4,7 +4,11 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -28,7 +32,7 @@
 		<beans:property name="order" value="0"/>
 	</beans:bean>
 	<!-- 김민선 챗봇 로그 다운로드 기능 추가부 끝 -->
-		
+	
 	<!-- 다중파일 업로드 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -40,7 +44,15 @@
 	<context:component-scan base-package="org.team.bpg" />
 	
 	
-	
+	<!-- websocket -->
+    <beans:bean id="chatHandler" class="org.team.bpg.chatWeb.ChatWebSocketHandler" />
+    
+ 	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="/chat-ws" />
+		<websocket:handshake-interceptors>
+		  <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>	
+	</websocket:handlers>
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
