@@ -125,39 +125,9 @@ public class LibraryServiceImpl implements LibraryService{
 	}
 
 	@Override
-	public void userborrow(String userid) {
-		libraryDAO.userborrow(userid);
-	}
-
-	@Override
-	public void insertbookrent(Map<String, String> book_list) {
-		libraryDAO.insertbookrent(book_list);
-	}
-
-	@Override
-	public void updatebooklib(Map<String, String> book_list) {
-		libraryDAO.updatebooklib(book_list);
-	}
-
-	@Override
 	public String searchreturn(String userid) {
 		String booklist = libraryDAO.searchreturn(userid);
 		return booklist;
-	}
-
-	@Override
-	public void userrent(String userid) {
-		libraryDAO.userrent(userid);
-	}
-
-	@Override
-	public void updatebookrent(Map<String, String> book_list) {
-		libraryDAO.updatebookrent(book_list);
-	}
-
-	@Override
-	public void updatebooklibreturn(Map<String, String> book_list) {
-		libraryDAO.updatebooklibreturn(book_list);
 	}
 
 	@Override
@@ -181,6 +151,48 @@ public class LibraryServiceImpl implements LibraryService{
 	@Override
 	public void updateB_BOOK_RENT(String bookNumber) {
 		libraryDAO.updateB_BOOK_RENT(bookNumber);
+	}
+
+	@Override
+	public int userborrow(String userid) {
+		int result = 0;
+		result = libraryDAO.userborrow(userid);
+		return result;
+	}
+
+	@Override
+	public int insertbookrent(Map<String, String> book_list) {
+		int result = 0;
+		result = libraryDAO.insertbookrent(book_list);
+		return result;
+	}
+
+	@Override
+	public int updatebooklib(Map<String, String> book_list) {
+		int result = 0;
+		result = libraryDAO.updatebooklib(book_list);
+		return result;
+	}
+
+	@Override
+	public int userrent(String userid) {
+		int result = 0;
+		result = libraryDAO.userrent(userid);
+		return result;
+	}
+
+	@Override
+	public int updatebookrent(Map<String, String> book_list) {
+		int result = 0;
+		result = libraryDAO.updatebookrent(book_list);
+		return result;
+	}
+
+	@Override
+	public int updatebooklibreturn(Map<String, String> book_list) {
+		int result = 0;
+		result = libraryDAO.updatebooklibreturn(book_list);
+		return result;
 	}
 
 }
