@@ -302,9 +302,13 @@ public class PageController {
 				book_list.put("bookState2", bookState2);
 				
 				if(userid != null && bookNumber != null) {
-					libraryService.userborrow(userid);
-					libraryService.insertbookrent(book_list);
-					libraryService.updatebooklib(book_list);
+					int result1 = libraryService.userborrow(userid);
+					int result2 = libraryService.insertbookrent(book_list);
+					int result3 = libraryService.updatebooklib(book_list);
+					
+					System.out.println(result1);
+					System.out.println(result2);
+					System.out.println(result3);
 					System.out.println("도서대출완료");
 				}
 			}else if (pageInfo.equals("return_A")) {
@@ -325,9 +329,13 @@ public class PageController {
 					book_list.put("RreturnDate", RreturnDate);
 					book_list.put("bookState", bookState);
 					
-					libraryService.userrent(userid);
-					libraryService.updatebookrent(book_list);
-					libraryService.updatebooklibreturn(book_list);
+					int result1 = libraryService.userrent(userid);
+					int result2 = libraryService.updatebookrent(book_list);
+					int result3 = libraryService.updatebooklibreturn(book_list);
+					
+					System.out.println(result1);
+					System.out.println(result2);
+					System.out.println(result3);
 				}
 			}
 		} else {
