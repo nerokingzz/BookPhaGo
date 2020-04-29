@@ -193,4 +193,10 @@ public class LibraryDAOImpl implements LibraryDAO{
 		result = sqlSession.update("book.updatebooklibreturn", book_list);
 		return result;
 	}
+	
+	@Override
+	public String applycnt(String userid) {
+		String booklist=sqlSession.selectOne("book.applycnt", userid);
+		return booklist;
+	}
 }

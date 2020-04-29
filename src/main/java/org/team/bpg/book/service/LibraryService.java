@@ -37,4 +37,5 @@ public interface LibraryService {
 	public int userrent(String userid);
 	public int updatebookrent(Map<String, String> book_list);
 	public int updatebooklibreturn(Map<String, String> book_list);
+	public String applycnt(String userid);
 }

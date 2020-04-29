@@ -76,26 +76,29 @@ public class PageController {
 						libraryService.userreservation(book_list);
 					}
 				} else if (pageInfo.equals("apply")) {
+					String userid = (String)session.getAttribute("user_id");
 					String user_id = request.getParameter("user_id");
 					String isbn = request.getParameter("isbn");
 					String applyDate = request.getParameter("applyDate");
 					String applyReason = request.getParameter("applyReason");
 					String applyState = "신청중";
 					
-					if(user_id != null && isbn != null && applyDate != null && applyReason != null && applyState != null) {
-						Map<String, String> book_list=new HashMap<String, String>();
-						book_list.put("userid", user_id);
-						book_list.put("isbn", isbn);
-						book_list.put("applyDate", applyDate);
-						book_list.put("applyReason", applyReason);
-						book_list.put("applyState", applyState);
-						
-						libraryService.userapplybook(book_list);
-						
-						System.out.println("도서 신청 완료");
-					}
+					String booklist = libraryService.applycnt(userid);
 					
+					mav.addObject("applycnt", booklist);
 					
+				
+				  if(user_id != null && isbn != null && applyDate != null && applyReason !=
+				  null && applyState != null) { Map<String, String> book_list=new
+				  HashMap<String, String>(); book_list.put("userid", user_id);
+				  book_list.put("isbn", isbn); book_list.put("applyDate", applyDate);
+				  book_list.put("applyReason", applyReason); book_list.put("applyState",
+				  applyState);
+				  
+				  libraryService.userapplybook(book_list);
+				  
+				  System.out.println("도서 신청 완료"); }
+				 
 				} 
 			} else {
 				System.out.println("11111111");

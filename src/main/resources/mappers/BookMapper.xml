@@ -179,4 +179,9 @@
  	<update id="updateB_BOOK_RENT" parameterType="String">
  		update B_BOOK_RENT set returnDate = returnDate + 7 where bookNumber=#{bookNumber}
  	</update>
+ 	
+ 	<!-- 도서 신청 cnt계산 -->
+ 	<select id="applycnt" parameterType="String" resultType="String">
+ 		select count(userid) from b_book_request where userid=#{userid} and applydate like '%'||TO_CHAR(sysdate,'YYYY-MM')||'%'
+ 	</select>
 </mapper>

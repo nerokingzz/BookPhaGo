@@ -194,5 +194,11 @@ public class LibraryServiceImpl implements LibraryService{
 		result = libraryDAO.updatebooklibreturn(book_list);
 		return result;
 	}
+	
+	@Override
+	public String applycnt(String userid) {
+		String booklist = libraryDAO.applycnt(userid);
+		return booklist;
+	}
 
 }
