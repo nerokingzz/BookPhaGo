@@ -31,9 +31,16 @@
 	
 <script type="text/javascript">
 
-	function voteSubmit(func) {
-		var func=func;
-		var vote_id=$('input[name=vote_id]').val();
+	function voteSubmit(fun) {
+		
+		var fun=fun;
+		
+		if (fun == 'insert') {
+			vote_id=0;
+		} else {
+			vote_id=$('input[name=vote_id]').val();
+		}
+		
 		var board_id=$('input[name=board_id]').val();
 		var vote_title=$('input[name=vote_title]').val();
 		var selection_option1=$('input[name=selection_option1]').val();
@@ -43,15 +50,15 @@
 		var selection_option5=$('input[name=selection_option5]').val();
 		var vote_start=$('input[name=vote_start]').val();
 		var vote_end=$('input[name=vote_end]').val();
-		var vote_status=$('select[name=vote_status]').val();
+		var vote_status=$('input[name=vote_status]').val();
 		var vote_participate_count=$('input[name=vote_participate_count]').val();
 		
 		$.ajax({
 			type:"POST",
 			url:"vote_submit.do",
-			data:{"func" : func, "vote_id" : vote_id, "board_id" : board_id, "vote_title" : vote_title, "selection_option1" : selection_option1, "selection_option2" : selection_option2, "selection_option3" : selection_option3, "selection_option4" : selection_option4, "selection_option5" : selection_option5, "vote_start" : vote_start, "vote_end" : vote_end, "vote_status" : vote_status, "vote_participate_count" : vote_participate_count},
+			data:{"fun" : fun, "vote_id" : vote_id, "board_id" : board_id, "vote_title" : vote_title, "selection_option1" : selection_option1, "selection_option2" : selection_option2, "selection_option3" : selection_option3, "selection_option4" : selection_option4, "selection_option5" : selection_option5, "vote_start" : vote_start, "vote_end" : vote_end, "vote_status" : vote_status, "vote_participate_count" : vote_participate_count},
 			success:function() {
-				alert('등록완료');
+				location.href="com_act_board.do?board_id=" + board_id + "&community_id=${comInfo.get('COMMUNITY_ID') }";
 			}
 		})
 		
@@ -250,18 +257,19 @@
 												<input type="text" name="selection_option4" placeholder="선택지4">
 												<input type="text" name="selection_option5" placeholder="선택지5">
 												
-												<select name="vote_status">
-													<option value="VS">--분류--</option>
-													<option value="ing">진행중</option> 
-													<option value="end">마감</option>
-												</select> <br>
-												
-												<input type="hidden" name="vote_id" value="0">
+												<input type="hidden" name="vote_status" value="ing">					
+												<input type="hidden" name="vote_id" value="${voteInfo.get('VOTE_ID') }">
 												<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">
 												<input type="hidden" name="vote_participate_count" value="0">
 												
-												<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('insert')" style="width: 20%; font-weight: bold" value="등록">
-												<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('update')" style="width: 20%; font-weight: bold" value="수정">
+												<c:choose>
+													<c:when test="${voteInfo.get('VOTE_ID') eq null }">
+														<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('insert')" style="width: 20%; font-weight: bold" value="등록">
+													</c:when>
+													<c:otherwise>
+														<input type="submit" class="btn btn-outline-secondary" onclick="voteSubmit('update')" style="width: 20%; font-weight: bold" value="수정">
+													</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
                                     </div><!--posts-section end-->
