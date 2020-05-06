@@ -31,6 +31,9 @@
 	
 <script type="text/javascript">
 	
+	console.log('${voteIngChk}');
+	
+	
 	function articleWrite() {
 		location.href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }";
 	}
@@ -38,6 +41,19 @@
 	function voteWrite() {
 		location.href="com_vote_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }";
 	}
+	
+	function voteAdmin() {
+		location.href="com_vote_admin_form.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }";
+	}
+	
+	function voteRequest() {
+		var newWin=window.open("com_vote_request_form.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }", "투표주제신청", "width=500, height=500");
+	}
+	
+	function voteReqAdmin() {
+		var newWin=window.open("vote_request_list.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }", "투표주제신청내역", "width=500, height=500");
+	}
+	
 </script>
 
 <body>	
@@ -220,6 +236,8 @@
 										<c:choose>
 											<c:when test="${memAuth eq 'cap' && boardInfo.get('BOARD_CATEGORY') eq 'BD001'}">
 												<input type="button" value="투표등록" onclick="voteWrite()">
+												<input type="button" value="투표관리" onclick="voteAdmin()">
+												<input type="button" value="신청내역" onclick="voteReqAdmin()">
 											</c:when>
 											<c:when test="${memAuth eq 'cap' && boardInfo.get('BOARD_CATEGORY') eq 'BD000'}">
 												<input type="button" value="글쓰기" onclick="articleWrite()">
@@ -228,7 +246,7 @@
 												<input type="button" value="투표신청" onclick="voteRequest()">
 											</c:when>
 											<c:when test="${memAuth eq 'mem' && boardInfo.get('BOARD_CATEGORY') eq 'BD000'}">
-												<input type="button" value="글쓰기" onclick="voteWrite()">
+												<input type="button" value="글쓰기" onclick="articleWrite()">
 											</c:when>
 										</c:choose>
 										
@@ -252,7 +270,7 @@
 						                                	<h6>날짜</h6>
 						                                </div>
 						                                <div class="col-md-1 col-sm-1">
-						                                    <h6>조회</h6>
+						                                    <h6>조회수</h6>
 						                                </div>
 						                                <div class="col-md-1 col-sm-1">
 						                                	<h6>좋아요</h6>
@@ -316,9 +334,26 @@
 				                        		</c:when>
 				                        		
 				                        		<c:when test="${boardInfo.get('BOARD_CATEGORY') eq 'BD001'}">
-													<a href="ing_vote.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">현재 진행중인 투표하러가기</a>
+				                        			<c:choose>
+														<c:when test="${voteIngChk eq 'o' }">
+															<div class="bids-detail">
+																<div class="row">
+																	<h1>진행중 투표</h1>
+								                                    <div class="col-12 appliedjob">
+																		<h2><a href="ing_vote_form.do?vote_id=${ingVote.get('VOTE_ID') }&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${ingVote.get('VOTE_TITLE') }</a></h2>			
+								                                        <div class="bids-time">
+								                                           <h3>${ingVote.get('VOTE_START') } ~ ${ingVote.get('VOTE_END') }</h3>
+								                                        </div>
+								                                    </div>
+								                                 </div>
+							                                </div>
+														</c:when>
+				                        			</c:choose>
+				                        			
+				                        		
+
 													
-													<h4>마감된 투표</h4>
+													<h1>마감된 투표</h1>
 													<div class="row">
 						                                <div class="col-md-2 col-sm-2">
 						                                    <h6>번호</h6>

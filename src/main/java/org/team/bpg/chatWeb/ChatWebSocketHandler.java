@@ -14,11 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 	
-	//웹소켓에 연결된 사용자 한명 정보 -> put(session.getId(), session)
 	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
-	
-	//채팅방정보 들어있는 맵 community_id를 키값으로 가지고 키값에 대한 사용자정보가 들어있는 map 가짐
-	//private Map<String, Map<String, WebSocketSession>> chatroomMap=new HashMap<String, Map<String, WebSocketSession>>(); //채팅방
 	private Map<String, Map<String, WebSocketSession>> chatroomMap=new HashMap<>();
 	
 	
@@ -50,7 +46,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		
 		//전달된 메세지를 분석해서 각 커뮤니티아이디에 맞는 방으로 들어가게
 		
-		//msgContext배열 -> community_id, mem_nickname, msg
+		//msgContext배열 -> community_id, mem_nickname, msg (json으로 전달해도 됨)
 		String[] msgContext=message.getPayload().split(":");
 		String community_id=msgContext[0]; //커뮤니티아이디
 		String mem_nickname=msgContext[1]; //사용자닉네임
@@ -71,16 +67,6 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 				chatroomMap.put(chatroomId, chatmemMap);
 			}
 		}
-		
-		
-		
-//		Map<String, WebSocketSession> chatmemMap = new HashMap<String, WebSocketSession>();
-//		System.out.println("dd:"+chatroomMap);
-//		chatmemMap.put(session.getId(), session);
-//		chatroomMap.put(community_id, chatmemMap);
-		
-		
-		
 		
 		Map<String, WebSocketSession> chatmemList=chatroomMap.get(community_id);
 		

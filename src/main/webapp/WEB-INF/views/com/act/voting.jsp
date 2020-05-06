@@ -30,164 +30,24 @@
 	%>
 
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+	
 <script type="text/javascript">
-
-	function articleDelete() {
-		$.ajax({
-			type:"POST",
-			url:"article_delete.do",
-			data:{article_id : '${articleInfo.get("ARTICLE_ID") }'},
-					
-			success:function() {
-				location.href="com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }";
-			}
-		})
+	function voting() {
+		var selectOption = $('input[name="vote_selection"]:checked').val();
+		alert(selectOption);
 		
-	}
-	
-	function articleGood() {
 		$.ajax({
-			type:"POST",
-			url:"article_good.do",
-			data:{article_id : '${articleInfo.get("ARTICLE_ID") }'},
-					
+			method:"POST",
+			url:"voting.do",
+			data:{"vote_id" : '${voteInfo.get("VOTE_ID")}', "vote_selection" : selectOption},
 			success:function() {
-				alert("좋아요 +1");
-				//location.href="com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }";
+				alert("투표완료");
+				location.href="ing_vote_form.do?vote_id=${voteInfo.get('VOTE_ID') }&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}";
 			}
 		})
 	}
-	
-	function articleBad() {
-		$.ajax({
-			type:"POST",
-			url:"article_bad.do",
-			data:{article_id : '${articleInfo.get("ARTICLE_ID") }'},
-					
-			success:function() {
-				alert("싫어요 +1");
-				//location.href="com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }";
-			}
-		})
-	}
-	
-	function replySubmit() {
-		
-		var article_id=$('input[name=article_id]').val();
-		var reply_content=$('input[name=reply_content]').val();
-		var reply_writer=$('input[name=reply_writer]').val();
-		var reply_depth=$('input[name=reply_depth]').val();
-		var bundle_order=$('input[name=bundle_order]').val();
-		var reply_date=$('input[name=reply_date]').val();
-		
-		$.ajax({
-			type:"POST",
-			url:"reply_submit.do",
-			data:{"article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date},
-			success:function() {
-				
-				alert("등록완료");
-				window.location.reload(true);
-			}
-		})
-	}
-	
-	var indexList=new Array();
-	var bundleIdList=new Array();
-	var articleIdList=new Array();
-	var replyContentList=new Array();
-	var replyWriterList=new Array();
-	var replyDepthList=new Array();
-	var bundleOrderList=new Array();
-	var replyDateList=new Array();
-
-	$(document).ready(function() {
-		
-		//index 배열
-		$("input[name=re_index]").each(function(index, item) {
-			indexList.push($(item).val());
-		});
-
-		//bundle_id 배열
-		$("input[name=re_bundle_id]").each(function(index, item) {
-			bundleIdList.push($(item).val());
-		});
-		
-		//article_id 배열
-		$("input[name=re_article_id]").each(function(index, item) {
-			articleIdList.push($(item).val());
-		});
-
-		//reply_content 배열
-		$("input[name=re_reply_content]").each(function(index, item) {
-			replyContentList.push($(item).val());
-		});
-		
-		//reply_writer 배열
-		$("input[name=re_reply_writer]").each(function(index, item) {
-			replyWriterList.push($(item).val());
-		});
-
-		//reply_depth 배열
-		$("input[name=re_reply_depth]").each(function(index, item) {
-			replyDepthList.push($(item).val());
-		});
-		
-		//reply_date 배열
-		$("input[name=re_reply_date]").each(function(index, item) {
-			replyDateList.push($(item).val());
-		});
-
-		//bundle_order 배열
-		$("input[name=re_bundle_order]").each(function(index, item) {
-			bundleOrderList.push($(item).val());
-		});
-		
-		
-
-	});
-	
-	function reReplySubmit(i) {
-		
-		var bundle_id=bundleIdList[i-1];
-		var article_id=articleIdList[i-1];
-		var reply_content=replyContentList[i-1];
-		var reply_writer=replyWriterList[i-1];
-		var reply_depth=replyDepthList[i-1];
-		var reply_date=replyDateList[i-1];
-		var bundle_order=bundleOrderList[i-1];
-		
-		alert("reply_date" + reply_date);
-		alert("reply_content" + reply_content);
-		
-		$.ajax({
-			type:"POST",
-			url:"re_reply_submit.do",
-			data:{"article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date, "bundle_id" : bundle_id},
-			success:function() {
-				
-				alert("등록완료");
-				window.location.reload(true);
-			}
-		})
-	}
-	
-	
-
 </script>
-
-<script type="text/javascript">
-	var memNick='${memNick}';
-	var user_id='${user_id}';
-	var article_writer='${articleInfo.get("ARTICLE_WRITER")}';
 	
-	console.log("memNick:" + memNick);
-	console.log("user_id:" + user_id);
-	console.log("article_writer:" + article_writer);
-</script>
-
 <body>	
 
 	<div class="wrapper">	
@@ -370,124 +230,27 @@
                                             <div class="post_topbar">
                                                 <div class="usy-dt">
                                                     <div class="usy-name">
-                                                        <h3>${articleInfo.get("ARTICLE_TITLE") }</h3>
-                                                        <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${articleInfo.get("ARTICLE_DATE") }</span>
+                                                        <h3>${voteInfo.get("VOTE_TITLE") }</h3>
+                                                        <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${voteInfo.get("VOTE_START") } ~ ${voteInfo.get("VOTE_END") } </span>
                                                     </div>
                                                 </div>
                                                 <div class="ed-opts">
-                                                    ${articleInfo.get("ARTICLE_WRITER") }
+                                                	현재 참여 인원 : ${voteInfo.get("VOTE_PARTICIPATE_COUNT") }
                                                 </div>
                                             </div>
                                             <div class="epi-sec">
-                                            	
-                                            	<c:choose>
-                                            		<c:when test='${articleInfo.get("ARTICLE_WRITER") ne memNick}'>
-		                                            	<ul class="descp">
-		                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span><a href="#" onclick="articleGood()">좋아요</a></span></li>
-		                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span><a href="#" onclick="articleBad()">싫어요</a></span></li>
-		                                                </ul>
-                                            		</c:when>
-                                            	</c:choose>
-                                            
-                                                <c:choose>
-                                                	<c:when test='${articleInfo.get("ARTICLE_WRITER") eq memNick}'>
-	                                                	<ul class="bk-links">
-		                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_ID') }" title="">수정하기</a></li>
-															<li><a href="#" onclick="articleDelete()" title="">삭제하기</a></li>
-	                                                	</ul>
-                                                	</c:when>
-                                                </c:choose>
                                             </div>
                                             <div class="job_descp accountnone">
-												${articleInfo.get("ARTICLE_CONTENT") }
-                                            </div>
-                                            <div class="job-status-bar btm-line">                                                
-                                                <ul class="like-com">
-                                                    <li>
-                                                        <a class="active"><i class="fas fa-thumbs-up"></i>좋아요 ${articleInfo.get("ARTICLE_GOOD_COUNT") }</a>
-                                                        <a class="active"><i class="fas fa-thumbs-down"></i>싫어요 ${articleInfo.get("ARTICLE_BAD_COUNT") }</a>
-                                                    </li>
-                                                    <li><a class="active"><i class="fas fa-eye"></i>조회수 ${articleInfo.get("ARTICLE_VIEW_COUNT") }</a></li>
-                                                </ul>
-                                                <a><i class="fas fa-comment-alt"></i>댓글수 ${replyCount}</a>
+                                            	<hr>
+												<input type="radio" name="vote_selection" value='SELECTION_OPTION1:${voteInfo.get("SELECTION_OPTION1") }'>${voteInfo.get("SELECTION_OPTION1") } <hr>
+												<input type="radio" name="vote_selection" value='SELECTION_OPTION2:${voteInfo.get("SELECTION_OPTION2") }'>${voteInfo.get("SELECTION_OPTION2") } <hr>
+												<input type="radio" name="vote_selection" value='SELECTION_OPTION3:${voteInfo.get("SELECTION_OPTION3") }'>${voteInfo.get("SELECTION_OPTION3") } <hr>
+												<input type="radio" name="vote_selection" value='SELECTION_OPTION4:${voteInfo.get("SELECTION_OPTION4") }'>${voteInfo.get("SELECTION_OPTION4") } <hr>
+												<input type="radio" name="vote_selection" value='SELECTION_OPTION5:${voteInfo.get("SELECTION_OPTION5") }'>${voteInfo.get("SELECTION_OPTION5") } <hr>
+												
+												<button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:30px;" onclick="voting()">투표하기</button>
                                             </div>
                                             
-                                            <div class="comment-area">
-                                            	<c:forEach var="i" begin="1" end="${replyListSize}">
-                                            	<div class="post_topbar">
-                                                    <div class="usy-dt">
-                                                        <div class="usy-name">
-                                                            <h3>${replyList.get(i-1).get("REPLY_WRITER")}</h3>
-                                                            <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${replyList.get(i-1).get("REPLY_DATE")}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="reply-area">
-                                                    <p>${replyList.get(i-1).get("REPLY_CONTENT")}</p>
-                                                    
-                                                    <div class="comment-area reply-rply1">
-                                                        <div class="post_topbar">
-                                                            <div class="usy-dt">
-                                                                <img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
-                                                                <div class="usy-name">
-                                                                    <h3>대댓글작성자</h3>
-                                                                    <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">대댓글작성날짜</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-area">
-                                                            <p>대댓글내용</p>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    	<div id="re-re-form">
-			                                                <div class="row">
-			                                                    <div class="col-md-10">
-			                                                    	
-			                                                        <form>
-			                                                            <div class="form-group">
-			                                                            	<input type="hidden" name="re_index" value="${i}">
-			                                                            	<input type="hidden" name="re_article_id" value="${articleInfo.get('ARTICLE_ID') }">
-			                                                            	<input type="text" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
- 			                                                                <input type="text" class="form-control" style="margin-left: 0px" name="re_reply_content" placeholder="댓글을 입력해주세요">
-			                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
-			                                                                <input type="hidden" name="re_reply_depth" value="1">
-			                                                      			<input type="hidden" name="re_bundle_order" value="1">
-			                                                      			<input type="text" name="re_reply_date" id="current_info">
-			                                                            </div>
-			                                                        </form>
-			                                                    </div>
-			                                                    <div class="col-md-2">
-			                                                        <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="reReplySubmit('${i}')">입력</button>
-			                                                    </div>
-			                                                </div>
-	                                                        
-                                                        </div>
-                                                    
-                                                </div>
-                                            	</c:forEach>
-                                            </div>
-                                            
-                                             <div class="postcomment">
-                                                <div class="row">
-                                                    <div class="col-md-10">
-                                                    	
-                                                        <form>
-                                                            <div class="form-group">
-                                                            	<input type="hidden" name="article_id" value="${articleInfo.get('ARTICLE_ID') }">
-                                                                <input type="text" class="form-control" style="margin-left: 0px" name="reply_content" placeholder="댓글을 입력해주세요">
-                                                                <input type="hidden" name="reply_writer" value="${memNick }">
-                                                                <input type="hidden" name="reply_depth" value="0">
-                                                      			<input type="hidden" name="bundle_order" value="0">
-                                                      			<input type="hidden" name="reply_date" id="current_info">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="replySubmit()">입력</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <!--post-bar end-->
                                     </div><!--posts-section end-->
@@ -771,6 +534,7 @@
 
 	</div><!--theme-layout end-->
 	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">
 		var community_id=${comInfo.get("COMMUNITY_ID")};
@@ -804,8 +568,6 @@
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
-
-<script src="resources/com/js/utils.js"></script>
 
 </body>
 </html>

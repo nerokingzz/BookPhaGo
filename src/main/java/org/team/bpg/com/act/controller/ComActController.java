@@ -1,10 +1,8 @@
 package org.team.bpg.com.act.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.team.bpg.com.act.service.ComActService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
@@ -198,6 +195,32 @@ public class ComActController {
 		} else if (board_category.equals("BD001")) {
 			
 			//투표게시판일때
+			
+			//현재 진행중인 투표 가져오기
+			Map<String, Object> ingVote=comActService.voteIng(request).get(0);
+			String dbEndDate=(String) ingVote.get("VOTE_END");
+			String[] endDate=dbEndDate.split("-");
+			String voteYear=endDate[0];
+			String voteMonth=endDate[1];
+			String voteDate=endDate[2];
+			
+			String voteEndDate=voteYear+voteMonth+voteDate;
+			
+			System.out.println("투표끝날짜 : " + voteEndDate);
+			
+			Calendar cal = Calendar.getInstance();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String todayDate = sdf.format(cal.getTime());
+			
+			System.out.println("오늘날짜 : " + todayDate);
+			
+			String voteIngChk="x";
+			
+			if (Integer.parseInt(voteEndDate) > Integer.parseInt(todayDate)) {
+				voteIngChk="o";
+			}
+			
 			int voteCount = comActService.countvote(request);
 			System.out.println("투표 갯수" + voteCount);
 			
@@ -216,15 +239,10 @@ public class ComActController {
 			model.addAttribute("voteList", voteList);
 			model.addAttribute("voteListSize", voteList.size());
 			
-			//현재 진행중인 투표 가져오기
-			
-			
+			model.addAttribute("ingVote", ingVote);
+			model.addAttribute("voteIngChk", voteIngChk);
+
 		}
-		
-
-		
-
-		
 		return "com/act/board";
 		
 	}
@@ -263,14 +281,29 @@ public class ComActController {
 	public ModelAndView articleContent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Object[] data=comActService.comInfo(request);
 		
+		//조회수 증가
+		comActService.articleView(request);
+		
 		Map<String, Object> articleInfo=comActService.articleInfo(request);
+		
 		System.out.println("글정보"+articleInfo);
+		
+		//댓글수 가져오기
+		int replyCount = comActService.countReply(request);
+		
+		//원댓글 가져오기
+		List<Map<String, Object>> replyList=comActService.replyList(request);
+		
+		//대댓글 가져오기
+		List<Map<String, Object>> reReplyList=comActService.reReplyList(request);
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		String memNick=(String) data[3];
+		String memId=(String) data[4];
 		
 		ModelAndView mav=new ModelAndView();
 		
@@ -279,6 +312,14 @@ public class ComActController {
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memNick", memNick);
+		mav.addObject("memId", memId);
+		
+		mav.addObject("replyCount", replyCount);
+		mav.addObject("replyList", replyList);
+		mav.addObject("replyListSize", replyList.size());
+		mav.addObject("reReplyList", reReplyList);
+		mav.addObject("reReplyListSize", reReplyList.size());
 		
 		mav.setViewName("com/act/article");
 		
@@ -294,6 +335,8 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		String memNick=(String) data[3];
+		String memId=(String) data[4];
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -313,6 +356,8 @@ public class ComActController {
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memNick", memNick);
+		mav.addObject("memId", memId);
 		mav.setViewName("com/act/article_write");
 		
 		return mav;
@@ -350,21 +395,55 @@ public class ComActController {
 		return mav;
 	}
 	
+	//투표하기 화면 보여주기
+	@RequestMapping(value="ing_vote_form", method=RequestMethod.GET)
+	public ModelAndView ingVoteForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> voteInfo=comActService.voteInfo(request);
+		
+		System.out.println("투표정보"+voteInfo);
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		String memNick=(String) data[3];
+		String memId=(String) data[4];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("voteInfo", voteInfo);
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("memNick", memNick);
+		mav.addObject("memId", memId);
+		
+		mav.setViewName("com/act/voting");
+		
+		return mav;
+	}
+	
 	//글등록
 	@ResponseBody
 	@RequestMapping(value="article_submit", method=RequestMethod.POST)
 	public String articleSubmit(@ModelAttribute ArticleInfoVO articleInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String func=request.getParameter("func");
+		String func=request.getParameter("fun");
 		String article_id=request.getParameter("article_id");
 		
 		if (func.equals("update")) {
 			System.out.println("글 수정");
 			System.out.println("이글번호" + article_id);
-			//comActService.articleUpdate(articleInfoVo, request);
+			
+			System.out.println("수정할 글 정보" + articleInfoVo);
+			
+			comActService.articleUpdate(articleInfoVo);
 			
 		} else if (func.equals("insert")) {
 			System.out.println("글 등록");
-			article_id=null;
 			System.out.println("이글번호" + article_id);
 			
 			comActService.articleSubmit(articleInfoVo, request);
@@ -373,10 +452,33 @@ public class ComActController {
 		return "ok";
 	}
 	
+	//글삭제
+	@ResponseBody
+	@RequestMapping(value="article_delete", method=RequestMethod.POST)
+	public String articleDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		comActService.articleDelete(request);
+		return "ok";
+	}
+	
+	//좋아요
+	@ResponseBody
+	@RequestMapping(value="article_good", method=RequestMethod.POST)
+	public void articleGood(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		comActService.articleGood(request);
+	}
+	
+	//싫어요
+	@ResponseBody
+	@RequestMapping(value="article_bad", method=RequestMethod.POST)
+	public void articleBad(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		comActService.articleBad(request);
+	}
+	
+	//투표등록
 	@ResponseBody
 	@RequestMapping(value="vote_submit", method=RequestMethod.POST)
 	public String voteSubmit(@ModelAttribute VoteInfoVO voteInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String func=request.getParameter("func");
+		String func=request.getParameter("fun");
 		String vote_id=request.getParameter("vote_id");
 		
 		System.out.println(voteInfoVo);
@@ -385,9 +487,12 @@ public class ComActController {
 			System.out.println("투표 수정");
 			System.out.println("이투표번호" + vote_id);
 			
+			System.out.println("수정할 투표 정보" + voteInfoVo);
+			
+			comActService.voteUpdate(voteInfoVo);
+			
 		} else if (func.equals("insert")) {
 			System.out.println("투표 등록");
-			vote_id=null;
 			System.out.println("이투표번호" + vote_id);
 			
 			comActService.voteSubmit(voteInfoVo, request);
@@ -421,6 +526,146 @@ public class ComActController {
 		mav.setViewName("com/act/vote");
 		
 		return mav;
+	}
+	
+	//투표하기
+	@ResponseBody
+	@RequestMapping(value="voting", method=RequestMethod.POST)
+	public void voting(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println(request.getParameter("vote_selection"));
+		System.out.println(request.getParameter("vote_id"));
+		
+		comActService.votePart(request);
+		comActService.voting(request);
+	}
+	
+	//투표관리
+	@RequestMapping(value="com_vote_admin_form", method=RequestMethod.GET)
+	public ModelAndView voteAdminForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("boardInfo", boardInfo);
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		
+		mav.setViewName("com/act/vote_admin");
+		
+		return mav;
+	}
+	
+	//투표관리 -> ibsheet
+	@ResponseBody
+	@RequestMapping(value="com_vote_admin", method=RequestMethod.POST)
+	public Map<String, Object> voteAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Map<String, Object>> voteAllList=comActService.voteAllList(request);
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", voteAllList);
+		
+		return ibsheetMap;	
+	}
+	
+	//투표상태변경
+	@ResponseBody
+	@RequestMapping(value="vote_sts_update", method=RequestMethod.POST)
+	public String voteStsUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//db에 변경 내용 update하기
+		comActService.voteAdmin(request);
+				
+		return "ok";
+	}
+	
+	//투표결과보기 (운영자)
+	@RequestMapping(value="vote_chart", method=RequestMethod.GET)
+	public ModelAndView voteChart(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, Object> voteInfo=comActService.voteInfo(request);
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("voteInfo", voteInfo);
+		mav.setViewName("com/act/vote_chart");
+		return mav;
+	}
+	
+	//투표신청 양식 보여주기 (사용자)
+	@RequestMapping(value="com_vote_request_form", method=RequestMethod.GET)
+	public ModelAndView voteRequestForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Object[] data=comActService.comInfo(request);
+		
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		String memNick=(String) data[3];
+		String memId=(String) data[4];
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("boardInfo", boardInfo);
+		
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("memNick", memNick);
+		mav.addObject("memId", memId);
+		mav.setViewName("com/act/vote_request_form");
+		
+		return mav;
+	}
+	
+	//투표신청 insert
+	@ResponseBody
+	@RequestMapping(value="vote_request", method=RequestMethod.POST)
+	public void voteRequest(HttpServletRequest request, HttpServletResponse resonse) throws Exception {
+		comActService.voteRequest(request);
+	}
+	
+	//투표신청내역 화면보여주기 
+	@RequestMapping(value="vote_request_list", method=RequestMethod.GET)
+	public ModelAndView voteRequsetList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("boardInfo", boardInfo);
+		mav.setViewName("com/act/vote_request_list");
+		return mav;
+	}
+	
+	//투표신청내역 -> ibsheet
+	@ResponseBody
+	@RequestMapping(value="vote_req_list", method=RequestMethod.POST)
+	public Map<String, Object> voteReqList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("qq:"+request.getParameter("board_id"));
+		
+		List<Map<String, Object>> voteReqList=comActService.voteReqList(request);
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", voteReqList);
+		
+		return ibsheetMap;	
+	}
+	
+	//원댓글입력
+	@ResponseBody
+	@RequestMapping(value="reply_submit", method=RequestMethod.POST)
+	public void replySubmit(@ModelAttribute ReplyInfoVO replyInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		comActService.replySubmit(replyInfoVo);
+	}
+	
+	//대댓글입력
+	@ResponseBody
+	@RequestMapping(value="re_reply_submit", method=RequestMethod.POST)
+	public void reReplySubmit(@ModelAttribute ReplyInfoVO replyInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("넘어온VO" + replyInfoVo);
+		comActService.reReplySubmit(replyInfoVo);
 	}
 	
 	

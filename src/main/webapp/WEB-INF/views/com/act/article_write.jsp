@@ -33,7 +33,13 @@
 	
 	function articleSubmit(fun) {
 		var fun=fun;
-		var article_id=$('input[name=article_id]').val();
+		
+		if (fun == 'insert') {
+			article_id=0;
+		} else {
+			article_id=$('input[name=article_id]').val();
+		}
+		
 		var board_id=$('input[name=board_id]').val();
 		var article_title=$('input[name=article_title]').val();
 		var article_date=$('input[name=article_date]').val();
@@ -45,8 +51,6 @@
 		var article_writer=$('input[name=article_writer]').val();
 		var article_file=$('input[name=article_file]').val(); // C:\fakepath\파일이름.png 이런식으로 값을 가져옴
 		
-		var fuun=fun;
-		
 		alert(fun);
 		alert(article_content);
 		
@@ -55,7 +59,7 @@
 			url:"article_submit.do",
 			data:{"fun" : fun, "article_id" : article_id, "board_id" : board_id, "article_title" : article_title, "article_date" : article_date, "article_content" : article_content, "article_view_count" : article_view_count, "article_good_count" : article_good_count, "article_bad_count" : article_bad_count, "article_reply_count" : article_reply_count, "article_writer" : article_writer},
 			success:function() {
-				alert('등록완료');
+				location.href="com_act_board.do?board_id=" + board_id + "&community_id=${comInfo.get('COMMUNITY_ID') }";
 			}
 		})
 		
@@ -272,16 +276,25 @@
 										    <hr>
 										      
 											<div class="row justify-content-md-center">
-												<input type="hidden" name="article_id" value="0">
+												<input type="hidden" name="article_id" value="${articleInfo.get('ARTICLE_ID') }">
 												<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">
 												<input type="hidden" name="article_date" id="current_info">
 												<input type="hidden" name="article_view_count" value="0">
 												<input type="hidden" name="article_good_count" value="0">
 												<input type="hidden" name="article_bad_count" value="0">
 												<input type="hidden" name="article_reply_count" value="0">
-												<input type="hidden" name="article_writer" value="우녕자">
-												<input type="submit" class="btn btn-outline-secondary" onclick="articleSubmit('insert')" style="width: 20%; font-weight: bold" value="등록">
-												<input type="submit" class="btn btn-outline-secondary" onclick="articleSubmit('update')" style="width: 20%; font-weight: bold" value="수정">
+												<input type="text" name="article_writer" value="${memNick }">
+												
+												<c:choose>
+													<c:when test="${articleInfo.get('ARTICLE_ID') eq null }">
+														<input type="submit" class="btn btn-outline-secondary" onclick="articleSubmit('insert')" style="width: 20%; font-weight: bold" value="등록">
+													</c:when>
+													<c:otherwise>
+														<input type="submit" class="btn btn-outline-secondary" onclick="articleSubmit('update')" style="width: 20%; font-weight: bold" value="수정">
+													</c:otherwise>
+												</c:choose>
+												
+												
 										    </div>
 										</div>
                                     </div><!--posts-section end-->

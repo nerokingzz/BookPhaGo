@@ -29,24 +29,27 @@
 									<li><a href="book_main.do?page=apply" title="">도서신청</a></li>
 								</ul>
 							</li>
-							<li>
-								<a href="com_main.do" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
-									커뮤니티
-								</a>
-							</li>
-							<li>
-								<a href="myLib_main.do" title="" class="not-box-openm">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
-									마이라이브러리
-								</a>
-								<ul>
-									<li><a href="myLib_main.do?page=score" title="">도서평가</a></li>
-									<li><a href="myLib_main.do?page=favor" title="">취향분석</a></li>
-									<li><a href="myLib_main.do?page=declare" title="">신고하기</a></li>
-								</ul>
-								
-							</li>
+							<c:choose>
+								<c:when test="${user_position ne null}">
+									<li>
+										<a href="com_main.do" title="">
+											<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
+											<spring:message code="top.comm"/>
+										</a>
+									</li>
+									<li>
+										<a href="myLib_main.do" title="" class="not-box-openm">
+											<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
+											<spring:message code="top.mylib"/>
+										</a>
+										<ul>
+											<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
+											<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
+											<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
+										</ul>
+									</li>								
+								</c:when>
+							</c:choose>
 
 							<c:choose>
 								<c:when test="${user_position eq 'admin'}">

@@ -130,33 +130,71 @@
 	
 	/*Sheet 기본 설정 */
 	function LoadPage() {
-		mySheet.RemoveAll();
-		//아이비시트 초기화
-		var initSheet = {};
-		initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:2};
-		initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
-		initSheet.Cols = [
-			{Header:"번호", Type:"int", SaveName:"COMMUNITY_ID", MinWidth:20},
-			{Header:"신청날짜", Type:"Text", SaveName:"COMMUNITY_ESTABLISH_DATE", MinWidth:90},
-			{Header:"신청인", Type:"Text", SaveName:"COMMUNITY_CAPTAIN", MinWidth:80},
-			{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
-			{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:50},			
-			{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:200},
-			{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
-			{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
+		var pageInfo='${pageInfo}';
+		if (pageInfo === 'com_A') { //커뮤니티관리
 			
-		];   
-		IBS_InitSheet( mySheet , initSheet);
-		
-		mySheet.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
-        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
-		//doAction('search');
-		
-		mySheet.SetEditable(true);
-		doAction('search');
+			mySheet.RemoveAll();
+			//아이비시트 초기화
+			var initSheet = {};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
+			initSheet.Cols = [
+				{Header:"번호", Type:"int", SaveName:"COMMUNITY_ID", MinWidth:20},
+				{Header:"신청날짜", Type:"Text", SaveName:"COMMUNITY_ESTABLISH_DATE", MinWidth:90},
+				{Header:"신청인", Type:"Text", SaveName:"COMMUNITY_CAPTAIN", MinWidth:80},
+				{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
+				{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:50},			
+				{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:200},
+				{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
+				{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
+				
+			];   
+			IBS_InitSheet( mySheet , initSheet);
+			
+			mySheet.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
+	        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
+			//doAction('search');
+			
+			mySheet.SetEditable(true);
+			doAction('search');
 
-		mySheet.SetCountPosition(1);
-		mySheet.SetPagingPosition(2);
+			mySheet.SetCountPosition(1);
+			mySheet.SetPagingPosition(2);
+			
+		} else if (pageInfo === 'dec_A') { //신고관리
+			
+			console.log("현재페이지" + pageInfo);
+			
+			mySheet_dec.RemoveAll();
+			//아이비시트 초기화
+			var initSheet = {};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
+			initSheet.Cols = [
+				{Header:"번호", Type:"int", SaveName:"DECLARE_ID", MinWidth:20},
+				{Header:"신고날짜", Type:"Text", SaveName:"DECLARE_DATE", MinWidth:90},
+				{Header:"신고인", Type:"Text", SaveName:"DO_USER", MinWidth:80},
+				{Header:"피신고인", Type:"Text", SaveName:"BE_DONE_USER", MinWidth:100},
+				{Header:"분류", Type:"Text", SaveName:"DECLARE_CATEGORY", MinWidth:50},			
+				{Header:"신고사유", Type:"Text", SaveName:"DECLARE_REASON", OnClick:decImage, MinWidth:300},
+				{Header:"상태", Type:"Combo", SaveName:"DECLARE_STATUS", OnChange:decStsAdminIb, ComboText:"신고자처벌|진행중|피신고자처벌", ComboCode:"do|ing|be_done", MinWidth:120}
+				
+			];   
+			IBS_InitSheet( mySheet_dec , initSheet);
+			
+			mySheet_dec.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
+	        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
+			//doAction('search');
+			
+			mySheet_dec.SetEditable(true);
+			doAction('search');
+
+			mySheet_dec.SetCountPosition(1);
+			mySheet_dec.SetPagingPosition(2);
+			
+		}
+		
+		
 		
 		
 	}
@@ -164,11 +202,21 @@
 	
 	/*Sheet 각종 처리*/
 	function doAction(sAction) {
+		
+		var pageInfo='${pageInfo}';
+		
 		switch(sAction) {
 			case "search": //조회
 			    //var param = FormQueryStringEnc(document.frm);
-				var page="com_A";
-				mySheet.DoSearch("com_esta_request_list.do", page);
+			
+				if (pageInfo == 'com_A') {
+					var page="com_A";
+					mySheet.DoSearch("com_esta_request_list.do", page);
+				} else if (pageInfo == 'dec_A') {
+					var page="dec_A";
+					mySheet_dec.DoSearch("mylib_declare_request_list.do", page);
+				}
+				
 				//mySheet.DoSearch("transaction_data2.json");
 				break;
 			case "reload": //초기화
@@ -219,6 +267,36 @@
 				location.reload();
 			}
 		});
+	}
+	
+	
+	function decStsAdminIb(evtParam) {
+		var row=mySheet_dec.GetSelectionRows();
+		var declare_id = mySheet_dec.GetCellValue(row, "DECLARE_ID");
+		console.log(row + "번 로우의 신고아이디는" + declare_id);
+		var decStatus=mySheet_dec.GetCellValue(row, "DECLARE_STATUS");
+		console.log(row + "번 로우의 신고아이디는" + declare_id + "이고 변경된 상태는" + decStatus);
+		
+		$.ajax({
+			url:"mylib_declare_request_admin.do",
+			data:{"declare_id" : declare_id, "admin_sts" : decStatus},
+			method:"POST",
+			success:function(data) {
+				alert(data);
+				//location.href="admin_main.do?page=com_A";
+				location.reload();
+			}
+		});
+		
+		
+	}
+	
+	function decImage() {
+		var roww=mySheet_dec.GetSelectionRows();
+		var declare_id = mySheet_dec.GetCellValue(roww, "DECLARE_ID");
+		console.log(roww + "번 로우의 신고아이디는" + declare_id);
+		
+		var newWin=window.open("dec_image.do?declare_id=" + declare_id, "신고 첨부파일", "width=800, height=800");
 		
 		
 		
@@ -258,7 +336,7 @@
 					</div> <!-- col-lg-3 end -->
                   
 					<div class="col-lg-9">
-						<div class="tab-content" id="nav-tabContent">
+						<div class="tab-content" id="nav-tabContent" style="width: 100%; height:100%;">
                         	<div class="tab-pane fade" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
                            		<div class="acc-setting">
                               		<h3>회원관리</h3>
@@ -275,21 +353,22 @@
                              		<h3>현황관리</h3>
                            	 	</div><!--acc-setting end-->
                         	</div>
-                        	<div class="tab-pane fade" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">
-                           		<div class="acc-setting">
+                        	<div class="tab-pane fade" style="width: 100%; height:100%;" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">
+                           		<div class="acc-setting" style="width: 100%; height:100%;">
                               		<h3>커뮤니티관리</h3>
                               	    <div class="main_content" style="width: 100%; height:100%;">
 										<div class="ib_product"><script>createIBSheet("mySheet", "100%", "100%");</script></div>
-										<div id='pagination' style='text-align:center;width:100%'></div>
 						  			</div>
                            		</div><!--acc-setting end-->
 
                         	</div>
-                        	<div class="tab-pane fade" id="nav-status2" role="tabpanel" aria-labelledby="nav-status-tab">
-                           		<div class="acc-setting">
-                            		<h3>신고관리</h3>
-                                	<jsp:include page="../mylib/declare/mylib_declare_request_list.jsp"></jsp:include>
-                             	</div><!--acc-setting end-->
+                        	<div class="tab-pane fade" style="width: 100%; height:100%;" id="nav-status2" role="tabpanel" aria-labelledby="nav-status-tab">
+                           		<div class="acc-setting" style="width: 100%; height:100%;">
+                              		<h3>신고관리</h3>
+                              	    <div class="main_content" style="width: 100%; height:100%;">
+										<div class="ib_product"><script>createIBSheet("mySheet_dec", "100%", "100%");</script></div>
+						  			</div>
+                           		</div><!--acc-setting end-->
                           	</div>
                           	<div class="tab-pane fade" id="nav-password2" role="tabpanel" aria-labelledby="nav-password-tab">
                              	<div class="acc-setting">

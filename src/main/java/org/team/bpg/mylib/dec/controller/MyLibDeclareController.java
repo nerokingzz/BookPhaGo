@@ -1,5 +1,6 @@
 package org.team.bpg.mylib.dec.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,27 +43,43 @@ public class MyLibDeclareController {
 	
 	}
 	
-	//신고내역 select (사용자 + 운영자)
-	@RequestMapping(value="mylib_declare_request_list", method=RequestMethod.GET)
-	public ModelAndView declarelistShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	//신고내역 select (사용자 + 운영자) -> ibsheet
+	@ResponseBody
+	@RequestMapping(value="mylib_declare_request_list", method=RequestMethod.POST)
+	public Map<String, Object> declarelistShow(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<Map<String, Object>> requestList=myLibDeclareService.myLibDeclareRequestList(request);
+		List<Map<String, Object>> decRequestList=myLibDeclareService.myLibDeclareRequestList(request);
+		
+//		ModelAndView mav=new ModelAndView();
+//		
+//		mav.addObject("requestList", requestList);
+//		mav.addObject("requestListSize", requestList.size());
+//		
+//		System.out.println("사이즈:"+requestList.size());
+		
+		//mav.setViewName("mylib/declare/mylib_declare_request_list");
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", decRequestList);
+		return ibsheetMap;	
+	}
+	
+	//신고 첨부파일 보기 새 윈도우창
+	@RequestMapping(value="dec_image", method=RequestMethod.GET)
+	public ModelAndView decImageShow (HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		ModelAndView mav=new ModelAndView();
-		
-		mav.addObject("requestList", requestList);
-		mav.addObject("requestListSize", requestList.size());
-		
-		System.out.println("사이즈:"+requestList.size());
-		
-		mav.setViewName("mylib/declare/mylib_declare_request_list");
-		return mav;	
+		mav.addObject("declare_id", request.getParameter("declare_id"));
+		mav.setViewName("mylib/declare/image_show");
+		return mav;
 	}
 	
 	//신고 내역 사진가져오기
 	@RequestMapping(value="declareImage", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<byte[]> declareImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println("넘어온 신고아이디:" + request.getParameter("declare_id"));
 		
 		List<Map<String, Object>> declareImageList=myLibDeclareService.declareImage(request);
 		

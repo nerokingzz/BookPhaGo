@@ -35,7 +35,7 @@ public class ComEstaController {
 		comEstaService.comEstaRequest(comInfoVo);
 	}
 	
-	//개설 신청 내역 (시용자 + 관리자)
+	//개설 신청 내역 (시용자 + 관리자) -> ibsheet
 	@ResponseBody
 	@RequestMapping(value="com_esta_request_list", method=RequestMethod.POST)
 	public Map<String, Object> comEstaRequestList(HttpServletRequest request, HttpServletResponse response) throws Exception {
