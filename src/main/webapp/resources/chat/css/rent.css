@@ -1,0 +1,30 @@
+div#chatchang{
+	width : 360px;
+}
+
+
+table.rentBook{
+	border : 1px solid #F07E30;
+	border-radius : 8px;
+	width : 360px;
+	height : auto;
+	padding : 10px;
+	font-size : 13px;
+	margin: auto;
+	text-align: center;
+}
+
+.rentBook .sub{
+	display : inline;
+	padding : 0px 5px 0px 5px;
+	white-space: nowrap;
+
+	font-weight: bold;
+	font-size : 11px;
+	background-color : #E44D3A;
+	border-radius : 8px;
+	color : white;
+	width : 100%;
+	background-size: 50%;
+    background-repeat: no-repeat;
+}

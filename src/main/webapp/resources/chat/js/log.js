@@ -44,43 +44,42 @@ $('.helpforum a').on('click', function(e) {
 				
 				
 				//line chart start
-				google.charts.load('current', {
-        	        callback: function () {
-        	          
-        	          var dataRows = [['Date', '대화 수']];
-        	          
-        	          for(key in result.linechart){
-        	        	  dataRows.push([key, result.linechart[key]]);
-                  		}
+				 google.load("visualization", "1", {packages:["corechart"]});
+				 google.setOnLoadCallback(drawChart1);
+				 
+				 function drawChart1() {
+       	          
+       	          var dataRows = [['Date', '대화 수']];
+       	          
+       	       for(key in result.linechart){
+ 	        	  dataRows.push([key, result.linechart[key]]);
+           		}
 
-        	          var line_data = google.visualization.arrayToDataTable(dataRows);
+ 	          var line_data = google.visualization.arrayToDataTable(dataRows);
 
-        	          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        	          
-        	          
-        	          chart.draw(line_data,{
-        	              legend: { position: 'none' },
-        	              chartArea:{
-        	            	  left:10,
-        	            	  top:10,
-        	            	  bottom : 10,
-        	            	  width:"90%",
-        	            	  height:"90%"
-        	            		  },
-        	              width:600,
-        	              animation: {
-        	            	  startup: true,
-        	            	  duration: 200,
-        	                  easing: 'linear'
-        	            },
-      	              	  colors: ['#e44d3a']
-        	          });
-        	        },
-        	        packages: ['corechart']
-        	   });
-        	
+ 	          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-				
+       	          
+       	          chart.draw(line_data,{
+       	              legend: { position: 'none' },
+       	              chartArea:{
+       	            	  left:50,
+       	            	  top:50,
+       	            	  bottom : 50,
+       	            	  right : 50,
+       	            	  width:"100%",
+       	            	  height:"100%"
+       	            		  },
+       	            	colors: ['#e44d3a']
+       	          });
+       	   }
+       	 
+       	 
+       	 $(window).resize(function(){
+       		  drawChart1();
+       		});
+				 
+
 				//line chart end
 				
 				

@@ -199,7 +199,6 @@
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
-<script src = "resources/chat/js/log.js" ></script>
 
 </body>
 </html>

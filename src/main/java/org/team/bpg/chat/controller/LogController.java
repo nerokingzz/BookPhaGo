@@ -52,11 +52,11 @@ public class LogController {
    @Autowired
    LogService logService;
 
-   private IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
-   private Assistant assistant = new Assistant("2020-04-23", authenticator);
-   private String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
-   private long pageLimit = 999999;
-   private String cursor = "";
+   public IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
+   public Assistant assistant = new Assistant("2020-05-01", authenticator);
+   public String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
+   public long pageLimit = 2000;
+   public String cursor = "";
 
 
    public LogController() {
@@ -127,7 +127,7 @@ public class LogController {
 	            }
             
 
-	        //////////////////////////rank를 위한 if/////////////////////////
+	            //////////////////////////rank를 위한 if/////////////////////////
             
 	            
 	            ////////////////////line chart 시작///////////////////////////////

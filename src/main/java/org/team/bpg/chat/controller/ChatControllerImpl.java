@@ -82,9 +82,7 @@ public class ChatControllerImpl implements ChatController{
 		return "chat/index";
 	}
 	
-	@RequestMapping(value = "/searchMember.do"
-					//consumes = "application/json",
-					)
+	@RequestMapping(value = "/searchMember.do")
 	@ResponseBody
 	public Map<String, Object> searchMember(@RequestParam(value="mem_id") String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//String mem_id = (String)request.getParameter("mem_id");
@@ -100,6 +98,8 @@ public class ChatControllerImpl implements ChatController{
 			if(searchMember != null) {
 				System.out.println("name : " + searchMember.getUserName());
 				resultMap.put("username", searchMember.getUserName());
+				resultMap.put("regdate", searchMember.getRegDate());
+				resultMap.put("useremail", searchMember.getUserEmail());
 				resultMap.put("badcnt", searchMember.getBadcnt());	
 				resultMap.put("usertaste1", searchMember.getUserTaste1());		
 				resultMap.put("usertaste2", searchMember.getUserTaste2());	

@@ -8,6 +8,8 @@
 	
 	<resultMap id="chatMapperResult02" type="MemberVO">
 		<result property="userName" column="USERNAME"  />
+		<result property="regDate" column="REGDATE"  />
+		<result property="userEmail" column="USEREMAIL"  />
 		<result property="badcnt" column="BADCNT"  />
 		<result property="userTaste1" column="USERTASTE1"  />
 		<result property="userTaste2" column="USERTASTE2"  />
@@ -17,7 +19,7 @@
 	
 	<select id="searchMember" resultMap="chatMapperResult02" parameterType="String"> 
       <![CDATA[
-         select USERNAME, BADCNT, USERTASTE1, USERTASTE2, USERTASTE3
+         select USERNAME, REGDATE, USEREMAIL, BADCNT, USERTASTE1, USERTASTE2, USERTASTE3
          from  U_USER_INFO
       ]]>
 		<where>

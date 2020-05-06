@@ -6,7 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Bookphago</title>
 	<!-- <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet"> -->
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=72e7bf23ab0472efaf8d58b131cc552d"></script>
+	<link rel="stylesheet" type="text/css" href="resources/chat/css/rent.css">
 	<link href="resources/chat/style.css" rel="stylesheet">
 <script
 	src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js"></script>
@@ -23,6 +25,7 @@
 <script src = "resources/chat/js/map.js" ></script>
 <script src = "resources/chat/js/member.js" ></script>
 <script src = "resources/chat/js/search.js" ></script>
+<script src = "resources/chat/js/rent.js" ></script>
 <script src = "resources/chat/js/watsonjs.js" ></script>
 <script type="text/javascript">
 
@@ -32,7 +35,7 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
 	//세션에 저장되어있는 유저의 아이디와 유형을 가져온다.
 	var chat_member = "${user_id}";
 	var userPosition = "${user_position}";
-	
+	console.log("user position is..." + userPosition);
 	  
 	if(chat_member){
 		console.log("chat_member는 ...." + chat_member);
@@ -47,23 +50,87 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
 
    	const button = document.querySelector('.chatLauncher');
 
+    var clearCount = 0;
    
     button.addEventListener('click', () => {
       instance.openWindow();
+      
+      /*위젯의 header에 clear 버튼을 달아줌 시작 */
+      var chatHeader =  $('#WAC__header-name');
+      chatHeader.css('color','white');
+      chatHeader.append('<span id="clearButton" >Clear</span>')
+      
+      /*위젯의 header에 clear 버튼을 달아줌 끝 */
+      
+      var clearButton = $('#clearButton');
+      
+      clearButton.css('float','right').css('font-size','14px').css('cursor','pointer');
+      
+      /*clear 버튼에 event를 달아주는 function 시작*/
+
+      
+      clearButton.on('click',function(){
+  		
+  		var messageHolder = $('.WAC__message').parent();
+  		
+  		messageHolder.empty();
+  		
+  		
+  		const sendObject = {
+  				  "input": {
+  				    "message_type": "text",
+  				    "text": "welcome"
+  				  }
+  				};
+  		const sendOptions = {
+  			"silent": true,
+  			"getWelcome" : false
+  		};
+  		
+  		try{
+
+  			instance.send(sendObject, sendOptions).then(function(){
+  				$('.WAC__message--padding').css('padding-top','16px');
+  				console.log("clear count.." + clearCount);
+  				
+  			//처음으로 clear를 실행하면 웰컴 메시지가 두번 불러와지는 오류가 있으므로 
+  			//그 때의 첫 웰컴 메시지를 display:none 처리한다.
+  			if(clearCount == 0){
+  				$('#WAC__message-0').attr('style','display:none');
+  				$('#WAC__message-1').attr('style','display:none');
+  				clearCount++;
+  				};
+  			});
+  				
+  		}catch(e){
+  			console.log("clear error! " + e);
+  		}
+
+  	})
+  	/*clear 버튼에 event를 달아주는 function 끝*/
     });
+    
+    
+ 
+
 	
    instance.on({ type: 'pre:receive', handler: preRecieve });
   
    instance.on({ type: 'receive', handler: receive });
+   
    instance.once({ type: 'pre:send', handler: function(event){
 	   event.data.context.skills['main skill'].user_defined.user_position = userPosition ;
    } });
-   instance.on({ type: 'send', handler: send });
+
+   
+
+   instance.on({ type: 'pre:send', handler: preSend });
    instance.on({ type: 'error', handler: error });
    
     instance.render().then(() => {
          button.style.display = 'block';
          button.classList.add('open');
+
        });
 });
 

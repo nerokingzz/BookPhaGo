@@ -22,11 +22,58 @@ import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.VO.BookInfoVO;
 import org.team.bpg.book.service.LibraryService;
 
+
 @RestController
 public class ChatBookControllerImpl {
 	
 	@Autowired
 	private LibraryService libraryService;
+	
+	
+	@RequestMapping("chatBookRent.do")
+	public int chatRentBook(@RequestParam("userid") String userid, @RequestParam("bookNumber") String bookNumber) {
+		
+		System.out.println("chatRent 안이지롱 ㅋ");
+		
+		int totalResult;
+		
+		String bookState = "대출중";
+		String bookState1 = "대출불가";
+		String bookState2 = "예약가능";
+		System.out.println("1111111");
+		
+		Map<String, String> book_list=new HashMap<String, String>();
+		book_list.put("userid", userid);
+		book_list.put("bookNumber", bookNumber);
+		book_list.put("bookState", bookState);
+		book_list.put("bookState1", bookState1);
+		book_list.put("bookState2", bookState2);
+		
+		
+		int result1 = 0;
+		int result2 = 0;		
+		int result3 = 0;		
+		if(userid != null && bookNumber != null) {
+			result1 = libraryService.userborrow(userid);
+			result2 = libraryService.insertbookrent(book_list);
+			result3 = libraryService.updatebooklib(book_list);
+			
+			System.out.println(result1);
+			System.out.println(result2);
+			System.out.println(result3);
+			System.out.println("도서대출완료");
+		}
+		
+		if(result1 == 1 && result2 == 1 && result3 ==1) {
+			totalResult = 1;
+		}else {
+			totalResult = 0;
+		}
+		
+		return totalResult;
+	}
+	
+	
 	
 	@ResponseBody
 	@RequestMapping("chatSearchBook.do")
@@ -46,4 +93,31 @@ public class ChatBookControllerImpl {
 		return booklist;
 	}
 
+	
+	
+	
+	@RequestMapping("chatSearchRentBook.do")
+	public @ResponseBody Map<String, Object> chatSearchRentBook (@RequestParam("searchKeyword") String searchKeyword){
+	
+		String bookNumber = searchKeyword;
+
+		Map<String, Object> book_list = new HashMap<String, Object>();
+
+		try {
+			List<Map<String, Object>> booklist = libraryService.searchbnumber(bookNumber);
+			if (booklist != null) {
+				System.out.println(booklist);
+				book_list.put("booklist", booklist);
+			}
+		} catch (Exception e) {
+			System.out.println("catch문 안입니다요 ㅠㅠㅠ");
+			e.printStackTrace();
+		}
+			
+	
+		return book_list;
+	}
+	
+	
+	
 }

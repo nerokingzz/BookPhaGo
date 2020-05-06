@@ -327,6 +327,7 @@ public class CommController {
 			String booklist = libraryService.searchuserid(userid);
 			if (booklist != null) {
 				book_list.put("borrowcnt", booklist);
+			}else {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -348,6 +349,7 @@ public class CommController {
 		try {
 			List<Map<String, Object>> booklist = libraryService.searchbnumber(bookNumber);
 			if (booklist != null) {
+				System.out.println(booklist);
 				book_list.put("booklist", booklist);
 			}
 		} catch (Exception e) {
