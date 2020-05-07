@@ -29,6 +29,7 @@ public class MemberVO {
 	private int borrowcnt;
 	private int reservecnt;
 	private String userposition;
+	private String emailcheck;
 	private Date regDate;
 	
 	
@@ -282,8 +283,17 @@ public class MemberVO {
 	public void setUserposition(String userposition) {
 		this.userposition = userposition;
 	}
+	
+
+	public String getEmailcheck() {
+		return emailcheck;
+	}
 
 
+
+	public void setEmailcheck(String emailcheck) {
+		this.emailcheck = emailcheck;
+	}
 
 	public Date getRegDate() {
 		return regDate;
@@ -302,9 +312,6 @@ public class MemberVO {
 		return "MemberVO [userId=" + userId + ", userPass=" + userPass + ", userName=" + userName + ", regDate="
 				+ regDate + "]";
 	}
-	
-	
-
 
 	
 }

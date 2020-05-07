@@ -25,5 +25,29 @@
 		<property name="from" value="bitbookphago@gmail.com"></property>
 		<property name="subject" value="북파고에 대한 피드백을 확인해주세요." />
 	</bean>
+	
+	
+	<bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="bitbookphago@gmail.com" />
+		<property name="password" value="6jobookphago" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+		<bean id="preConfiguredMessage1" class="org.springframework.mail.SimpleMailMessage">
+		<property name="to" value="bitbookphago@gmail.com"></property>
+		<property name="from" value="bitbookphago@gmail.com"></property>
+		<property name="subject" value="이메일 테스트" />
+	</bean>
+
 </beans>
 

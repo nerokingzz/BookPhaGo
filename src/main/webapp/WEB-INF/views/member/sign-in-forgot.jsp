@@ -37,6 +37,11 @@
            $("#userId").focus();
            return false;
         };
+        if(($("#userId").val()).length<3){
+            alert("아이디는 4~12자의 영문, 숫자로만 입력.");
+            $("#userId").focus();
+            return false;
+         };
         if($("#userEmail").val()==""){
             alert("이메일을 입력해주세요.");
             $("#userEmail").focus();
@@ -45,7 +50,27 @@
          
          console.log($("#homeForm").serializeArray());
         
-        $.ajax({
+         
+         $.ajax({
+             url : "sendMail1",
+             async : false,
+             data : $("#homeForm").serializeArray(),
+             success: function(data){
+            	 if(data==0){
+            		 alert("아이디, 이메일 불일치");
+            		 return false;
+            	 }
+            	 if(data==1) {
+            		 alert("입력한 이메일에서 비밀번호를 확인해주세요");
+            		 return false;
+            	 }
+                },
+              error: function(){
+             	 console.log("ajax error");
+              }
+          });
+         
+       /*  $.ajax({
             url : "passForgot.do",
             async : false,
             data : $("#homeForm").serializeArray(),
@@ -58,76 +83,10 @@
             	 console.log("ajax error");
              }
            
-         });
-        
-         
-         
-    	
+         }); */
 	})
-
 })
 
-
-/* $('#ldj').on('click',function(){
-	console.log("ldj clicked");
-	alert("kjdasjsad");
-	
-	$.ajax({
-        url : "passForgot.do",
-        dataType : "JSON",
-        data : $("#homeForm").serializeArray(),
-        success: function(result){
-           
-        	console.log("aa");
-           console.log(result); 
-           
-           },
-           
-         error: function(){
-        	 console.log("ajax error");
-         }
-       
-     })
-     
-     alert("끄으으으응ㅌ");
-}) */
-
-
-
-
-
-/* function validate() {
-
-		var re = /^[a-zA-Z0-9]{4,12}$/	//아이디,비밀번호
-		var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	//이메일
-		var re3 = /^[a-zA-Z가-힣]{2,10}$/		//이름
-		var re5 = /^[A-Za-z0-9_\-]{5,20}$/;	//나이
-		var re6 = /^[가-힣]{2}$/
-		
-		var userId1 = document.getElementById("userId1");
-		var userPass1 = document.getElementById("userPass1");
-		var userPasschk = document.getElementById("userPasschk");
-		var userName= document.getElementById("userName");
-		var userEmail = document.getElementById("userEmail");
-		var userGender = document.getElementById("userGender");
-
-		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
-			return false;
-		}
-		if (!check(re2, userEmail, "적합하지 않은 이메일 형식.")) {
-			return false;
-		}
-		
-		alert("회원가입이 완료되었습니다.");
-	}
-	function check(re, what, message) {
-		if (re.test(what.value)) {
-			return true;
-		}
-		alert(message);
-
-		//return false;
-	} */
 </script>
 
 <body class="sign-in">
@@ -171,165 +130,16 @@
 													<i class="la la-lock"></i>
 												</div>
 											</div>
-										<!-- 	<div class="col-lg-12 no-pdd">
-												<div class="checky-sec">
-													<div class="fgt-sec">
-														<input type="checkbox" name="cc" id="c1">
-														<label for="c1">
-															<span></span>
-														</label>
-														<small>Remember me</small>
-													</div>fgt-sec end
-														<a href="#" title="">Forgot Password?</a>
-												</div>
-											</div> -->
+
 											
 											
 										</div>
 										<div class="col-lg-12 no-pdd">
-												<button id ="login">Click</button>
+												<button id ="login">확인</button>
 										</div>
 									</form>
-									<!-- <div class="login-resources">
-										<h4>Login Via Social Account</h4>
-										<ul>
-											<li><a href="#" title="" class="fb"><i class="fa fa-facebook"></i>Login Via Facebook</a></li>
-											<li><a href="#" title="" class="tw"><i class="fa fa-twitter"></i>Login Via Twitter</a></li>
-										</ul>
-									</div>login-resources end -->
-								<!-- </div>sign_in_sec end
-								<div class="sign_in_sec" id="tab-2">
-									<h3>Sign up</h3>
-									<div class="dff-tab current" id="tab-3">
-										<form action="register.do" method="post" id="regForm" name="regForm"  onsubmit="return validate();">
-											<div class="row">
-											<div class="col-lg-12 no-pdd">
-												<div class="sn-field">
-													<input type="text" id="userId1" name="userId1" placeholder="Id" style="width: 70%;">
-													<i class="la la-user" style="margin: 12px 0 0 0;"></i>
-													<button class="idChk" type="button" id="idChk" onclick="test();" value="N" style="
-														    width: 28%;
-														    font-size: 15px;
-														    text-align: center;
-														    padding: 11px;
-														">Check</button>
-												</div>
-											</div>
-											<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="password" id="userPass1" name="userPass1" placeholder="Password">
-														<i class="la la-lock"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="password" id="userPasschk" name="userPasschk" placeholder="Repeat Password">
-														<i class="la la-lock"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="text" id="userName"name="userName" placeholder="Name">
-														<i class="la la-user"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="text" id="userEmail" name="userEmail" placeholder="Email">
-														<i class="la la-globe"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="text" id="userAge" name="userAge" placeholder="Age    ex)19990909">
-														<i class="la la-globe"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<select name="userGender">
-															<option value="">성별</option>
-															<option id="userGender" name="userGender" value="남자">남자</option>
-															<option id="userGender" name="userGender" value="여자">여자</option>
-														</select>
-														<i class="la la-dropbox"></i>
-														<span><i class="fa fa-ellipsis-h"></i></span>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<select name="userTaste1">
-															<option value="BO">관심분야1</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
-														</select> 
-														<i class="la la-dropbox"></i>
-														<span><i class="fa fa-ellipsis-h"></i></span>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<select name="userTaste2">
-															<option value="BO">관심분야1</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
-														</select> 
-														<i class="la la-dropbox"></i>
-														<span><i class="fa fa-ellipsis-h"></i></span>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<select name="userTaste3">
-															<option value="BO">관심분야1</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
-														</select> 
-														<i class="la la-dropbox"></i>
-														<span><i class="fa fa-ellipsis-h"></i></span>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="checky-sec st2">
-														<div class="fgt-sec">
-															<input type="checkbox" name="cc" id="c2">
-															<label for="c2">
-																<span></span>
-															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
-														</div>fgt-sec end
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="submit">Get Started</button>
-												</div>
-											</div>
-										</form>
-									</div>dff-tab end -->
+									
+								
 									<div class="dff-tab" id="tab-4">
 										<form>
 											<div class="row">

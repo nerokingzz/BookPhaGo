@@ -1,8 +1,11 @@
 package org.team.bpg.member.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,7 @@ import org.team.bpg.member.vo.SearchCriteria;
 public class MemberDAOImpl implements MemberDAO {
 	
 	@Inject SqlSession sql;
+	
 	// 회원가입
 
 	@Override
@@ -92,4 +96,35 @@ public class MemberDAOImpl implements MemberDAO {
 	public int adminDelete(String id) throws Exception {
 		return sql.delete("memberMapper.adminDelete", id);
 	}
+
+	@Override
+	public int emailcheck(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.emailcheck", vo);
+	}
+	
+	@Override
+	public void emailupdate(MemberVO vo) throws Exception {
+		sql.update("memberMapper.emailupdate", vo);
+	}
+	
+	@Override
+	public int emailchecknum(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.emailchecknum", vo);
+	}
+	
+	@Override
+	public void emailupdatenum(MemberVO vo) throws Exception {
+		sql.update("memberMapper.emailupdatenum", vo);
+	}
+
+	@Override
+	public String useridcheck(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.useridcheck", vo);
+	}
+	
+
+	
+	//test
+
+
 }
