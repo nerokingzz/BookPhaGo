@@ -40,9 +40,7 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 
-<script type="text/javascript">
-	alert("${user_position}");
-</script>
+
 
 <body>
 		
@@ -73,24 +71,32 @@
 									<li><a href="book_main.do?page=apply" title=""><spring:message code="top.book.request" text="도서신청"/></a></li>
 								</ul>
 							</li>
-							<li>
-								<a href="com_main.do" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
-									<spring:message code="top.comm"/>
-								</a>
-							</li>
-							<li>
-								<a href="myLib_main.do" title="" class="not-box-openm">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
-									<spring:message code="top.mylib"/>
-								</a>
-								<ul>
-									<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
-									<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
-									<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
-								</ul>
-								
-							</li>
+							
+							<c:choose>
+								<c:when test="${user_position ne null}">
+									<li>
+										<a href="com_main.do" title="">
+											<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
+											<spring:message code="top.comm"/>
+										</a>
+									</li>
+									<li>
+										<a href="myLib_main.do" title="" class="not-box-openm">
+											<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
+											<spring:message code="top.mylib"/>
+										</a>
+										<ul>
+											<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
+											<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
+											<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
+										</ul>
+									</li>								
+								</c:when>
+							</c:choose>
+							
+							
+							
+
 
 							<c:choose>
 								<c:when test="${user_position eq 'admin'}">
@@ -297,34 +303,6 @@
 		</div>
 	</section>
 
-		<!--  
-		<section class="services">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/blog.png" alt="image">
-							<h2>Our Blog</h2>
-							<a href="#">View Blog</a>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/career.png" alt="image">
-							<h2>Career Opportunites</h2>
-							<a href="#">Join Our Team</a>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12">
-						<div class="blog">
-							<img src="${contextPath}/resources/bootstrap/images/forum.png" alt="image">
-							<h2>Help Forum</h2>
-							<a href="#">Visit Help Forum</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section> -->
 		<footer>
 			<div class="footy-sec mn no-margin">
 				<div class="container">

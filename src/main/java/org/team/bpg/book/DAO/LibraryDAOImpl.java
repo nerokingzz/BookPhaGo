@@ -124,17 +124,79 @@ public class LibraryDAOImpl implements LibraryDAO{
 	}
 
 	@Override
-	public void userborrow(String userid) {
-		sqlSession.update("book.userborrow", userid);
+	public String searchreturn(String userid) {
+		String booklist=sqlSession.selectOne("book.searchreturn", userid);
+		return booklist;
 	}
 
 	@Override
-	public void insertbookrent(Map<String, String> book_list) {
-		sqlSession.insert("book.insertbookrent", book_list);
+	public List<Map<String, Object>> return_bookNumber(Map<String, Object> book_list) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.return_bookNumber", book_list);
+		return booklist;
 	}
 
 	@Override
-	public void updatebooklib(Map<String, String> book_list) {
-		sqlSession.update("book.updatebooklib", book_list);
+	public List<Map<String, Object>> myLib_rentstatus(String user_id) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.myLib_rentstatus", user_id);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> bookextendlist(String bookNumber) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.bookextendlist", bookNumber);
+		return booklist;
+	}
+
+	@Override
+	public void updateB_BOOK_RENT(String bookNumber) {
+		sqlSession.update("book.updateB_BOOK_RENT", bookNumber);
+	}
+
+	@Override
+	public int userborrow(String userid) {
+		int result = 0;
+		result = sqlSession.update("book.userborrow", userid);
+		return result;
+	}
+
+	@Override
+	public int insertbookrent(Map<String, String> book_list) {
+		int result = 0;
+		result = sqlSession.insert("book.insertbookrent", book_list);
+		return result;
+	}
+
+	@Override
+	public int updatebooklib(Map<String, String> book_list) {
+		int result = 0;
+		result = sqlSession.update("book.updatebooklib", book_list);
+		return result;
+	}
+
+	@Override
+	public int userrent(String userid) {
+		int result = 0;
+		result = sqlSession.update("book.userrent", userid);
+		return result;
+	}
+
+	@Override
+	public int updatebookrent(Map<String, String> book_list) {
+		int result = 0;
+		result = sqlSession.update("book.updatebookrent", book_list);
+		return result;
+	}
+
+	@Override
+	public int updatebooklibreturn(Map<String, String> book_list) {
+		int result = 0;
+		result = sqlSession.update("book.updatebooklibreturn", book_list);
+		return result;
+	}
+	
+	@Override
+	public String applycnt(String userid) {
+		String booklist=sqlSession.selectOne("book.applycnt", userid);
+		return booklist;
 	}
 }

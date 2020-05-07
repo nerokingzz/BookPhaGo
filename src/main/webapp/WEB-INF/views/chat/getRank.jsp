@@ -18,6 +18,10 @@ h1{
 	font-weight : bold;
 	font-size : 2.5em;
 }
+.company-up-info h1 img{
+	widwth : 14px !important;
+	height : 40px !important;
+}
 
 .company-up-info h4{
 	font-size : 13px;
@@ -75,13 +79,17 @@ hr {
 }
 
 div#wholeSection{
-	min-height: 400px;
+	min-height: 550px;
 }
 
 div.buttonSection{
 	box-shadow : none;
 	padding : 15px 15px 0;
 	text-align : right;
+	display: inline;
+    float: right;
+    background-color : transparent;
+    margin-top : -20px;
 }
 
 }
@@ -148,6 +156,14 @@ div.trends_value {
 	font-size: 13px;
 	font-color: #5D5D5D;
 }
+
+p#exp{
+	font-size: 10px;
+    color: #666666;
+    display: inline-block;
+    margin :5px 0 0 15px;
+}
+
 .company_profile_info {
 /*
 	border-top: 1px solid #e4e4e4;
@@ -160,7 +176,7 @@ div.trends_value {
 
 
 .companies-info {
-    padding: 10px 0 ;
+    padding: 0px 0 ;
     background: transparent;
 }
 
@@ -183,6 +199,7 @@ hr.stat{
 
 <body>
 <div id = "wholeSection">
+	<p id="exp">서버 사정에 따라 최신 정보가 반영되는 데에 다소 시간이 소요될 수 있습니다.</p>
 	<div class = "buttonSection helpforum">
 		<a href="#">로그 다운로드</a>
 		<div class="wrap-loading display-none">
@@ -226,9 +243,9 @@ hr.stat{
 						<div class="col-lg-3 col-md-4 col-sm-6 col-12">
 							<div class="company_profile_info">
 								<div class="company-up-info">
-									<h4>챗봇 이용률</h4>
+									<h4>이해하지 못한 요청 수</h4>
 									<hr class = "stat">
-									<h1>37.4%</h1>
+									<h1 id="failCount"></h1>
 								</div>
 							</div><!--company_profile_info end-->
 						</div>
@@ -242,6 +259,5 @@ hr.stat{
 		</div>
 	</div>
 </div>
-<script src = "resources/chat/js/log.js" ></script>
 </body>
 </html>

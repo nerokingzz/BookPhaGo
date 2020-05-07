@@ -49,7 +49,6 @@ public class ComEstaServiceImpl implements ComEstaService {
 		
 		if (admin_sts.equals("dgree")) {
 			admin_sts="거절";
-			admin_sts+="("+admin_msg+")";
 		} else if (admin_sts.equals("agree")) {
 			admin_sts="수락";
 			

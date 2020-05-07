@@ -261,7 +261,13 @@
 										
 									<div class="dff-tab current" id="tab-3">
 										
-										<div>
+										<c:set var="applycnt" value="${applycnt}"></c:set>
+										<c:if test="${applycnt gt 2}">
+										<c:out value="이번달 도서 신청횟수를 모두 사용하였습니다."></c:out><br>
+										<c:out value="다음달에 다시 이용해주세요."></c:out>
+										</c:if>
+										<c:if test="${applycnt lt 2}">
+										 <div>
 											<form action="book_main.do" method="get">
 												<input type="hidden" name="page" value="apply">  
 												<div class="row">
@@ -275,7 +281,7 @@
 				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="current_info" readonly></h6><br>
+				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="today" readonly></h6><br>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
 				                                	<h6>사유 : <input type="text" name="applyReason"></h6>
@@ -285,7 +291,8 @@
 				                               </div>
 				                            </div>
 											</form>
-										</div>
+										</div> 
+										</c:if>
 										
 									</div><!--dff-tab end-->
 									<div class="dff-tab" id="tab-4">

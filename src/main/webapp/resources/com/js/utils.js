@@ -4,3 +4,4 @@ var current=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate(
 //var current=date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
 
 document.getElementById('current_info').value=current;
+document.getElementById('current-infoo').value=current;

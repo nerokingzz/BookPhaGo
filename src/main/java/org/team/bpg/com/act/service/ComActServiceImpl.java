@@ -13,6 +13,8 @@ import org.team.bpg.com.act.dao.ComActDao;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
+import org.team.bpg.com.act.vo.ReplyInfoVO;
+import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Service
@@ -45,6 +47,10 @@ public class ComActServiceImpl implements ComActService {
 		info.put("community_id", community_id);
 		List<Map<String, Object>> memList=comActDao.comMemChk(info);
 		
+		System.out.println("멤버닉네임:" + memList.get(0).get("MEMBER_NICKNAME"));
+		String memNick=(String) memList.get(0).get("MEMBER_NICKNAME");
+		String memId=(String) memList.get(0).get("MEMBER_ID");
+		
 		System.out.println("가져올 커뮤니티 아이디");
 		System.out.println(community_id);
 		Map<String, Object> comInfo=comActDao.comInfo(community_id);
@@ -54,7 +60,7 @@ public class ComActServiceImpl implements ComActService {
 		System.out.println(comInfo);
 		
 		String memChk="x";
-		String memAuth="mem";;
+		String memAuth="mem";
 		
 		if (memList.size() > 0) {
 			
@@ -66,7 +72,7 @@ public class ComActServiceImpl implements ComActService {
 			memChk="o";
 		}
 		
-		Object[] data= {memChk, comInfo, memAuth};
+		Object[] data= {memChk, comInfo, memAuth, memNick, memId};
 		return data;
 	}
 
@@ -181,6 +187,33 @@ public class ComActServiceImpl implements ComActService {
 		List<ArticleInfoVO> articleList=comActDao.articleList(info);
 		return articleList;
 	}
+	
+	@Override
+	public int countvote(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		int voteCount=comActDao.voteArticle(board_id);
+		return voteCount;
+	}
+
+	@Override
+	public List<VoteInfoVO> voteList(PageVO pageVo, HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		
+		System.out.println("가져올 게시판 아이디:" + board_id);
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("board_id", board_id);
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<VoteInfoVO> voteList=comActDao.voteList(info);
+		return voteList;
+	}
 
 	@Override
 	public Map<String, Object> articleInfo(HttpServletRequest request) {
@@ -191,10 +224,234 @@ public class ComActServiceImpl implements ComActService {
 
 		return articleInfo;
 	}
+	
+	@Override
+	public Map<String, Object> voteInfo(HttpServletRequest request) {
+		String vote_idd=request.getParameter("vote_id");
+		int vote_id=Integer.parseInt(vote_idd);
+		
+		Map<String, Object> voteInfo=comActDao.voteInfo(vote_id);
+
+		return voteInfo;
+	}
 
 	@Override
 	public void articleSubmit(ArticleInfoVO articleInfoVo, HttpServletRequest request) {
 		comActDao.articleSubmit(articleInfoVo);
 		
 	}
+
+	@Override
+	public void voteSubmit(VoteInfoVO voteInfoVo, HttpServletRequest request) {
+		comActDao.voteSubmit(voteInfoVo);
+		
+	}
+
+	@Override
+	public String boardCategory(HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		String board_category=comActDao.boardCategory(board_id);
+		return board_category;
+	}
+
+	@Override
+	public void articleUpdate(ArticleInfoVO articleInfoVo) {
+		
+		comActDao.articleUpdate(articleInfoVo);
+		
+	}
+	
+	@Override
+	public void voteUpdate(VoteInfoVO voteInfoVo) {
+		
+		comActDao.voteUpdate(voteInfoVo);
+		
+	}
+
+	@Override
+	public void articleDelete(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		comActDao.articleDelete(article_id);
+		
+	}
+
+	@Override
+	public void articleGood(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		comActDao.articleGood(article_id);
+		
+	}
+
+	@Override
+	public void articleBad(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		comActDao.articleBad(article_id);
+		
+	}
+
+	@Override
+	public void articleView(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		comActDao.articleView(article_id);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> voteIng(HttpServletRequest request) {
+		String board_id=request.getParameter("board_id");
+		List<Map<String, Object>> ingVote=comActDao.voteIng(board_id);
+		return ingVote;
+	}
+
+	@Override
+	public void voting(HttpServletRequest request) {
+		String vote_idd=request.getParameter("vote_id");
+		int vote_id=Integer.parseInt(vote_idd);
+		String vote_selection=request.getParameter("vote_selection");
+		String [] selectionInfo=vote_selection.split(":");
+		
+		System.out.println("선택된 옵션 : " + selectionInfo[1]);
+		
+		VoteInfoVO voteInfo=comActDao.voteInfoByVo(vote_id);
+		Map<String, Object> votingInfo=new HashMap<>();
+		
+		votingInfo.put("vote_id", vote_id);
+		
+		int selection_option1_count=voteInfo.getSelection_option1_count();
+		if (voteInfo.getSelection_option1().equals(selectionInfo[1])) {
+			selection_option1_count+=1;
+			votingInfo.put("selection_option1_count", selection_option1_count);
+		} else if (!voteInfo.getSelection_option1().equals(selectionInfo[1])) {
+			selection_option1_count+=0;
+			votingInfo.put("selection_option1_count", selection_option1_count);
+		}
+		
+		int selection_option2_count=voteInfo.getSelection_option2_count();
+		if (voteInfo.getSelection_option2().equals(selectionInfo[1])) {
+			selection_option2_count+=1;
+			votingInfo.put("selection_option2_count", selection_option2_count);
+		} else if (!voteInfo.getSelection_option2().equals(selectionInfo[1])) {
+			selection_option2_count+=0;
+			votingInfo.put("selection_option2_count", selection_option2_count);
+		}
+		
+		int selection_option3_count=voteInfo.getSelection_option3_count();
+		if (voteInfo.getSelection_option3().equals(selectionInfo[1])) {
+			selection_option3_count+=1;
+			votingInfo.put("selection_option3_count", selection_option3_count);
+		} else if (!voteInfo.getSelection_option3().equals(selectionInfo[1])) {
+			selection_option3_count+=0;
+			votingInfo.put("selection_option3_count", selection_option3_count);
+		}
+		
+		int selection_option4_count=voteInfo.getSelection_option4_count();
+		if (voteInfo.getSelection_option4().equals(selectionInfo[1])) {
+			selection_option4_count+=1;
+			votingInfo.put("selection_option4_count", selection_option4_count);
+		} else if (!voteInfo.getSelection_option4().equals(selectionInfo[1])) {
+			selection_option4_count+=0;
+			votingInfo.put("selection_option4_count", selection_option4_count);
+		}
+		
+		int selection_option5_count=voteInfo.getSelection_option5_count();
+		if (voteInfo.getSelection_option5().equals(selectionInfo[1])) {
+			selection_option5_count+=1;
+			votingInfo.put("selection_option5_count", selection_option5_count);
+		} else if (!voteInfo.getSelection_option5().equals(selectionInfo[1])) {
+			selection_option5_count+=0;
+			votingInfo.put("selection_option5_count", selection_option5_count);
+		}
+
+		comActDao.voting(votingInfo);
+		
+	}
+
+	@Override
+	public void votePart(HttpServletRequest request) {
+		String vote_id=request.getParameter("vote_id");
+		comActDao.votePart(vote_id);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> voteAllList(HttpServletRequest request) {
+		String board_id=request.getParameter("board_id");
+		List<Map<String, Object>> voteAllList=comActDao.voteAllList(board_id);
+		return voteAllList;
+	}
+
+	@Override
+	public void voteAdmin(HttpServletRequest request) {
+		String vote_id=request.getParameter("vote_id");
+		String vote_status=request.getParameter("admin_sts");
+		
+		Map<String, String> sts_info=new HashMap<String, String>();
+		sts_info.put("vote_id", vote_id);
+		sts_info.put("vote_status", vote_status);
+		
+		comActDao.voteAdmin(sts_info);
+		
+	}
+
+	@Override
+	public void voteRequest(HttpServletRequest request) {
+		String request_content=request.getParameter("request_content");
+		String request_writer=request.getParameter("request_writer");
+		String board_id=request.getParameter("board_id");
+		
+		Map<String, Object> requestInfo=new HashMap<>();
+		requestInfo.put("request_content", request_content);
+		requestInfo.put("request_writer", request_writer);
+		requestInfo.put("board_id", board_id);
+		
+		comActDao.voteRequest(requestInfo);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> voteReqList(HttpServletRequest request) {
+		String board_id=request.getParameter("board_id");
+		List<Map<String, Object>> voteReqList=comActDao.voteReqList(board_id);
+		return voteReqList;
+	}
+
+	@Override
+	public void replySubmit(ReplyInfoVO replyInfoVo) {
+		comActDao.replySubmit(replyInfoVo);
+		
+	}
+
+	@Override
+	public int countReply(HttpServletRequest request) {
+		String article_idd=request.getParameter("article_id");
+		int article_id=Integer.parseInt(article_idd);
+		int replyCount=comActDao.countReply(article_id);
+		return replyCount;
+	}
+
+	@Override
+	public List<Map<String, Object>> replyList(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		List<Map<String, Object>> replyList=comActDao.replyList(article_id);
+		return replyList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> reReplyList(HttpServletRequest request) {
+		String article_id=request.getParameter("article_id");
+		List<Map<String, Object>> repRelyList=comActDao.reReplyList(article_id);
+		return repRelyList;
+	}
+
+	@Override
+	public void reReplySubmit(ReplyInfoVO replyInfoVo) {
+		
+		comActDao.replySubmit(replyInfoVo);
+		
+	}
+
+
+
+
 }

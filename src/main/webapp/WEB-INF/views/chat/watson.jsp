@@ -37,19 +37,21 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
       console.log("id : " + user_id);
       instance.updateUserID(user_id);
    });
-   */
 
-	   var chat_member = "${member}";
+ */
+	   var chat_member = "${user_id}";
 		  if(chat_member){
 			  console.log("chat_member는 ...." + chat_member);
 			   if(chat_member != null){
-				   var chat_user_id = "${member.userId}";
+				   var chat_user_id = "${user_id}";
 				   instance.updateUserID(chat_user_id);
 				   console.log("session에 저장된 회원 아이디 ...." + chat_user_id);
 			   }else{
 				   console.log("session에 저장된 회원 아이디가 없습니다.");
 			   }
 		  }
+		  
+		  
 
    const button = document.querySelector('.chatLauncher');
 

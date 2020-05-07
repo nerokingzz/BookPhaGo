@@ -66,6 +66,37 @@
 		WHERE RN BETWEEN #{start} AND #{end}
  	</select>
  	
+ 	<select id="vote_count" parameterType="integer" resultType="integer">
+ 		SELECT COUNT(*) FROM M_COMMUNITY_VOTE WHERE board_id=#{board_id}
+ 	</select>
+ 	
+ 	<!-- 페이징 처리 후 게시글 조회 -->
+ 	<select id="vote_list" parameterType="hashmap" resultType="voteInfoVo">
+ 		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM M_COMMUNITY_VOTE 
+						WHERE board_id=#{board_id} AND vote_status='end'
+						ORDER BY vote_id DESC 
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!-- 투표 전체 -->
+ 	<select id="vote_all" resultType="hashmap" parameterType="integer">
+ 		SELECT * FROM M_COMMUNITY_VOTE
+ 		WHERE board_id=#{board_id}
+ 	</select>
+ 	
+ 	<!-- 투표 상태 변경 -->
+ 	<update id="vote_sts_update" parameterType="hashmap">
+ 		UPDATE M_COMMUNITY_VOTE SET vote_status=#{vote_status}
+ 		WHERE vote_id=#{vote_id}
+ 	</update>
+ 	
  	<!-- 멤버 가입 insert -->
  	<insert id="com_mem" parameterType="comMemberVo">
  		INSERT INTO M_COMMUNITY_MEMBER (member_nickname, member_id, community_id, member_join_date, member_position, member_answer1, member_answer2, member_visit_count, member_article_count, member_reply_count)
@@ -87,6 +118,33 @@
  		SELECT * FROM M_COMMUNITY_ARTICLE WHERE article_id=#{article_id}
  	</select>
  	
+ 	<!-- 투표 내용 select -->
+ 	<select id="vote_info" parameterType="integer" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_VOTE WHERE vote_id=#{vote_id}
+ 	</select>
+ 	
+ 	<!-- 투표 내용 select -->
+ 	<select id="vote_info2" parameterType="integer" resultType="voteInfoVo">
+ 		SELECT * FROM M_COMMUNITY_VOTE WHERE vote_id=#{vote_id}
+ 	</select>
+ 	
+ 	<!-- 투표 신청 insert -->
+ 	<insert id="vote_request" parameterType="hashmap">
+ 	 	<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="request_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_vote_req.NEXTVAL FROM DUAL
+		</selectKey>
+ 	
+ 		INSERT INTO M_COMMUNITY_VOTE_REQUEST (request_id, board_id, request_content, request_writer)
+ 		VALUES (#{request_id}, #{board_id}, #{request_content}, #{request_writer})
+ 	</insert>
+ 	
+ 	<!-- 투표 신청 select -->
+ 	<select id="vote_req" parameterType="integer" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_VOTE_REQUEST
+ 		WHERE board_id=#{board_id}
+ 	</select>
+ 	
  	<!-- 글 등록 insert -->
  	<insert id="article_submit" parameterType="articleInfoVo">
  		<!-- 시퀀스 사용 -->
@@ -98,8 +156,113 @@
  		VALUES (#{article_id}, #{board_id}, #{article_title}, #{article_date}, #{article_content}, #{article_view_count}, #{article_good_count}, #{article_bad_count}, #{article_reply_count}, #{article_writer})
  	</insert>
  	
+ 	<!-- 글 수정 -->
+ 	<update id="article_update" parameterType="articleInfoVo">
+ 		UPDATE M_COMMUNITY_ARTICLE SET article_content=#{article_content}, article_title=#{article_title}
+ 		WHERE article_id=#{article_id}
+ 	</update>
  	
+ 	<!-- 글 삭제 -->
+ 	<delete id="article_delete" parameterType="string">
+ 		DELETE FROM M_COMMUNITY_ARTICLE WHERE article_id=#{article_id}
+ 	</delete>
  	
+ 	<!-- 좋아요 -->
+ 	<update id="article_good" parameterType="string">
+ 		UPDATE M_COMMUNITY_ARTICLE SET article_good_count=article_good_count+1
+ 		WHERE article_id=#{article_id} 
+ 	</update>
+ 	
+ 	<!-- 싫어요 -->
+ 	<update id="article_bad" parameterType="string">
+ 		UPDATE M_COMMUNITY_ARTICLE SET article_bad_count=article_bad_count+1
+ 		WHERE article_id=#{article_id} 
+ 	</update>
+ 	
+ 	<!-- 조회수 -->
+ 	<update id="article_view" parameterType="string">
+ 		UPDATE M_COMMUNITY_ARTICLE SET article_view_count=article_view_count+1
+ 		WHERE article_id=#{article_id}
+ 	</update>
+ 	
+ 	<!-- 투표 등록 insert -->
+ 	<insert id="vote_submit" parameterType="voteInfoVo">
+ 		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="vote_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_vote.NEXTVAL FROM DUAL
+		</selectKey>
+		
+ 		INSERT INTO M_COMMUNITY_VOTE (vote_id, board_id, vote_title, selection_option1, selection_option1_count, selection_option2, selection_option2_count, selection_option3, selection_option3_count, selection_option4, selection_option4_count, selection_option5, selection_option5_count, vote_start, vote_end, vote_status, vote_participate_count)
+ 		VALUES (#{vote_id}, #{board_id}, #{vote_title}, #{selection_option1}, #{selection_option1_count}, #{selection_option2}, #{selection_option2_count}, #{selection_option3}, #{selection_option3_count}, #{selection_option4}, #{selection_option4_count}, #{selection_option5}, #{selection_option5_count}, #{vote_start}, #{vote_end}, #{vote_status}, #{vote_participate_count})
+ 	</insert>
+ 	
+ 	<!-- 투표 수정 -->
+ 	<update id="vote_update" parameterType="voteInfoVo">
+ 		UPDATE M_COMMUNITY_VOTE SET vote_status=#{vote_status}
+ 		WHERE vote_id=#{vote_id}
+ 	</update>
+ 	
+ 	<!-- 투표 선택지 update-->
+ 	<update id="voting" parameterType="hashmap">
+ 		UPDATE M_COMMUNITY_VOTE SET selection_option1_count=#{selection_option1_count}, selection_option2_count=#{selection_option2_count}, selection_option3_count=#{selection_option3_count}, selection_option4_count=#{selection_option4_count}, selection_option5_count=#{selection_option5_count}
+ 		WHERE vote_id=#{vote_id}
+ 	</update>
+ 	
+ 	<!-- 투표 참여 인원수 -->
+ 	<update id="votePart" parameterType="string">
+ 		UPDATE M_COMMUNITY_VOTE SET vote_participate_count=vote_participate_count+1
+ 		WHERE vote_id=#{vote_id}
+ 	</update>
+ 	
+ 	<!-- 진행중인 투표 select -->
+ 	<select id="vote_ing" parameterType="string" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_VOTE
+ 		WHERE vote_status='ing'
+ 		ORDER BY vote_id DESC
+ 	</select>
+ 	
+ 	<!-- 게시판 카테고리 select -->
+ 	<select id="board_category" parameterType="integer" resultType="string">
+ 		SELECT board_category FROM M_COMMUNITY_BOARD WHERE board_id=#{board_id}
+ 	</select>
+ 	
+ 	 <!-- 댓글 등록 insert -->
+ 	<insert id="reply_submit" parameterType="replyInfoVo">
+ 		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="reply_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_reply.NEXTVAL FROM DUAL
+		</selectKey>
+		
+ 		INSERT INTO M_COMMUNITY_REPLY (reply_id, reply_depth, bundle_id, bundle_order, article_id, reply_date, reply_content, reply_writer)
+ 		VALUES (#{reply_id}, #{reply_depth}, #{reply_id}, #{bundle_order}, #{article_id}, #{reply_date}, #{reply_content}, #{reply_writer})
+ 	</insert>
+ 	
+ 	 <!-- 대댓글 등록 insert -->
+ 	<insert id="re_reply_submit" parameterType="replyInfoVo">
+ 		<!-- 시퀀스 사용 -->
+		<selectKey keyProperty="reply_id" resultType="integer" order="BEFORE">
+			SELECT seq_auto_reply.NEXTVAL FROM DUAL
+		</selectKey>
+		
+ 		INSERT INTO M_COMMUNITY_REPLY (reply_id, reply_depth, bundle_id, bundle_order, article_id, reply_date, reply_content, reply_writer)
+ 		VALUES (#{reply_id}, #{reply_depth}, #{bundle_id}, #{bundle_order}, #{article_id}, #{reply_date}, #{reply_content}, #{reply_writer})
+ 	</insert>
+ 	
+ 	 <select id="reply_count" parameterType="integer" resultType="integer">
+ 		SELECT COUNT(*) FROM M_COMMUNITY_REPLY WHERE article_id=#{article_id}
+ 	</select>
+ 	
+ 	<!-- 원댓글가져오기 -->
+ 	<select id="reply_list" parameterType="string" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_REPLY
+ 		WHERE article_id=#{article_id} AND reply_depth=0
+ 	</select>
+ 	
+ 	<!-- 대댓글가져오기 -->
+ 	<select id="re_reply_list" parameterType="string" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_REPLY
+ 		WHERE article_id=#{article_id} AND reply_depth=1
+ 	</select>
  	
  	
 </mapper>

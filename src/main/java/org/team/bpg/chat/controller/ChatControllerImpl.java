@@ -43,10 +43,7 @@ public class ChatControllerImpl implements ChatController{
 	MemberVO member;
 	
 	
-	@RequestMapping("/getRank.do")
-	public String goRank(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
-		return "chat/getRank";
-	}
+
 	
 	@RequestMapping(value = "down.do", method = RequestMethod.GET)
 	public ModelAndView down(HttpServletRequest request){

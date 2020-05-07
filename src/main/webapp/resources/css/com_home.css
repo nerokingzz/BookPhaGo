@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+body {
+
+ margin: 0px; 
+ font-size: 18px;
+ color: #FFF;
+
+}
+
+#com_container {
+
+ position: relative;
+ height: 1500px;
+ width: 1000px;
+ margin: auto; 
+ background-color: #F90;
+
+}
+
+#com_header {
+
+ background-color: #333;
+ height: 50px;
+ width: 1000px;
+ position: relative;
+
+}
+
+#com_side {
+
+ background-color: #09C;
+ float: left;
+ height: 1500px;
+ width: 200px;
+ position: relative;
+
+}
+
+#com_main {
+
+ background-color: #3C0;
+ float: left;
+ height: 1500px;
+ width: 800px;
+ position: relative;
+
+}
+
+#com_footer {
+
+ background-color: #C0F;
+ height: 50px;
+ width: 1000px;
+ position: relative;
+ clear: both; 
+ float: left;
+
+}
