@@ -35,7 +35,19 @@ public interface MemberService {
 	
 	public int adminDelete(String id) throws Exception;
 
+	public int emailcheck(MemberVO vo) throws Exception;
+
+	public void emailupdate(MemberVO vo) throws Exception;
 	
+	public int emailchecknum(MemberVO vo) throws Exception;
+
+	public void emailupdatenum(MemberVO vo) throws Exception;
+
+	public String useridcheck(MemberVO vo) throws Exception;
+
+
+	//test
+
 	
 	
 	

@@ -1,21 +1,32 @@
 package org.team.bpg.member.service;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.team.bpg.member.dao.MemberDAO;
 import org.team.bpg.member.vo.BoardVO;
 import org.team.bpg.member.vo.Criteria;
 import org.team.bpg.member.vo.MemberVO;
 import org.team.bpg.member.vo.SearchCriteria;
 
+import com.ibm.watson.assistant.v1.model.Log;
+import com.sun.mail.util.logging.MailHandler;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 	
 	@Inject MemberDAO dao;
+	
 	
 	@Override
 	public void register(MemberVO vo) throws Exception {
@@ -85,5 +96,34 @@ public class MemberServiceImpl implements MemberService {
 	public int adminDelete(String id) throws Exception {
 		return dao.adminDelete(id);
 	}
+
+	
+	public int emailcheck(MemberVO vo) throws Exception {
+		int result = dao.emailcheck(vo);
+		return result;
+	}
+	
+	public void emailupdate(MemberVO vo) throws Exception {
+		dao.emailupdate(vo);
+	}
+	
+	public int emailchecknum(MemberVO vo) throws Exception {
+		int result = dao.emailchecknum(vo);
+		return result;
+	}
+	
+	public void emailupdatenum(MemberVO vo) throws Exception {
+		dao.emailupdatenum(vo);
+	}
+	
+	public String useridcheck(MemberVO vo) throws Exception {
+		String result = dao.useridcheck(vo);
+		return result;
+	}
+	
+
+	
+	//test
+
 
 }

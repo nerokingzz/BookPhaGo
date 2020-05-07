@@ -169,7 +169,7 @@ function validate() {
 											</div>
 											<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPass" name="userPass" placeholder="Password" value="${member.userPass}">
+														<input type="password" id="userPass" name="userPass" placeholder="Password" value="${user_pass}">
 														<i class="la la-lock"></i>
 													</div>
 												</div>
@@ -333,7 +333,7 @@ function validate() {
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button type="button" id="submit">Get Started</button>
+													<!-- <button type="button" id="submit">Get Started</button> -->
 												</div>
 											</div>
 										</form>

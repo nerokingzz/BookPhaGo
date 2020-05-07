@@ -24,6 +24,11 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
 </head>
+<%
+		session=request.getSession();
+		String user_id=(String)session.getAttribute("user_id");
+		String user_position=(String)session.getAttribute("user_position");
+%>
 <style>
 .sign_in_sec button {
     color: #ffffff;
@@ -64,6 +69,7 @@
               url : "passChk.do",
               type : "POST",
               dataType : "json",
+              async : false,
               data : $("#delForm").serializeArray(),
               success: function(data){
                  
@@ -161,7 +167,7 @@
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id" value="${member.userId}" readonly="readonly">
+													<input type="text" id="userId" name="userId" placeholder="Id" value="${user_id}"  readonly="readonly">
 													<i class="la la-user"></i>
 													
 												</div>

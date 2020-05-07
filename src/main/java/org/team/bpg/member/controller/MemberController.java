@@ -1,17 +1,28 @@
 package org.team.bpg.member.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ProcessBuilder.Redirect;
 import java.lang.reflect.Member;
 import java.util.Locale;
+import java.util.Random;
 
+import javax.activation.DataSource;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +31,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.team.bpg.chat.controller.MailService;
 import org.team.bpg.member.service.MemberService;
 import org.team.bpg.member.vo.Criteria;
 import org.team.bpg.member.vo.MemberVO;
 import org.team.bpg.member.vo.PageMaker;
 import org.team.bpg.member.vo.SearchCriteria;
+
+import com.sun.mail.util.logging.MailHandler;
 
 @Controller
 public class MemberController {
@@ -35,6 +48,9 @@ public class MemberController {
 	@Inject
 	MemberService service;
 
+	@Inject
+	BCryptPasswordEncoder pwdEncoder;
+	
 	// 회원가입 get
 	@RequestMapping(value = "registerForm", method = RequestMethod.GET)
 	public String getRegister() throws Exception {
@@ -45,9 +61,16 @@ public class MemberController {
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String postRegister(MemberVO vo, HttpServletRequest request) throws Exception {
 		
-		System.out.println("히든값 : " + request.getParameter("borrowcnt"));
-		
 		logger.info("post register");
+<<<<<<< HEAD
+		
+				
+				service.register(vo);
+		
+			// 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
+			// 존재하지 않는다면 -> register
+	
+=======
 		int result = service.idChk(vo);
 		
 		if(result == 1) {
@@ -56,6 +79,7 @@ public class MemberController {
 			service.register(vo);
 		}
 		
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 		return "member/sign-in";
 	}
 	
@@ -72,22 +96,24 @@ public class MemberController {
 		
 		HttpSession session = req.getSession();
 		MemberVO login = service.login(vo);
+		String useridcheck = service.useridcheck(vo);
 		
-		if(login == null) {
+		if(login == null || service.emailcheck(vo)==0) {
+			logger.info(useridcheck);
 			session.setAttribute("member", null);
-
 			rttr.addFlashAttribute("msg", false);
 			return "member/sign-in";
 		}
-		else{
-			System.out.println("로그인한 아이디" + login.getUserId());
+		else if(login != null && service.emailcheck(vo)==1) {
+			session.setAttribute("member", login);
 			session.setAttribute("user_id", login.getUserId());
 			session.setAttribute("user_position", login.getUserposition());
+			session.setAttribute("user_pass", login.getUserPass());
 			return "index";
 		}
-		
-	}
+		return "redirect:/";
 	
+	}
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) throws Exception{
 		
@@ -109,7 +135,7 @@ public class MemberController {
 		
 		session.invalidate();
 		
-		return "home";
+		return "member/sign-in";
 	}
 	
 
@@ -254,13 +280,15 @@ public class MemberController {
 				@RequestMapping(value="memberDelete1", method = RequestMethod.POST)
 				public String memberDelete1(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
 					
+					
 					// 세션에 있는 member를 가져와 member변수에 넣어줍니다.
 					MemberVO member = (MemberVO) session.getAttribute("member");
+				
 					// 세션에있는 비밀번호
 					String sessionPass = member.getUserPass();
+					
 					// vo로 들어오는 비밀번호
 					String voPass = vo.getUserPass();
-					
 					if(!(sessionPass.equals(voPass))) {
 						rttr.addFlashAttribute("msg", false);
 						return "member/sign-in-delete";
@@ -280,9 +308,7 @@ public class MemberController {
 				@ResponseBody
 				@RequestMapping(value="passForgot")
 				public String passForgot(MemberVO vo) throws Exception {
-					String result = service.passForgot(vo);
-					logger.info("passForgot......sakhasjksakbgsjk");
-					
+					String result = service.passForgot(vo);					
 					logger.info(result);
 					return result;
 				}
@@ -303,25 +329,44 @@ public class MemberController {
 						
 					logger.info("pass");
 						return "member/sign-in";
-				
-					
-					
+	
+				}
+
+				@RequestMapping(value="emailupdate")
+				public String emailupdate(@RequestParam("userId")String user_id, MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
+						service.emailupdate(vo);
+					logger.info("emailupdate");
+						return "member/sign-in";
+	
 				}
 				
-		//테스트
-	/*
-	 * @RequestMapping(value = "list", method = RequestMethod.GET) public String
-	 * list(Model model) throws Exception{ logger.info("list");
-	 * 
-	 * model.addAttribute("list",service.list());
-	 * 
-	 * return "member/list"; }
-	 * 
-	 * @RequestMapping(value = "testForm", method = RequestMethod.GET) public String
-	 * test(Model model) throws Exception{ logger.info("test");
-	 * 
-	 * model.addAttribute("test",service.list());
-	 * 
-	 * return "member/test"; }
-	 */	
+				@ResponseBody
+				@RequestMapping(value="emailchecknum", method = RequestMethod.POST)
+				public int emailcheck(MemberVO vo) throws Exception {
+					int result = service.emailchecknum(vo);
+					return result;
+				}
+				
+				@ResponseBody
+				@RequestMapping(value="useridcheck", method = RequestMethod.POST)
+				public String useridcheck(MemberVO vo) throws Exception {
+					String result = service.useridcheck(vo);
+					logger.info(result);
+					return result;
+				}
+
+
+				//test
+				//
+				//
+				
+				@RequestMapping(value="test")
+				public String test(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
+						
+					logger.info("test");
+						return "member/test";
+				}
+
+				
+	
 }

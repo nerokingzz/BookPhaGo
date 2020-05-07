@@ -17,9 +17,9 @@
 				margin-left:300px;
 			} */
 			
-			.col-md-offset-3{
+/* 			.col-md-offset-3{
 				margin-left:0px;
-				}
+				} */
 				
 			.search{
 				margin-left:300px;
@@ -57,7 +57,8 @@
 			<section id="container">
 				<form role="form" method="get" id="delForm">
 					<table align="center" width="100%" class="table table-hover">
-						<tr><th>번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th><th>나이</th><th>성별</th><th>취향1</th><th>취향2</th><th>취향3</th><th>가입일</th><th>회원삭제</th></tr>
+						<tr><th>번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>이메일</th><th>나이</th><th>성별</th><th>취향1</th><th>취향2</th><th>취향3</th>
+						<th>badcnt</th><th>badsts</th><th>stopstart</th><th>stopend</th><th>applycnt</th><th>borrowcnt</th><th>reservecnt</th><th>userposition</th><th>emailcheck</th><th>가입일</th><th>회원삭제</th></tr>
 						
 						<c:forEach items="${list}" var = "list">
 							<tr>
@@ -71,6 +72,16 @@
 								<td><c:out value="${list.userTaste1}" /></td>
 								<td><c:out value="${list.userTaste2}" /></td>
 								<td><c:out value="${list.userTaste3}" /></td>
+								<td><c:out value="${list.badcnt}" /></td>
+								<td><c:out value="${list.badsts}" /></td>
+								<td><c:out value="${list.stopstart}" /></td>
+								<td><c:out value="${list.stopend}" /></td>
+								<td><c:out value="${list.applycnt}" /></td>
+								<td><c:out value="${list.borrowcnt}" /></td>
+								<td><c:out value="${list.reservecnt}" /></td>
+								<td><c:out value="${list.userposition}" /></td>
+								<td><c:out value="${list.emailcheck}" /></td>
+								
 								<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								
 								
@@ -105,8 +116,11 @@
 								href="list${pageMaker.makeSearch(pageMaker.endPage + 1)}">다음</a></li>
 						</c:if>
 					</ul>
+
+				</div>
+				
 					
-					<div class="search row">
+				<div class="search row">
 						<div class="col-xs-2 col-sm-2">
 						    <select name="searchType" id="search" class="form-control">
 						      <option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
@@ -126,12 +140,6 @@
 							</div>
 						</div>
  				 </div>
-					
-					
-				</div>
-				
-					
-
 					
 					
 				

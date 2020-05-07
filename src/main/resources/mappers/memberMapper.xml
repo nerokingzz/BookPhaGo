@@ -5,18 +5,37 @@
 <mapper namespace="memberMapper">
 	<!-- 회원가입 -->
 	<insert id="register" parameterType="org.team.bpg.member.vo.MemberVO">
+<<<<<<< HEAD
+	    insert into u_user_info(bno, userid, userpass, username, useremail, userage, userposition, usergender, usertaste1, usertaste2, usertaste3, badcnt, stopstart, stopend, borrowcnt, applycnt, reservecnt, emailcheck )
+	                  values(u_user_info_seq.nextval, #{userId1}, #{userPass1}, #{userName}, #{userEmail}, #{userAge}, #{userposition}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3}, #{badcnt},  #{stopstart}, #{stopend}, #{borrowcnt}, #{applycnt}, #{reservecnt}, #{emailcheck} )
+=======
 	    insert into u_user_info(bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, badcnt, stopstart, stopend, borrowcnt, applycnt, reservecnt )
 	                  values(u_user_info_seq.nextval, #{userId1}, #{userPass1}, #{userName}, #{userEmail}, #{userAge}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3}, #{badcnt},  #{stopstart}, #{stopend}, #{borrowcnt}, #{applycnt}, #{reservecnt} )
+>>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
    
     </insert>
+    
+   <!-- 이메일인증 -->
+   <select id="emailcheck" resultType="int">
+   		select emailcheck from u_user_info where userid = #{userId}
+   </select>
+   
+     <!-- 회원가입 이메일인증 -->
+   <select id="emailchecknum" resultType="int">
+   		select emailcheck from u_user_info where userid = #{userId} and userpass = #{userPass}
+   </select>
+   
+   <!-- 이메일체크 변경 0->1 -->
+   <update id="emailupdate">
+   		update u_user_info set emailcheck = '1' where userid = #{userId}
+   </update>
    
    <!-- 로그인 -->
 	<select id="login" resultType="org.team.bpg.member.vo.MemberVO">
 		select *
 		  from u_user_info
 		 where userid = #{userId}
-		   and userpass = #{userPass}   
-
+		   and userpass = #{userPass}
 	</select>
 	
 	<!-- 회원정보 수정 -->
@@ -39,6 +58,12 @@
 	WHERE USERID = #{userId}
 	  AND USERPASS = #{userPass} 
 </delete>
+
+<!-- 아이디 유무 확인 -->
+<select id="useridcheck" resultType="String">
+	SELECT userid FROM u_user_info
+	WHERE USERID = #{userId}
+</select>
 
 <!-- 패스워드 체크 -->
 <select id="passChk" resultType="int">
@@ -72,9 +97,9 @@
 
 	<!-- 게시판 목록 -->
 <select id="listPage" resultType="org.team.bpg.member.vo.BoardVO" parameterType="org.team.bpg.member.vo.Criteria">
-	select bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, regdate
+	select bno, userid, userpass, username, useremail, userage, userposition, usergender, usertaste1, usertaste2, usertaste3, badcnt, badsts, stopstart, stopend, borrowcnt, applycnt, reservecnt, emailcheck, regdate
 		 FROM ( 
-		 	select bno, userid, userpass, username, useremail, userage, usergender, usertaste1, usertaste2, usertaste3, regdate, 
+		 	select bno, userid, userpass, username, useremail, userage, userposition, usergender, usertaste1, usertaste2, usertaste3, badcnt, badsts, stopstart, stopend, borrowcnt, applycnt, reservecnt, emailcheck, regdate,
 		               row_number() over(order by bno desc) as rnum
 		         from u_user_info
 		           WHERE 1=1 
@@ -107,5 +132,6 @@
 			<!-- <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if> -->
 		</if>
 	</sql>
+
 </mapper>
 
