@@ -66,6 +66,29 @@
 		WHERE RN BETWEEN #{start} AND #{end}
  	</select>
  	
+ 	<!-- 총 게시글 갯수 -->
+ 	<select id="article_search_count" parameterType="hashmap" resultType="integer">
+ 		SELECT COUNT(*) FROM M_COMMUNITY_ARTICLE 
+ 		WHERE board_id=#{board_id} AND ${search_option} LIKE '%'||#{search_keyword}||'%'
+ 	</select>
+ 	
+ 	<!-- 페이징 처리 후 게시글 조회 -->
+ 	<select id="article_search_list" parameterType="hashmap" resultType="articleInfoVo">
+ 		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM M_COMMUNITY_ARTICLE 
+						WHERE board_id=#{board_id} AND ${search_option} LIKE '%'||#{search_keyword}||'%'
+						ORDER BY article_id DESC 
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+		
+		
+ 	</select>
+ 	
  	<select id="vote_count" parameterType="integer" resultType="integer">
  		SELECT COUNT(*) FROM M_COMMUNITY_VOTE WHERE board_id=#{board_id}
  	</select>
@@ -237,7 +260,7 @@
  		VALUES (#{reply_id}, #{reply_depth}, #{reply_id}, #{bundle_order}, #{article_id}, #{reply_date}, #{reply_content}, #{reply_writer})
  	</insert>
  	
- 	 <!-- 대댓글 등록 insert -->
+ 	<!-- 대댓글 등록 insert -->
  	<insert id="re_reply_submit" parameterType="replyInfoVo">
  		<!-- 시퀀스 사용 -->
 		<selectKey keyProperty="reply_id" resultType="integer" order="BEFORE">
@@ -259,9 +282,10 @@
  	</select>
  	
  	<!-- 대댓글가져오기 -->
- 	<select id="re_reply_list" parameterType="string" resultType="hashmap">
+ 	<select id="re_reply_list" parameterType="hashmap" resultType="hashmap">
  		SELECT * FROM M_COMMUNITY_REPLY
- 		WHERE article_id=#{article_id} AND reply_depth=1
+ 		WHERE article_id=#{article_id} AND reply_depth=1 AND bundle_id=#{bundle_id}
+ 		ORDER BY reply_id ASC
  	</select>
  	
  	

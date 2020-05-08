@@ -7,6 +7,8 @@
 	<insert id="register" parameterType="org.team.bpg.member.vo.MemberVO">
 	    insert into u_user_info(bno, userid, userpass, username, useremail, userage, userposition, usergender, usertaste1, usertaste2, usertaste3, badcnt, stopstart, stopend, borrowcnt, applycnt, reservecnt, emailcheck )
 	                  values(u_user_info_seq.nextval, #{userId1}, #{userPass1}, #{userName}, #{userEmail}, #{userAge}, #{userposition}, #{userGender}, #{userTaste1}, #{userTaste2}, #{userTaste3}, #{badcnt},  #{stopstart}, #{stopend}, #{borrowcnt}, #{applycnt}, #{reservecnt}, #{emailcheck} )
+
+   
     </insert>
     
    <!-- 이메일인증 -->

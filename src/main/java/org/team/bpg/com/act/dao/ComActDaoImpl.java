@@ -95,12 +95,25 @@ public class ComActDaoImpl implements ComActDao {
 		int articleCount=sqlSession.selectOne("com_act.article_count", board_id);
 		return articleCount;
 	}
+	
+	@Override
+	public int countSearchArticle(Map<String, Object> info) {
+		int articleCount=sqlSession.selectOne("com_act.article_search_count", info);
+		return articleCount;
+	}
 
 	@Override
 	public List<ArticleInfoVO> articleList(Map<String, Object> info) {
 		List<ArticleInfoVO> articleList=sqlSession.selectList("com_act.article_list", info);
 		System.out.println("글목록"+articleList);
 		return articleList;
+	}
+	
+	@Override
+	public List<ArticleInfoVO> articleSearchList(Map<String, Object> info) {
+		List<ArticleInfoVO> articleSearchList=sqlSession.selectList("com_act.article_search_list", info);
+		System.out.println("검색글목록"+articleSearchList);
+		return articleSearchList;
 	}
 	
 	@Override
@@ -264,8 +277,8 @@ public class ComActDaoImpl implements ComActDao {
 	}
 	
 	@Override
-	public List<Map<String, Object>> reReplyList(String article_id) {
-		List<Map<String, Object>> reReplyList=sqlSession.selectList("com_act.re_reply_list", article_id);
+	public List<Map<String, Object>> reReplyList(Map<String, Object> info) {
+		List<Map<String, Object>> reReplyList=sqlSession.selectList("com_act.re_reply_list", info);
 		return reReplyList;
 	}
 

@@ -205,12 +205,12 @@
 									<div class="post-topbar">
 										<h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1>
 										${comInfo.get("COMMUNITY_DESCRIPTION") }
-										<div class="search_form">
+										<!-- <div class="search_form">
 											<form>
 												<input type="text" name="search" placeholder="커뮤니티 내 검색">
 												<button type="submit">검색</button>
 											</form>
-										</div><!--search_form end-->										
+										</div>search_form end -->										
 									</div><!--post-topbar end-->
 									<div class="posts-section">
 										<div class="post-bar">

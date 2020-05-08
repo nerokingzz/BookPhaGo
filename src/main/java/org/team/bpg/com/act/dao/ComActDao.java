@@ -28,7 +28,9 @@ public interface ComActDao {
 	
 	//페이징관련
 	public int countArticle(int board_id);
+	public int countSearchArticle(Map<String, Object> info);
 	public List<ArticleInfoVO> articleList(Map<String, Object> info);
+	public List<ArticleInfoVO> articleSearchList(Map<String, Object> info);
 	
 	public int voteArticle(int board_id);
 	public List<Map<String, Object>> voteIng(String board_id);
@@ -48,7 +50,7 @@ public interface ComActDao {
 	public void reReplySubmit(ReplyInfoVO replyInfoVo);
 	public int countReply(int article_id);
 	public List<Map<String, Object>> replyList(String article_id);
-	public List<Map<String, Object>> reReplyList(String article_id);
+	public List<Map<String, Object>> reReplyList(Map<String, Object> info);
 	
 	public List<Map<String, Object>> voteAllList(String board_id);
 	public void voteAdmin(Map<String, String> sts_info);

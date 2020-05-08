@@ -26,7 +26,9 @@ public interface ComActService {
 	
 	//페이징관련
 	public int countArticle(HttpServletRequest request);
+	public int countSearchArticle(HttpServletRequest request);
 	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request);
+	public List<ArticleInfoVO> articleSearchList(PageVO pageVo, HttpServletRequest request);
 	
 	public int countvote(HttpServletRequest request);
 	public List<Map<String, Object>> voteIng(HttpServletRequest request);
@@ -45,7 +47,7 @@ public interface ComActService {
 	public void reReplySubmit(ReplyInfoVO replyInfoVo);
 	public int countReply(HttpServletRequest request);
 	public List<Map<String, Object>> replyList(HttpServletRequest request);
-	public List<Map<String, Object>> reReplyList(HttpServletRequest request);
+	public List<Map<String, Object>> reReplyList(Map<String, Object> info);
 	
 	public List<Map<String, Object>> voteAllList(HttpServletRequest request);
 	public void voteAdmin(HttpServletRequest request);

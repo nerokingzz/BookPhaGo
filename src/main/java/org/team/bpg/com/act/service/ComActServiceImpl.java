@@ -168,6 +168,22 @@ public class ComActServiceImpl implements ComActService {
 		int articleCount=comActDao.countArticle(board_id);
 		return articleCount;
 	}
+	
+	@Override
+	public int countSearchArticle(HttpServletRequest request) {
+		String search_option=request.getParameter("search_option");
+		String search_keyword=request.getParameter("search_keyword");
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		
+		Map<String, Object> info=new HashMap<>();
+		info.put("board_id", board_id);
+		info.put("search_option", search_option);
+		info.put("search_keyword", search_keyword);
+		
+		int articleCount=comActDao.countSearchArticle(info);
+		return articleCount;
+	}
 
 	@Override
 	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request) {
@@ -186,6 +202,27 @@ public class ComActServiceImpl implements ComActService {
 		
 		List<ArticleInfoVO> articleList=comActDao.articleList(info);
 		return articleList;
+	}
+	
+	@Override
+	public List<ArticleInfoVO> articleSearchList(PageVO pageVo, HttpServletRequest request) {
+		String board_idd=request.getParameter("board_id");
+		int board_id=Integer.parseInt(board_idd);
+		
+		System.out.println("가져올 게시판 아이디:" + board_id);
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("search_option", request.getParameter("search_option"));
+		info.put("search_keyword", request.getParameter("search_keyword"));
+		info.put("board_id", board_id);
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<ArticleInfoVO> articleSearchList=comActDao.articleSearchList(info);
+		return articleSearchList;
 	}
 	
 	@Override
@@ -438,16 +475,16 @@ public class ComActServiceImpl implements ComActService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> reReplyList(HttpServletRequest request) {
-		String article_id=request.getParameter("article_id");
-		List<Map<String, Object>> repRelyList=comActDao.reReplyList(article_id);
+	public List<Map<String, Object>> reReplyList(Map<String, Object> info) {
+
+		List<Map<String, Object>> repRelyList=comActDao.reReplyList(info);
 		return repRelyList;
 	}
 
 	@Override
 	public void reReplySubmit(ReplyInfoVO replyInfoVo) {
 		
-		comActDao.replySubmit(replyInfoVo);
+		comActDao.reReplySubmit(replyInfoVo);
 		
 	}
 
