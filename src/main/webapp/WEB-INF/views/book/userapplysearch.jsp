@@ -246,8 +246,8 @@ function search3(isbn,title) {
  			if(bookNumber != undefined) {
 				alert("이미 도서관에 존재하는 도서입니다.");
 			}else {
-				window.opener.document.getElementById("pInput").value = aa;
-				window.opener.document.getElementById("pInputt").value = bb;
+				window.opener.document.getElementById("pInputt").value = aa;
+				window.opener.document.getElementById("pInput").value = bb;
 			    
 			    window.close();
 			} 

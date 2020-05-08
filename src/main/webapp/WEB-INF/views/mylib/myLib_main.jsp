@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html>
 <html>
@@ -21,6 +22,53 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<style>
+table.type11 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px 10px;
+}
+table.type11 th {
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #fff;
+    background-color: #e44d3a;
+}
+table.type11 td {
+    font-size: 14px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+}
+table.type05 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    margin: 20px 10px;
+}
+table.type05 th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #efefef;
+}
+table.type05 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+
+	</style>
 </head>
 
 	<%
@@ -330,86 +378,98 @@
 								</ul>			
 								<div class="sign_in_sec current" id="tab-1">
 									
-								<table align="center" border="1">
-									<tr align="center" bgcolor="#e44d3a">
-										<td width="20%"><b>도서명</b>
-										<td width="8%"><b>도서번호</b>
-										<td width="8%"><b>대출일</b>
-										<td width="8%"><b>반납일</b>
-										<td width="8%"><b>대출상태</b>
-										<td width="8%"><b>반납날짜</b>
-										<td width="8%"><b>연장</b>
-							
-										<c:choose>
-											
+								<table class="type11">
+								    <thead>
+								    <tr>
+								        <th width="20%">도서명</th>
+								        <th width="9%">도서번호</th>
+								        <th width="13%">대출일</th>
+								        <th width="13%">반납일</th>
+								        <th width="13%">대출상태</th>
+								        <th width="13%">반납날짜</th>
+								        <th width="7%">연장</th>
+								    </tr>
+								    </thead>
+								    <tbody>
+								    <c:choose>
 											<c:when test="${booklistSize gt 0 }">
 												<c:forEach var="i"  begin="1" end="${booklistSize }">
-													<tr align="center">
-														<td>${booklist.get(i-1).get("BOOKNAME") }</td>
-														<td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
-														<td>${booklist.get(i-1).get('RENTDATE') }</td>
-														<td>${booklist.get(i-1).get("RETURNDATE") }</td>
-														<td>${booklist.get(i-1).get("STATE") }</td>
-														<td>${booklist.get(i-1).get("RRETURNDATE") }</td>
-														<td>	
+								    <tr>
+								        <td width="20%">${booklist.get(i-1).get("BOOKNAME") }</td>
+								        <td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+								        <td>${booklist.get(i-1).get('RENTDATE') }</td>
+								        <td>${booklist.get(i-1).get("RETURNDATE") }</td>
+								        <td>${booklist.get(i-1).get("STATE") }</td>
+								        <td>${booklist.get(i-1).get("RRETURNDATE") }</td>
+								        <td>
+								        	<c:set var="RENTDATE" value="${booklist.get(i-1).get('RENTDATE') }" />
+											<fmt:parseDate value="${RENTDATE}" var="strPlanDate" pattern="yyyy-MM-dd"/>
+											<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+											<c:set var="RETURNDATE" value="${booklist.get(i-1).get('RETURNDATE') }" />
+											<fmt:parseDate value="${RETURNDATE}" var="endPlanDate" pattern="yyyy-MM-dd"/>
+											<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+											<c:set var="DATE" value="${endDate - strDate }" />
 															
-															<c:set var="RENTDATE" value="${booklist.get(i-1).get('RENTDATE') }" />
-															<fmt:parseDate value="${RENTDATE}" var="strPlanDate" pattern="yyyy-MM-dd"/>
-															<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
-															<c:set var="RETURNDATE" value="${booklist.get(i-1).get('RETURNDATE') }" />
-															<fmt:parseDate value="${RETURNDATE}" var="endPlanDate" pattern="yyyy-MM-dd"/>
-															<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
-															<c:set var="DATE" value="${endDate - strDate }" />
-															
-															<jsp:useBean id="today" class="java.util.Date" />
-															<fmt:formatDate var="now" value="${today}" pattern="yyyy-MM-dd" />
-															<fmt:parseDate var="now1" value="${now}" pattern="yyyy-MM-dd"/>
-															<fmt:parseNumber value="${now1.time / (1000*60*60*24)}" integerOnly="true" var="now2"></fmt:parseNumber>
-															<c:set var="RETURNDATE1" value="${booklist.get(i-1).get('RETURNDATE') }" />
-															<fmt:parseDate var="str" value="${RETURNDATE1}" pattern="yyyy-MM-dd" />
-															<fmt:parseNumber value="${str.time / (1000*60*60*24)}" integerOnly="true" var="str2"></fmt:parseNumber>
-															<c:set var="DATE1" value="${str2 - now2 }" />
-															<c:set var="STATE" value="${booklist.get(i-1).get('STATE') }" />
-															<c:if test="${DATE eq '7' && DATE1 gt 0 && STATE eq '대출중' }">
-															<input type="button" class="state" id="${booklist.get(i-1).get('BOOKNUMBER') }" value="연장하기" onClick="">
-															</c:if>
-														</td>
-													</tr>
-												</c:forEach>
-											</c:when>
-										</c:choose>
+											<jsp:useBean id="today" class="java.util.Date" />
+											<fmt:formatDate var="now" value="${today}" pattern="yyyy-MM-dd" />
+											<fmt:parseDate var="now1" value="${now}" pattern="yyyy-MM-dd"/>
+											<fmt:parseNumber value="${now1.time / (1000*60*60*24)}" integerOnly="true" var="now2"></fmt:parseNumber>
+											<c:set var="RETURNDATE1" value="${booklist.get(i-1).get('RETURNDATE') }" />
+											<fmt:parseDate var="str" value="${RETURNDATE1}" pattern="yyyy-MM-dd" />
+											<fmt:parseNumber value="${str.time / (1000*60*60*24)}" integerOnly="true" var="str2"></fmt:parseNumber>
+											<c:set var="DATE1" value="${str2 - now2 }" />
+											<c:set var="STATE" value="${booklist.get(i-1).get('STATE') }" />
+											<c:if test="${DATE eq '7' && DATE1 gt 0 && STATE eq '대출중' }">
+											<input type="button" class="state" id="${booklist.get(i-1).get('BOOKNUMBER') }" value="연장하기" onClick="">
+											</c:if>
+										</td>
+								        </tr>
+								    </c:forEach>
+									</c:when>
+									</c:choose>
+								    
+								    
+								    </tbody>
 								</table>
 									
 								</div><!--sign_in_sec end-->
 								<div class="sign_in_sec" id="tab-2">
 										
 									<div class="dff-tab current" id="tab-3">
+									
+									⚂ <%out.println(user_id); %> 님이 신청하신 도서는 다음과 같습니다.
+									
+									<c:choose>
+											<c:when test="${booklistSize1 gt 0 }">
+												<c:forEach var="i"  begin="1" end="${booklistSize1 }">
+								    
 										
-										<div>
-											<form action="book_main.do" method="get">
-												<input type="hidden" name="page" value="apply">  
-												<div class="row">
-				                                <div class="col-md-12 col-sm-12"><br>
-				                                   <h6>사용자 ID : <input type="text" name="user_id" value="${user_id }" readonly></h6><br>
-				                                </div>
-				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서명 : <input type="text" name="bookName" id="pInput" readonly><input type="button" style = "background-color:#e44d3a;font-weight:bold " value="검색" onclick="userapplysearchbook();"></h6><br>
-				                                </div>
-				                                <div class="col-md-12 col-sm-12">
-				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
-				                                </div>
-				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="current_info" readonly></h6><br>
-				                                </div>
-				                                 <div class="col-md-12 col-sm-12">
-				                                	<h6>사유 : <input type="text" name="applyReason"></h6>
-				                                </div>
-				                                <div class="col-md-12 col-sm-12">
-				                               <button type="submit" onclick="return check()" >신청하기</button>
-				                               </div>
-				                            </div>
-											</form>
-										</div>
+										<table class="type05">
+										    <tr>
+										        <th scope="row">도서명</th>
+										        <td>${booklist1.get(i-1).get("BOOKNAME") }</td>
+										    </tr>
+										    <tr>
+										        <th scope="row">신청날짜</th>
+										        <td>${booklist1.get(i-1).get("APPLYDATE") }</td>
+										    </tr>
+										    <tr>
+										        <th scope="row">사유</th>
+										        <td>${booklist1.get(i-1).get("APPLYREASON") }</td>
+										    </tr>
+										    <tr>
+										        <th scope="row">상태</th>
+										        <td>${booklist1.get(i-1).get("APPLYSTATE") }</td>
+										    </tr>
+										</table>
+										 
+										</c:forEach>
+										</c:when>
+										</c:choose><br><br>
+										
+										 - 신청중  : 담당자가 검토중인 상태<br><br>
+										 - 처리중  : 구입하여 정리하고 있는 상태<br><br>
+										 - 취소됨 : 구입에서 제외된 상태<br><br>
 										
 									</div><!--dff-tab end-->
 									<div class="dff-tab" id="tab-4">

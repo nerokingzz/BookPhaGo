@@ -26,6 +26,43 @@
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibleaders.js"></script>
+	<style>
+table.type11 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px 10px;
+}
+table.type11 th {
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #fff;
+    background-color: #e44d3a;
+}
+table.type11 td {
+    font-size: 14px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+}
+
+.form-control {
+	line-height: inherit; height: 38px; padding: 0 10 0 10;
+}
+
+.seo_selectbox {
+	padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+        background-color: white;
+        text-align-last: center;
+}
+	</style>
 </head>
 
 	<%
@@ -351,6 +388,209 @@
                         	<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
                              	<div class="acc-setting">
                              		<h3>현황관리</h3>
+                             		
+                             	<div>
+								<div class="login-sec">
+								<ul class="sign-control">
+									<li data-tab="tab-1" class="current"><a href="#" title="">도서대출현황</a></li>				
+									<li data-tab="tab-2"><a href="#" title="">도서신청현황</a></li>				
+								</ul>			
+								<div class="sign_in_sec current" id="tab-1">
+								
+								<div>
+										<form action="admin_main.do" method="get">
+										<input type="hidden" name="page" value="book_status_A">
+											<table>
+												<tr>
+													<td style="text-align: center;">
+														<select class="form-control"  name="search_option" style="line-height: inherit; height: 38px; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;">
+															<option value="userid">아이디</option>
+															<option value="bookName">도서명</option>
+															<option value="bookNumber">도서번호</option>
+															<option value="state">상태</option>
+														</select>
+													</td>
+													<td>
+														<div>
+														  <input type="text" style="height: 38px; width: 140px; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;" name="search_value"  id="inputSuccess2" aria-describedby="inputSuccess2Status">
+														</div>
+													</td>
+													<td><button type="submit" style="height:38px; padding-top: 0px; padding-right:0px; padding-bottom: 0px; padding-left:0px;     width: 36px; font-size: 14px;
+    																				font-family: inherit; text-rendering: auto; color: buttontext; letter-spacing: normal; word-spacing: normal; line-height: inherit; border-width: 2px;
+    																				border-style: outset; border-color: buttonface; border-image: initial; background: #f4f4f4;">검색</button>
+    												</td>
+												</tr>					
+											</table>
+										</form>
+								</div>
+									
+								<table class="type11">
+								    <thead>
+								    <tr>
+								        <th width="10%">아이디</th>
+								        <th width="17%">도서명</th>
+								        <th width="13%">도서번호</th>
+								        <th width="13%">대출일</th>
+								        <th width="13%">반납일</th>
+								        <th width="13%">반납날짜</th>
+								        <th width="13%">상태</th>
+								    </tr>
+								    </thead>
+								    <tbody>
+								    <c:choose>
+											<c:when test="${booklistSize gt 0 }">
+												<c:forEach var="i"  begin="1" end="${booklistSize }">
+								    <tr>
+								        <td>${booklist.get(i-1).get("USERID") }</td>
+								        <td>${booklist.get(i-1).get("BOOKNAME") }</td>
+								        <td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+								        <td>${booklist.get(i-1).get("RENTDATE") }</td>
+								        <td>${booklist.get(i-1).get("RETURNDATE") }</td>
+								        <td>${booklist.get(i-1).get("RRETURNDATE") }</td>
+								        <td>${booklist.get(i-1).get("STATE") }</td>
+							
+								        </tr>
+								    </c:forEach>
+									</c:when>
+									</c:choose>
+								    
+								    
+								    </tbody>
+								</table>
+									
+								</div><!--sign_in_sec end-->
+								<div class="sign_in_sec" id="tab-2">
+										
+									<div class="dff-tab current" id="tab-3">
+									
+									<div>
+										<form action="admin_main.do" method="get">
+										<input type="hidden" name="page" value="book_status_A">
+											<table>
+												<tr>
+													<td style="text-align: center;">
+														<select class="form-control"  name="search_option1" style="line-height: inherit; height: 38px; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;">
+															<option value="userid">아이디</option>
+															<option value="bookName">도서명</option>
+															<option value="state">상태</option>
+														</select>
+													</td>
+													<td>
+														<div>
+														  <input type="text" style="height: 38px; width: 140px; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px;" name="search_value1"  id="inputSuccess2" aria-describedby="inputSuccess2Status">
+														</div>
+													</td>
+													<td><button type="submit" style="height:38px; padding-top: 0px; padding-right:0px; padding-bottom: 0px; padding-left:0px;     width: 36px; font-size: 14px;
+    																				font-family: inherit; text-rendering: auto; color: buttontext; letter-spacing: normal; word-spacing: normal; line-height: inherit; border-width: 2px;
+    																				border-style: outset; border-color: buttonface; border-image: initial; background: #f4f4f4;">검색</button>
+    												</td>
+												</tr>					
+											</table>
+										</form>
+								</div>
+									
+								<div>
+									<table class="type11">
+								    <thead>
+								    <tr>
+								        <th width="10%">아이디</th>
+								        <th width="17%">도서명</th>
+								        <th width="13%">신청날짜</th>
+								        <th width="13%">사유</th>
+								        <th width="13%">상태</th>
+								    </tr>
+								    </thead>
+								    <tbody class="js-table">
+								    <c:choose>
+											<c:when test="${booklistSize1 gt 0 }">
+												<c:forEach items="${booklist1}" var="list" varStatus="status">
+								    <tr data-user-id="${list.APPLYNUMBER}">
+								        <td>${list.USERID}</td>
+								       	<td>${list.BOOKNAME}</td>
+								       	<td>${list.APPLYDATE}</td>
+								       	<td>${list.APPLYREASON}</td>
+								       	<td>
+								       		<c:set var="APPLYSTATE" value="${list.APPLYSTATE}" />
+											<c:if test="${APPLYSTATE eq '신청중' }">
+												<select class="seo_selectbox" name="selectBox" id="${status.index}">
+													<option value="신청중">신청중</option>
+													<option value="처리중">처리중</option>
+													<option value="취소됨">취소됨</option>
+												</select>
+											</c:if>
+											<c:if test="${APPLYSTATE eq '처리중' }">
+												<select class="seo_selectbox" name="selectBox" id="${status.index}">
+													<option value="처리중">처리중</option>
+													<option value="신청중">신청중</option>
+													<option value="취소됨">취소됨</option>
+												</select>
+											</c:if>
+											<c:if test="${APPLYSTATE eq '취소됨' }">
+												<select class="seo_selectbox" name="selectBox" id="${status.index}">
+													<option value="취소됨">취소됨</option>
+													<option value="신청중">신청중</option>
+													<option value="처리중">처리중</option>
+												</select>
+											</c:if>
+								       	</td>
+								        </tr>
+								    </c:forEach>
+									</c:when>
+									</c:choose>
+								    
+								    
+								    </tbody>
+								</table>
+								</div>
+									</div><!--dff-tab end-->
+									<div class="dff-tab" id="tab-4">
+										<form>
+											<div class="row">
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="text" name="company-name" placeholder="Company Name">
+														<i class="la la-building"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="text" name="country" placeholder="Country">
+														<i class="la la-globe"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="password" name="password" placeholder="Password">
+														<i class="la la-lock"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="sn-field">
+														<input type="password" name="repeat-password" placeholder="Repeat Password">
+														<i class="la la-lock"></i>
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<div class="checky-sec st2">
+														<div class="fgt-sec">
+															<input type="checkbox" name="cc" id="c3">
+															<label for="c3">
+																<span></span>
+															</label>
+															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+														</div><!--fgt-sec end-->
+													</div>
+												</div>
+												<div class="col-lg-12 no-pdd">
+													<button type="submit" value="submit">Get Started</button>
+												</div>
+											</div>
+										</form>
+									</div><!--dff-tab end-->
+									</div>		
+									</div><!--login-sec end-->
+									</div>
+									
                            	 	</div><!--acc-setting end-->
                         	</div>
                         	<div class="tab-pane fade" style="width: 100%; height:100%;" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">

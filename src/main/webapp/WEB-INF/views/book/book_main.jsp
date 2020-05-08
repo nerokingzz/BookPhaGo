@@ -21,6 +21,74 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<style>
+.seo {
+	float: left;
+    width: 100%;
+    padding-top: 30px;
+    padding-right: 75px;
+    padding-left: 60px;
+    padding-bottom: 30px;
+    font-size:14px;
+    font-family: "inherit";
+}
+
+div.col-md-12 input {
+	width:100%;
+	height: 40px;
+	padding-top: 0px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    padding-left: 40px;
+    border: 1px solid #e5e5e5;
+    border-top-color: rgb(229, 229, 229);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(229, 229, 229);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(229, 229, 229);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(229, 229, 229);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    border-radius: 15px;
+}
+
+.seo_button { 
+	color: #ffffff; 
+	font-size: 16px;
+	background-color: #e44d3a;
+	border: 0;
+    border-top-color: initial;
+    border-top-style: initial;
+    border-top-width: 0px;
+    border-right-color: initial;
+    border-right-style: initial;
+    border-right-width: 0px;
+    border-bottom-color: initial;
+    border-bottom-style: initial;
+    border-bottom-width: 0px;
+    border-left-color: initial;
+    border-left-style: initial;
+    border-left-width: 0px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    margin-top: 30px;
+    border-radius: 15px;
+}
+
+</style>
+
 </head>
 
 	<%
@@ -229,32 +297,25 @@
 								</ul>			
 								<div class="sign_in_sec current" id="tab-1">
 									
-									○ <input  style = "text-align:center; display:inline;" type="text" value="희망도서 신청안내" disabled><br><br>
+									○ <input  style = "border:none; font-weight:bold; background-color:transparent;" type="text" value="희망도서 신청안내" disabled><br><br>
 									＊신청대상 : 회원가입한 모든 사용자<br><br>
-									
-									* 신청방법  :  희망하시는 도서가 소장된 자료인지 확인하시고 도서가 없는 경우 홈페이지내 희망도서 신청화면에서 도서정보를 정확하게 기재해주시기 바랍니다.<br><br>
-									
+									* 신청방법  :  도서신청창에서 검색버튼을 눌러 원하시는 도서를 찾으신후 선택하기를 눌려주시고 사유를 적어주세요.<br><br>
 									* 신청권수  :  1인 월 2권<br><br>
+									* 소요기간 :  1~2개월 소요  <br><br><br><br>
 									
-									* 소요기간 :  1~2개월 소요  <br><br>
-									
-									○ <input  style = "text-align:center; display:inline" type="text" value="희망도서 신청결과 확인" disabled> <br><br>
+									○ <input  style = "border:none; font-weight:bold; background-color:transparent;" type="text" value="희망도서 신청결과 확인" disabled> <br><br>
 									* 홈페이지 내 <마이 라이브러리 -> 현황조회 ->  도서 신청 현황> 에서 확인 가능합니다. <br><br>
 									
 									* 각 진행상태는 아래와 같습니다. <br><br>
 									 - 신청중  : 담당자가 검토중인 상태 <br><br>
 									 - 처리중  : 구입하여 정리하고 있는 상태 <br><br>
-									 - 취소됨 : 구입에서 제외된 상태(사유) <br><br>
-									 
-									 ○ <input  style = "text-align:center; display:inline" type="text" value="희망도서 선정 제외 기준" disabled> <br><br>
+									 - 취소됨 : 구입에서 제외된 상태(사유) <br><br><br><br>
+									
+									 ○ <input  style = "border:none; font-weight:bold; background-color:transparent;" type="text" value="희망도서 선정 제외 기준" disabled> <br><br>
 									* 도서관내 이미 소장중이거나 중복신청도서<br><br>
-									
 									* 고가의 도서 <br><br>
-									
 									* 선정적인 도서 <br><br>
-									
 									* 문제집 혹은 수험서 또는 만화도서 <br><br>
-									
 									* 품절이거나 절판된 도서 <br><br>
 								</div><!--sign_in_sec end-->
 								<div class="sign_in_sec" id="tab-2">
@@ -262,37 +323,43 @@
 									<div class="dff-tab current" id="tab-3">
 										
 										<c:set var="applycnt" value="${applycnt}"></c:set>
-										<c:if test="${applycnt gt 2}">
+										<c:if test="${applycnt ge 2}">
 										<c:out value="이번달 도서 신청횟수를 모두 사용하였습니다."></c:out><br>
 										<c:out value="다음달에 다시 이용해주세요."></c:out>
 										</c:if>
 										<c:if test="${applycnt lt 2}">
-										 <div>
-											<form action="book_main.do" method="get">
+										 <div class="seo">
+											<form action="book_main.do" method="get" name="myform2">
 												<input type="hidden" name="page" value="apply">  
 												<div class="row">
 				                                <div class="col-md-12 col-sm-12"><br>
-				                                   <h6>사용자 ID : <input type="text" name="user_id" value="${user_id }" readonly></h6><br>
+				                                   <h6>사용자 ID</h6><br>
+				                                   <input type="text" name="user_id" value="${user_id }" readonly><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서명 : <input type="text" name="bookName" id="pInput" readonly><input type="button" style = "background-color:#e44d3a;font-weight:bold " value="검색" onclick="userapplysearchbook();"></h6><br>
+				                                	<h6>도서명</h6><br>
+				                                	<input style="width:80%;" type="text" name="bookName" id="pInput"><input type="button" style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" value="검색" onclick="userapplysearchbook();"></h6><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                    <h6>isbn : <input type="text" name="isbn" id="pInputt" readonly></h6><br>
+				                                    <h6>isbn</h6><br>
+				                                    <input type="text" name="isbn" id="pInputt" readonly><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>선청날짜 : <input type="text" name="applyDate" id="today" readonly></h6><br>
+				                                	<h6>선청날짜</h6><br>
+				                                	<input type="text" name="applyDate" id="today" readonly><br>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
-				                                	<h6>사유 : <input type="text" name="applyReason"></h6>
+				                                	<h6>사유</h6><br>
+				                                	<input type="text" name="applyReason" id="applyReason"><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                               <button type="submit" onclick="return check()" >신청하기</button>
+				                                <input class="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px; color: white;" type="button" value="신청하기" onclick="going();">	
 				                               </div>
 				                            </div>
 											</form>
 										</div> 
 										</c:if>
+										
 										
 									</div><!--dff-tab end-->
 									<div class="dff-tab" id="tab-4">
@@ -388,13 +455,25 @@
     	window.open(popUrl,"","width=1200,height=800");
 	}
 	
-	function check(){
-    	if (confirm("신청 하시겠습니까??") == true){    //확인
-    	    return true;
-    	}else{   //취소
-    	    return false;
-    	}
-    }
+	function going() {
+		 if($("#pInputt").val()==""){
+	         alert("도서명을를 검색하세요.");
+	         $("#pInput").focus();
+	         return false;
+	      }else if ($("#applyReason").val()==""){
+	    	  alert("사유를 입력하세요.");
+	    	  $("#applyReason").focus();
+	    	  return false;
+	    	  
+	      }else {
+	    	  if (confirm("신청 하시겠습니까??") == true){    //확인
+	    		  document.myform2.submit();
+	      	    return true;
+	      	}else{   //취소
+	      	    return false;
+	      	}
+	      }
+		}
 </script>
 
 </body>

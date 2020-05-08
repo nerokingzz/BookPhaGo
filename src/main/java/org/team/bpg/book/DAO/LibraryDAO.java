@@ -37,4 +37,10 @@ public interface LibraryDAO {
 	public int updatebookrent(Map<String, String> book_list);
 	public int updatebooklibreturn(Map<String, String> book_list);
 	public String applycnt(String userid);
+	public List<Map<String, Object>> myLib_applystatus(String user_id);
+	public List<Map<String, Object>> admin_bookstatus();
+	public List<Map<String, Object>> adminrentstatus(Map<String, String> book_list);
+	public List<Map<String, Object>> admin_applystatus();
+	public void updateapplyDB(Map<String, Object> book_list);
+	public List<Map<String, Object>> adminapplystatus(Map<String, String> book_list);
 }

@@ -144,6 +144,11 @@ public class PageController {
 					
 					mav.addObject("booklist", booklist);
 					mav.addObject("booklistSize", booklist.size());
+					
+					List<Map<String, Object>> booklist1 = libraryService.myLib_applystatus(user_id);	
+					mav.addObject("booklist1", booklist1);
+					mav.addObject("booklistSize1", booklist1.size());
+					
 				} else if(user_id != null && bookNumber != null) {
 					
 					libraryService.updateB_BOOK_RENT(bookNumber);
@@ -256,7 +261,38 @@ public class PageController {
 				}
 				
 			} else if (pageInfo.equals("book_status_A")) {
+				String search_option = request.getParameter("search_option");
+				String search_value = request.getParameter("search_value");
+				String search_option1 = request.getParameter("search_option1");
+				String search_value1 = request.getParameter("search_value1");
 				
+				if(search_option == null && search_value == null && search_option1 == null && search_value1 == null) {
+					List<Map<String, Object>> booklist = libraryService.admin_bookstatus();		
+					List<Map<String, Object>> booklist1 = libraryService.admin_applystatus();	
+					mav.addObject("booklist", booklist);
+					mav.addObject("booklistSize", booklist.size());
+					mav.addObject("booklist1", booklist1);
+					mav.addObject("booklistSize1", booklist1.size());
+					System.out.println("111111111111111111111111111");
+				}else if (search_option != null && search_value != null && search_option1 == null && search_value1 == null) {
+					Map<String, String> book_list=new HashMap<String, String>();
+					book_list.put("search_option", search_option);
+					book_list.put("search_value", search_value);
+					
+					List<Map<String, Object>> booklist = libraryService.adminrentstatus(book_list);
+					
+					mav.addObject("booklist", booklist);
+					mav.addObject("booklistSize", booklist.size());
+				}else if (search_option == null && search_value == null && search_option1 != null && search_value1 != null) {
+					Map<String, String> book_list=new HashMap<String, String>();
+					book_list.put("search_option1", search_option1);
+					book_list.put("search_value1", search_value1);
+					
+					List<Map<String, Object>> booklist = libraryService.adminapplystatus(book_list);
+					
+					mav.addObject("booklist", booklist);
+					mav.addObject("booklistSize", booklist.size());
+				}
 			} else if (pageInfo.equals("com_A")) {
 //				List<Map<String, Object>> comRequestList=comEstaService.comEstaRequestList(request);
 //				mav.addObject("comRequestList", comRequestList);
