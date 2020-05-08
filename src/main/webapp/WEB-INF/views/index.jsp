@@ -4,14 +4,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>  
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <% request.setCharacterEncoding("UTF-8"); %>
-<!-- chatbot start -->
-<jsp:include page="chat/watson.jsp"></jsp:include>
-<!-- chatbot end -->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title><spring:message code="site.title" text="북파고"/></title>
+	<link rel="shortcut icon" href="/resources/favicon.ico">
 	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
@@ -352,5 +350,9 @@
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
+
+<!-- chatbot start -->
+<jsp:include page="chat/watson.jsp"></jsp:include>
+<!-- chatbot end -->
 </body>
 </html>

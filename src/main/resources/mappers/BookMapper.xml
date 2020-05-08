@@ -66,7 +66,7 @@
  		<selectKey keyProperty="applynumber" resultType="integer"  order="BEFORE">
 			SELECT APPLY_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_REQUEST VALUES (#{applynumber}, #{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState})
+ 		INSERT INTO B_BOOK_REQUEST VALUES (#{applynumber}, #{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState}, #{bookName})
  	</insert>
  	
  	<!-- 사용자 도서 예약 bookReservation 변경-->
@@ -126,7 +126,7 @@
  		<selectKey keyProperty="rentNumber" resultType="integer"  order="BEFORE">
 			SELECT Rent_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '')
+ 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '', '0')
  	</insert>
  	
  	<!-- 도서 대출시 도서정보변경 -->
@@ -183,5 +183,43 @@
  	<!-- 도서 신청 cnt계산 -->
  	<select id="applycnt" parameterType="String" resultType="String">
  		select count(userid) from b_book_request where userid=#{userid} and applydate like '%'||TO_CHAR(sysdate,'YYYY-MM')||'%'
+ 	</select>
+ 	
+ 	<!-- 사용자 신청현황 조회 -->
+ 	<select id="myLib_applystatus" parameterType="String" resultType="hashmap">
+ 		select * from B_BOOK_REQUEST where userid = #{user_id}
+ 	</select>
+ 	
+ 	<!-- 관리자 대출현황 조회 -->
+ 	<select id="admin_bookstatus" resultType="hashmap">
+ 		select A.userid, B.bookname, A.booknumber, TO_CHAR(a.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(a.returndate,'YYYY-MM-DD') as returndate, a.rreturndate, a.state
+		from B_BOOK_RENT A, B_BOOK_LIB B
+		where a.booknumber=b.booknumber
+		order by rentdate desc
+ 	</select>
+ 	
+ 	<!-- 관리자 대출현황 검색 -->
+ 	<select id="adminrentstatus" parameterType="hashmap" resultType="hashmap">
+ 		select A.BOOKNUMBER, A.userid, TO_CHAR(a.rentdate, 'YYYY-MM-DD') as rentdate,  TO_CHAR(a.returndate,'YYYY-MM-DD') as returndate, a.rreturndate, a.state, B.BOOKNAME
+		from B_BOOK_RENT A left outer join B_BOOK_LIB B on A.BOOKNUMBER=B.BOOKNUMBER
+		<if test='search_option == "bookName"'> where b.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "bookNumber"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "userid"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "state"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+ 	</select>
+ 	
+ 	<!-- 관리자 신청현황 조회 -->
+ 	<select id="admin_applystatus"  resultType="hashmap">
+ 		select * from B_BOOK_REQUEST
+ 	</select>
+ 	
+ 	<!-- 관리자 도서 신청 상태 변경 -->
+ 	<update id="updateapplyDB" parameterType="hashmap">
+ 		update b_book_request set applystate=#{selectVal} where applynumber = #{userid}
+ 	</update>
+ 	
+ 	<!-- 관리자 도서신청현황 검색 -->
+ 	<select id="adminapplystatus" parameterType="hashmap" resultType="hashmap">
+ 		select * from B_BOOK_REQUEST where ${search_option1} like '%'||#{search_value1}||'%'
  	</select>
 </mapper>

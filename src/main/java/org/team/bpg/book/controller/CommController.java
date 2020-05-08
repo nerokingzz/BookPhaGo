@@ -1,3 +1,4 @@
+
 package org.team.bpg.book.controller;
 
 import java.util.HashMap;
@@ -327,7 +328,6 @@ public class CommController {
 			String booklist = libraryService.searchuserid(userid);
 			if (booklist != null) {
 				book_list.put("borrowcnt", booklist);
-			}else {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -349,7 +349,6 @@ public class CommController {
 		try {
 			List<Map<String, Object>> booklist = libraryService.searchbnumber(bookNumber);
 			if (booklist != null) {
-				System.out.println(booklist);
 				book_list.put("booklist", booklist);
 			}
 		} catch (Exception e) {
@@ -419,6 +418,23 @@ public class CommController {
 		mav.addObject("booklistSize", booklist.size());
 		mav.setViewName("book/extendlist");
 		return mav;
+	}
+	
+	@Transactional
+	@RequestMapping(value = "end")
+	public @ResponseBody Map<String, Object> updateDB(@RequestBody Map<String, Object> param) {
+		String userid = (String) param.get("userid");
+		String selectVal = (String) param.get("selectVal");
+		System.out.println(userid);
+		System.out.println(selectVal);
+
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		book_list.put("userid", userid);
+		book_list.put("selectVal", selectVal);
+	
+		libraryService.updateapplyDB(book_list);
+
+		return null;
 	}
 	
 }

@@ -64,7 +64,7 @@ public class LogController {
       assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
       // assistant id
       String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
-      String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
+      filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
       this.cursor = "";
 
    }

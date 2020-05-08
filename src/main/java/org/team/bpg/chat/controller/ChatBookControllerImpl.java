@@ -21,13 +21,69 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.team.bpg.book.VO.BookInfoVO;
 import org.team.bpg.book.service.LibraryService;
+import org.team.bpg.chat.service.ChatService;
+import org.team.bpg.member.vo.MemberVO;
 
 
 @RestController
 public class ChatBookControllerImpl {
 	
 	@Autowired
+	private ChatService chatService;
+	
+	@Autowired
 	private LibraryService libraryService;
+	
+	
+	
+	@RequestMapping(value = "/searchMember.do")
+	@ResponseBody
+	public Map<String, Object> searchMember(@RequestParam(value="mem_id") String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		//String mem_id = (String)request.getParameter("mem_id");
+		System.out.println("mem_id : " + mem_id);
+		
+		request.setCharacterEncoding("utf-8");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			MemberVO searchMember = chatService.searchMember(mem_id);
+			
+			List<Map<String, Object>> rentList = libraryService.myLib_rentstatus(mem_id);
+			
+			
+			if(searchMember != null) {
+				System.out.println("name : " + searchMember.getUserName());
+				resultMap.put("username", searchMember.getUserName());
+				resultMap.put("regdate", searchMember.getRegDate());
+				resultMap.put("useremail", searchMember.getUserEmail());
+				resultMap.put("badcnt", searchMember.getBadcnt());	
+				resultMap.put("usertaste1", searchMember.getUserTaste1());		
+				resultMap.put("usertaste2", searchMember.getUserTaste2());	
+				resultMap.put("usertaste3", searchMember.getUserTaste3());	
+				
+				resultMap.put("rentList", rentList);
+				
+			}else {
+				System.out.println("searchMember is null");
+			}
+		}catch(Exception e) {
+			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
+			e.printStackTrace();
+		}
+		//mav.addObject("searchMember",searchMember);
+		return resultMap;
+	}
+
+	
+	
+	@RequestMapping("chatUserBookCheck.do")
+	public List<Map<String, Object>> ChatUserBookCheck(@RequestParam("userid") String userid){
+		System.out.println("요기로 넘어온 userid는 ...." + userid);
+		
+		List<Map<String, Object>> result = libraryService.myLib_rentstatus(userid);
+		
+		return result;
+	}
 	
 	
 	@RequestMapping("chatBookRent.do")

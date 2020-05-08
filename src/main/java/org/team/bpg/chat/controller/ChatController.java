@@ -9,5 +9,5 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public interface ChatController {
-	public Map<String, Object> searchMember(String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	//public Map<String, Object> searchMember(String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

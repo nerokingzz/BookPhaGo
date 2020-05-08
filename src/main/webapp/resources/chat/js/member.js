@@ -32,6 +32,15 @@ function checkInfo(userId){
 					memTable += "<tr><td class = 'sub'>취향1</td><td class='con'>"+result.usertaste1+"</td></tr>"	;
 					memTable += "<tr><td class = 'sub'>취향2</td><td class='con'>"+result.usertaste2+"</td></tr>"	;
 					memTable += "<tr><td class = 'sub'>취향3</td><td class='con'>"+result.usertaste3+"</td></tr>"	;
+					for(i in result.rentList){
+						if(i = 0){
+							memTable += "<tr><td class = 'sub'>대출목록</td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
+						}else{
+							memTable += "<tr><td class = 'sub'></td><td class='con'>"+result.usertaste3+"</td></tr>";
+						}
+						
+					}
+						
 					memTable += "</table>";
 
 					container.append(memTable);

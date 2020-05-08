@@ -149,7 +149,7 @@ display: none;
 				<option value="bookPublisher">출판사</option>
 			</select>
 		 	<input type="text" name="search_value" placeholder="Search..." style="width:200px; height:43.59px; border: 1px solid;">
-			<button type="submit"><i class="la la-search"></i></button>
+			<button type="submit" style=""><i class="la la-search"></i></button>
 		</form>
 	</div><!--search-bar end-->       
 
@@ -157,41 +157,40 @@ display: none;
 	
  <h3>도서정보</h3>
  
- 	
-	<table align="center" border="1">
-		<tr align="center" bgcolor="#e44d3a">
-			<td width="20%"><b>도서명</b>
-			<td width="8%"><b>도서번호</b>
-			<td width="8%"><b>저자</b>
-			<td width="8%"><b>출판사</b>
-			<td width="8%"><b>발행일</b>
-			<td width="7%"><b>장르</b>
-			<td width="8%"><b>대출여부</b>
-			<td width="4%"><b>ISBN</b>
-			<td width="5%"><b>수정</b>
-			<td width="5%"><b>삭제</b></td>
+ 	<table style="border-collapse:collapse; border:1px gray solid; text-align:center;">
+		<tr style="text-align:center;" bgcolor="#e44d3a">
+			<td width="15%" style="border:1px gray solid;"><b>도서명</b>
+			<td width="6%" style="border:1px gray solid;"><b>도서번호</b>
+			<td width="7%" style="border:1px gray solid;"><b>저자</b>
+			<td width="7%" style="border:1px gray solid;"><b>출판사</b>
+			<td width="9%" style="border:1px gray solid;"><b>발행일</b>
+			<td width="7%" style="border:1px gray solid;"><b>장르</b>
+			<td width="7%" style="border:1px gray solid;"><b>대출여부</b>
+			<td width="5%" style="border:1px gray solid;"><b>ISBN</b>
+			<td width="5%" style="border:1px gray solid;"><b>수정</b>
+			<td width="5%" style="border:1px gray solid;"><b>삭제</b></td>
 
 			<c:choose>
 				
 				<c:when test="${booklistSize gt 0 }">
 					<c:forEach var="i"  begin="1" end="${booklistSize }">
-						<tr align="center">
-							<td>${booklist.get(i-1).get("BOOKNAME") }</td>
-							<td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
-							<td>${booklist.get(i-1).get("BOOKWRITER") }</td>
-							<td>${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
-							<td>${booklist.get(i-1).get("BOOKDATE") }</td>
-							<td>${booklist.get(i-1).get("BOOKGENRE") }</td>
-							<td>${booklist.get(i-1).get("BOOKRENT") }</td>
-							<td>${booklist.get(i-1).get("ISBN") }</td>
-							<td>
+						<tr style="border-collapse:collapse; border:1px gray solid;">
+							<td style="border:1px gray solid; padding-bottom:20px;">${booklist.get(i-1).get("BOOKNAME") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKNUMBER") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKWRITER") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKPUBLISHER") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKDATE") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKGENRE") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("BOOKRENT") }</td>
+							<td style="border:1px gray solid;">${booklist.get(i-1).get("ISBN") }</td>
+							<td style="border:1px gray solid; align:center;">
 							<button onclick="window.open('modfindlibrary.do?bookNumber=${booklist.get(i-1).get('BOOKNUMBER') }','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">수정</button>
 							</td>
-							<td>
+							<td style="border:1px gray solid; align:center; padding-top:10px;">
 								<form action="admin_main.do" method="post">
 										<input type="hidden" name="page" value="book_A">
 										<input type="hidden" name="bookNumber" value="${booklist.get(i-1).get('BOOKNUMBER') }">
-										<button onclick="return check()" type="submit" aria-hidden="true">삭제</button>
+										<button style="line-height: inherit;" onclick="return check1()" type="submit" aria-hidden="true">삭제</button>
 								</form>
 							</td>
 						</tr>
@@ -227,7 +226,7 @@ display: none;
         }
     }
     
-    function check(){
+    function check1(){
     	if (confirm("삭제 하시겠습니까??") == true){    //확인
     	    return true;
     	}else{   //취소

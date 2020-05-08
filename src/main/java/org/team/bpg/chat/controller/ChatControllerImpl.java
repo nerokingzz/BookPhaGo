@@ -40,6 +40,9 @@ public class ChatControllerImpl implements ChatController{
 	
 	
 	@Autowired
+	LibraryService libraryService;
+	
+	@Autowired
 	MemberVO member;
 	
 	
@@ -82,42 +85,7 @@ public class ChatControllerImpl implements ChatController{
 		return "chat/index";
 	}
 	
-	@RequestMapping(value = "/searchMember.do")
-	@ResponseBody
-	public Map<String, Object> searchMember(@RequestParam(value="mem_id") String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//String mem_id = (String)request.getParameter("mem_id");
-		System.out.println("mem_id : " + mem_id);
-		
-		request.setCharacterEncoding("utf-8");
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		try {
-			MemberVO searchMember = service.searchMember(mem_id);
-			
-		
-			if(searchMember != null) {
-				System.out.println("name : " + searchMember.getUserName());
-				resultMap.put("username", searchMember.getUserName());
-				resultMap.put("regdate", searchMember.getRegDate());
-				resultMap.put("useremail", searchMember.getUserEmail());
-				resultMap.put("badcnt", searchMember.getBadcnt());	
-				resultMap.put("usertaste1", searchMember.getUserTaste1());		
-				resultMap.put("usertaste2", searchMember.getUserTaste2());	
-				resultMap.put("usertaste3", searchMember.getUserTaste3());	
-				
-				
-				
-			}else {
-				System.out.println("searchMember is null");
-			}
-		}catch(Exception e) {
-			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
-			e.printStackTrace();
-		}
-		//mav.addObject("searchMember",searchMember);
-		return resultMap;
-	}
-
+	
 
 	@RequestMapping(value = "/borrowBook.do"
 	// consumes = "application/json",
