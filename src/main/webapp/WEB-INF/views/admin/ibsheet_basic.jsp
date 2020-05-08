@@ -651,7 +651,39 @@ table.type11 td {
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
 <script src = "resources/chat/js/log.js" ></script>
+<script type="text/javascript">
+ 
+ $('.js-table').find('select').on('change', function(){
+	 var $row = $(this).closest('tr');
+	 var userId = $row.attr('data-user-id');
+	 var selectVal = $(this).val();
+	 //console.log(userId, selectVal);
+	 if (confirm("변경 하시겠습니까??") == true){   
+		 updateDB(userId, selectVal);
+ 	    return true;
+ 	}else{   //취소
+ 	    return false;
+ 	}
+ });
 	
+function updateDB(userid, selectVal) {
+	var user_id = {"userid" : userid, "selectVal" : selectVal};
+	
+	$.ajax({
+		url:"end.do",
+		data:JSON.stringify(user_id),
+		method:"POST",
+		contentType: "application/json",
+		success:function(data) {
+			
+			console.log("1111111111111111");
+		},error:function(request,status,error){
+			console.log("22222222222222");
+		}
+	});
+}
+
+</script>
   
 </body>
 </html>
