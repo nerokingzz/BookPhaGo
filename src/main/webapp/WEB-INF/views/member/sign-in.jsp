@@ -39,26 +39,63 @@ $(document).ready(function(){
            $("#userId").focus();
            return false;
         }
+        
+        if(($("#userId").val()).length<4 || ($("#userId").val()).length>13){
+            alert("아이디는 4~12자의 영문, 숫자로만 입력.");
+            $("#userId").focus();
+            return false;
+         }
+    
         if($("#userPass").val()==""){
             alert("비밀번호를 입력해주세요.");
             $("#userPass").focus();
             return false;
          }
-        
+             
         $.ajax({
             url : "passChk.do",
             type : "POST",
             dataType : "json",
+            async : false,
             data : $("#homeForm").serializeArray(),
             success: function(data){
                
                if(data==0){
                   alert("로그인 실패. \n아이디와 비밀번호를 확인해주세요.");
                   return false;
-              	 }  
+              	 } 
                }
-         })
+        })
+        
+         $.ajax({
+             url : "emailchecknum.do",
+             type : "POST",
+             dataType : "json",
+             async : false,
+             data : $("#homeForm").serializeArray(),
+             success: function(data){
+                
+                if(data==0){
+                   alert("이메일인증을 진행해 주세요.");
+                   return false;
+               	 }  
+                }
+          })        
+	});
+	
+	$("#sign").on("click", function(){
+		$.ajax({
+	        url : "sendMailsign",
+	        async : false,
+	        data : $("#regForm").serializeArray(),
+	        success: function(data){
+	           },
+	         error: function(){
+	        	 console.log("ajax error");
+	         }
+	     });
 	})
+
 })
 
 function test(){
@@ -76,8 +113,13 @@ function test(){
         	if(data == 1){
 				alert("이미 가입된 아이디입니다.");
 			}else if(data == 0){
+				if(($("#userId1").val()).length<3){
+					alert("사용불가 \n아이디는 4~12자의 영문, 숫자로만 입력");
+				}
+				else{
 				$("#idChk").attr("value", "Y");
 				alert("사용가능한 아이디입니다.");
+				}
 			}
            }
      })
@@ -102,10 +144,10 @@ function validate() {
 		var chk=document.regForm.cc.checked;
 		
 		
-		/* if (idChkVal == "N") {
+		if (idChkVal == "N") {
 			alert("ID중복확인 버튼을 눌러주세요.");
 			return false;
-		} */
+		}
 		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
 			$("#userId1").focus();
 			return false;
@@ -139,18 +181,31 @@ function validate() {
             alert("약관에 동의해 주세요");
             return false;
         } 
-		alert("회원가입이 완료되었습니다.");
-	}
-	function check(re, what, message) {
+		
+		alert("회원가입이 완료되었습니다.\n이메일 인증을 진행해주세요");
+
+
+/* 			$.ajax({
+		        url : "sendMailsign1",
+		        async : false,
+		        data : $("#regForm").serializeArray(),
+		        success: function(data){
+		       	alert("a");
+		           },
+		         error: function(){
+		        	 console.log("ajax error");
+		         }
+		     }) */
+
+}
+function check(re, what, message) {
 		if (re.test(what.value)) {
 			return true;
 		}
 		alert(message);
 
 		//return false;
-	}
-	
-	
+}
 
 </script>
 
@@ -210,7 +265,6 @@ function validate() {
 											<div class="col-lg-12 no-pdd">
 												<button type="submit" value="submit" id="login">로그인</button>
 											</div>
-											
 										</div>
 									</form>
 									<div class="login-resources">
@@ -301,7 +355,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste2">
-															<option value="BO">관심분야1</option>
+															<option value="BO">관심분야2</option>
 															<option value="BO000">총류</option>
 															<option value="BO001">철학</option>
 															<option value="BO002">종교</option>
@@ -320,7 +374,7 @@ function validate() {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste3">
-															<option value="BO">관심분야1</option>
+															<option value="BO">관심분야3</option>
 															<option value="BO000">총류</option>
 															<option value="BO001">철학</option>
 															<option value="BO002">종교</option>
@@ -348,15 +402,16 @@ function validate() {
 													</div>
 												</div>
 												
-													
+													<input type="hidden" name="userposition" value="general">
 													<input type="hidden" name="badcnt" value="0">
 													<input type="hidden" name="stopstart" value="0000-00-00">
 													<input type="hidden" name="stopend" value="0000-00-00">
 													<input type="hidden" name="borrowcnt" value="0">
 													<input type="hidden" name="applycnt" value="0">
 													<input type="hidden" name="reservecnt" value="0">
+													<input type="hidden" name="emailcheck" value="0">
 												<div class="col-lg-12 no-pdd">
-													<button type="submit" id="submit">회원가입</button>
+													<button type="submit" id="sign">회원가입</button>
 												</div>
 											</div>
 										</form>
