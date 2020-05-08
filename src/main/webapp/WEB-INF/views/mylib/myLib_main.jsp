@@ -550,6 +550,12 @@ table.type05 td {
 <script>
 	var test=$("#nav-password-tab").attr("href");
 	console.log(test);
+	
+	$(document).on('click', '.state', function(){
+	    var id_check = $(this).attr("id");
+	    var popUrl = "bookextend.do?bookNumber="+id_check;
+		window.open(popUrl,"","width=400,height=400");
+	});
 </script>
 
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
