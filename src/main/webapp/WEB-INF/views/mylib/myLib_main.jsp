@@ -86,6 +86,104 @@
 
 </script>
 
+<script language="javascript">
+	//시트 높이 계산용
+	var pageheightoffset = 200;
+	
+	/*Sheet 기본 설정 */
+	function LoadPage() {
+		mySheet.RemoveAll();
+		//아이비시트 초기화
+		var initSheet = {};
+		initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+		initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
+		initSheet.Cols = [
+			{Header:"繁번호", Type:"int", SaveName:"COMMUNITY_ID", MinWidth:20},
+			{Header:"신청날짜", Type:"Text", SaveName:"COMMUNITY_ESTABLISH_DATE", MinWidth:90},
+			{Header:"신청인", Type:"Text", SaveName:"COMMUNITY_CAPTAIN", MinWidth:80},
+			{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
+			{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:50},			
+			{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:200},
+			{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
+			{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
+			
+		];   
+		IBS_InitSheet( mySheet , initSheet);
+		
+		mySheet.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
+        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
+		//doAction('search');
+		
+		mySheet.SetEditable(true);
+		doAction('search');
+
+		mySheet.SetCountPosition(1);
+		mySheet.SetPagingPosition(2);
+
+	}
+
+	
+	/*Sheet 각종 처리*/
+	function doAction(sAction) {
+		
+		switch(sAction) {
+			case "search": //조회
+			    //var param = FormQueryStringEnc(document.frm);
+			
+				mySheet.DoSearch("book_history.do");
+				break;
+			case "reload": //초기화
+				mySheet.RemoveAll();
+				break;
+			case "save": // 저장
+				//var tempStr = mySheet.GetSaveString();
+				//alert("서버로 전달되는 문자열 확인 :"+tempStr);
+				var retData = mySheet.GetSaveData("com_esta_request_admin.do");
+				//mySheet.DoSave("com_esta_request_admin.do");
+				break;			
+			case "insert": //신규행 추가
+				var row = mySheet.DataInsert();
+				break;
+		}
+	}
+	
+	// 조회완료 후 처리할 작업
+	function mySheet_OnSearchEnd() {
+		
+      
+	}
+	
+	// 저장완료 후 처리할 작업
+	// code: 0(저장성공), -1(저장실패)
+	function mySheet_OnSaveEnd(code,msg){
+		if(msg != ""){
+			alert(msg);	
+			//번호 다시 매기기
+            //mySheet.ReNumberSeq();
+		}	
+	}	
+	
+	function comStsAdminIb(evtParam) {
+		var row=mySheet.GetSelectionRows();
+		var community_id = mySheet.GetCellValue(row, "COMMUNITY_ID");
+		console.log(row + "번 로우의 커뮤니티아이디는" + community_id);
+		var comStatus=mySheet.GetCellValue(row, "COMMUNITY_ESTABLISH_STATUS");
+		console.log(row + "번 로우의 커뮤니티아이디는" + community_id + "이고 변경된 상태는" + comStatus);
+		
+		$.ajax({
+			url:"com_esta_request_admin.do",
+			data:{"community_id" : community_id, "admin_sts" : comStatus},
+			method:"POST",
+			success:function(data) {
+				alert(data);
+				//location.href="admin_main.do?page=com_A";
+				location.reload();
+			}
+		});
+	}
+
+</script>
+
 <body>	
 
 	<div class="wrapper">	

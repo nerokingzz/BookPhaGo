@@ -26,6 +26,9 @@ import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
 import org.team.bpg.utils.PageVO;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 @Controller
 public class ComActController {
 
@@ -247,6 +250,107 @@ public class ComActController {
 		
 	}
 	
+	//게시판 내 검색
+	@RequestMapping(value="article_search", method=RequestMethod.POST)
+	public String articleSearch(PageVO pageVo, Model model,
+			@RequestParam(value="nowPage", required=false)String nowPage,
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> boardInfo=comActService.boardInfo(request);
+		
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		model.addAttribute("boardInfo", boardInfo);
+		model.addAttribute("comInfo", comInfo);
+		model.addAttribute("memChk", memChk);
+		model.addAttribute("memAuth", memAuth);
+		
+		String board_category=comActService.boardCategory(request);
+		System.out.println("이 게시판의 종류" + board_category);
+		
+		if (board_category.equals("BD000")) {
+			
+			//일반게시판일때
+			int articleCount = comActService.countSearchArticle(request);
+			System.out.println("검색 글 갯수" + articleCount);
+			
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) { 
+				cntPerPage = "10";
+			}
+			
+			System.out.println("nowPage:" + nowPage);
+			System.out.println("cntPerPage:" + cntPerPage);
+			
+			pageVo = new PageVO(articleCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			List<ArticleInfoVO> articleSearchList=comActService.articleSearchList(pageVo, request);
+			
+			model.addAttribute("paging", pageVo);
+			model.addAttribute("articleList", articleSearchList);
+			model.addAttribute("articleListSize", articleSearchList.size());
+			
+		} else if (board_category.equals("BD001")) {
+			
+			//투표게시판일때
+			
+			//현재 진행중인 투표 가져오기
+			Map<String, Object> ingVote=comActService.voteIng(request).get(0);
+			String dbEndDate=(String) ingVote.get("VOTE_END");
+			String[] endDate=dbEndDate.split("-");
+			String voteYear=endDate[0];
+			String voteMonth=endDate[1];
+			String voteDate=endDate[2];
+			
+			String voteEndDate=voteYear+voteMonth+voteDate;
+			
+			System.out.println("투표끝날짜 : " + voteEndDate);
+			
+			Calendar cal = Calendar.getInstance();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String todayDate = sdf.format(cal.getTime());
+			
+			System.out.println("오늘날짜 : " + todayDate);
+			
+			String voteIngChk="x";
+			
+			if (Integer.parseInt(voteEndDate) > Integer.parseInt(todayDate)) {
+				voteIngChk="o";
+			}
+			
+			int voteCount = comActService.countvote(request);
+			System.out.println("투표 갯수" + voteCount);
+			
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) { 
+				cntPerPage = "10";
+			}
+			
+			pageVo = new PageVO(voteCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			List<VoteInfoVO> voteList=comActService.voteList(pageVo, request);
+			model.addAttribute("paging", pageVo);
+			model.addAttribute("voteList", voteList);
+			model.addAttribute("voteListSize", voteList.size());
+			
+			model.addAttribute("ingVote", ingVote);
+			model.addAttribute("voteIngChk", voteIngChk);
+
+		}
+		return "com/act/board";
+		
+	}
+	
 	//커뮤니티 가입하기 폼 보여주기
 	@RequestMapping(value="com_act_mem_form", method=RequestMethod.GET)
 	public ModelAndView comActMemForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -294,8 +398,8 @@ public class ComActController {
 		//원댓글 가져오기
 		List<Map<String, Object>> replyList=comActService.replyList(request);
 		
-		//대댓글 가져오기
-		List<Map<String, Object>> reReplyList=comActService.reReplyList(request);
+//		//대댓글 가져오기
+//		List<Map<String, Object>> reReplyList=comActService.reReplyList(request);
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -318,12 +422,29 @@ public class ComActController {
 		mav.addObject("replyCount", replyCount);
 		mav.addObject("replyList", replyList);
 		mav.addObject("replyListSize", replyList.size());
-		mav.addObject("reReplyList", reReplyList);
-		mav.addObject("reReplyListSize", reReplyList.size());
+		//mav.addObject("reReplyList", reReplyList);
+		//System.out.println("대댓글목록:"+reReplyList);
+		//mav.addObject("reReplyListSize", reReplyList.size());
 		
 		mav.setViewName("com/act/article");
 		
 		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="re_reply_list", method=RequestMethod.POST)
+	public List<Map<String, Object>> reReplyList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String article_id=request.getParameter("article_id");
+		String bundle_id= request.getParameter("bundle_id");
+		
+		Map<String, Object> info=new HashMap<>();
+		info.put("article_id", article_id);
+		info.put("bundle_id", bundle_id);
+		
+		List<Map<String, Object>> reReList=comActService.reReplyList(info);
+		return reReList;
+		
 	}
 	
 	//글쓰기 화면 보여주기
@@ -664,7 +785,6 @@ public class ComActController {
 	@ResponseBody
 	@RequestMapping(value="re_reply_submit", method=RequestMethod.POST)
 	public void reReplySubmit(@ModelAttribute ReplyInfoVO replyInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("넘어온VO" + replyInfoVo);
 		comActService.reReplySubmit(replyInfoVo);
 	}
 	

@@ -31,9 +31,6 @@
 	
 <script type="text/javascript">
 	
-	console.log('${voteIngChk}');
-	
-	
 	function articleWrite() {
 		location.href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }";
 	}
@@ -53,6 +50,7 @@
 	function voteReqAdmin() {
 		var newWin=window.open("vote_request_list.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }", "투표주제신청내역", "width=500, height=500");
 	}
+
 	
 </script>
 
@@ -251,160 +249,187 @@
 										</c:choose>
 										
 									</div><!--post-topbar end-->
+									
+									
 									<div class="posts-section">
 				                    	<div class="col-12">
-				                        <div class="freelancerbiding">
-				                        	<c:choose>
-				                        		<c:when test="${boardInfo.get('BOARD_CATEGORY') eq 'BD000'}">
-						                      		<div class="row">
-						                                <div class="col-md-1 col-sm-1">
-						                                    <h6>글번호</h6>
-						                                </div>
-						                                <div class="col-md-4 col-sm-4">
-						                                	<h6>글제목</h6>
-						                                </div>
-						                                <div class="col-md-2 col-sm-2">
-						                                    <h6>작성자</h6>
-						                                </div>
-						                                <div class="col-md-2 col-sm-2">
-						                                	<h6>날짜</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                    <h6>조회수</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                	<h6>좋아요</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                	<h6>싫어요</h6>
-						                                </div>
-						                            </div>
-				                            
-						                            <c:forEach var="i" begin="1" end="${articleListSize}">
-						                            <hr>
-						                            <div class="row">
-						                                <div class="col-md-1 col-sm-1">
-						                                    <h6>${articleList.get(i-1).getArticle_id()}</h6>
-						                                </div>
-						                                <div class="col-md-4 col-sm-4">
-						                                	<h6><a href="com_article.do?article_id=${articleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${articleList.get(i-1).getArticle_title()}</a></h6>
-						                                </div>
-						                                <div class="col-md-2 col-sm-2">
-						                                    <h6>${articleList.get(i-1).getArticle_writer()}</h6>
-						                                </div>
-						                                <div class="col-md-2 col-sm-2">
-						                                	<h6>${articleList.get(i-1).getArticle_date()}</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                    <h6>${articleList.get(i-1).getArticle_view_count()}</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                	<h6>${articleList.get(i-1).getArticle_good_count()}</h6>
-						                                </div>
-						                                <div class="col-md-1 col-sm-1">
-						                                	<h6>${articleList.get(i-1).getArticle_bad_count()}</h6>
-						                                </div>
-						                            </div>
-						                            </c:forEach>
-						                            
-						                          	<hr>
-						                          	
-										            <nav aria-label="Page navigation example" class="full-pagi">
-														<ul class="pagination">
-															<c:if test="${paging.startPage != 1 }">
-																<li class="page-item"><a a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
-															</c:if>	
-															
-															<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-																<c:choose>
-																	<c:when test="${p == paging.nowPage }">
-																		<li class="page-item"><a class="page-link active">${p }</a></li>
-																	</c:when>
-																	<c:when test="${p != paging.nowPage }">
-																		<li class="page-item"><a class="page-link" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
-																	</c:when>
-																</c:choose>
-															</c:forEach>
-															
-															<c:if test="${paging.endPage != paging.lastPage}">
-																<li class="page-item"><a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
-															</c:if>
-														</ul>
-													</nav>
-				                        		</c:when>
-				                        		
-				                        		<c:when test="${boardInfo.get('BOARD_CATEGORY') eq 'BD001'}">
-				                        			<c:choose>
-														<c:when test="${voteIngChk eq 'o' }">
-															<div class="bids-detail">
-																<div class="row">
-																	<h1>진행중 투표</h1>
-								                                    <div class="col-12 appliedjob">
-																		<h2><a href="ing_vote_form.do?vote_id=${ingVote.get('VOTE_ID') }&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${ingVote.get('VOTE_TITLE') }</a></h2>			
-								                                        <div class="bids-time">
-								                                           <h3>${ingVote.get('VOTE_START') } ~ ${ingVote.get('VOTE_END') }</h3>
-								                                        </div>
-								                                    </div>
-								                                 </div>
+				                    	<c:choose>
+											<c:when test="${articleListSize <= 0}">
+												<h3>결과가 존재하지 않습니다</h3>
+												<a onclick="history.back();" >뒤로가기</a>
+											</c:when>
+											<c:otherwise>
+												<div class="freelancerbiding">
+					                        	<c:choose>
+					                        		<c:when test="${boardInfo.get('BOARD_CATEGORY') eq 'BD000'}">
+					                        		
+															<form action="article_search.do" method="post">
+																<select name="search_option">
+																    <option value="">조건</option>
+																    <option value="article_title">제목</option>
+																    <option value="article_writer">작성자</option>
+																    <option value="article_content">내용</option>
+																</select>
+																<input type="text" name="search_keyword" placeholder="게시판 내 검색">
+																<input type="hidden" name="community_id" value="${comInfo.get('COMMUNITY_ID') }">
+																<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">
+																<button type="submit">검색</button>
+															</form>
+					                        			
+							                      		<div class="row">
+							                                <div class="col-md-1 col-sm-1">
+							                                    <h6>글번호</h6>
 							                                </div>
-														</c:when>
-				                        			</c:choose>
-				                        			
-				                        		
-
-													
-													<h1>마감된 투표</h1>
-													<div class="row">
-						                                <div class="col-md-2 col-sm-2">
-						                                    <h6>번호</h6>
-						                                </div>
-						                                <div class="col-md-10 col-sm-10">
-						                                	<h6>주제</h6>
-						                                </div>
-						                            </div>	
-						                            
-						                            <c:forEach var="i" begin="1" end="${voteListSize}">
-						                            <hr>
-						                            <div class="row">
-						                                <div class="col-md-2 col-sm-2">
-						                                    <h6>${voteList.get(i-1).getVote_id()}</h6>
-						                                </div>
-						                                <div class="col-md-10 col-sm-10">
-						                                	<h6><a href="com_vote.do?vote_id=${voteList.get(i-1).getVote_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${voteList.get(i-1).getVote_title()}</a></h6>
-
-						                                </div>
-						                            </div>
-						                            </c:forEach>
-						                            
-						                            <hr>
-						                          	
-										            <nav aria-label="Page navigation example" class="full-pagi">
-														<ul class="pagination">
-															<c:if test="${paging.startPage != 1 }">
-																<li class="page-item"><a a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
-															</c:if>	
+							                                <div class="col-md-4 col-sm-4">
+							                                	<h6>글제목</h6>
+							                                </div>
+							                                <div class="col-md-2 col-sm-2">
+							                                    <h6>작성자</h6>
+							                                </div>
+							                                <div class="col-md-2 col-sm-2">
+							                                	<h6>날짜</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                    <h6>조회수</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                	<h6>좋아요</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                	<h6>싫어요</h6>
+							                                </div>
+							                            </div>
+					                            
+							                            <c:forEach var="i" begin="1" end="${articleListSize}">
+							                            <hr>
+							                            <div class="row">
+							                                <div class="col-md-1 col-sm-1">
+							                                    <h6>${articleList.get(i-1).getArticle_id()}</h6>
+							                                </div>
+							                                <div class="col-md-4 col-sm-4">
+							                                	<h6><a href="com_article.do?article_id=${articleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${articleList.get(i-1).getArticle_title()}</a></h6>
+							                                </div>
+							                                <div class="col-md-2 col-sm-2">
+							                                    <h6>${articleList.get(i-1).getArticle_writer()}</h6>
+							                                </div>
+							                                <div class="col-md-2 col-sm-2">
+							                                	<h6>${articleList.get(i-1).getArticle_date()}</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                    <h6>${articleList.get(i-1).getArticle_view_count()}</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                	<h6>${articleList.get(i-1).getArticle_good_count()}</h6>
+							                                </div>
+							                                <div class="col-md-1 col-sm-1">
+							                                	<h6>${articleList.get(i-1).getArticle_bad_count()}</h6>
+							                                </div>
+							                            </div>
+							                            </c:forEach>
+							                            
+							                          	<hr>
+							                          	
+											            <nav aria-label="Page navigation example" class="full-pagi">
+															<ul class="pagination">
+																<c:if test="${paging.startPage != 1 }">
+																	<li class="page-item"><a a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+																</c:if>	
+																
+																<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+																	<c:choose>
+																		<c:when test="${p == paging.nowPage }">
+																			<li class="page-item"><a class="page-link active">${p }</a></li>
+																		</c:when>
+																		<c:when test="${p != paging.nowPage }">
+																			<li class="page-item"><a class="page-link" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+																		</c:when>
+																	</c:choose>
+																</c:forEach>
+																
+																<c:if test="${paging.endPage != paging.lastPage}">
+																	<li class="page-item"><a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+																</c:if>
+															</ul>
+														</nav>
+														
+					                        		</c:when>
+					                        		
+					                        		<c:when test="${boardInfo.get('BOARD_CATEGORY') eq 'BD001'}">
+					                        			<c:choose>
+															<c:when test="${voteIngChk eq 'o' }">
+																<div class="bids-detail">
+																	<div class="row">
+																		<h1>진행중 투표</h1>
+									                                    <div class="col-12 appliedjob">
+																			<h2><a href="ing_vote_form.do?vote_id=${ingVote.get('VOTE_ID') }&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${ingVote.get('VOTE_TITLE') }</a></h2>			
+									                                        <div class="bids-time">
+									                                           <h3>${ingVote.get('VOTE_START') } ~ ${ingVote.get('VOTE_END') }</h3>
+									                                        </div>
+									                                    </div>
+									                                 </div>
+								                                </div>
+															</c:when>
+					                        			</c:choose>
+					                        		
+														<h1>마감된 투표</h1>
+														<div class="row">
+							                                <div class="col-md-2 col-sm-2">
+							                                    <h6>번호</h6>
+							                                </div>
+							                                <div class="col-md-10 col-sm-10">
+							                                	<h6>주제</h6>
+							                                </div>
+							                            </div>	
+							                            
+							                            <c:forEach var="i" begin="1" end="${voteListSize}">
+							                            <hr>
+							                            <div class="row">
+							                                <div class="col-md-2 col-sm-2">
+							                                    <h6>${voteList.get(i-1).getVote_id()}</h6>
+							                                </div>
+							                                <div class="col-md-10 col-sm-10">
+							                                	<h6><a href="com_vote.do?vote_id=${voteList.get(i-1).getVote_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${voteList.get(i-1).getVote_title()}</a></h6>
+	
+							                                </div>
+							                            </div>
+							                            </c:forEach>
+							                            
+							                            <hr>
+							                          	
+											            <nav aria-label="Page navigation example" class="full-pagi">
+															<ul class="pagination">
+																<c:if test="${paging.startPage != 1 }">
+																	<li class="page-item"><a a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+																</c:if>	
+																
+																<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+																	<c:choose>
+																		<c:when test="${p == paging.nowPage }">
+																			<li class="page-item"><a class="page-link active">${p }</a></li>
+																		</c:when>
+																		<c:when test="${p != paging.nowPage }">
+																			<li class="page-item"><a class="page-link" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+																		</c:when>
+																	</c:choose>
+																</c:forEach>
+																
+																<c:if test="${paging.endPage != paging.lastPage}">
+																	<li class="page-item"><a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+																</c:if>
+															</ul>
 															
-															<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-																<c:choose>
-																	<c:when test="${p == paging.nowPage }">
-																		<li class="page-item"><a class="page-link active">${p }</a></li>
-																	</c:when>
-																	<c:when test="${p != paging.nowPage }">
-																		<li class="page-item"><a class="page-link" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
-																	</c:when>
-																</c:choose>
-															</c:forEach>
-															
-															<c:if test="${paging.endPage != paging.lastPage}">
-																<li class="page-item"><a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
-															</c:if>
-														</ul>
-													</nav>                        		
-				                        		</c:when>
-				                        	</c:choose>
-
-
-				                        </div>
+														</nav>
+														
+					                        		</c:when>
+					                        	</c:choose>
+					                        	
+	
+					                        </div>
+											</c:otherwise>
+										</c:choose>
+				                    	
+				                    	
+				                        
 				                    	</div>
 									</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->

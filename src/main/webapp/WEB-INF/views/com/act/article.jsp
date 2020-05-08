@@ -101,9 +101,8 @@
 	var replyWriterList=new Array();
 	var replyDepthList=new Array();
 	var bundleOrderList=new Array();
-	var replyDateList=new Array();
-
-	$(document).ready(function() {
+	
+	function reReplySubmit(i) {
 		
 		//index 배열
 		$("input[name=re_index]").each(function(index, item) {
@@ -135,32 +134,20 @@
 			replyDepthList.push($(item).val());
 		});
 		
-		//reply_date 배열
-		$("input[name=re_reply_date]").each(function(index, item) {
-			replyDateList.push($(item).val());
-		});
-
 		//bundle_order 배열
 		$("input[name=re_bundle_order]").each(function(index, item) {
 			bundleOrderList.push($(item).val());
 		});
-		
-		
-
-	});
-	
-	function reReplySubmit(i) {
 		
 		var bundle_id=bundleIdList[i-1];
 		var article_id=articleIdList[i-1];
 		var reply_content=replyContentList[i-1];
 		var reply_writer=replyWriterList[i-1];
 		var reply_depth=replyDepthList[i-1];
-		var reply_date=replyDateList[i-1];
 		var bundle_order=bundleOrderList[i-1];
 		
-		alert("reply_date" + reply_date);
-		alert("reply_content" + reply_content);
+		var date=new Date();
+		var reply_date=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
 		
 		$.ajax({
 			type:"POST",
@@ -174,18 +161,85 @@
 		})
 	}
 	
+	var flag=true;
 	
+	function openReReply(bundle_id, index) {
+		
+		console.log("열려고 하는 번들아이디" + bundle_id);
+		console.log("열려고 하는 인덱스" + index); //이 인덱스번호에 위치한 곳에 대댓글리스트를 뿌려야됨
+		
+		var article_id=${articleInfo.get("ARTICLE_ID") };
+		
+		$.ajax({
+			type:"POST",
+			url:"re_reply_list.do",
+			//contentType: 'application/json; charset=utf-8',
+			data:{"article_id" : article_id, "bundle_id" : bundle_id},
+			success:function(data) {
+				
+				console.log("이거");
+				console.log($("div[id=re-re-content_" + index + "]").selector);
+				
+				console.log("이 댓글에 달린 대댓글들");
+				
+				if (flag == true) {
+					
+					if (data.length > 0) {
+						$($("div[id=re-re-content_" + index + "]")).fadeIn(0);
+						
+						for (var i=0; i<data.length; i++) {
+							console.log(data[i].REPLY_CONTENT);
+							console.log(data[i].REPLY_DATE);
+							console.log(data[i].REPLY_WRITER);
+							
+							$($("div[id=re-re-content_" + index + "]")).append("<div class='post_topbar'>");
+							$($("div[id=re-re-content_" + index + "]")).append("<div class='usy-dt'>");
 
-</script>
-
-<script type="text/javascript">
-	var memNick='${memNick}';
-	var user_id='${user_id}';
-	var article_writer='${articleInfo.get("ARTICLE_WRITER")}';
+							//$($("div[id=re-re-content_" + index + "]")).append("<div class='usy-name'><h3>" + data[i].REPLY_WRITE + "</h3><span><img src='${contextPath}/resources/bootstrap/images/clock.png'>" + data[i].REPLY_DATE + "</span></div>");
+							//$($("div[id=re-re-content_" + index + "]")).append("<div class='usy-name'><h3>" + data[i].REPLY_WRITE + "</h3>" + data[i].REPLY_DATE + "</span></div>");
+							$($("div[id=re-re-content_" + index + "]")).append("<div class='usy-name'>");
+							
+							$($("div[id=re-re-content_" + index + "]")).append("<h3>" + data[i].REPLY_CONTENT + "</h3>");
+							$($("div[id=re-re-content_" + index + "]")).append("<span><img src='${contextPath}/resources/bootstrap/images/clock.png'>" + data[i].REPLY_DATE + "-" + data[i].REPLY_WRITER + "</span>");
+							
+							
+							$($("div[id=re-re-content_" + index + "]")).append("</div>");
+							
+							
+							$($("div[id=re-re-content_" + index + "]")).append("</div>");
+							
+							$($("div[id=re-re-content_" + index + "]")).append("</div>");
+							
+							$($("div[id=re-re-content_" + index + "]")).append("<hr>");
+							
+							
+							
+							
+/* 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_CONTENT + "</div>");
+							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_DATE + "</div>");
+							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_WRITER + "</div>"); */
+							
+							
+						}
+					} else {
+						$($("div[id=re-re-content_" + index + "]")).fadeIn(0);
+						$($("div[id=re-re-content_" + index + "]")).append("<div>댓글이 없습니다</div>");
+					}
+					flag=false;
+				}
+			}
+		})
+	}
 	
-	console.log("memNick:" + memNick);
-	console.log("user_id:" + user_id);
-	console.log("article_writer:" + article_writer);
+	function closeReReply(bundle_id, index) {
+		var article_id=${articleInfo.get("ARTICLE_ID") };
+		
+		$($("div[id=re-re-content_" + index + "]")).text("");
+		$($("div[id=re-re-content_" + index + "]")).fadeOut(0);
+		
+		flag=true;
+	}
+
 </script>
 
 <body>	
@@ -413,7 +467,7 @@
                                             </div>
                                             
                                             <div class="comment-area">
-                                            	<c:forEach var="i" begin="1" end="${replyListSize}">
+                                            	<c:forEach var="i" begin="1" end="${replyListSize}" varStatus="loop">
                                             	<div class="post_topbar">
                                                     <div class="usy-dt">
                                                         <div class="usy-name">
@@ -425,20 +479,24 @@
                                                 <div class="reply-area">
                                                     <p>${replyList.get(i-1).get("REPLY_CONTENT")}</p>
                                                     
-                                                    <div class="comment-area reply-rply1">
-                                                        <div class="post_topbar">
-                                                            <div class="usy-dt">
-                                                                <img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
-                                                                <div class="usy-name">
-                                                                    <h3>대댓글작성자</h3>
-                                                                    <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">대댓글작성날짜</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="reply-area">
-                                                            <p>대댓글내용</p>
-                                                        </div>
-                                                    </div>
+														<a onclick="openReReply('${replyList.get(i-1).get('BUNDLE_ID')}', ${i-1 })">열기</a>
+														<a onclick="closeReReply('${replyList.get(i-1).get('BUNDLE_ID')}', ${i-1 })">닫기</a>
+														   
+														                                                 
+	                                                     <div class="comment-area reply-rply1" id="re-re-content_${loop.current-1}" style="display:none;">
+	                                                        <%-- <div class="post_topbar">
+	                                                            <div class="usy-dt">                                                                                                                                                                                                                                                                          
+	                                                                <img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
+	                                                                <div class="usy-name">
+	                                                                    <h3>대댓글작성자</h3>
+	                                                                    <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">대댓글작성날짜</span>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
+	                                                        <div class="reply-area">
+	                                                            <p>대댓글내용</p>
+	                                                        </div> --%>
+	                                                    </div> 
                                                     
                                                     	<div id="re-re-form">
 			                                                <div class="row">
@@ -448,12 +506,11 @@
 			                                                            <div class="form-group">
 			                                                            	<input type="hidden" name="re_index" value="${i}">
 			                                                            	<input type="hidden" name="re_article_id" value="${articleInfo.get('ARTICLE_ID') }">
-			                                                            	<input type="text" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
+			                                                            	<input type="hidden" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
  			                                                                <input type="text" class="form-control" style="margin-left: 0px" name="re_reply_content" placeholder="댓글을 입력해주세요">
 			                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
 			                                                                <input type="hidden" name="re_reply_depth" value="1">
 			                                                      			<input type="hidden" name="re_bundle_order" value="1">
-			                                                      			<input type="text" name="re_reply_date" id="current_info">
 			                                                            </div>
 			                                                        </form>
 			                                                    </div>
