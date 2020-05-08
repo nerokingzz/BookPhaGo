@@ -198,7 +198,6 @@
 		    <version>2.9.4</version>
 		</dependency>
 		
-<<<<<<< HEAD
 		<!-- member 비밀번호 암호화 -->
 	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
@@ -222,20 +221,6 @@
 			<version>5.0.8.RELEASE</version>
 		</dependency>
 
-=======
-		<!-- 채팅할때 데이터들 json으로 다루기 위해 필요한것들 -->
-		<dependency>
-    		<groupId>org.json</groupId>
-    		<artifactId>json</artifactId>
-    		<version>20190722</version>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-  
->>>>>>> branch 'master' of https://github.com/nerokingzz/BookPhaGo.git
 	 	<!-- 파일 업로드 -->
 		<dependency>
     		<groupId>commons-fileupload</groupId>

@@ -70,21 +70,39 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
 
       
       clearButton.on('click',function(){
-  		
+
+    	
   		var messageHolder = $('.WAC__message').parent();
+  		console.log("parents' id is... " + messageHolder.attr('id'));
   		
   		messageHolder.empty();
-  		
+	
   		
   		const sendObject = {
   				  "input": {
   				    "message_type": "text",
   				    "text": "welcome"
+  				  },
+  				  /*
+  				  "history": {
+  					  "getWelcome" : "true"
+  				  },*/
+  				  "skills" : {
+  					  "main skill":{
+  						  "user_defined":{
+  			  				 "check_me": false,
+  			  				 "is_login": false,
+  			  				 "username": null,
+  			  				 "need_menu": true,
+  			  				 "borrow_okay": false,
+  			  				 "borrow_bookNumber": null
+  			  				  
+  						  }
+  					  }
   				  }
   				};
   		const sendOptions = {
-  			"silent": true,
-  			"getWelcome" : false
+  			"silent": true
   		};
   		
   		try{

@@ -54,7 +54,7 @@ public class LogController {
 
    public IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
    public Assistant assistant = new Assistant("2020-05-01", authenticator);
-   public String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
+   public String filter;
    public long pageLimit = 2000;
    public String cursor = "";
 
@@ -64,7 +64,7 @@ public class LogController {
       assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
       // assistant id
       String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
-      
+      String filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
       this.cursor = "";
 
    }
@@ -242,16 +242,15 @@ public class LogController {
       String filter = this.filter;
       
       //startDate와 endDate를 yyyy-MM-dd 형식으로 바꿔주는 구문
-      SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
+      SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM-dd");
       Date date = new Date();
       String dateStr = format1.format(date);
       
-      
-      filter += ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
+      String todayFilter = this.filter + ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
       
       while (true) {
          
-         ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
+         ListAllLogsOptions options = new ListAllLogsOptions.Builder(todayFilter).pageLimit(pageLimit).cursor(cursor).build();
 
          LogCollection response = assistant.listAllLogs(options).execute().getResult();
 

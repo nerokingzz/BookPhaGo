@@ -17,34 +17,30 @@ const options = {
    // 챗봇 메시지를 받기 전 설정해야하는 부분
    function preRecieve(event){
       console.log('pre:receive');
+      if(event.data.context){
+    	  var user_defined = event.data.context.skills['main skill'].user_defined;
+          var search_bookName = JSON.stringify(event.data.context.skills['main skill'].user_defined.search_bookName);
 
-      var user_defined = event.data.context.skills['main skill'].user_defined;
-      var search_bookName = JSON.stringify(event.data.context.skills['main skill'].user_defined.search_bookName);
 
+          checkId(event);
 
-      checkId(event);
-
-      
-      
-      
-      if(search_bookName != undefined && search_bookName != "null" && search_bookName != null){
-         console.log("search_bookName : " + search_bookName);
-         setTimeout(function(){
-            chat_searchBook(event);
-         }, 50);
+          
+          
+          
+          if(search_bookName != undefined && search_bookName != "null" && search_bookName != null){
+             console.log("search_bookName : " + search_bookName);
+             setTimeout(function(){
+                chat_searchBook(event);
+             }, 50);
+          }
+          var chat_userName = user_defined.username;
+          var userRequest = user_defined.gita_userRequest;
+          
+          if(userRequest != null && userRequest != undefined){
+             sendMail(chat_userName, userRequest);
+          }
       }
-      var chat_userName = user_defined.username;
-      var userRequest = user_defined.gita_userRequest;
       
-      if(userRequest != null && userRequest != undefined){
-         sendMail(chat_userName, userRequest);
-      }
-      
-      
-
-      
-
-
    }
    
    
@@ -164,7 +160,9 @@ const options = {
       console.log("preSend.....");
       console.log(event);
 	   //도서 대출 메소드
-	   var isBorrow = user_defined.is_borrow;
+      if(user_defined){
+    	  var isBorrow = user_defined.is_borrow;
+      }
 	   if(isBorrow == true){
 		   	chatRentBook(event);
 	   }
