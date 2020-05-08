@@ -126,7 +126,7 @@
  		<selectKey keyProperty="rentNumber" resultType="integer"  order="BEFORE">
 			SELECT Rent_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '')
+ 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '', '0')
  	</insert>
  	
  	<!-- 도서 대출시 도서정보변경 -->
