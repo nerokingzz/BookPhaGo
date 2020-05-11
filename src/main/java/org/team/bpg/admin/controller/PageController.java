@@ -119,7 +119,8 @@ public class PageController {
 	}
 	
 	//마이라이브러리메뉴 첫 화면 보여주기
-	@RequestMapping(value="myLib_main", method=RequestMethod.GET)
+	//@RequestMapping(value="myLib_main", method=RequestMethod.GET)
+	@RequestMapping(value="myLib_main")
 	public ModelAndView declareMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String pageInfo=(String)request.getParameter("page");
 		System.out.println(pageInfo + "로 이동");

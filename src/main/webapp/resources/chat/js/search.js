@@ -66,10 +66,11 @@ function chat_searchBook(event){
 					labletrs.css('background-color','#E44D3A');
 					labletrs.css('border-radius','8px');
 					labletrs.css('color','white');
+					labletrs.css('margin-left','7px');
 					
 					
 					var contds = $('.chatSearchTable .con');
-					contds.css("width", '250px');
+					contds.css("width", '220px');
 					contds.css('height','auto');
 					
 					

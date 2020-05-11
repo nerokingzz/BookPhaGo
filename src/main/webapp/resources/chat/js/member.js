@@ -29,14 +29,14 @@ function checkInfo(userId){
 					memTable += "<tr><td class = 'sub'>가입일</td><td class='con'>"+result.regdate+"</td></tr>"	;
 					memTable += "<tr><td class = 'sub'>이메일</td><td class='con'>"+result.useremail+"</td></tr>"	;
 					memTable += "<tr><td class = 'sub'>경고 횟수</td><td class='con'>"+result.badcnt+"</td></tr>"	;
-					memTable += "<tr><td class = 'sub'>취향1</td><td class='con'>"+result.usertaste1+"</td></tr>"	;
-					memTable += "<tr><td class = 'sub'>취향2</td><td class='con'>"+result.usertaste2+"</td></tr>"	;
-					memTable += "<tr><td class = 'sub'>취향3</td><td class='con'>"+result.usertaste3+"</td></tr>"	;
+					memTable += "<tr><td class = 'sub'>도서 취향</td><td class='con'>"+result.usertaste1+"</td></tr>"	;
+					memTable += "<tr><td></td><td class='con'>"+result.usertaste2+"</td></tr>"	;
+					memTable += "<tr><td></td><td class='con'>"+result.usertaste3+"</td></tr>"	;
 					for(i in result.rentList){
-						if(i = 0){
-							memTable += "<tr><td class = 'sub'>대출목록</td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
+						if(i == 0){
+							memTable += "<tr><td class = 'sub'>대출 목록</td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
 						}else{
-							memTable += "<tr><td class = 'sub'></td><td class='con'>"+result.usertaste3+"</td></tr>";
+							memTable += "<tr><td></td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
 						}
 						
 					}
@@ -69,7 +69,7 @@ function checkInfo(userId){
 					
 					
 					var contds = $('.memTable .con');
-					contds.css("width", '250px');
+					contds.css("width", '220px');
 					contds.css('height','auto');
 					
 			
@@ -77,6 +77,7 @@ function checkInfo(userId){
 			
 			},
 			error : function(result, status, error){
+				var container = $('.chatMember').last();
 				container.append("error alert!");
 			}
 		})

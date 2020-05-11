@@ -1,10 +1,6 @@
 
    
-const options = {
-      integrationID: "92a948a5-7b50-4302-b42a-b5664494afab", // The ID of this integration.
-      region: "kr-seo", // The region your integration is hosted in.
-      showLauncher: false
-   };
+
    
    
    //메시지 윈도우를 열 때 설정해야하는 부분
@@ -39,6 +35,10 @@ const options = {
           if(userRequest != null && userRequest != undefined){
              sendMail(chat_userName, userRequest);
           }
+          
+          
+
+
       }
       
    }
@@ -121,7 +121,7 @@ const options = {
          setTimeout(function(){
             console.log('in setTimeout');
             checkInfo(chat_userId);
-         }, 1000);
+         }, 100);
       }
       
       
@@ -162,9 +162,19 @@ const options = {
 	   //도서 대출 메소드
       if(user_defined){
     	  var isBorrow = user_defined.is_borrow;
+    	  var isReturn = user_defined.is_return;
+    	  var isExtend = user_defined.is_extend;
       }
 	   if(isBorrow == true){
 		   	chatRentBook(event);
+	   }
+	   if(isReturn == true){
+		   chatReturnBook(event);
+	   }
+	   
+      
+      if(event.data.input.text.includes("연장") || isExtend == true){
+		  chatExtendBook(event);
 	   }
 
    }

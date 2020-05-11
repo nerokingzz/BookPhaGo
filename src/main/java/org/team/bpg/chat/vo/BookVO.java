@@ -47,7 +47,6 @@ public class BookVO {
 	}
 
 	public BookVO() {
-		System.out.println("bookVO 호출");
 	}
 
 	

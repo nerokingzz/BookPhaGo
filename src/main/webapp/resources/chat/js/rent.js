@@ -23,8 +23,10 @@ function chatRentBook(event){
 				event.data.context.skills['main skill'].user_defined.borrow_id_okay = true;
 				//borrowId의 검사 결과가 유효하지 않았을 때
 			}else{
+				event.data.context.skills['main skill'].user_defined.borrow_id_okay = null;
 			}
 		}else{
+			console.log("borrowId에 문제가 있는듯합니다이00");
 		}
 		
 	}
@@ -108,7 +110,7 @@ function isThatYes(input){
 
 //'도서 대출- 관리자' 에서 입력받은 사용자 아이디가 유효한지 && 검사 및 대출가능 권수가 0 이하가 아닌지 검사하는 method
 function checkRentID(userid){
-	var result = false;
+	var rentResult = false;
 	
 	var a = {"userid" : userid};
 	
@@ -121,9 +123,9 @@ function checkRentID(userid){
 		success:function(data) {
 			
 			var bookCount = data.borrowcnt;
-			
+			console.log("이 넘이 현재까지 빌린 도서 권 수는...." + bookCount);
 			if((2-bookCount) > 0){
-				result = true;
+				rentResult = true;
 				  
 			}else{
 			}
@@ -133,7 +135,7 @@ function checkRentID(userid){
 			console.log("ajax error");
 		}
 	})
-	return result;
+	return rentResult;
 }
 
 

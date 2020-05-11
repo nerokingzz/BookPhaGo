@@ -17,6 +17,23 @@
 	</resultMap>
 	
 	
+	
+	 	<!-- 연장 가능한 도서 조회 -->
+ 	<select id="chat_extendBook" parameterType="hashmap" resultType="hashmap">
+ 		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
+		from B_BOOK_LIB A, B_BOOK_RENT B
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id} and A.BOOKNUMBER = #{bookNumber}  and B.state = '대출중'
+ 	</select>
+	
+	
+	 	<!-- 채팅을 통한 대출현황 조회 -->
+ 	<select id="chat_rentstatus" parameterType="String" resultType="hashmap">
+ 		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
+		from B_BOOK_LIB A, B_BOOK_RENT B
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id} and B.state = '대출중'
+ 	</select>
+	
+	
 	<select id="searchMember" resultMap="chatMapperResult02" parameterType="String"> 
       <![CDATA[
          select USERNAME, REGDATE, USEREMAIL, BADCNT, USERTASTE1, USERTASTE2, USERTASTE3

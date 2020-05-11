@@ -26,9 +26,17 @@
 <script src = "resources/chat/js/member.js" ></script>
 <script src = "resources/chat/js/search.js" ></script>
 <script src = "resources/chat/js/rent.js" ></script>
+<script src = "resources/chat/js/return.js" ></script>
+<script src = "resources/chat/js/extend.js" ></script>
 <script src = "resources/chat/js/watsonjs.js" ></script>
 <script type="text/javascript">
 
+
+const options = {
+	      integrationID: "92a948a5-7b50-4302-b42a-b5664494afab", // The ID of this integration.
+	      region: "kr-seo", // The region your integration is hosted in.
+	      showLauncher: false
+	   };
 
 window.loadWatsonAssistantChat(options).then(function(instance) {
 
@@ -151,6 +159,5 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
 
        });
 });
-
 </script>
 </html>

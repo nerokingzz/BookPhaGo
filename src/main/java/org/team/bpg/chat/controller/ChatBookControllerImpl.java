@@ -1,6 +1,10 @@
 package org.team.bpg.chat.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +42,139 @@ public class ChatBookControllerImpl {
 	
 	
 	
-	@RequestMapping(value = "/searchMember.do")
+	@Transactional
+	@RequestMapping("/chat/ExtendBook.do")
+	public int chatExtendBook(@RequestParam(value="userid") String userid,
+			@RequestParam(value="bookNumber") String bookNumber,
+			HttpServletRequest request,
+			HttpServletResponse response) throws ParseException {
+		
+		int totalResult = 0;
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("user_id", userid);
+		paramMap.put("bookNumber", bookNumber);
+		
+		if(userid != null && bookNumber != null) {
+			List<Map<String, Object>> book_list = chatService.chat_extendBook(paramMap);
+			
+			if(book_list.size() == 1) {
+				SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+				
+				Date rentDate =  transFormat.parse((String)book_list.get(0).get("RENTDATE"));
+				Date returnDate = transFormat.parse((String)book_list.get(0).get("RETURNDATE"));
+				
+				long calDate = returnDate.getTime() - rentDate.getTime(); 
+		        
+		        // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다. 
+		        // 이제 24*60*60*1000(각 시간값에 따른 차이점) 을 나눠주면 일수가 나온다.
+		        long calDateDays = calDate / ( 24*60*60*1000); 
+		 
+		        //반납일자 - 대출일자. calDateDays가 7이 아니면 연장이 불가능한 상태이므로 return 0
+		        calDateDays = Math.abs(calDateDays);
+				
+		        if(calDateDays == 7) {
+		        	 libraryService.updateB_BOOK_RENT(bookNumber);
+		        	 totalResult = 1;
+		        }
+			}
+
+			System.out.println("total Result is ... " + totalResult);
+		}
+		
+		return totalResult;
+		
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "extendID.do")
+	@ResponseBody
+	public Map<String, Object> extendIDCheck(@RequestParam(value="userid") String mem_id,
+			HttpServletRequest request,
+			HttpServletResponse response) throws UnsupportedEncodingException{
+		System.out.println("mem_id : " + mem_id);
+		
+		request.setCharacterEncoding("utf-8");
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+
+			List<Map<String, Object>> rentList = chatService.chat_rentstatus(mem_id);
+			
+			resultMap.put("rentList", rentList);
+			resultMap.put("error", null);
+			
+		}catch(Exception e) {
+			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
+			e.printStackTrace();
+		}
+		return resultMap;
+		
+	}
+	
+	
+	@Transactional
+	@RequestMapping(value = "/chat/checkID.do")
+	public @ResponseBody Map<String, Object> searchuserid(@RequestBody Map<String, Object> param) {
+		String userid = (String) param.get("userid");
+
+		System.out.println(userid);
+
+		Map<String, Object> book_list = new HashMap<String, Object>();
+
+		try {
+			String booklist = libraryService.searchuserid(userid);
+			if (booklist != null) {
+				book_list.put("borrowcnt", booklist);
+			}else {
+				book_list.put("borrowcnt", null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return book_list;
+
+	}
+	
+	
+	
+	
+	@Transactional
+	@RequestMapping("/chat/ReturnBook.do")
+	public int chatReturnbBook(@RequestParam(value="userid") String userid,
+			@RequestParam(value="bookNumber") String bookNumber,
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date timeInDate = new Date();
+        String RreturnDate = sdf.format(timeInDate);
+		
+		String bookState = "반납완료";
+		int totalResult = 0;
+		
+		if(userid != null && bookNumber != null) {
+			Map<String, String> book_list=new HashMap<String, String>();
+			book_list.put("userid", userid);
+			book_list.put("bookNumber", bookNumber);
+			book_list.put("RreturnDate", RreturnDate);
+			book_list.put("bookState", bookState);
+			
+			totalResult = chatService.chat_returnBook(userid, book_list);
+			System.out.println("total Result is ... " + totalResult);
+		}
+		
+		return totalResult;
+		
+	}
+	
+	
+	@RequestMapping(value = "/chat/searchMember.do")
 	@ResponseBody
 	public Map<String, Object> searchMember(@RequestParam(value="mem_id") String mem_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//String mem_id = (String)request.getParameter("mem_id");
@@ -47,14 +185,21 @@ public class ChatBookControllerImpl {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			MemberVO searchMember = chatService.searchMember(mem_id);
+
+			//가입일 변환//
 			
-			List<Map<String, Object>> rentList = libraryService.myLib_rentstatus(mem_id);
+			List<Map<String, Object>> rentList = chatService.chat_rentstatus(mem_id);
 			
 			
 			if(searchMember != null) {
+				//가입일 변환///
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date timeInDate = searchMember.getRegDate();
+	            String fomtdRegDate = sdf.format(timeInDate);
+				
 				System.out.println("name : " + searchMember.getUserName());
 				resultMap.put("username", searchMember.getUserName());
-				resultMap.put("regdate", searchMember.getRegDate());
+				resultMap.put("regdate", fomtdRegDate);
 				resultMap.put("useremail", searchMember.getUserEmail());
 				resultMap.put("badcnt", searchMember.getBadcnt());	
 				resultMap.put("usertaste1", searchMember.getUserTaste1());		
@@ -64,13 +209,13 @@ public class ChatBookControllerImpl {
 				resultMap.put("rentList", rentList);
 				
 			}else {
+				resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
 				System.out.println("searchMember is null");
 			}
 		}catch(Exception e) {
 			resultMap.put("error", "DB에 존재하지 않는 아이디입니다.");
 			e.printStackTrace();
 		}
-		//mav.addObject("searchMember",searchMember);
 		return resultMap;
 	}
 
@@ -108,7 +253,8 @@ public class ChatBookControllerImpl {
 		
 		int result1 = 0;
 		int result2 = 0;		
-		int result3 = 0;		
+		int result3 = 0;	
+		
 		if(userid != null && bookNumber != null) {
 			result1 = libraryService.userborrow(userid);
 			result2 = libraryService.insertbookrent(book_list);
