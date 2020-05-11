@@ -1,128 +1,103 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+
+<% request.setCharacterEncoding("UTF-8"); %>
+
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>커뮤니티 신청 내역</title>
-</head>
 
+<head>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<!-- style by template -->
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/line-awesome.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/line-awesome-font-awesome.min.css">
+	<link href="${contextPath}/resources/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  	
+  	<!-- font -->
+  	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+  	
+  	<!-- session 로그인 정보 -->
 	<%
-		session=request.getSession(false);
+		session=request.getSession();
 		String user_id=(String)session.getAttribute("user_id");
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 
+</head>
+
 <body>
-	
-	<c:choose>
-	
-		<%-- 일반회원용 리스트 --%>
-		<c:when test="${user_position eq 'general'}"> <!-- eq : == -->
+	<section>
+		<h1 style="padding-bottom:20px; padding-top:20px; text-align:center; font-size:25px" class="title">커뮤니티 신청 내역</h1>
 			<c:choose>
-				<c:when test="${comRequestListSize gt 0}">	<!-- gt : > -->  
-					<table>
-						<thead>
-							<tr>
-								<th>번호</th>
-								<th>날짜</th>
-								<th>이름</th>
-								<th>분류</th>
-								<th>설명</th>
-								<th>목적</th>
-								<th>상태</th>
-							</tr>
-						
-							<c:forEach var="i" begin="1" end="${comRequestListSize}">
-								<tr>
-									<td>${i}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_NAME")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_AIM")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
-								</tr>
-							</c:forEach>
-						</thead>
-					</table>
+				<c:when test="${estaListSize gt 0}">	<!-- gt : > -->  
+					<div style="padding-top:10px; padding-bottom:10px; font-size:15px" class="row">
+						<div class="col-2">
+							<h6>번호</h6>
+						</div>
+						<div class="col-3">
+							<h6>날짜</h6>
+						</div>
+						<div class="col-3">
+							<h6>이름</h6>
+						</div>
+						<div class="col-2">
+							<h6>분류</h6>
+						</div>
+						<div class="col-2">
+							<h6>상태</h6>
+						</div>
+					</div>
+					<c:forEach var="i" begin="1" end="${estaListSize}">
+					<div style="padding-top:10px; padding-bottom:10px; font-size:15px" class="row">
+						<div class="col-2">
+							<h6>${i}</h6>
+						</div>
+						<div class="col-3">
+                           	<h6>${estaList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</h6>
+						</div>
+                        <div class="col-3">
+	                        <h6>${estaList.get(i-1).get("COMMUNITY_NAME")}</h6>
+	                    </div>
+	                    <div class="col-2">
+	                    	<h6>${estaList.get(i-1).get("COMMUNITY_CATEGORY")}</h6>
+	                    </div>
+	                    <div class="col-2">
+	                        <h6>${estaList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</h6>
+	                    </div>
+	                </div>
+	                </c:forEach>
 				</c:when>
+				<c:otherwise>
+					신청한 내역이 없습니다.
+				</c:otherwise>
 			</c:choose>
-		</c:when>
-		
-		<%-- 관리자용 리스트 --%>
-		<c:when test="${user_position eq 'admin'}"> <!-- eq : == -->
-			
-			<c:choose>
-				<c:when test="${comRequestListSize gt 0}">	<!-- gt : > -->  
-					<table>
-						<thead>
-							<tr>
-								<th>번호</th>
-								<th>날짜</th>
-								<th>이름</th>
-								<th>분류</th>
-								<th>설명</th>
-								<th>목적</th>
-								<th>상태</th>
-								<th>확인</th>
-							</tr>
-			
-							<c:forEach var="i" begin="1" end="${comRequestListSize}">
-								<tr>
-									<td>${i}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_DATE")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_NAME")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_CATEGORY")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_DESCRIPTION")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_AIM")}</td>
-									<td>${comRequestList.get(i-1).get("COMMUNITY_ESTABLISH_STATUS")}</td>
-									<td>
-										<input type="hidden" name="index" value="${i}">
-										<input type="hidden" name="community_id" value='${comRequestList.get(i-1).get("COMMUNITY_ID")}'>										
-										<input type="button" value="처리" onclick="comStsAdmin('${i}')">
-									</td>
-								</tr>
-							</c:forEach>
-						</thead>
-					</table>
-				</c:when>
-			</c:choose>
-		</c:when>
-	</c:choose>
+	</section> 
 	
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<!-- js by template -->
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
 	
-	<script type="text/javascript">
-		
-		var indexList=new Array();
-		var idList=new Array();
-	
-		//수락, 거절 선택
-		$(document).ready(function() {
-			
-			//index 배열
-			$("input[name=index]").each(function(index, item) {
-				indexList.push($(item).val());
-			});
-
-			
-			//community_id 배열
-			$("input[name=community_id]").each(function(index, item) {
-				idList.push($(item).val());
-			});
-
-		});
-		
-		function comStsAdmin(i) {
-			alert(i);
-			alert(idList[i-1]);
-			var community_id=idList[i-1];
-			window.open("com_esta_admin_form.do?community_id="+community_id, "개설 신청 처리", "width=500, height=500");
-		}
-
-	</script>
-
 </body>
 </html>

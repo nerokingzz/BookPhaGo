@@ -202,9 +202,7 @@
 							$($("div[id=re-re-content_" + index + "]")).append("<h3>" + data[i].REPLY_CONTENT + "</h3>");
 							$($("div[id=re-re-content_" + index + "]")).append("<span><img src='${contextPath}/resources/bootstrap/images/clock.png'>" + data[i].REPLY_DATE + "-" + data[i].REPLY_WRITER + "</span>");
 							
-							
 							$($("div[id=re-re-content_" + index + "]")).append("</div>");
-							
 							
 							$($("div[id=re-re-content_" + index + "]")).append("</div>");
 							
@@ -212,14 +210,9 @@
 							
 							$($("div[id=re-re-content_" + index + "]")).append("<hr>");
 							
-							
-							
-							
 /* 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_CONTENT + "</div>");
 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_DATE + "</div>");
 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_WRITER + "</div>"); */
-							
-							
 						}
 					} else {
 						$($("div[id=re-re-content_" + index + "]")).fadeIn(0);
@@ -853,7 +846,16 @@
 			})
 		})
 	</script>
-
+	<!-- script -->
+	<script type="text/javascript">
+		var date=new Date();
+		var reCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		document.getElementById('re_current_info').value=reCurrent;
+		
+		var datee=new Date();
+		var reReCurrent=datee.getFullYear() + '/' + (datee.getMonth()+1) + '/' + datee.getDate() + ' ' + datee.getHours() + ':' + datee.getMinutes() + ':'  +  datee.getSeconds();
+		document.getElementById('re_re_current_info').value=reReCurrent;
+	</script>
 
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
@@ -861,8 +863,6 @@
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
-
-<script src="resources/com/js/utils.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,7 @@
 package org.team.bpg.admin.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,13 +12,17 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.team.bpg.book.VO.BookInfoVO;
 import org.team.bpg.book.service.LibraryService;
+import org.team.bpg.com.act.service.ComActService;
 import org.team.bpg.com.act.vo.ArticleInfoVO;
 import org.team.bpg.com.esta.service.ComEstaService;
+import org.team.bpg.com.esta.vo.ComInfoVO;
 import org.team.bpg.mylib.dec.service.MyLibDeclareService;
 import org.team.bpg.mylib.dec.vo.DeclareInfoVO;
 import org.team.bpg.utils.PageVO;
@@ -29,9 +35,17 @@ public class PageController {
 	
 	@Autowired
 	private ComEstaService comEstaService;
+
+	@Autowired
+	private ComActService comActService;
 	
 	@Autowired
 	private LibraryService libraryService;
+	
+	@GetMapping(value="errors")
+	public String defaultError() {
+		return "errors";
+	}
 
 	//도서메뉴 첫 화면 보여주기
 		@RequestMapping(value="book_main")
@@ -112,7 +126,44 @@ public class PageController {
 	//커뮤니티메뉴 첫 화면 보여주기
 	@RequestMapping(value="com_main", method=RequestMethod.GET)
 	public ModelAndView comMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		List<ComInfoVO> myComLists=comActService.myComList(request);
+		
+		List<ComInfoVO> bestComList=comActService.bestComList();
+		
+		System.out.println("멤버수 순위"+bestComList);
+		
+		List<List<ArticleInfoVO>> newArticleList=new ArrayList<>();
+		
+		/*
+		 * for(int i=0; i<myComList.size(); i++) { int
+		 * community_id=myComList.get(i).getCommunity_id(); List<ArticleInfoVO>
+		 * newArticle=comActService.newArticle(community_id);
+		 * newArticleList.add(newArticle); System.out.println("새글5개"+newArticle); }
+		 * 
+		 * System.out.println("새글들 목록" + newArticleList);
+		 */
+		
+		
+		//추천 커뮤니티
+		List<Map<String, Object>> comRandomList=comActService.comRandomList();
+		System.out.println("랜덤 커뮤니티정보" + comRandomList);
+		
 		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("myComLists", myComLists);
+		mav.addObject("myComListsSize", myComLists.size());
+		mav.addObject("comRandomList", comRandomList);
+		mav.addObject("comRandomListSize", comRandomList.size());
+		
+//		System.out.println(myComLists.get(0).getCommunity_name());
+//		myComLists.get(1).getCommunity_name();
+		
+		mav.addObject("newArticleList", newArticleList);
+		mav.addObject("newArticleListSize", newArticleList.size());
+		
+		mav.addObject("bestComList", bestComList);
+		mav.addObject("bestComListSize", bestComList.size());
 		
 		mav.setViewName("com/com_main");
 		return mav;
@@ -128,8 +179,182 @@ public class PageController {
 		
 		if (pageInfo != null) {
 			if (pageInfo.equals("favor")) {
-
+				System.out.println("취향분석합니다");
+				HttpSession session=request.getSession();
+				String user_id = (String) session.getAttribute("user_id");
+				List<BookInfoVO> scoreList=libraryService.myLib_rentstatus_favor(user_id);
 				
+				
+				String[] cateScore= {" ", " "};
+				int B000Score=0;
+				int B001Score=0;
+				int B002Score=0;
+				int B003Score=0;
+				int B004Score=0;
+				int B005Score=0;
+				int B006Score=0;
+				int B007Score=0;
+				int B008Score=0;
+				int B009Score=0;
+				
+				int B000Cnt=0;
+				int B001Cnt=0;
+				int B002Cnt=0;
+				int B003Cnt=0;
+				int B004Cnt=0;
+				int B005Cnt=0;
+				int B006Cnt=0;
+				int B007Cnt=0;
+				int B008Cnt=0;
+				int B009Cnt=0;
+				
+				for(int i=0; i<scoreList.size(); i++) {
+					int score=scoreList.get(i).getBookScore();
+					String genre=(String) scoreList.get(i).getBookGenre();
+					
+					switch(genre) {
+					case "총류":
+						B000Score+=score;
+						B000Cnt+=1;
+						
+					case "철학":
+						B001Score+=score;
+						B001Cnt+=1;
+						
+					case "종교":
+						B002Score+=score;
+						B002Cnt+=1;
+						
+					case "사회과학":
+						B003Score+=score;
+						B003Cnt+=1;
+						
+					case "자연과학":
+						B004Score+=score;
+						B004Cnt+=1;
+						
+					case "기술과학":
+						B005Score+=score;
+						B005Cnt+=1;
+						
+					case "예술":
+						B006Score+=score;
+						B006Cnt+=1;
+						
+					case "언어":
+						B007Score+=score;
+						B007Cnt+=1;
+						
+					case "문학":
+						B008Score+=score;
+						B008Cnt+=1;
+						
+					case "역사":
+						B009Score+=score;
+						B009Cnt+=1;
+					}
+					
+				}
+				
+				System.out.println("문학총점" + B008Score);
+				System.out.println("문학갯수" + B008Cnt);
+				
+				System.out.println("기술과학총점" + B005Score);
+				System.out.println("기술과학갯수" + B005Cnt);
+				
+				//각 종류별 평균
+				float B000Avg=0;
+				float B001Avg=0;
+				float B002Avg=0;
+				float B003Avg=0;
+				float B004Avg=0;
+				float B005Avg=0;
+				float B006Avg=0;
+				float B007Avg=0;
+				float B008Avg=0;
+				float B009Avg=0;
+				
+				if (B000Cnt==0) {
+					B000Avg=0;
+				} else {
+					B000Avg=(float)B000Score/B000Cnt;
+				}
+				if (B001Cnt==0) {
+					B001Avg=0;
+				} else {
+					B001Avg=(float)B001Score/B001Cnt;
+				}
+				if (B002Cnt==0) {
+					B002Avg=0;
+				} else {
+					B002Avg=(float)B002Score/B002Cnt;
+				}
+				if (B003Cnt==0) {
+					B003Avg=0;
+				} else {
+					B003Avg=(float)B003Score/B003Cnt;
+				}
+				if (B004Cnt==0) {
+					B004Avg=0;
+				} else {
+					B004Avg=(float)B004Score/B004Cnt;
+				}
+				if (B005Cnt==0) {
+					B005Avg=0;
+				} else {
+					B005Avg=(float)B005Score/B005Cnt;
+				}
+				if (B006Cnt==0) {
+					B006Avg=0;
+				} else {
+					B006Avg=(float)B006Score/B006Cnt;
+				}
+				if (B007Cnt==0) {
+					B007Avg=0;
+				} else {
+					B007Avg=(float)B007Score/B007Cnt;
+				}
+				if (B008Cnt==0) {
+					B008Avg=0;
+				} else {
+					B008Avg=(float)B008Score/B008Cnt;
+				}
+				if (B009Cnt==0) {
+					B009Avg=0;
+				} else {
+					B009Avg=(float)B009Score/B009Cnt;
+				}
+				
+				System.out.println("문학평균" + B008Avg);
+				System.out.println("기술과학평균" + B005Avg);
+				System.out.println("없는거평균" + B000Avg);
+				
+				//취향분석을 위해 각 카테고리별 점수 저장
+				String[] cateNames= {"총류","철학","종교","사회과학","자연과학","기술과학","예술","언어","문학","역사"};
+				float[] cateArray= {B000Avg, B001Avg, B002Avg, B003Avg, B004Avg, B005Avg, B006Avg, B007Avg, B008Avg, B009Avg};
+				
+				float max=cateArray[0];
+				int maxCateName=0;
+				for (int i=1; i<cateArray.length; i++) {
+					if (cateArray[i]>=max) {
+						max=cateArray[i];
+						maxCateName=i-1;
+					}
+				}
+				
+				System.out.println("최댓값"+max);
+				System.out.println("최댓값카테고리"+maxCateName);
+				System.out.println("최댓값카테고리이름"+cateNames[maxCateName]);
+				
+				System.out.println("점수 있는 책 리스트" + scoreList);
+				
+				//카테고리에 맞는 책 추천
+				List<Map<String, Object>> recomList=libraryService.recomList(cateNames[maxCateName]);
+				System.out.println("추천도서" + recomList);
+				
+				mav.addObject("favorite", cateNames[maxCateName]);
+				mav.addObject("recomList", recomList);
+				mav.addObject("recomListSize", recomList.size());
 			} else if (pageInfo.equals("score")) {
 				
 			} else if (pageInfo.equals("declare")) {
@@ -152,7 +377,7 @@ public class PageController {
 				
 			}
 		} else {
-			
+			mav.addObject("pageInfo", "score");
 		}
 		
 		mav.setViewName("mylib/myLib_main");
@@ -186,9 +411,6 @@ public class PageController {
 				String bookThum = request.getParameter("bookThum");
 				String bookRent = request.getParameter("bookRent");
 				String bookReservation = request.getParameter("bookReservation");
-				
-				
-				
 				
 				//도서 리스트
 				if(search_option == null && search_value == null && bookNumber == null && bookGenre == null && bookRent == null && bookReservation == null && isbn == null) {
@@ -342,7 +564,7 @@ public class PageController {
 				}
 			}
 		} else {
-			
+			mav.addObject("pageInfo", "user_A");
 		}
 		
 		//mav.setViewName("admin/admin_main");

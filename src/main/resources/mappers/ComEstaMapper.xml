@@ -22,6 +22,8 @@
  				community_captain = #{user_id}
  			</if>
  		</where>
+ 		ORDER BY community_id DESC
+ 		
  	</select>
  	
 <!-- string 타입으로 처리할때 value사용
@@ -39,6 +41,24 @@
  		UPDATE M_COMMUNITY_INFO SET community_establish_status=#{community_establish_status}
  		WHERE community_id=#{community_id}
  	</update>
+ 	
+ 	<!-- 운영자 회원으로 추가 -->
+  	<insert id="cap_add_mem" parameterType="hashmap">
+		INSERT INTO M_COMMUNITY_MEMBER (member_nickname, member_id, community_id, member_join_date, member_position, member_visit_count, member_article_count, member_reply_count)
+		VALUES ('운영자', #{community_captain}, #{community_id}, #{member_join_date}, 'cap', '0', '0', '0')
+ 	</insert>
+ 	
+ 	<!-- 운영자 회원 멤버테이블에 추가 -->
+  	<update id="add_mem_db" parameterType="hashmap">
+		UPDATE M_COMMUNITY_INFO SET community_member_count=community_member_count+1
+		WHERE community_id=#{community_id}
+ 	</update>
+ 	
+ 	<!-- 커뮤니티 개설 현황 조회 사용자용 -->
+  	<select id="esta_list" parameterType="string" resultType="hashmap">
+		SELECT * FROM M_COMMUNITY_INFO
+		WHERE community_captain=#{user_id}
+ 	</select>
  	
 
 </mapper>

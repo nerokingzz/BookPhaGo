@@ -45,16 +45,13 @@ public class ComEstaServiceImpl implements ComEstaService {
 	public void comEstaAdmin(HttpServletRequest request) {
 		String community_id=(String)request.getParameter("community_id");
 		String admin_sts=(String)request.getParameter("admin_sts");
-		String admin_msg=(String)request.getParameter("admin_msg");
+		String community_captain=request.getParameter("community_captain");
+		String member_join_date=request.getParameter("community_establish_date");
 		
 		if (admin_sts.equals("dgree")) {
 			admin_sts="거절";
 		} else if (admin_sts.equals("agree")) {
 			admin_sts="수락";
-			
-			//커뮤니티 개설이 수락되면 운영자를 커뮤니티 멤버로 자동 등록시키기
-
-			
 			
 		}
 		
@@ -64,8 +61,17 @@ public class ComEstaServiceImpl implements ComEstaService {
 		Map<String, String> sts_info=new HashMap<String, String>();
 		sts_info.put("community_establish_status", admin_sts);
 		sts_info.put("community_id", community_id);
+		sts_info.put("community_captain", community_captain);
+		sts_info.put("member_join_date", member_join_date);
 		
 		comEstaDao.comEstaAdmin(sts_info);
+		comEstaDao.capAddMem(sts_info);
+	}
+
+	@Override
+	public List<Map<String, Object>> estaList(String user_id) {
+		List<Map<String, Object>> estaList=comEstaDao.estaList(user_id);
+		return estaList;
 	}
 
 }

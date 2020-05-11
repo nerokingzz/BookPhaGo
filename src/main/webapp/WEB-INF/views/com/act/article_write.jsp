@@ -278,7 +278,7 @@
 											<div class="row justify-content-md-center">
 												<input type="hidden" name="article_id" value="${articleInfo.get('ARTICLE_ID') }">
 												<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">
-												<input type="hidden" name="article_date" id="current_info">
+												<input type="hidden" name="article_date" id="article_current_info">
 												<input type="hidden" name="article_view_count" value="0">
 												<input type="hidden" name="article_good_count" value="0">
 												<input type="hidden" name="article_bad_count" value="0">
@@ -603,6 +603,15 @@
 				
 			})
 		})
+		
+		
+	</script>
+	
+	<!-- script -->
+	<script type="text/javascript">
+		var date=new Date();
+		var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		document.getElementById('article_current_info').value=articleCurrent;
 	</script>
 
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
@@ -611,8 +620,6 @@
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
-
-	<script src="resources/com/js/utils.js"></script>
 
 </body>
 </html>

@@ -1,7 +1,10 @@
 package org.team.bpg.book.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -141,6 +144,19 @@ public class LibraryServiceImpl implements LibraryService{
 		List<Map<String, Object>> booklist = libraryDAO.myLib_rentstatus(user_id);
 		return booklist;
 	}
+	
+	@Override
+	public List<Map<String, Object>> myLib_rentstatus_score(String user_id) {
+		List<Map<String, Object>> booklist = libraryDAO.myLib_rentstatus_score(user_id);
+		return booklist;
+	}
+	
+	@Override
+	public List<BookInfoVO> myLib_rentstatus_favor(String user_id) {
+		List<BookInfoVO> booklist = libraryDAO.myLib_rentstatus_favor(user_id);
+		
+		return booklist;
+	}
 
 	@Override
 	public List<Map<String, Object>> bookextendlist(String bookNumber) {
@@ -199,6 +215,31 @@ public class LibraryServiceImpl implements LibraryService{
 	public String applycnt(String userid) {
 		String booklist = libraryDAO.applycnt(userid);
 		return booklist;
+	}
+
+	@Override
+	public void scoreUpdate(HttpServletRequest request) {
+		String user_id=request.getParameter("user_id");
+		String book_number=request.getParameter("book_number");
+		String book_score=request.getParameter("book_score");
+		
+		System.out.println(user_id);
+		System.out.println(book_number);
+		System.out.println(book_score);
+		
+		Map<String, Object> info=new HashMap<>();
+		info.put("user_id", user_id);
+		info.put("book_number", book_number);
+		info.put("book_score", book_score);
+		
+		libraryDAO.scoreUpdate(info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> recomList(String category) {
+		List<Map<String, Object>> recomList=libraryDAO.recomList(category);
+		return recomList;
 	}
 
 }

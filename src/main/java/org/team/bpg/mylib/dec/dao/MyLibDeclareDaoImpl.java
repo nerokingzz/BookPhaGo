@@ -57,4 +57,10 @@ public class MyLibDeclareDaoImpl implements MyLibDeclareDao {
 		System.out.println("신고목록"+declareList);
 		return declareList;
 	}
+
+	@Override
+	public void doPenalty(String user_id) {
+		sqlSession.update("mylib_declare.user_penalty", user_id);
+		
+	}
 }

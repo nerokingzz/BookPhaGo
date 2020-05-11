@@ -163,10 +163,41 @@
  	
  	<!-- 사용자 대출현황 조회 -->
  	<select id="myLib_rentstatus" parameterType="String" resultType="hashmap">
- 		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
+ 		select B.BOOKSCORE, A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
 		from B_BOOK_LIB A, B_BOOK_RENT B
 		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id}
  	</select>
+ 	
+ 	<!-- 사용자 대출현황 도서평가 조회 -->
+ 	<select id="myLib_rentstatus_score" parameterType="String" resultType="hashmap">
+ 		select distinct B.BOOKNUMBER, B.BOOKSCORE, A.BOOKNAME, A.BOOKGENRE
+		from B_BOOK_LIB A, B_BOOK_RENT B
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id}
+ 	</select>
+ 	
+ 	<!-- 사용자 대출현황 취향분석 조회 -->
+ 	<select id="myLib_rentstatus_favor" parameterType="String" resultType="bookInfoVO">
+ 		select distinct B.BOOKNUMBER, B.BOOKSCORE, A.BOOKNAME, A.BOOKGENRE
+		from B_BOOK_LIB A, B_BOOK_RENT B
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id} and B.BOOKSCORE > '0'
+ 	</select>
+ 	
+ 	<!-- 사용자 추천도서 랜덤으로 5개 가져오기-->
+ 	<select id="recommend" parameterType="String" resultType="hashmap">
+		 <![CDATA[
+		select * from(
+		    select BOOKNUMBER, BOOKNAME, BOOKWRITER, BOOKGENRE, BOOKCONTENTS, BOOKPUBLISHER, BOOKRENT from B_BOOK_LIB
+		    WHERE BOOKGENRE=#{category}
+		    order by DBMS_RANDOM.RANDOM
+		) where rownum < 6
+		]]>
+ 	</select>
+ 	
+ 	<!-- 점수 update -->
+ 	<update id="score" parameterType="hashmap">
+ 		UPDATE B_BOOK_RENT SET bookscore=#{book_score}
+ 		WHERE booknumber=#{book_number} AND userid=#{user_id}
+ 	</update>
  	
  	<!-- 사용자 도서연장 리스트 -->
  	<select id="bookextendlist" parameterType="String" resultType="hashmap">
@@ -184,4 +215,5 @@
  	<select id="applycnt" parameterType="String" resultType="String">
  		select count(userid) from b_book_request where userid=#{userid} and applydate like '%'||TO_CHAR(sysdate,'YYYY-MM')||'%'
  	</select>
+
 </mapper>

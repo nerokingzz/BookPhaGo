@@ -72,18 +72,23 @@ public class MyLibDeclareServiceImpl implements MyLibDeclareService {
 	public void declareAdmin(HttpServletRequest request) {
 		String declare_id=(String)request.getParameter("declare_id");
 		String admin_sts=(String)request.getParameter("admin_sts");
-		String admin_msg=(String)request.getParameter("admin_msg");
+		String be_done_user=request.getParameter("be_done_user");
+		String do_user=request.getParameter("do_user");
 		
-		if (admin_sts.equals("do_user_penalty")) {
-			admin_sts="신고자처벌";
-			admin_sts+="("+admin_msg+")";
-		} else if (admin_sts.equals("done_user_penalty")) {
-			admin_sts="피신고자처벌";
-			admin_sts+="("+admin_msg+")";
-		}
-		
+		System.out.println(be_done_user);
+		System.out.println(do_user);
 		System.out.println(admin_sts);
 		System.out.println(declare_id);
+		
+		//신고 반영하기
+		String user_id="";
+		if (admin_sts.equals("do")) { //신고자 처벌
+			user_id=do_user;
+		} else if (admin_sts.equals("be_done")){ //피신고자 처벌 
+			user_id=be_done_user;
+		}
+		
+		myLibDeclareDao.doPenalty(user_id);
 		
 		Map<String, String> sts_info=new HashMap<String, String>();
 		sts_info.put("declare_status", admin_sts);

@@ -9,6 +9,9 @@ import org.team.bpg.member.vo.SearchCriteria;
 
 public interface MemberDAO {
 	
+	//패널티
+	public void badAlertOk(String user_id);
+	
 	// 회원가입
 	public void register(MemberVO vo) throws Exception;
 	

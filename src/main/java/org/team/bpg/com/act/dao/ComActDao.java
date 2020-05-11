@@ -10,12 +10,14 @@ import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
 import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
+import org.team.bpg.com.esta.vo.ComInfoVO;
 import org.team.bpg.utils.PageVO;
 
 public interface ComActDao {
 
 	public List<Map<String, Object>> comList(HttpServletRequest request);
 	public Map<String, Object> comInfo(int community_id);
+	public int memCnt(int community_id);
 	public Map<String, Object> boardInfo(int board_id);
 	public void comAddBoard(BoardInfoVO boardInfoVo);
 	public List<Map<String, Object>> boardList(int community_id);
@@ -28,8 +30,13 @@ public interface ComActDao {
 	
 	//페이징관련
 	public int countArticle(int board_id);
+	public int countSearchComm(String search_keyword);
 	public int countSearchArticle(Map<String, Object> info);
 	public List<ArticleInfoVO> articleList(Map<String, Object> info);
+	public List<Map<String, Object>> comSearchList(Map<String, Object> info);
+	public List<ComInfoVO> myComList(String user_id);
+	public List<ComInfoVO> bestComList();
+	public List<ArticleInfoVO> newArticle(int community_id);
 	public List<ArticleInfoVO> articleSearchList(Map<String, Object> info);
 	
 	public int voteArticle(int board_id);
@@ -61,6 +68,11 @@ public interface ComActDao {
 	public void voteRequest(Map<String, Object> requestInfo);
 	public List<Map<String, Object>> voteReqList(String board_id);
 	
+	public List<Map<String, Object>> comRandomList();
 	public String boardCategory(int board_id);
+	public void comOut(Map<String, Object> info);
+	public List<Map<String, Object>> memList(Map<String, Object> info);
+	public void memPosiUpdate(Map<String, Object> info);
 	
+	public List<Map<String, Object>> boardAllList(int community_id);
 }

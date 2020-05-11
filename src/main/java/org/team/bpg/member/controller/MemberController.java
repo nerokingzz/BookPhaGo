@@ -51,6 +51,13 @@ public class MemberController {
 	@Inject
 	BCryptPasswordEncoder pwdEncoder;
 	
+	@ResponseBody
+	@RequestMapping(value="bad_cnt_read", method=RequestMethod.POST)
+	public void badAlertOk(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String user_id=request.getParameter("user_id");
+		service.badAlertOk(user_id);
+	}
+	
 	// 회원가입 get
 	@RequestMapping(value = "registerForm", method = RequestMethod.GET)
 	public String getRegister() throws Exception {
@@ -106,9 +113,16 @@ public class MemberController {
 			session.setAttribute("user_id", login.getUserId());
 			session.setAttribute("user_position", login.getUserposition());
 			session.setAttribute("user_pass", login.getUserPass());
+
+			int badCnt=login.getBadcnt();
+			
+			req.setAttribute("badCnt", badCnt);
+			System.out.println("횟수"+badCnt);
 			return "index";
+		} else {
+			return "member/sign-in";
 		}
-		return "redirect:/";
+		
 	
 	}
 	@RequestMapping(value = "logout", method = RequestMethod.GET)

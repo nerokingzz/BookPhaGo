@@ -10,12 +10,14 @@ import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
 import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
+import org.team.bpg.com.esta.vo.ComInfoVO;
 import org.team.bpg.utils.PageVO;
 
 public interface ComActService {
 
 	public List<Map<String, Object>> comList(HttpServletRequest request);
 	public Object[] comInfo(HttpServletRequest request);
+	public int memCnt(HttpServletRequest request);
 	public Map<String, Object> boardInfo(HttpServletRequest request);
 	public void comAddBoard(BoardInfoVO boardInfoVo);
 	public List<Map<String, Object>> boardList(HttpServletRequest request);
@@ -26,8 +28,13 @@ public interface ComActService {
 	
 	//페이징관련
 	public int countArticle(HttpServletRequest request);
+	public int countSearchComm(HttpServletRequest request);
 	public int countSearchArticle(HttpServletRequest request);
 	public List<ArticleInfoVO> articleList(PageVO pageVo, HttpServletRequest request);
+	public List<Map<String, Object>> comSearchList(PageVO pageVo, HttpServletRequest request);
+	public List<ComInfoVO> myComList(HttpServletRequest request);
+	public List<ComInfoVO> bestComList();
+	public List<ArticleInfoVO> newArticle(int community_id);
 	public List<ArticleInfoVO> articleSearchList(PageVO pageVo, HttpServletRequest request);
 	
 	public int countvote(HttpServletRequest request);
@@ -58,8 +65,13 @@ public interface ComActService {
 	public void voteRequest(HttpServletRequest request);
 	public List<Map<String, Object>> voteReqList(HttpServletRequest request);
 	
-	
+	public List<Map<String, Object>> comRandomList();
 	public String boardCategory(HttpServletRequest request);
+	public void comOut(HttpServletRequest request);
+	
+	public List<Map<String, Object>> memList(HttpServletRequest request);
+	public void memPosiUpdate(HttpServletRequest request);
+	public List<Map<String, Object>> boardAllList(HttpServletRequest request);
 
 	
 }

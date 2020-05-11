@@ -10,7 +10,7 @@ public class BookInfoVO {
 	private String bookGenre;
 	private String bookRent;
 	private String bookReservation;
-	
+	private int bookScore;
 	public String getIsbn() {
 		return isbn;
 	}
@@ -65,12 +65,18 @@ public class BookInfoVO {
 	public void setBookReservation(String bookReservation) {
 		this.bookReservation = bookReservation;
 	}
-	
+	public int getBookScore() {
+		return bookScore;
+	}
+	public void setBookScore(int bookScore) {
+		this.bookScore = bookScore;
+	}
 	@Override
 	public String toString() {
-		return "BookInfoVO [bookNumber=" + bookNumber + ", bookGenre=" + bookGenre
-				+ ", bookRent=" + bookRent + ", bookReservation="
-				+ bookReservation + ", isbn=" + isbn + "]";
+		return "BookInfoVO [isbn=" + isbn + ", bookName=" + bookName + ", bookWriter=" + bookWriter + ", bookPublisher="
+				+ bookPublisher + ", bookDate=" + bookDate + ", bookNumber=" + bookNumber + ", bookGenre=" + bookGenre
+				+ ", bookRent=" + bookRent + ", bookReservation=" + bookReservation + ", bookScore=" + bookScore + "]";
 	}
 	
 }
+	

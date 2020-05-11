@@ -41,12 +41,7 @@
 			var pageInfo='${pageInfo}';
 			console.log(pageInfo);
 			
-			if (pageInfo == 'user_A') {
-				$("#nav-acc-tab").attr("class", "nav-item nav-link active");
-				$("#nav-acc-tab").attr("aria-selected", "true");
-				$("#nav-acc").attr("class", "tab-pane fade show active");
-				
-			} else if (pageInfo == 'book_A') {
+			 if (pageInfo == 'book_A') {
 				$("#nav-status-tab").attr("class", "nav-item nav-link active");
 				$("#nav-status-tab").attr("aria-selected", "true");
 				$("#nav-status").attr("class", "tab-pane fade show active");
@@ -82,15 +77,13 @@
 				$("#nav-status-tab3").attr("aria-selected", "true");
 				$("#nav-status3").attr("class", "tab-pane fade show active");
 			} else {
-				$("#nav-acc-tab").attr("class", "nav-item nav-link active");
-				$("#nav-acc-tab").attr("aria-selected", "true");
-				$("#nav-acc").attr("class", "tab-pane fade show active");
+				$("#nav-status-tab").attr("class", "nav-item nav-link active");
+				$("#nav-status-tab").attr("aria-selected", "true");
+				$("#nav-status").attr("class", "tab-pane fade show active");
 			}
 		})
 		
-		function user_A() {
-			location.href="admin_main.do?page=user_A";
-		}
+		
 		
 		function book_A() {
 			location.href="admin_main.do?page=book_A";
@@ -143,8 +136,8 @@
 				{Header:"신청날짜", Type:"Text", SaveName:"COMMUNITY_ESTABLISH_DATE", MinWidth:90},
 				{Header:"신청인", Type:"Text", SaveName:"COMMUNITY_CAPTAIN", MinWidth:80},
 				{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
-				{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:50},			
-				{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:200},
+				{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:70},			
+				{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:180},
 				{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
 				{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
 				
@@ -256,10 +249,13 @@
 		console.log(row + "번 로우의 커뮤니티아이디는" + community_id);
 		var comStatus=mySheet.GetCellValue(row, "COMMUNITY_ESTABLISH_STATUS");
 		console.log(row + "번 로우의 커뮤니티아이디는" + community_id + "이고 변경된 상태는" + comStatus);
+		var comCap=mySheet.GetCellValue(row, "COMMUNITY_CAPTAIN");
+		console.log(row + "번 로우의 커뮤니티아이디는" + community_id + "이고 변경된 상태는" + comStatus + "이고 운영자는" + comCap);
+		var capJoinDate=mySheet.GetCellValue(row, "COMMUNITY_ESTABLISH_DATE");
 		
 		$.ajax({
 			url:"com_esta_request_admin.do",
-			data:{"community_id" : community_id, "admin_sts" : comStatus},
+			data:{"community_id" : community_id, "admin_sts" : comStatus, "community_captain" : comCap, "community_establish_date" : capJoinDate},
 			method:"POST",
 			success:function(data) {
 				alert(data);
@@ -276,10 +272,13 @@
 		console.log(row + "번 로우의 신고아이디는" + declare_id);
 		var decStatus=mySheet_dec.GetCellValue(row, "DECLARE_STATUS");
 		console.log(row + "번 로우의 신고아이디는" + declare_id + "이고 변경된 상태는" + decStatus);
+		var beDoneUser=mySheet_dec.GetCellValue(row, "BE_DONE_USER");
+		console.log(row + "번 로우의 신고아이디는" + declare_id + "이고 변경된 상태는" + decStatus + "이고 신고당한사람은" + beDoneUser);
+		var doUser=mySheet_dec.GetCellValue(row, "DO_USER");
 		
 		$.ajax({
 			url:"mylib_declare_request_admin.do",
-			data:{"declare_id" : declare_id, "admin_sts" : decStatus},
+			data:{"declare_id" : declare_id, "admin_sts" : decStatus, "be_done_user" : beDoneUser, "do_user" : doUser},
 			method:"POST",
 			success:function(data) {
 				alert(data);
@@ -323,7 +322,6 @@
 						<div class="acc-leftbar">
                         	<div class="nav nav-tabs" id="nav-tab" role="tablist">
                            		<a><b>관리자전용</b></a>
-                            		<a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="user_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>회원관리</a>
                             		<a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="book_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>도서관리</a>
                            	 		<a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="book_status_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>현황관리</a>
                             		<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>커뮤니티관리</a>
@@ -337,11 +335,7 @@
                   
 					<div class="col-lg-9">
 						<div class="tab-content" id="nav-tabContent" style="width: 100%; height:100%;">
-                        	<div class="tab-pane fade" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
-                           		<div class="acc-setting">
-                              		<h3>회원관리</h3>
-                           		</div><!--acc-setting end-->
-                        	</div>
+
                         	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
                         		<div class="acc-setting">
                             		<h3>도서관리</h3>

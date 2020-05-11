@@ -56,6 +56,19 @@ public class ComEstaController {
 		return ibsheetMap;	
 	}
 	
+	//개설 신청 내역 사용자용
+	@RequestMapping(value="com_esta_request_list_user", method=RequestMethod.GET)
+	public ModelAndView estaList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Map<String, Object>> estaList=comEstaService.estaList(request.getParameter("user_id"));
+		System.out.println("신청내역" + estaList);
+		
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("estaList", estaList);
+		mav.addObject("estaListSize", estaList.size());
+		mav.setViewName("com/esta/com_esta_request_list");
+		return mav;
+	}
+	
 	//개설 신청 처리 양식 보여주기
 	@RequestMapping(value="com_esta_admin_form", method=RequestMethod.GET)
 	public String comEstaAdminForm(HttpServletRequest request, HttpServletResponse response) throws Exception {

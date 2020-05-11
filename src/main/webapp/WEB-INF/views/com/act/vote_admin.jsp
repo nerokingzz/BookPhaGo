@@ -131,10 +131,8 @@
 		console.log(row + "번 로우의 투표아이디는" + vote_id);
 		
 		var newWin=window.open("vote_chart.do?vote_id=" + vote_id, "투표결과미리보기", "width=800, height=800");
-		
-		
-		
 	}
+	
 
 </script>	
 

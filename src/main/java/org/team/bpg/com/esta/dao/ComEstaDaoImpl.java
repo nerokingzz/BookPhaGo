@@ -35,5 +35,18 @@ public class ComEstaDaoImpl implements ComEstaDao {
 		sqlSession.update("com_esta.com_esta_admin", sts_info);
 		
 	}
+	@Override
+	
+	public void capAddMem(Map<String, String> sts_info) {
+		sqlSession.insert("com_esta.cap_add_mem", sts_info);
+		sqlSession.update("com_esta.add_mem_db", sts_info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> estaList(String user_id) {
+		List<Map<String, Object>> estaList=sqlSession.selectList("com_esta.esta_list", user_id);
+		return estaList;
+	}
 
 }

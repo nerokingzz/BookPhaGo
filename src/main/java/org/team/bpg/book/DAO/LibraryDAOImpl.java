@@ -140,6 +140,18 @@ public class LibraryDAOImpl implements LibraryDAO{
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.myLib_rentstatus", user_id);
 		return booklist;
 	}
+	
+	@Override
+	public List<Map<String, Object>> myLib_rentstatus_score(String user_id) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.myLib_rentstatus_score", user_id);
+		return booklist;
+	}
+	
+	@Override
+	public List<BookInfoVO> myLib_rentstatus_favor(String user_id) {
+		List<BookInfoVO> booklist=sqlSession.selectList("book.myLib_rentstatus_favor", user_id);
+		return booklist;
+	}
 
 	@Override
 	public List<Map<String, Object>> bookextendlist(String bookNumber) {
@@ -198,5 +210,17 @@ public class LibraryDAOImpl implements LibraryDAO{
 	public String applycnt(String userid) {
 		String booklist=sqlSession.selectOne("book.applycnt", userid);
 		return booklist;
+	}
+
+	@Override
+	public void scoreUpdate(Map<String, Object> info) {
+		sqlSession.update("book.score", info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> recomList(String category) {
+		List<Map<String, Object>> recomList=sqlSession.selectList("book.recommend", category);
+		return recomList;
 	}
 }

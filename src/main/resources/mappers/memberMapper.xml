@@ -10,6 +10,13 @@
    
     </insert>
     
+     	
+ 	<!-- 패널티 확인 -->
+ 	<update id="badAlertOk" parameterType="string">
+ 		update u_user_info set badcnt=0
+ 		where user_id=#{user_id}
+ 	</update>
+    
    <!-- 이메일인증 -->
    <select id="emailcheck" resultType="int">
    		select emailcheck from u_user_info where userid = #{userId}

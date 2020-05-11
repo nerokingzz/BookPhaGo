@@ -1,21 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>  
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+
 <% request.setCharacterEncoding("UTF-8"); %>
-<!-- chatbot start -->
-<jsp:include page="chat/watson.jsp"></jsp:include>
-<!-- chatbot end -->
+
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
 	<title><spring:message code="site.title" text="북파고"/></title>
-	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+	
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
+	
+	<!-- style by template -->
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/animate.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/flatpickr.min.css">
@@ -27,126 +29,50 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
-	<script
-  		src="https://code.jquery.com/jquery-3.4.1.min.js"
-  		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  		crossorigin="anonymous"></script>
-
-</head>
-
+	
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  	
+  	<!-- font -->
+  	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+  	
+  	<!-- session 로그인 정보 -->
 	<%
 		session=request.getSession();
 		String user_id=(String)session.getAttribute("user_id");
 		String user_position=(String)session.getAttribute("user_position");
 	%>
-
-
+	
+	<style>
+		*{margin:0;padding:0;}
+	  	ul,li{list-style:none;}
+	  	#slide{height:300px;position:relative;overflow:hidden;}
+	  	#slide ul{width:400%;height:100%;transition:1s;}
+	  	#slide ul:after{content:"";display:block;clear:both;}
+	  	#slide li{float:left;width:25%;height:100%;}
+	  	#slide li:nth-child(1){background:#faa;}
+	  	#slide li:nth-child(2){background:#ffa;}
+	  	#slide li:nth-child(3){background:#faF;}
+	  	#slide li:nth-child(4){background:#aaf;}
+	  	#slide input{display:none;}
+	  	#slide label{display:inline-block;vertical-align:middle;width:10px;height:10px;border:2px solid #666;background:#fff;transition:0.3s;border-radius:50%;cursor:pointer;}
+	  	#slide .pos{text-align:center;position:absolute;bottom:10px;left:0;width:100%;text-align:center;}
+	  	#pos1:checked~ul{margin-left:0%;}
+	  	#pos2:checked~ul{margin-left:-100%;}
+	  	#pos3:checked~ul{margin-left:-200%;}
+	  	#pos4:checked~ul{margin-left:-300%;}
+	  	#pos1:checked~.pos>label:nth-child(1){background:#666;}
+	  	#pos2:checked~.pos>label:nth-child(2){background:#666;}
+	  	#pos3:checked~.pos>label:nth-child(3){background:#666;}
+	  	#pos4:checked~.pos>label:nth-child(4){background:#666;}
+	</style>
+</head>
 
 <body>
-		
 
-
-		<header>
-			<div class="container">
-				<div class="header-data">
-					<div class="logo">
-						<a href="/" title=""><img src="${contextPath}/resources/bootstrap/images/logo.png" alt=""></a>
-					</div><!--logo end-->
-					<nav>
-						<ul>
-							<li>
-								<a href="/" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon1.png" alt=""></span>
-									<spring:message code="top.home" text="홈"/>
-								</a>
-							</li>
-							<li>
-								<a href="book_main.do?page=search" title="">
-									<span><img src="${contextPath}/resources/bootstrap/images/icon2.png" alt=""></span>
-									<spring:message code="top.book" text="도서"/>
-								
-								</a>
-								<ul>
-									<li><a href="book_main.do?page=search" title=""><spring:message code="top.book.search" text="도서검색"/></a></li>
-									<li><a href="book_main.do?page=apply" title=""><spring:message code="top.book.request" text="도서신청"/></a></li>
-								</ul>
-							</li>
-							
-							<c:choose>
-								<c:when test="${user_position ne null}">
-									<li>
-										<a href="com_main.do" title="">
-											<span><img src="${contextPath}/resources/bootstrap/images/icon3.png" alt=""></span>
-											<spring:message code="top.comm"/>
-										</a>
-									</li>
-									<li>
-										<a href="myLib_main.do" title="" class="not-box-openm">
-											<span><img src="${contextPath}/resources/bootstrap/images/icon6.png" alt=""></span>
-											<spring:message code="top.mylib"/>
-										</a>
-										<ul>
-											<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
-											<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
-											<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
-										</ul>
-									</li>								
-								</c:when>
-							</c:choose>
-							
-							
-							
-
-
-							<c:choose>
-								<c:when test="${user_position eq 'admin'}">
-									<li>
-										<a href="admin_main.do" title="" class="not-box-open">
-											<span><img src="${contextPath}/resources/bootstrap/images/icon7.png" alt=""></span>
-											<spring:message code="top.admin" text="관리자전용"/>
-										</a>
-										<ul>
-											<li><a href="admin_main.do?page=user_A" title=""><spring:message code="top.admin.member" text="회원관리"/></a></li>
-											<li><a href="admin_main.do?page=book_A" title=""><spring:message code="top.admin.book" text="도서관리"/></a></li>
-											<li><a href="admin_main.do?page=book_status_A" title=""><spring:message code="top.admin.current" text="현황관리"/></a></li>
-											<li><a href="admin_main.do?page=com_A" title=""><spring:message code="top.admin.comm" text="커뮤니티관리"/></a></li>
-											<li><a href="admin_main.do?page=dec_A" title=""><spring:message code="top.admin.report" text="신고관리"/></a></li>
-											<li><a href="admin_main.do?page=chat_A" title=""><spring:message code="top.admin.chatbot" text="챗봇관리"/></a></li>
-										</ul>
-									</li>
-								</c:when>
-							</c:choose>
-						</ul>
-					</nav><!--nav end-->
-				
-				<div class="menu-btn">
-						<a href="#" title=""><i class="fa fa-bars"></i></a>
-					</div><!--menu-btn end-->
-					
-					<c:choose>
-						<c:when test="${user_position ne null}">
-							<div class="user-account">
-								<div class="user-info">
-									<a href="" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
-									<p style="text-indent:1.2em;line-height:1;" />
-									<a href="logout.do" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
-								</div>
-							</div>
-						</c:when>
-						<c:when test="${user_position eq null}">
-							<div class="user-account">
-								<div class="user-info">
-									<a href="sign.do" title=""><spring:message code="top.right.sign" text="로그인/회원가입"/></a>
-								</div>
-							</div>
-						
-						</c:when>
-					</c:choose>
-					
-				</div><!--header-data end-->
-			</div>
-		</header><!--header end-->
-		
+	<!-- header -->
+	<jsp:include page="header.jsp"></jsp:include>
+	
 		<section class="banner">
 			<div class="bannerimage">
 			<img src="${contextPath}/resources/bootstrap/images/about.png" alt="image">
@@ -201,30 +127,25 @@
 			<div class="acount-tabs-setting">
 				<div class="row">
 					<div class="col-lg-13">
-								<div class="tabmenu">
-								<ul>
-									<li id="tab1" class="btnCon"><input type="radio" checked
-										name="tabmenu" id="tabmenu1"> <label for="tabmenu1"><spring:message code="mid.notice"  text="공지사항"/></label>
-										<div class="tabCon">Lorem Ipsum is simply dummy text of
-											the printing and typesetting industry. Lorem Ipsum has been
-											the industry's standard dummy text ever since the 1500s, when
-											</div></li>
-									<li id="tab2" class="btnCon"><input type="radio"
-										name="tabmenu" id="tabmenu2"> <label for="tabmenu2"><spring:message code="mid.qna"  text="자주묻는 질문"/></label>
-										<div class="tabCon">It is a long established fact that a
-											reader will be distracted by the readable content of a page
-											when looking at its layout. The point of using Lorem Ipsum is
-											</div></li>
-									<li id="tab3" class="btnCon"><input type="radio"
-										name="tabmenu" id="tabmenu3"> <label for="tabmenu3"><spring:message code="mid.guide"  text="이용 안내"/></label>
-										<div class="tabCon">There are many variations of
-											passages of Lorem Ipsum available, but the majority have
-											suffered alteration in some form, by injected humour, or
-										</div>
-									</li>
-								</ul>
-							</div>
+						<div style="padding-top:40px;" id="slide">
+						  <input type="radio" name="pos" id="pos1" checked>
+						  <input type="radio" name="pos" id="pos2">
+						  <input type="radio" name="pos" id="pos3">
+						  <input type="radio" name="pos" id="pos4">
+						  <ul>
+						    <li></li>
+						    <li></li>
+						    <li></li>
+						    <li></li>
+						  </ul>
+						  <p class="pos">
+						    <label for="pos1"></label>
+						    <label for="pos2"></label>
+						    <label for="pos3"></label>
+						    <label for="pos4"></label>
+						  </p>
 						</div>
+					</div>
 						<!--acc-leftbar end-->
 					<div class="col-lg-14">
 						<div class="tab-content" id="nav-tabContent">
@@ -303,54 +224,28 @@
 		</div>
 	</section>
 
-		<footer>
-			<div class="footy-sec mn no-margin">
-				<div class="container">
-					<ul>
-						<li><a href="help-center.html" title="">대표이사 : 심동현</a></li>
-						<li><a href="about.html" title="">과장 : 김민선</a></li>
-						<li><a href="#" title="">CEO : 서종대</a></li>
-						<li><a href="#" title="">그냥 : 이동주</a></li>
-						<li>
-							<div>
-								<select name="locale">
-									<option value="">GLOBAL</option>
-									<option value="ko">한국어</option>
-									<option value="en">English</option>
-									<option value="cn">中文</option>
-									<option value="jp">日本語</option>
-								</select>
-							</div>
-						</li>
-				</ul>
-					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
-					<img class="fl-rgt" src="${contextPath}/resources/bootstrap/images/logo2.png" alt="">
-				</div>
-			</div>
-			
+	<!-- footer -->
+	<jsp:include page="footer.jsp"></jsp:include>
+	
+	<!-- script -->
+	<script>
+		$('select[name=locale]').change(function() {
+			var lang = $(this).val();
+			if (lang == "") {
+				
+			} else {
+				location.href = "${contextPath}/locale.do?locale=" + lang;
+			}
+		});
+	</script>
 
-				<script>
-					$('select[name=locale]')
-							.change(
-									function() {
-										var lang = $(this).val();
-										if (lang == "") {
-										} else {
-											location.href = "${contextPath}/locale.do?locale="
-													+ lang;
-										}
-									});
-				</script>
-
-		</footer><!--footer end-->
-
-
-
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
-<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
+	<!-- js by template -->
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>
+	
 </body>
 </html>

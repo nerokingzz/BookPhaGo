@@ -120,6 +120,12 @@ public class MemberServiceImpl implements MemberService {
 		String result = dao.useridcheck(vo);
 		return result;
 	}
+
+	@Override
+	public void badAlertOk(String user_id) {
+		dao.badAlertOk(user_id);
+		
+	}
 	
 
 	

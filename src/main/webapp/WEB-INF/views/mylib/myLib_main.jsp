@@ -21,6 +21,11 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
+	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
+	<script src="${contextPath}/resources/ibsheet/ibleaders.js"></script>
 </head>
 
 	<%
@@ -38,25 +43,21 @@
 		console.log(pageInfo);
 		
 		if (pageInfo == 'score') {
-			alert("도서평가로 바로 이동");
 			$("#nav-acc-tab").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab").attr("aria-selected", "true");
 			$("#nav-acc").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'favor') {
-			alert("취향분석으로 바로 이동");
 			$("#nav-status-tab").attr("class", "nav-item nav-link active");
 			$("#nav-status-tab").attr("aria-selected", "true");
 			$("#nav-status").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'declare') {
-			alert("신고하기로 바로이동");
 			$("#nav-password-tab").attr("class", "nav-item nav-link active");
 			$("#nav-password-tab").attr("aria-selected", "true");
 			$("#nav-password").attr("class", "tab-pane fade show active");
 			
 		} else if (pageInfo == 'status') {
-			alert("현황관리로 바로이동");
 			$("#nav-acc-tab2").attr("class", "nav-item nav-link active");
 			$("#nav-acc-tab2").attr("aria-selected", "true");
 			$("#nav-acc2").attr("class", "tab-pane fade show active");
@@ -92,45 +93,52 @@
 	
 	/*Sheet 기본 설정 */
 	function LoadPage() {
-		mySheet.RemoveAll();
-		//아이비시트 초기화
-		var initSheet = {};
-		initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
-		initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
-		initSheet.Cols = [
-			{Header:"繁번호", Type:"int", SaveName:"COMMUNITY_ID", MinWidth:20},
-			{Header:"신청날짜", Type:"Text", SaveName:"COMMUNITY_ESTABLISH_DATE", MinWidth:90},
-			{Header:"신청인", Type:"Text", SaveName:"COMMUNITY_CAPTAIN", MinWidth:80},
-			{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
-			{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:50},			
-			{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:200},
-			{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
-			{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
+		var pageInfo='${pageInfo}';
+		if (pageInfo === 'score') { //도서평가
 			
-		];   
-		IBS_InitSheet( mySheet , initSheet);
-		
-		mySheet.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
-        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
-		//doAction('search');
-		
-		mySheet.SetEditable(true);
-		doAction('search');
+			mySheet_score.RemoveAll();
+			//아이비시트 초기화
+			var initSheet = {};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
+			initSheet.Cols = [
+				{Header:"책번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:60},
+				{Header:"장르", Type:"Text", SaveName:"BOOKGENRE", MinWidth:60},
+				{Header:"제목", Type:"Text", SaveName:"BOOKNAME", MinWidth:550},
+				{Header:"평가", Type:"Combo", SaveName:"BOOKSCORE", OnChange:scoreUpdate, ComboText:"0|★|★★|★★★|★★★★|★★★★★", ComboCode:"0|1|2|3|4|5", MinWidth:80}
+			];
+   
+			IBS_InitSheet( mySheet_score , initSheet);
+			
+			mySheet_score.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
+	        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
+			//doAction('search');
+			
+			mySheet_score.SetEditable(true);
+			doAction('search');
 
-		mySheet.SetCountPosition(1);
-		mySheet.SetPagingPosition(2);
-
+			mySheet_score.SetCountPosition(1);
+			mySheet_score.SetPagingPosition(2);
+			
+		} 
+		
 	}
-
 	
 	/*Sheet 각종 처리*/
 	function doAction(sAction) {
+		
+		var pageInfo='${pageInfo}';
 		
 		switch(sAction) {
 			case "search": //조회
 			    //var param = FormQueryStringEnc(document.frm);
 			
-				mySheet.DoSearch("book_history.do");
+				if (pageInfo == 'score') {
+					var page="score";
+					mySheet_score.DoSearch("book_history", page);
+				} 
+				
+				//mySheet.DoSearch("transaction_data2.json");
 				break;
 			case "reload": //초기화
 				mySheet.RemoveAll();
@@ -161,18 +169,20 @@
 			//번호 다시 매기기
             //mySheet.ReNumberSeq();
 		}	
-	}	
+	}
 	
-	function comStsAdminIb(evtParam) {
-		var row=mySheet.GetSelectionRows();
-		var community_id = mySheet.GetCellValue(row, "COMMUNITY_ID");
-		console.log(row + "번 로우의 커뮤니티아이디는" + community_id);
-		var comStatus=mySheet.GetCellValue(row, "COMMUNITY_ESTABLISH_STATUS");
-		console.log(row + "번 로우의 커뮤니티아이디는" + community_id + "이고 변경된 상태는" + comStatus);
+	function scoreUpdate(evtParam) {
+		var user_id='${user_id}';
+		var row=mySheet_score.GetSelectionRows();
+		var book_number = mySheet_score.GetCellValue(row, "BOOKNUMBER");
+		console.log(row + "번 로우의 책번호는" + book_number);
+		var bookScore=mySheet_score.GetCellValue(row, "BOOKSCORE");
+		console.log(row + "번 로우의 책번호는" + book_number + "이고 변경된 점수는" + bookScore);
+		console.log('${user_id}');
 		
 		$.ajax({
-			url:"com_esta_request_admin.do",
-			data:{"community_id" : community_id, "admin_sts" : comStatus},
+			url:"book_scroe_update.do",
+			data:{"book_number" : book_number, "book_score" : bookScore, "user_id" : user_id},
 			method:"POST",
 			success:function(data) {
 				alert(data);
@@ -184,7 +194,7 @@
 
 </script>
 
-<body>	
+<body onload="LoadPage()">	
 
 	<div class="wrapper">	
 
@@ -301,12 +311,15 @@
 								<div class="tab-pane fade" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
 									<div class="acc-setting">
 										<h3>도서평가</h3>
-											
+										<div class="main_content" style="width: 100%; height:100%;">
+											<div class="ib_product"><script>createIBSheet("mySheet_score", "100%", "100%");</script></div>
+						  				</div>
 									</div><!--acc-setting end-->
 								</div>
 							  	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
 							  		<div class="acc-setting">
 							  			<h3>취향분석</h3>
+							  			<jsp:include page="mylibrary/mylib_favor.jsp"></jsp:include>
 							  		</div><!--acc-setting end-->
 							  	</div>
 							  	<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">

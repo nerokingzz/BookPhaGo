@@ -9,6 +9,9 @@ import org.team.bpg.member.vo.MemberVO;
 import org.team.bpg.member.vo.SearchCriteria;
 
 public interface MemberService {
+	
+	//패널티
+	public void badAlertOk(String user_id);
 
 	public void register(MemberVO vo) throws Exception;
 	

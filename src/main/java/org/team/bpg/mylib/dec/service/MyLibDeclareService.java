@@ -17,4 +17,5 @@ public interface MyLibDeclareService {
 	
 	public int countDeclare(HttpServletRequest request);
 	public List<DeclareInfoVO> declareList(PageVO pageVo, HttpServletRequest request);
+	
 }

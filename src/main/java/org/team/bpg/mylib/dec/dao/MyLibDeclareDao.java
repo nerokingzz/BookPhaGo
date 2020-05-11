@@ -16,4 +16,6 @@ public interface MyLibDeclareDao {
 	public int countDeclare();
 	public List<DeclareInfoVO> declareList(Map<String, Object> info);
 	
+	public void doPenalty(String user_id);
+	
 }

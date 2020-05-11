@@ -26,6 +26,7 @@
  				do_user = #{user_id}
  			</if>
  		</where>
+ 		ORDER BY declare_id DESC
  	</select>
  	
  	<!-- 신고정보 사진 select -->
@@ -59,6 +60,12 @@
 				)
 		WHERE RN BETWEEN #{start} AND #{end}
  	</select>
+ 	
+ 	<!-- 신고자 penalty -->
+ 	<update id="user_penalty" parameterType="string">
+ 		UPDATE U_USER_INFO SET badcnt=badcnt+1
+ 		WHERE userid=#{user_id}
+ 	</update>
  	
  	
 </mapper>

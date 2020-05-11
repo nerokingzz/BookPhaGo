@@ -19,15 +19,20 @@
 		wsocket.close();
 	}
 	function onOpen(evt) {
-		appendMessage(${comInfo.get('COMMUNITY_ID') } + "번방" + $("#nickname").val() + "입장하셨습니다.");
+		//appendMessage(${comInfo.get('COMMUNITY_ID') } + "번방" + $("#nickname").val() + "입장하셨습니다.");
 	}
 	function onMessage(evt) {
 		var data = evt.data;
 		var community_id=data.split(":")[0];
 		console.log(community_id);
+		console.log(data);
+		
+		console.log(data.split(":")[1]);
+		console.log(data.split(":")[2]);
 		
 		if(community_id == ${comInfo.get('COMMUNITY_ID') }) {
-			appendMessage(data);
+			appendMessage(data.split(":")[1] + " >> " + data.split(":")[2]);
+			
 		}
 		
 	}
@@ -76,19 +81,18 @@
 </script>
 <style>
 #chatArea {
-	width: 200px; height: 100px; overflow-y: auto; border: 1px solid black;
+	width: 100%; height: 200px; overflow-y: auto;
 }
 </style>
 </head>
-<body>
-	이름:<input type="text" id="nickname">
-	<input type="button" id="enterBtn" value="입장">
-	<input type="button" id="exitBtn" value="나가기">
+<body onLoad="connect()">
+	<input type="hidden" id="nickname" value=${memNick }>
     
-    <h1>대화 영역</h1>
-    <div id="chatArea"><div id="chatMessageArea"></div></div>
-    <br/>
-    <input type="text" id="message">
-    <input type="button" id="sendBtn" value="전송">
+    <div id="chatArea">
+    	<div id="chatMessageArea"></div>
+    </div>
+    
+    <input style="width:100%" type="text" id="message">
+    <input style="width:100%" type="button" id="sendBtn" value="전송">
 </body>
 </html>

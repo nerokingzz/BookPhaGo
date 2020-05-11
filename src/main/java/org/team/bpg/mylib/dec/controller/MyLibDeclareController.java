@@ -29,6 +29,12 @@ public class MyLibDeclareController {
 	@Autowired
 	private MyLibDeclareService myLibDeclareService;
 	
+	//신고안내 보여주기
+	@RequestMapping(value="mylib_dec_info", method=RequestMethod.GET)
+	public String decInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "mylib/declare/mylib_dec_info";
+	}
+	
 	//신고 양식 보여주기
 	@RequestMapping(value="mylib_declare_form", method=RequestMethod.GET)
 	public String declareForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -40,7 +46,7 @@ public class MyLibDeclareController {
 	public void declareRequest(@ModelAttribute DeclareInfoVO declareInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		myLibDeclareService.declareRequest(declareInfoVo);
-	
+		response.sendRedirect("/");	
 	}
 	
 	//신고내역 select (사용자 + 운영자) -> ibsheet

@@ -28,6 +28,8 @@ public interface LibraryDAO {
 	public String searchreturn(String userid);
 	public List<Map<String, Object>> return_bookNumber(Map<String, Object> book_list);
 	public List<Map<String, Object>> myLib_rentstatus(String user_id);
+	public List<Map<String, Object>> myLib_rentstatus_score(String user_id);
+	public List<BookInfoVO> myLib_rentstatus_favor(String user_id);
 	public List<Map<String, Object>> bookextendlist(String bookNumber);
 	public void updateB_BOOK_RENT(String bookNumber);
 	public int userborrow(String userid);
@@ -37,4 +39,7 @@ public interface LibraryDAO {
 	public int updatebookrent(Map<String, String> book_list);
 	public int updatebooklibreturn(Map<String, String> book_list);
 	public String applycnt(String userid);
+	
+	public void scoreUpdate(Map<String, Object> info);
+	public List<Map<String, Object>> recomList(String category);
 }

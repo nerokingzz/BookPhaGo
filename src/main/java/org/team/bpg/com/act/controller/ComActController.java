@@ -60,14 +60,27 @@ public class ComActController {
 		ModelAndView mav=new ModelAndView();
 		
 		Object[] data=comActService.comInfo(request);
+		
+		int memCnt=comActService.memCnt(request);
+		
+		//최신글 5개 가져오기
+		List<ArticleInfoVO> newArticleList=comActService.newArticle(Integer.parseInt(request.getParameter("community_id")));
+		System.out.println("새로운 글들이옵니다" + newArticleList);
+		
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		String memNick=(String) data[3];
 		
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("community_id", request.getParameter("community_id"));
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
+		mav.addObject("memNick", memNick);
+		
+		mav.addObject("newArticleList", newArticleList);
+		mav.addObject("newArticleListSize", newArticleList.size());
 		
 		mav.setViewName("com/act/com_act_home");
 		return mav;
@@ -94,6 +107,18 @@ public class ComActController {
 		
 		mav.setViewName("com/act/com_board");
 		return mav;
+	}
+	
+	//게시판 관리 데이터 가져오기 -> ibsheet
+	@ResponseBody
+	@RequestMapping(value="ib_board_list", method=RequestMethod.POST)
+	public Map<String, Object> ibBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Map<String, Object>> ibBoardList=comActService.boardAllList(request);
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", ibBoardList);
+		
+		return ibsheetMap;	
 	}
 	
 	//게시판 추가 화면 보여주기
@@ -124,12 +149,11 @@ public class ComActController {
 	
 	//게시판 상태변경
 	@ResponseBody
-	@RequestMapping(value="board_admin", method=RequestMethod.GET)
-	public List<Map<String, Object>> boardAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="board_admin", method=RequestMethod.POST)
+	public String boardAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		comActService.boardAdmin(request);
-		List<Map<String, Object>> boardList=comActService.comBoardAdmin(request);
-		return boardList;
+		return "ok";
 	}
 	
 	
@@ -356,8 +380,17 @@ public class ComActController {
 	public ModelAndView comActMemForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Object[] data=comActService.comInfo(request);
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		int memCnt=comActService.memCnt(request);
+		
 		ModelAndView mav=new ModelAndView();
+		
 		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
 		mav.setViewName("com/act/com_act_mem_form");
 		return mav;
 	}
@@ -789,8 +822,108 @@ public class ComActController {
 	}
 	
 	
-
+	//커뮤니티 검색
+	@RequestMapping(value="community_search", method=RequestMethod.GET)
+	public String comList(PageVO pageVo, Model model,
+			@RequestParam(value="nowPage", required=false)String nowPage,
+			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int comSearchCount = comActService.countSearchComm(request);
+		System.out.println("검색된 커뮤니티갯수" + comSearchCount);
+		
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+		
+		pageVo = new PageVO(comSearchCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		List<Map<String, Object>> comSearchList=comActService.comSearchList(pageVo, request);
+		model.addAttribute("paging", pageVo);
+		model.addAttribute("comSearchList", comSearchList);
+		model.addAttribute("comSearchListSize", comSearchList.size());
+		
+		return "com/act/com_search_list";
+	}
 	
+	//커뮤니티 상세보기
+	@RequestMapping(value="com_detail", method=RequestMethod.GET)
+	public ModelAndView comDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		int memCnt=comActService.memCnt(request);
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
+		mav.setViewName("com/act/com_detail");
+		
+		return mav;
+	}
+	
+	//커뮤니티 탈퇴
+	@ResponseBody
+	@RequestMapping(value="com_out", method=RequestMethod.POST)
+	public void comOut(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		comActService.comOut(request);
+	}
+	
+	//커뮤니티 멤버 확인
+	@RequestMapping(value="com_mem_list", method=RequestMethod.GET)
+	public ModelAndView comMemListForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Object[] data=comActService.comInfo(request);
+		Map<String, Object> comInfo=(Map<String, Object>) data[1];
+		String memChk=(String) data[0];
+		String memAuth=(String) data[2];
+		
+		int memCnt=comActService.memCnt(request);
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.addObject("comInfo", comInfo);
+		mav.addObject("memChk", memChk);
+		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
+		mav.setViewName("com/act/com_member_list");
+		return mav;
+		
+	}
+	
+	//멤버관리 -> ibsheet
+	@ResponseBody
+	@RequestMapping(value="mem_list", method=RequestMethod.POST)
+	public Map<String, Object> memAdmin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println("dkddlkdldd"+request.getParameter("community_id"));
+		List<Map<String, Object>> memList=comActService.memList(request);
+		
+		
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", memList);
+		
+		return ibsheetMap;	
+	}
+	
+	//회원등급 변경
+	@ResponseBody
+	@RequestMapping(value="mem_posi_up", method=RequestMethod.POST)
+	public String memPosiUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//db에 변경 내용 update하기
+		comActService.memPosiUpdate(request);
+				
+		return "ok";
+	}
 
 	
 	

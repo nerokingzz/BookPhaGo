@@ -1,16 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-		<footer>
-			<div class="footy-sec mn no-margin">
-				<div class="container">
-					<ul>
-						<li><a href="help-center.html" title="">대표이사 : 심동현</a></li>
-						<li><a href="about.html" title="">과장 : 김민선</a></li>
-						<li><a href="#" title="">CEO : 서종대</a></li>
-						<li><a href="#" title="">그냥 : 이동주</a></li>
-					</ul>
-					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
-					<img class="fl-rgt" src="${contextPath}/resources/bootstrap/images/logo2.png" alt="">
-				</div>
-			</div>
-		</footer><!--footer end-->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+
+<!DOCTYPE html>
+<html>
+
+<footer>
+	<div class="footy-sec mn no-margin">
+		<div class="container">
+			<ul>
+				<li><a href="#" title="">대표 : 심동현</a></li>
+				<li><a href="#" title="">이사 : 김민선</a></li>
+				<li><a href="#" title="">행인1 : 서종대</a></li>
+				<li><a href="#" title="">행인2 : 이동주</a></li>
+				<li>
+					<div>
+						<select name="locale"">
+							<option value="">GLOBAL</option>
+							<option value="ko">한국어</option>
+							<option value="en">English</option>
+							<option value="cn">中文</option>
+							<option value="jp">日本語</option>
+						</select>
+					</div>
+				</li>
+			</ul>
+			<p><img src="${contextPath}/resources/bootstrap/images/copy-icon2.png" alt="">Copyright 2020</p>
+			<img class="fl-rgt" src="${contextPath}/resources/bootstrap/images/logo2.png" alt="">
+		</div>
+	</div>
+</footer>
+
+</html>

@@ -15,6 +15,7 @@ import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
 import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
+import org.team.bpg.com.esta.vo.ComInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Service
@@ -43,26 +44,30 @@ public class ComActServiceImpl implements ComActService {
 		HttpSession session=request.getSession();
 		String user_id=(String)session.getAttribute("user_id");
 		Map<String, Object> info=new HashMap<String, Object>();
-		info.put("user_id", user_id);
-		info.put("community_id", community_id);
-		List<Map<String, Object>> memList=comActDao.comMemChk(info);
 		
-		System.out.println("멤버닉네임:" + memList.get(0).get("MEMBER_NICKNAME"));
-		String memNick=(String) memList.get(0).get("MEMBER_NICKNAME");
-		String memId=(String) memList.get(0).get("MEMBER_ID");
+		info.put("user_id", user_id);
+		info.put("community_id", community_id);	
 		
 		System.out.println("가져올 커뮤니티 아이디");
 		System.out.println(community_id);
 		Map<String, Object> comInfo=comActDao.comInfo(community_id);
 		
-		
 		System.out.println("가져온 커뮤니티 정보");
 		System.out.println(comInfo);
 		
+		String memNick=null;
+		String memId=null;
 		String memChk="x";
 		String memAuth="mem";
 		
+		List<Map<String, Object>> memList=comActDao.comMemChk(info);
+		
+		System.out.println("멤버리스트:" + memList);
+		
 		if (memList.size() > 0) {
+			
+			memNick=(String) memList.get(0).get("MEMBER_NICKNAME");
+			memId=(String) memList.get(0).get("MEMBER_ID");
 			
 			//커뮤니티의 운영자인지 확인
 			if (comInfo.get("COMMUNITY_CAPTAIN").equals(user_id)) {
@@ -74,6 +79,12 @@ public class ComActServiceImpl implements ComActService {
 		
 		Object[] data= {memChk, comInfo, memAuth, memNick, memId};
 		return data;
+	}
+	
+	@Override
+	public int memCnt(HttpServletRequest request) {
+		int memCnt=comActDao.memCnt(Integer.parseInt(request.getParameter("community_id")));
+		return memCnt;
 	}
 
 	@Override
@@ -170,6 +181,13 @@ public class ComActServiceImpl implements ComActService {
 	}
 	
 	@Override
+	public int countSearchComm(HttpServletRequest request) {
+		String search_keyword=request.getParameter("search_keyword");
+		int comSearchCount=comActDao.countSearchComm(search_keyword);
+		return comSearchCount;
+	}
+	
+	@Override
 	public int countSearchArticle(HttpServletRequest request) {
 		String search_option=request.getParameter("search_option");
 		String search_keyword=request.getParameter("search_keyword");
@@ -202,6 +220,43 @@ public class ComActServiceImpl implements ComActService {
 		
 		List<ArticleInfoVO> articleList=comActDao.articleList(info);
 		return articleList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> comSearchList(PageVO pageVo, HttpServletRequest request) {
+		String search_keyword=request.getParameter("search_keyword");
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("search_keyword", search_keyword);
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<Map<String, Object>> comSearchList=comActDao.comSearchList(info);
+		return comSearchList;
+	}
+	
+	@Override
+	public List<ComInfoVO> myComList(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		String user_id=(String)session.getAttribute("user_id");
+		
+		List<ComInfoVO> myComList=comActDao.myComList(user_id);
+		return myComList;
+	}
+	
+	@Override
+	public List<ComInfoVO> bestComList() {
+		List<ComInfoVO> bestComList=comActDao.bestComList();
+		return bestComList;
+	}
+	
+	@Override
+	public List<ArticleInfoVO> newArticle(int community_id) {
+		List<ArticleInfoVO> newArticle=comActDao.newArticle(community_id);
+		return newArticle;
 	}
 	
 	@Override
@@ -486,6 +541,55 @@ public class ComActServiceImpl implements ComActService {
 		
 		comActDao.reReplySubmit(replyInfoVo);
 		
+	}
+
+	@Override
+	public List<Map<String, Object>> comRandomList() {
+		List<Map<String, Object>> comRandomList=comActDao.comRandomList();
+		return comRandomList;
+	}
+
+	@Override
+	public void comOut(HttpServletRequest request) {
+		int community_id=Integer.parseInt(request.getParameter("community_id"));
+		String member_id=request.getParameter("member_id");
+		
+		Map<String, Object> info=new HashMap<>();
+		info.put("community_id", community_id);
+		info.put("member_id", member_id);
+		comActDao.comOut(info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> memList(HttpServletRequest request) {
+		int community_id=Integer.parseInt(request.getParameter("community_id"));
+		String member_id=request.getParameter("member_id");
+		Map<String, Object> info=new HashMap<>();
+		info.put("community_id", community_id);
+		info.put("member_id", member_id);
+		List<Map<String, Object>> memList=comActDao.memList(info);
+		return memList;
+	}
+
+	@Override
+	public void memPosiUpdate(HttpServletRequest request) {
+		int community_id=Integer.parseInt(request.getParameter("community_id"));
+		String member_id=request.getParameter("member_id");
+		String member_position=request.getParameter("member_position");
+		Map<String, Object> info=new HashMap<>();
+		info.put("community_id", community_id);
+		info.put("member_id", member_id);
+		info.put("member_position", member_position);
+		comActDao.memPosiUpdate(info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> boardAllList(HttpServletRequest request) {
+		int community_id=Integer.parseInt(request.getParameter("community_id"));
+		List<Map<String, Object>> boardAllList=comActDao.boardAllList(community_id);
+		return boardAllList;
 	}
 
 

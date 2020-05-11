@@ -13,6 +13,7 @@ import org.team.bpg.com.act.vo.BoardInfoVO;
 import org.team.bpg.com.act.vo.ComMemberVO;
 import org.team.bpg.com.act.vo.ReplyInfoVO;
 import org.team.bpg.com.act.vo.VoteInfoVO;
+import org.team.bpg.com.esta.vo.ComInfoVO;
 import org.team.bpg.utils.PageVO;
 
 @Repository
@@ -31,6 +32,12 @@ public class ComActDaoImpl implements ComActDao {
 	public Map<String, Object> comInfo(int community_id) {
 		Map<String, Object> comInfo=sqlSession.selectOne("com_act.com_info", community_id);
 		return comInfo;
+	}
+	
+	@Override
+	public int memCnt(int community_id) {
+		int memCnt=sqlSession.selectOne("com_act.mem_cnt", community_id);
+		return memCnt;
 	}
 
 	@Override
@@ -97,6 +104,12 @@ public class ComActDaoImpl implements ComActDao {
 	}
 	
 	@Override
+	public int countSearchComm(String search_keyword) {
+		int comSearchCount=sqlSession.selectOne("com_act.search_com_count", search_keyword);
+		return comSearchCount;
+	}
+	
+	@Override
 	public int countSearchArticle(Map<String, Object> info) {
 		int articleCount=sqlSession.selectOne("com_act.article_search_count", info);
 		return articleCount;
@@ -107,6 +120,40 @@ public class ComActDaoImpl implements ComActDao {
 		List<ArticleInfoVO> articleList=sqlSession.selectList("com_act.article_list", info);
 		System.out.println("글목록"+articleList);
 		return articleList;
+	}
+	
+	@Override
+	public List<Map<String, Object>> comSearchList(Map<String, Object> info) {
+		
+		System.out.println("넣을거"+info);
+		
+		List<Map<String, Object>> comSearchList=sqlSession.selectList("com_act.com_search_list", info);
+		
+		System.out.println("검색된 커뮤니티목록"+comSearchList);
+		return comSearchList;
+	}
+	
+	@Override
+	public List<ComInfoVO> myComList(String user_id) {
+		
+		List<ComInfoVO> myComList=sqlSession.selectList("com_act.my_com_list", user_id);
+		
+		System.out.println("나의 커뮤니티목록"+myComList);
+		return myComList;
+	}
+	
+	@Override
+	public List<ComInfoVO> bestComList() {
+		
+		List<ComInfoVO> bestComList=sqlSession.selectList("com_act.best_com_list");
+		
+		return bestComList;
+	}
+	
+	@Override
+	public List<ArticleInfoVO> newArticle(int community_id) {
+		List<ArticleInfoVO> newArticle=sqlSession.selectList("com_act.new_article", community_id);
+		return newArticle;
 	}
 	
 	@Override
@@ -280,6 +327,36 @@ public class ComActDaoImpl implements ComActDao {
 	public List<Map<String, Object>> reReplyList(Map<String, Object> info) {
 		List<Map<String, Object>> reReplyList=sqlSession.selectList("com_act.re_reply_list", info);
 		return reReplyList;
+	}
+
+	@Override
+	public List<Map<String, Object>> comRandomList() {
+		List<Map<String, Object>> comRandomList=sqlSession.selectList("com_act.random_com");
+		return comRandomList;
+	}
+
+	@Override
+	public void comOut(Map<String, Object> info) {
+		sqlSession.delete("com_act.com_out", info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> memList(Map<String, Object> info) {
+		List<Map<String, Object>> memList=sqlSession.selectList("com_act.mem_list", info);
+		return memList;
+	}
+
+	@Override
+	public void memPosiUpdate(Map<String, Object> info) {
+		sqlSession.update("com_act.mem_update", info);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> boardAllList(int community_id) {
+		List<Map<String, Object>> boardAllList=sqlSession.selectList("com_act.board_all_list", community_id);
+		return boardAllList;
 	}
 
 

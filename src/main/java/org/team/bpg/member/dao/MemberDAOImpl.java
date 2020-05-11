@@ -121,6 +121,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public String useridcheck(MemberVO vo) throws Exception {
 		return sql.selectOne("memberMapper.useridcheck", vo);
 	}
+
+	@Override
+	public void badAlertOk(String user_id) {
+		sql.update("memberMapper.badAlertOk", user_id);
+		
+	}
 	
 
 	
