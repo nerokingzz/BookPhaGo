@@ -253,9 +253,9 @@
 							<div class="tab-pane fade show active" id="nav-acc"
 								role="tabpanel" aria-labelledby="nav-acc-tab">
 								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
-									<h3>사서의 추천 도서</h3>
-									<br> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex2.png"
-										alt="image">
+									<h3>이 달의 신간 도서</h3>
+									<div id = "newBookThisMonth"> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex2.png"
+										alt="image"></div>
 								</div>
 							</div>
 						</div>
@@ -265,9 +265,9 @@
 							<div class="tab-pane fade show active" id="nav-acc"
 								role="tabpanel" aria-labelledby="nav-acc-tab">
 								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
-									<h3>사서의 추천 도서</h3>
-									<br> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex1.png"
-										alt="image">
+									<h3>오늘의 도서</h3>
+									<div id = "randomBookToday"><img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex1.png"
+										alt="image"></div>
 								</div>
 							</div>
 						</div>

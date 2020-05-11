@@ -22,6 +22,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.team.bpg.book.DAO.LibraryDAO;
 import org.team.bpg.chat.dao.ChatDAO;
 import org.team.bpg.member.vo.MemberVO;
+import org.team.bpg.chat.vo.BookVO;
 import org.team.bpg.chat.vo.RequestLogVO;
 
 
@@ -42,6 +43,20 @@ public class ChatServiceImpl implements ChatService {
 	DefaultTransactionDefinition def = null;
 	TransactionStatus status = null;
 	
+	
+	
+	@Override
+	public int insertTodayBook(BookVO vo) {
+		int result = 0;
+		result = chatDAO.insertTodayBook(vo);
+		return result;
+	}
+	
+	@Override
+	public BookVO getRandomBook(int randomIndex) {
+		BookVO randomBookVO = chatDAO.randomBook(randomIndex);
+		return randomBookVO;
+	}
 	
 
 	@Override
@@ -105,9 +120,6 @@ public class ChatServiceImpl implements ChatService {
 		List<Map<String, Object>> booklist = chatDAO.chat_rentstatus(user_id);
 		return booklist;
 	}
-
-
-	
 	
 
 }

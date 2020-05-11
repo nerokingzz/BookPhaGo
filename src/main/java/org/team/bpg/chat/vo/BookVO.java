@@ -4,50 +4,54 @@ import org.springframework.stereotype.Component;
 
 @Component("bookVO")
 public class BookVO {
-	private String booknumber, bookgenre, bookrent, bookreservation, isbn;
+	private String bookName, bookContents, bookWriter, bookGenre;
+	private byte[] bookThum;
+
+	public byte[] getBookThum() {
+		return bookThum;
+	}
+
+	public void setBookThum(byte[] bookThum) {
+		this.bookThum = bookThum;
+	}
+
+	public String getBookGenre() {
+		return bookGenre;
+	}
+
+	public void setBookGenre(String bookGenre) {
+		this.bookGenre = bookGenre;
+	}
+
+
 	
-	public String getBooknumber() {
-		return booknumber;
+	public String getBookName() {
+		return bookName;
 	}
 
-	public void setBooknumber(String booknumber) {
-		this.booknumber = booknumber;
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 
-	public String getBookgenre() {
-		return bookgenre;
+	public String getBookContents() {
+		return bookContents;
 	}
 
-	public void setBookgenre(String bookgenre) {
-		this.bookgenre = bookgenre;
+	public void setBookContents(String bookContents) {
+		this.bookContents = bookContents;
 	}
 
-	public String getBookrent() {
-		return bookrent;
+	public String getBookWriter() {
+		return bookWriter;
 	}
 
-	public void setBookrent(String bookrent) {
-		this.bookrent = bookrent;
+	public void setBookWriter(String bookWriter) {
+		this.bookWriter = bookWriter;
 	}
 
-	public String getBookreservation() {
-		return bookreservation;
-	}
 
-	public void setBookreservation(String bookreservation) {
-		this.bookreservation = bookreservation;
-	}
 
-	public String getIsbn() {
-		return isbn;
-	}
 
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
-
-	public BookVO() {
-	}
 
 	
 	
