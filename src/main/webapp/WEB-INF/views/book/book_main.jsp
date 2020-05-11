@@ -285,6 +285,7 @@ div.col-md-12 input {
 											<jsp:include page="userlibrarylist.jsp"></jsp:include>
 									</div><!--acc-setting end-->
 								</div>
+								
 							  	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
 							  		<div class="acc-setting">
 							  			<h3>도서신청</h3>
@@ -295,7 +296,7 @@ div.col-md-12 input {
 									<li data-tab="tab-1" class="current"><a href="#" title="">도서신청안내</a></li>				
 									<li data-tab="tab-2"><a href="#" title="">도서신청</a></li>				
 								</ul>			
-								<div class="sign_in_sec current" id="tab-1">
+								<div class="sign_in_sec current" id="tab-1" style="font-size: 14px;">
 									
 									○ <input  style = "border:none; font-weight:bold; background-color:transparent;" type="text" value="희망도서 신청안내" disabled><br><br>
 									＊신청대상 : 회원가입한 모든 사용자<br><br>
@@ -320,7 +321,7 @@ div.col-md-12 input {
 								</div><!--sign_in_sec end-->
 								<div class="sign_in_sec" id="tab-2">
 										
-									<div class="dff-tab current" id="tab-3">
+									<div class="dff-tab current" id="tab-3" style="font-size: 14px;">
 										
 										<c:set var="applycnt" value="${applycnt}"></c:set>
 										<c:if test="${applycnt ge 2}">
@@ -334,23 +335,23 @@ div.col-md-12 input {
 												<div class="row">
 				                                <div class="col-md-12 col-sm-12"><br>
 				                                   <h6>사용자 ID</h6><br>
-				                                   <input type="text" name="user_id" value="${user_id }" readonly><br>
+				                                   <input type="text" name="user_id" value="${user_id }" readonly><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                	<h6>도서명</h6><br>
-				                                	<input style="width:80%;" type="text" name="bookName" id="pInput"><input type="button" style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" value="검색" onclick="userapplysearchbook();"></h6><br>
+				                                	<input style="width:80%;" type="text" name="bookName" id="pInput"><input type="button" style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" value="검색" onclick="userapplysearchbook();"><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                    <h6>isbn</h6><br>
-				                                    <input type="text" name="isbn" id="pInputt" readonly><br>
+				                                    <input type="text" name="isbn" id="pInputt" readonly><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                	<h6>선청날짜</h6><br>
-				                                	<input type="text" name="applyDate" id="today" readonly><br>
+				                                	<input type="text" name="applyDate" id="today" readonly><br><br><br>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
 				                                	<h6>사유</h6><br>
-				                                	<input type="text" name="applyReason" id="applyReason"><br>
+				                                	<input type="text" name="applyReason" id="applyReason"><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                <input class="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px; color: white;" type="button" value="신청하기" onclick="going();">	

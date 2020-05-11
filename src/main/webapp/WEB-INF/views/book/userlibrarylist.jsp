@@ -95,7 +95,31 @@ table.type11 td {
 				</c:when>
 			</c:choose>
 		</tbody>
+														
 </table>
+
+											            <nav aria-label="Page navigation example" class="full-pagi">
+															<ul class="pagination" style="width: auto;float: right;">
+																<c:if test="${paging.startPage != 1 }">
+																	<li class="page-item"><a a class="page-link pvr" href="/book_main.do?page=search&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+																</c:if>	
+																
+																<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+																	<c:choose>
+																		<c:when test="${p == paging.nowPage }">
+																			<li class="page-item"><a class="page-link active">${p }</a></li>
+																		</c:when>
+																		<c:when test="${p != paging.nowPage }">
+																			<li class="page-item"><a class="page-link" href="/book_main.do?page=search&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+																		</c:when>
+																	</c:choose>
+																</c:forEach>
+																
+																<c:if test="${paging.endPage != paging.lastPage}">
+																	<li class="page-item"><a class="page-link pvr" href="/book_main.do?page=search&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+																</c:if>
+															</ul>
+														</nav>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>	

@@ -19,7 +19,7 @@
 </head>
 <body>
 	<h3 class="cls1">도서 정보 수정창</h3>
-	<h6 class="cls2">(도서 수정은 대출여부/예약여부만 가능합니다)</h6>
+	<h6 class="cls2">(도서 수정은 대출여부만 가능합니다)</h6>
 		<table align="center">
 			<c:choose>
 				<c:when test="${booklistSize==0 }">
@@ -52,7 +52,7 @@
 								<p align="right">장르 :
 							</td>
 							<td width="400"><input type="text" name="bookGenre"
-								value="${booklist.get(i-1).get('BOOKGENRE') }"></td>
+								value="${booklist.get(i-1).get('BOOKGENRE') }" readonly></td>
 						</tr>
 						<tr>
 							<td width="200">
@@ -60,20 +60,6 @@
 							</td>
 							<td width="400"><input type="text" name="bookRent"
 								value="${booklist.get(i-1).get('BOOKRENT') }"></td>
-						</tr>
-						<tr>
-							<td width="200">
-								<p align="right">예약여부 :
-							</td>
-							<td width="400"><input type="text" name="bookReservation"
-								value="${booklist.get(i-1).get('BOOKRESERVATION') }"></td>
-						</tr>
-						<tr>
-							<td width="200">
-								<p align="right">isbn :
-							</td>
-							<td width="400"><input type="text" name="isbn"
-								value="${booklist.get(i-1).get('ISBN') }" disabled></td>
 						</tr>
 						<tr align="center">
 							<td colspan="2" width="400"><input type="button"
@@ -100,11 +86,12 @@ function change() {
 	var bookReservation = $("input:text[name=bookReservation]").val();
 	
 	$.ajax({
-		url:"admin_main.do?page=book_A",
-		data:{"bookNumber" : bookNumber, "bookRent" : bookRent, "bookReservation" : bookReservation},
+		url:"booklibmod.do",
+		data:{"bookNumber" : bookNumber, "bookRent" : bookRent},
 		method:"POST",
 		success:function(data) {
-			opener.location.href="admin_main.do?page=book_A";
+			opener.parent.location.reload();
+			//location.reload();
 			window.close();
 		}
 	});

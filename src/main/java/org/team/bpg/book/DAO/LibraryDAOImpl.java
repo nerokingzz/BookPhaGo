@@ -3,6 +3,8 @@ package org.team.bpg.book.DAO;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,7 @@ import org.team.bpg.book.VO.BookInfoVO;
 
 @Repository
 public class LibraryDAOImpl implements LibraryDAO{
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -232,6 +234,52 @@ public class LibraryDAOImpl implements LibraryDAO{
 	@Override
 	public List<Map<String, Object>> adminapplystatus(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.adminapplystatus", book_list);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> admin_booklist() {
+		List<Map<String, Object>> requestList=sqlSession.selectList("book.admin_booklist");
+		return requestList;
+	}
+
+	@Override
+	public void updatebookrentNumber(int number) {
+		sqlSession.update("book.updatebookrentNumber", number);
+	}
+
+	@Override
+	public List<Map<String, Object>> admin_bookstatus(HttpServletRequest request) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.admin_bookstatus");
+		return booklist;
+	}
+
+	@Override
+	public void update_applystate(Map<String, Object> book_list) {
+		sqlSession.update("book.update_applystate", book_list);
+	}
+
+	@Override
+	public int countbook() {
+		int bookCount=sqlSession.selectOne("book.countbook");
+		return bookCount;
+	}
+
+	@Override
+	public List<Map<String, Object>> userlibrarylist(Map<String, Object> info) {
+		 List<Map<String, Object>> booklist=sqlSession.selectList("book.userlibrarylistt", info);
+		return booklist;
+	}
+
+	@Override
+	public int countrent(String user_id) {
+		int bookCount=sqlSession.selectOne("book.countrent", user_id);
+		return bookCount;
+	}
+
+	@Override
+	public List<Map<String, Object>> myLib_rentstatuss(Map<String, Object> info) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("book.myLib_rentstatuss", info);
 		return booklist;
 	}
 }

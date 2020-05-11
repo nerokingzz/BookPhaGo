@@ -372,11 +372,11 @@ table.type05 td {
 										
 										<div>
 								<div class="login-sec">
-								<ul class="sign-control">
+								<ul class="sign-control" style="margin-bottom: 0px;">
 									<li data-tab="tab-1" class="current"><a href="#" title="">도서대출현황</a></li>				
 									<li data-tab="tab-2"><a href="#" title="">도서신청현황</a></li>				
 								</ul>			
-								<div class="sign_in_sec current" id="tab-1">
+								<div class="sign_in_sec current" id="tab-1" style="margin-top: 50px;">
 									
 								<table class="type11">
 								    <thead>
@@ -431,11 +431,34 @@ table.type05 td {
 								    
 								    </tbody>
 								</table>
-									
+								
+								<nav aria-label="Page navigation example" class="full-pagi">
+															<ul class="pagination" style="width: auto; float: right;">
+																<c:if test="${paging.startPage != 1 }">
+																	<li class="page-item"><a a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+																</c:if>	
+																
+																<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+																	<c:choose>
+																		<c:when test="${p == paging.nowPage }">
+																			<li class="page-item"><a class="page-link active">${p }</a></li>
+																		</c:when>
+																		<c:when test="${p != paging.nowPage }">
+																			<li class="page-item"><a class="page-link" href="/myLib_main.do?page=status&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+																		</c:when>
+																	</c:choose>
+																</c:forEach>
+																
+																<c:if test="${paging.endPage != paging.lastPage}">
+																	<li class="page-item"><a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+																</c:if>
+															</ul>
+														</nav>
+														
 								</div><!--sign_in_sec end-->
 								<div class="sign_in_sec" id="tab-2">
 										
-									<div class="dff-tab current" id="tab-3">
+									<div class="dff-tab current" id="tab-3" style="font-size: 14px; margin-top: 50px;">
 									
 									⚂ <%out.println(user_id); %> 님이 신청하신 도서는 다음과 같습니다.
 									

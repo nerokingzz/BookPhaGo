@@ -14,33 +14,33 @@
 		<input type="hidden" name="page" value="return_A"> 
 		<input type="hidden" name="bookReservationn"> 
 		<div class="col-md-12 col-sm-12"><br>
-				 <h6>userid</h6><br>
-				 <input style="width:80%;" type="text" name="userid2" id="userid2" > <input style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" type="button" value="검색" onclick="searchUserId1();"><br>
+				 <h5>사용자 ID</h5><br>
+				 <input style="width:80%;" type="text" name="userid2" id="userid2" > <input style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" type="button" value="조회" onclick="searchUserId1();"><br>
 				 <p id="first1"></p>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-				 <h6>도서번호</h6><br>
+				 <h5>도서번호</h5><br>
 				 <input style="width:80%;" type="text" name="bookNumber2" id="bookNumber2" class="bookNumber2"> <input style="width:19%; padding-left: 0px; padding-right:0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" type="button" value="검색" onclick="searchbNumber1();"><br>
 				 <p id="second1"></p>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-				 <h6>도서명</h6><br>
+				 <h5>도서명</h5><br>
 				 <input type="text" name="bookName2" id="bookName2" readonly><br>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-				 <h6>저자</h6><br>
+				 <h5>저자</h5><br>
 				 <input type="text" name="bookWriter2" id="bookWriter2" readonly><br>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-				 <h6>출판사</h6><br>
+				 <h5>출판사</h5><br>
 				 <input type="text" name="bookPublisher2" id="bookPublisher2" readonly><br>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-				 <h6>반납날짜</h6><br>
+				 <h5>반납날짜</h5><br>
 				 <input type="text" name="RreturnDate" id="today" readonly><br>
 			</div>
 			<div class="col-md-12 col-sm-12"><br>
-			<input class="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px;" type="button" value="반납하기" onclick="gone();">	
+			<input class="seo_button" id="seo_buttom_sec" style="width:118.56px; padding-left: 0px; padding-right:0px;" type="button" value="반납하기" onclick="gone();" disabled>	
 			</div>	     
 </form>
 </div>
@@ -74,18 +74,18 @@ function searchUserId1() {
 				 	$("#first1").empty();
 			        $('#first1').append('반납할 도서 : 0');
 			        
-			        $("button") .prop('disabled', true);
+			        $("#seo_buttom_sec") .prop('disabled', true);
 			  
 			}else if (borrowcnt==1){
 				$("#first1").empty();
 		        $('#first1').append('반납할 도서 : 1');
 			        
-			        $("button") .prop('disabled', false);
+			        $("#seo_buttom_sec") .prop('disabled', false);
 			   
 			}else{
 				$("#first1").empty();
 		        $('#first1').append('반납할 도서 : 2');
-				$("button") .prop('disabled', false);
+				$("#seo_buttom_sec") .prop('disabled', false);
 			} 
 			
 			
@@ -121,7 +121,7 @@ function searchbNumber1() {
 				var bookRent = info.booklist[0].BOOKRENT;
 				var bookReservatin = info.booklist[0].BOOKRESERVATION;
 				
-				if(bookRent == "대출불가") {
+				if(bookRent == "대출불가" || bookRent == "연체중") {
 					$('#bookName2').val(bookName);
 					$('#bookWriter2').val(bookWriter);
 					$('#bookPublisher2').val(bookPublisher);

@@ -80,29 +80,29 @@ div.col-md-12 input {
 		<form action="admin_main.do" method="post" name="myform">
 		<input type="hidden" name="page" value="rent_A">
 				<div class="col-md-12 col-sm-12"><br>
-					 <h6>userid</h6><br>
+					 <h5>사용자 ID</h5><br>
 					 <input style="width:80%;" type="text" name="userid" id="userid" > <input style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" type="button" value="조회" onclick="searchUserId();"><br>
 					 <p id="first"></p>
 				</div>
 				<div class="col-md-12 col-sm-12"><br>
-					 <h6>도서번호</h6><br>
+					 <h5>도서번호</h5><br>
 					 <input style="width:80%;" type="text" name="bookNumber1" id="bookNumber1" class="bookNumber1"> <input style="width:19%; padding-left: 0px; padding-right:0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" type="button" value="검색" onclick="searchbNumber();"><br>
 					 <p id="second"></p>
 				</div>
 				<div class="col-md-12 col-sm-12"><br>
-					 <h6>도서명</h6><br>
+					 <h5>도서명</h5><br>
 					 <input type="text" name="bookName1" id="bookName1" readonly><br>
 				</div>
 				<div class="col-md-12 col-sm-12"><br>
-					 <h6>저자</h6><br>
+					 <h5>저자</h5><br>
 					 <input type="text" name="bookWriter1" id="bookWriter1" readonly><br>
 				</div>
 				<div class="col-md-12 col-sm-12"><br>
-					 <h6>출판사</h6><br>
+					 <h5>출판사</h5><br>
 					 <input type="text" name="bookPublisher1" id="bookPublisher1" readonly><br>
 				</div>
 				<div class="col-md-12 col-sm-12"><br>
-				<input class="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px;" type="button" value="대출하기" onclick="go();">	
+				<input class="seo_button" id="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px;" type="button" value="대출하기" onclick="go();" disabled>	
 				</div>	                                
 		</form>			                               
 		</div>	
@@ -133,19 +133,19 @@ function searchUserId() {
 					$("#first").empty();
 			        $('#first').append('대출가능횟수 : 2');
 			        
-			        $("button") .prop('disabled', false);
+			        $("#seo_button") .prop('disabled', false);
 			  
 			}else if (aa==1){
 					$("#first").empty();
 					$('#first').append('대출가능횟수 : 1');
 			        
-			        $("button") .prop('disabled', false);
+			        $("#seo_button") .prop('disabled', false);
 			   
 			}else{
 				$("#first").empty();
 				$('#first').append('대출가능횟수 : 0');
 				
-				$("button") .prop('disabled', true);
+				$("#seo_button") .prop('disabled', true);
 			}
 			
 			

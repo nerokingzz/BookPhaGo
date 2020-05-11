@@ -1,13 +1,17 @@
 package org.team.bpg.book.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.DAO.LibraryDAO;
 import org.team.bpg.book.VO.BookInfoVO;
+import org.team.bpg.utils.PageVO;
 
 @Service
 public class LibraryServiceImpl implements LibraryService{
@@ -220,7 +224,7 @@ public class LibraryServiceImpl implements LibraryService{
 	}
 
 	@Override
-	public List<Map<String, Object>> admin_applystatus() {
+	public List<Map<String, Object>> admin_applystatus(HttpServletRequest request) {
 		List<Map<String, Object>> booklist = libraryDAO.admin_applystatus();
 		return booklist;
 	}
@@ -233,6 +237,71 @@ public class LibraryServiceImpl implements LibraryService{
 	@Override
 	public List<Map<String, Object>> adminapplystatus(Map<String, String> book_list) {
 		List<Map<String, Object>> booklist = libraryDAO.adminapplystatus(book_list);
+		return booklist;
+	}
+
+	@Override
+	public List<Map<String, Object>> admin_booklist(HttpServletRequest request) {
+		List<Map<String, Object>> requestList=libraryDAO.admin_booklist();
+		System.out.println("requestList에 들어있는 내용");
+		System.out.println(requestList);
+		
+		return requestList;
+	}
+
+	@Override
+	public void updatebookrentNumber(int number) {
+		libraryDAO.updatebookrentNumber(number);
+	}
+
+	@Override
+	public List<Map<String, Object>> admin_bookstatus(HttpServletRequest request) {
+		List<Map<String, Object>> booklist = libraryDAO.admin_bookstatus(request);
+		return booklist;
+	}
+
+	@Override
+	public void update_applystate(Map<String, Object> book_list) {
+		libraryDAO.update_applystate(book_list);
+		
+	}
+
+	@Override
+	public int countbook(HttpServletRequest request) {
+		int bookCount=libraryDAO.countbook();
+		return bookCount;
+	}
+
+	@Override
+	public List<Map<String, Object>> userlibrarylist(PageVO pageVo, HttpServletRequest request) {
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		
+		System.out.println(pageVo.getStart());
+		System.out.println(pageVo.getEnd());
+		
+		List<Map<String, Object>> booklist=libraryDAO.userlibrarylist(info);
+		return booklist;
+	}
+
+	@Override
+	public int countrent(String user_id) {
+		int bookCount=libraryDAO.countrent(user_id);
+		return bookCount;
+	}
+
+	@Override
+	public List<Map<String, Object>> myLib_rentstatus(PageVO pageVo, String user_id) {
+		String userid = user_id;
+		
+		Map<String, Object> info=new HashMap<String, Object>();
+		info.put("start", pageVo.getStart());
+		info.put("end", pageVo.getEnd());
+		info.put("userid", userid);
+		
+		
+		List<Map<String, Object>> booklist=libraryDAO.myLib_rentstatuss(info);
 		return booklist;
 	}
 
