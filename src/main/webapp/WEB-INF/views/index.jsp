@@ -13,6 +13,7 @@
 	<meta charset="UTF-8">
 	<title><spring:message code="site.title" text="북파고"/></title>
 	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -27,43 +28,12 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	
 	<script
   		src="https://code.jquery.com/jquery-3.4.1.min.js"
   		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   		crossorigin="anonymous"></script>
-  	<style type="text/css">
-.calenderArea { 
-        padding: 15px;
-        font-size: 12px; line-height: 12px; 
-        font-family: "Lucida Sans Unicode", "Lucida Grande", 'New Gulim', '새굴림', Gulim, sans-serif; 
-} 
-.calenderArea .buttonWrapper { margin-bottom: 5px; text-align: center; vertical-align: middle; } 
-
-.calenderArea .titleDate { display: inline-block; width: 78px; text-align: left; vertical-align: bottom; } 
-
-.calenderArea button { 
-        width: 22px; padding: 0; 
-        border: 2px outset #dfdfdf; border-radius: 3px; background-color: #ececec; 
-        font: inherit; font-size: 8px; vertical-align: middle; 
-} 
-.calenderArea button:active { border-style: inset; } 
-
-.calenderArea table { 
-        border-width: 0; border-collapse: collapse; 
-        font-size: 12px; font-family: 'New Gulim', '새굴림', Gulim, Arial, sans-serif; 
-} 
-.calenderArea th, 
-.calenderArea td { width: 35px; padding: 10px 0; border: 1px solid gray; text-align: center; vertical-align: middle; } 
-
-.calenderArea .blankRow td { border-width: 0; height: 1px; font-size: 1px; line-height: 1px; } 
-
-.calenderArea .sundayy { color: red; } 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */ 
-/*.calenderArea .sunday { color: red !important; } 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */ 
-.calenderArea .today { background-color: lavender; } 
-/*.calenderArea .saturday { color: blue !important; } 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */ 
-.calenderArea .saturdayy { color: blue; } /*오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */ 
-.calenderArea .monday { color: red !important;}/* 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */ 
-</style>
+  	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/indexCalendar.css">
 <script type="text/javascript">
 function Calender (){
 
@@ -453,11 +423,11 @@ function Calender (){
 						<div class="tab-content" id="nav-tabContent">
 							<div class="tab-pane fade show active" id="nav-acc"
 								role="tabpanel" aria-labelledby="nav-acc-tab">
-								<div class="acc-setting" style='text-align: center;border: 4px solid white;' >
-									<h3><spring:message code="mid.cal"  text="캘린더"/></h3>
+								<div class="acc-setting" style='text-align: center;border: 4px solid white;min-height: 298px;' >
+									<h3 style="padding: 6px 20px;"><spring:message code="mid.cal"  text="캘린더"/></h3>
 									<br> 
 									
-									<div class="calenderArea" style="    padding-top: 60px;padding-right: 60px;padding-bottom: 60px;padding-left: 60px;">
+									<div class="calenderArea">
 									    <div class="buttonWrapper">
 									        <button onclick="showPrev()"> < </button> 
 									        <span class="titleDate" id="titleDate"></span> 
@@ -465,7 +435,7 @@ function Calender (){
 									    </div>
 									
 									    <div id="calenderWrapper"></div>
-									    <br>매주 월요일 휴관
+									    <br><span id="weRest"><span id = "restSquare">■</span> 매주 월요일 휴관</span>
 									</div>
 
 								</div>

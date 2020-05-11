@@ -1,0 +1,107 @@
+.calenderArea {
+	font-size: 12px;
+	line-height: 12px;
+	font-family: "Malgun Gothic";
+	display: inline;
+    padding-left: 40px;
+    padding-right: 40px;
+    
+}
+
+.calenderArea .buttonWrapper {
+	margin: 0 17%;
+	text-align: center;
+	vertical-align: middle;
+	background: #e44d3a;
+    line-height: 30px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+
+.calenderArea .calendarWrapper {
+	margin-left: 2% !important;
+    margin-right: 2% !important;
+    min-height: 191px !important;
+}
+
+.calenderArea .titleDate {
+	display: inline-block;
+	width: 78px;
+	text-align: center;
+	vertical-align: bottom;
+}
+
+.calenderArea button {
+	width: 22px;
+    padding: 0;
+	background-color: transparent;
+    font: inherit;
+    font-size: 8px;
+    vertical-align: middle;
+    outline: none;
+    border: 0;
+    font-family: serif;
+    color : white;
+}
+
+.calenderArea button:active {
+	border-style: inset;
+}
+
+.calenderArea table {
+	border-width: 0;
+	border-collapse: collapse;
+	font-size: 12px;
+	font-family: "Malgun Gothic";
+	margin: auto;
+}
+
+.calenderArea th, .calenderArea td {
+	width: 35px;
+	padding: 7px 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.calenderArea .blankRow td {
+	border-width: 0;
+	height: 1px;
+	font-size: 1px;
+	line-height: 1px;
+}
+
+.calenderArea .sundayy {
+	color: black;
+}
+.calenderArea .saturdayy {
+	color: black;
+} /*오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */
+
+오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important * /
+	/*.calenderArea .sunday { color: red !important; } 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */
+	 
+.calenderArea .today {
+	background-color: lavender;
+}
+/*.calenderArea .saturday { color: blue !important; } 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */
+
+.calenderArea .monday {
+	color: white !important;
+    background: #f29661;
+} /* 오늘 날짜가 일요일과 겹칠 경우를 대비하여  !important */
+
+
+.calenderArea #weRest {
+	float: right;
+    margin-right: 20%;
+    font-size: 8px;
+    color: #5d5d5d;
+    margin-top: -5px;
+    margin-bottom: 14px;
+}
+
+.calenderArea #weRest #restSquare{
+	color : #f29661;
+}
