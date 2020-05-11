@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.team.bpg.book.VO.BookInfoVO;
+import org.team.bpg.utils.PageVO;
 
 public interface LibraryService {
 	public List<Map<String, Object>> adminlibrarylist();
@@ -45,4 +46,18 @@ public interface LibraryService {
 	
 	public void scoreUpdate(HttpServletRequest request);
 	public List<Map<String, Object>> recomList(String category);
+	public List<Map<String, Object>> myLib_applystatus(String user_id);
+	public List<Map<String, Object>> admin_bookstatus();
+	public List<Map<String, Object>> adminrentstatus(Map<String, String> book_list);
+	public List<Map<String, Object>> admin_applystatus(HttpServletRequest request);
+	public void updateapplyDB(Map<String, Object> book_list);
+	public List<Map<String, Object>> adminapplystatus(Map<String, String> book_list);
+	public List<Map<String, Object>> admin_booklist(HttpServletRequest request);
+	public void updatebookrentNumber(int number);
+	public List<Map<String, Object>> admin_bookstatus(HttpServletRequest request);
+	public void update_applystate(Map<String, Object> book_list);
+	public int countbook(HttpServletRequest request);
+	public List<Map<String, Object>> userlibrarylist(PageVO pageVo, HttpServletRequest request);
+	public int countrent(String user_id);
+	public List<Map<String, Object>> myLib_rentstatus(PageVO pageVo, String user_id);
 }

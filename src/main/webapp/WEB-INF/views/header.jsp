@@ -52,6 +52,7 @@
 									<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
 									<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
 									<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
+									<li><a href="myLib_main.do?page=status" title=""><spring:message code="top.mylib.report" text="현황보기"/></a></li>
 								</ul>
 							</li>								
 						</c:when>
@@ -101,9 +102,8 @@
 					</div>
 				</c:when>
 
-				
 				<c:when test="${user_position eq null}">
-					<div class="user-account">
+					<div style="padding-top:5px" class="user-account">
 						<div class="user-info">
 							<a href="sign.do" title=""><spring:message code="top.right.sign" text="로그인/회원가입"/></a>
 						</div>

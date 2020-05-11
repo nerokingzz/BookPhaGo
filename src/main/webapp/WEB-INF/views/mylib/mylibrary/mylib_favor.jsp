@@ -1,24 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+
+<% request.setCharacterEncoding("UTF-8"); %>
 
 <!DOCTYPE html>
 <html>
+
 <head>
+	
 	<meta charset="UTF-8">
-	<title>신고 양식 작성</title>
-	
-	<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
-	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
+	
+	<!-- style by template -->
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/animate.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/flatpickr.min.css">
@@ -30,17 +27,25 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
-	<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
 	
+	<!-- jquery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	
-</head>
-
+  	
+  	<!-- font -->
+  	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+  	
+  	<!-- session 로그인 정보 -->
 	<%
 		session=request.getSession();
 		String user_id=(String)session.getAttribute("user_id");
 		String user_position=(String)session.getAttribute("user_position");
 	%>
+</head>	
 	
 	<script type="text/javascript">
 		
@@ -83,7 +88,6 @@
 				method:"POST",
 				data:{"favorite" : favorite},
 				success:function(data) {
-					alert("ok");
 					console.log(data);
 					
 					for(var i=0; i<data.length; i++) {

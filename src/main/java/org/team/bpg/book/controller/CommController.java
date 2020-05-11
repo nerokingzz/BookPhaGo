@@ -1,3 +1,4 @@
+
 package org.team.bpg.book.controller;
 
 import java.util.HashMap;
@@ -120,17 +121,17 @@ public class CommController {
 		libraryService.librarydelete(book_list);
 	}
 
-	@RequestMapping(value = "userlibrarylist")
-	public ModelAndView userlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-
-		List<Map<String, Object>> booklist = libraryService.userlibrarylist();
-
-		mav.addObject("booklist", booklist);
-		mav.addObject("booklistSize", booklist.size());
-		mav.setViewName("book/userlibrarylist");
-		return mav;
-	}
+//	@RequestMapping(value = "userlibrarylist")
+//	public ModelAndView userlibrarylist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		ModelAndView mav = new ModelAndView();
+//
+//		List<Map<String, Object>> booklist = libraryService.userlibrarylist();
+//
+//		mav.addObject("booklist", booklist);
+//		mav.addObject("booklistSize", booklist.size());
+//		mav.setViewName("book/userlibrarylist");
+//		return mav;
+//	}
 
 	@RequestMapping(value = "usersearchbook")
 	public ModelAndView usersearchbook(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -418,5 +419,150 @@ public class CommController {
 		mav.setViewName("book/extendlist");
 		return mav;
 	}
+	
+	@Transactional
+	@RequestMapping(value = "end")
+	public @ResponseBody Map<String, Object> updateDB(@RequestBody Map<String, Object> param) {
+		String userid = (String) param.get("userid");
+		String selectVal = (String) param.get("selectVal");
+		System.out.println(userid);
+		System.out.println(selectVal);
+
+		Map<String, Object> book_list = new HashMap<String, Object>();
+		book_list.put("userid", userid);
+		book_list.put("selectVal", selectVal);
+	
+		libraryService.updateapplyDB(book_list);
+
+		return null;
+	}
+	
+	//개설 신청 내역 (시용자 + 관리자) -> ibsheet
+		@ResponseBody
+		@RequestMapping(value="mylib_book_request_list", method=RequestMethod.POST)
+		public Map<String, Object> comEstaRequestList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			
+			List<Map<String, Object>> comRequestList=libraryService.admin_booklist(request);
+			
+//			ModelAndView mav=new ModelAndView();
+//			mav.addObject("comRequestList", comRequestList);
+//			mav.addObject("comRequestListSize", comRequestList.size());
+//			
+//			System.out.println("사이즈:"+comRequestList.size());
+			
+			//mav.setViewName("com/esta/com_esta_request_list");
+			
+			Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+			ibsheetMap.put("data", comRequestList);
+			
+			return ibsheetMap;	
+		}
+		
+		//개설 신청 처리
+		@ResponseBody
+		@RequestMapping(value="booklibdel", method=RequestMethod.POST)
+		public String booklibdel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			String bookNumber=(String)request.getParameter("bookNumber");
+			System.out.println(bookNumber);
+			
+			Map<String, String> book_list=new HashMap<String, String>();
+			book_list.put("bookNumber", bookNumber);
+			
+			libraryService.librarydelete(book_list);
+			
+			return "ok";
+		}
+		
+		//개설 신청 처리
+				@ResponseBody
+				@RequestMapping(value="booklibmod", method=RequestMethod.POST)
+				public String booklibmod(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					String bookNumber=(String)request.getParameter("bookNumber");
+					String bookRent=(String)request.getParameter("bookRent");
+					System.out.println(bookNumber);
+					System.out.println(bookRent);
+					
+					Map<String, String> book_list=new HashMap<String, String>();
+					book_list.put("bookNumber", bookNumber);
+					book_list.put("bookRent", bookRent);
+					libraryService.modifylibrary(book_list);
+					
+					
+					return "ok";
+				}
+				
+		
+				//개설 신청 내역 (시용자 + 관리자) -> ibsheet
+				@ResponseBody
+				@RequestMapping(value="mylib_bookstatus_request_list", method=RequestMethod.POST)
+				public Map<String, Object> mylib_bookstatus_request_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+					List<Map<String, Object>> comRequestList=libraryService.admin_bookstatus(request);
+					
+					Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+					ibsheetMap.put("data", comRequestList);
+					
+					return ibsheetMap;	
+				}	
+				
+				//개설 신청 내역 (시용자 + 관리자) -> ibsheet
+				@ResponseBody
+				@RequestMapping(value="mylib_booksapplystatus_request_list", method=RequestMethod.POST)
+				public Map<String, Object> mylib_booksapplystatus_request_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+					List<Map<String, Object>> comRequestList=libraryService.admin_applystatus(request);
+					
+					Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+					ibsheetMap.put("data", comRequestList);
+					
+					return ibsheetMap;	
+				}
+				
+				//개설 신청 내역 (시용자 + 관리자) -> ibsheet
+				@ResponseBody
+				@RequestMapping(value="endding", method=RequestMethod.POST)
+				public Map<String, Object> endding(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					String applyNumber=(String)request.getParameter("applyNumber");
+					String applyState=(String)request.getParameter("applyState");
+					System.out.println(applyNumber);
+					System.out.println(applyState);
+					
+					Map<String, Object> book_list = new HashMap<String, Object>();
+					book_list.put("applyNumber", applyNumber);
+					book_list.put("applyState", applyState);
+				
+					libraryService.update_applystate(book_list);
+					
+					return null;	
+				}	
+	
+				
+//				//개설 신청 처리
+//				@ResponseBody
+//				@RequestMapping(value="bookinsertckeck")
+//				public String bookinsertckeck(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//					String authors=(String)request.getParameter("authors");
+//					System.out.println(authors);
+//					String isbn=(String)request.getParameter("isbn");
+////					String title=(String)request.getParameter("title");
+////					String contents=(String)request.getParameter("contents");
+////				    String a = (String)request.getParameter("a");
+////			    	String translators = (String)request.getParameter("translators");
+////			     	String publisher =(String)request.getParameter("publisher");
+////			     	String date = (String)request.getParameter("date");
+////			     	String thumbnail = (String)request.getParameter("thumbnail");
+////			     	
+//			     	System.out.println(isbn);
+////					System.out.println(title);
+////					System.out.println(contents);
+////					System.out.println(a);
+////				    System.out.println(translators);
+////					System.out.println(publisher);
+////					System.out.println(date);
+////					System.out.println(thumbnail);
+//
+//					
+//					return "ok";
+//				}
 	
 }

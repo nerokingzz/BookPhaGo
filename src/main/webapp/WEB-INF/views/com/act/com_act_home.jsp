@@ -163,21 +163,27 @@
 			</div>
 		</main>
 
-	<div class="chatbox-list">
-		<div class="chatbox">
-			<div class="chat-mg bx">
-				<a href="#" title=""><img src="${contextPath}/resources/bootstrap/images/chat.png" alt=""></a>
-			</div>
-			<div class="conversation-box">
-				<div class="con-title">
-					<h3>채팅</h3>
-					<a href="#" title="" class="close-chat"><i class="la la-minus-square"></i></a>
+	<c:choose>
+		<c:when test="${memChk eq 'o' }">
+			<div class="chatbox-list">
+				<div class="chatbox">
+					<div class="chat-mg bx">
+						<a href="#" title=""><img src="${contextPath}/resources/bootstrap/images/chat.png" alt=""></a>
+					</div>
+					<div class="conversation-box">
+						<div class="con-title">
+							<h3>채팅</h3>
+							<a href="#" title="" class="close-chat"><i class="la la-minus-square"></i></a>
+						</div>
+						<jsp:include page="/chat-ws.jsp"></jsp:include>
+		
+					</div><!--conversation-box end-->
 				</div>
-				<jsp:include page="/chat-ws.jsp"></jsp:include>
+			</div><!--chatbox-list end-->
+		</c:when>
+	</c:choose>
 
-			</div><!--conversation-box end-->
-		</div>
-	</div><!--chatbox-list end-->
+
 
 	<!-- footer -->
 	<jsp:include page="../../footer.jsp"></jsp:include>

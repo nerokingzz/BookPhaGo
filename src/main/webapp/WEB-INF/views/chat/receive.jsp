@@ -1,59 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>  
-    <%@ include file="watson.jsp" %>   
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${contextPath}/resources/chat/css/rent.css">
 <style>
-.wrap-loading { /*화면 전체를 어둡게 합니다.*/
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	background: rgba(0, 0, 0, 0.2); /*not in ie */
-	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000',
-		endColorstr='#20000000');
+.chart {
+	width: 100%;
+	min-height: 450px;
 }
 
-.wrap-loading div { /*로딩 이미지*/
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -21px;
-	margin-top: -21px;
-}
-
-.display-none { /*감추기*/
-	display: none;
-}
-
-div#rankSection {
-	border : 1px solid black;
-	margin: 1.5em 0 1.5em 0;
-	display: block;
+.row {
+	margin: 0 !important;
 }
 </style>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+
 </head>
 <body>
+도서 대출내역을 조회할 회원명을 입력하세요 : <input id = "userid" type = "text" > <button id = "getIt">조회</button>
+<div id = "successResult"></div>
+	
+<script type="text/javascript">
 
-<%
-   request.setCharacterEncoding( "utf-8" );
-%>
-<div id="rankSection">
-		<div id="resultDiv">
-			<div class="wrap-loading display-none">
-				<div>
-					<img src="${contextPath}/resources/chat/loader.gif" />
-				</div>
-			</div>
-		</div>
-	</div>
+var userid = null;
+
+$('#getIt').on('click',function(){
+	userid = $('#userid').val();
+
+	alert(userid);
+})
+
+$('#getIt').on('click',function(){
+	$.ajax({
+		url : '${contextPath}/chatUserBookCheck.do',
+		data : {"userid" : userid}, 
+		type : 'POST',
+		success : function(result) {
+			console.log(result);
+			$('#successResult').append(userid + "님의 조회 결과입니다.<br>");
+			for(i in result){
+				$('#successResult').append("도서명&nbsp;&nbsp;" + result[i].BOOKNAME + "<br>");
+				$('#successResult').append("도서번호&nbsp;&nbsp;" + result[i].BOOKNUMBER + "<br>");
+				$('#successResult').append("대여일&nbsp;&nbsp;" + result[i].RENTDATE + "<br>");
+				$('#successResult').append("반납예정일&nbsp;&nbsp;" + result[i].RETURNDATE + "<br>");
+				$('#successResult').append("상태&nbsp;&nbsp;" + result[i].STATE + "<br><hr>");
+			}
 
 
+		},
+		//에러 처리 필요함.
+		error : function(result, status) {
+			$('#successResult').append("오류가 발생했습니다." + status);
+		}
+	})
+})
+
+
+
+</script>
 </body>
 </html>

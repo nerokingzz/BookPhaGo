@@ -6,7 +6,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>투표 관리</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -21,7 +20,6 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
-	<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
@@ -605,28 +603,28 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">
-		var community_id=${comInfo.get("COMMUNITY_ID")};
-		$(document).ready(function() {
-			$.ajax({
-				url:"board_list.do",
-				contentType: 'application/json; charset=utf-8',
-				data:{"community_id" : community_id},
-				method:"GET",
-				success:function(data) {
-					console.log(data[0].BOARD_NAME);
-					console.log(data[0].COMMUNITY_ID);
-					console.log(data[0].BOARD_ID);
-					
-					for (var i=0; i<data.length; i++) {
-						
-						$("#board_list").append("<li><a href='com_act_board.do?board_id="+data[i].BOARD_ID+"&community_id="+data[i].COMMUNITY_ID+"'>"+data[i].BOARD_NAME+"</a></li>");
-						
-					}
-
-				}
+	var community_id=${comInfo.get("COMMUNITY_ID")};
+	$(document).ready(function() {
+		$.ajax({
+			url:"board_list.do",
+			contentType: 'application/json; charset=utf-8',
+			data:{"community_id" : community_id},
+			method:"GET",
+			success:function(data) {
+				console.log(data[0].BOARD_NAME);
+				console.log(data[0].COMMUNITY_ID);
+				console.log(data[0].BOARD_ID);
 				
-			})
+				for (var i=0; i<data.length; i++) {
+					
+					$("#board_list").append("<li style=\"list-style:none; padding-top:10px\"><a href='com_act_board.do?board_id="+data[i].BOARD_ID+"&community_id="+data[i].COMMUNITY_ID+"'>"+data[i].BOARD_NAME+"</a></li>");
+					
+				}
+
+			}
+			
 		})
+	})
 	</script>
 	
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>

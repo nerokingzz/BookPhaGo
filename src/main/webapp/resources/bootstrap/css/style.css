@@ -6953,6 +6953,7 @@ ul#myTab {
   color:white;
 }
 .tabmenu input:checked ~ .tabCon{
+  width: 100%;
   display:block;
 }
   

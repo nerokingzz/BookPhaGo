@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 
@@ -231,14 +230,7 @@ function search2(keepPage, val) {
         	var date = datetime.substring(0,10);
         	var thumbnail = "<img src='" + msg.documents[i].thumbnail + "'>";
         	
-/*         	alert(isbn);
-        	alert(title);
-        	alert(contents);
-        	alert(authors);
-        	alert(translators);
-        	alert(publisher);
-        	alert(date);
-        	alert(thumbnail); */
+        	//search3(isbn, title , contents, authors, translators, publisher, date, thumbnail);
         	
         	window.opener.document.getElementById("isbn").value = isbn;
         	window.opener.document.getElementById("bookName").value = title;
@@ -249,7 +241,21 @@ function search2(keepPage, val) {
         	window.opener.document.getElementById("bookDate").value = date;
         	window.opener.document.getElementById("bookThum").value = thumbnail;
          	
-        	window.close();
+        	window.close(); 
          });
 }
+
+/* function search3(isbn, title , contents, authors, translators, publisher, date, thumbnail){
+	alert(authors);
+	$.ajax({
+		url:"bookinsertckeck.do",
+		data:{"authors":authors,"isbn":isbn},
+		method:"POST",
+		success:function(data) {
+			//alert(data);
+			//location.href="admin_main.do?page=com_A";
+			//location.reload();
+		}
+	});
+} */
 </script>

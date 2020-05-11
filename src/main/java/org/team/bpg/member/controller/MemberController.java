@@ -69,12 +69,14 @@ public class MemberController {
 	public String postRegister(MemberVO vo, HttpServletRequest request) throws Exception {
 		
 		logger.info("post register");
+
 		
 				
 				service.register(vo);
 		
 			// 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
 			// 존재하지 않는다면 -> register
+
 	
 		int result = service.idChk(vo);
 		
@@ -290,6 +292,8 @@ public class MemberController {
 		// 회원 탈퇴 post
 				@RequestMapping(value="memberDelete1", method = RequestMethod.POST)
 				public String memberDelete1(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
+					
+					
 					// 세션에 있는 member를 가져와 member변수에 넣어줍니다.
 					MemberVO member = (MemberVO) session.getAttribute("member");
 				

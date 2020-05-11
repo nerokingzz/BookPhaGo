@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+
+<% request.setCharacterEncoding("UTF-8"); %>
+
+<!DOCTYPE html>
 <html>
+
+
 	<head>
 		<!-- 합쳐지고 최소화된 최신 CSS -->
 		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
@@ -9,7 +17,32 @@
 		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
 	 	
 	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<title>회원가입</title>
+	 	
+	 	
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	
+	<!-- style by template -->
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/animate.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/flatpickr.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/line-awesome.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/line-awesome-font-awesome.min.css">
+	<link href="${contextPath}/resources/bootstrap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/indexCalendar.css">
+	 	
+	 	  	<!-- session 로그인 정보 -->
+  	<%
+		session=request.getSession();
+		String user_id=(String)session.getAttribute("user_id");
+		String user_position=(String)session.getAttribute("user_position");
+	%>
 	</head>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -83,10 +116,19 @@
 
 	       //return false;
 	   }
+	 
+	 if ('${member.badcnt}' > 0) {
+		 alert("불량신고 ${member.badcnt}건 입니다. 주의해 주시기 바랍니다.");
+	 }
+	 
+	 
 	</script>
 	
 	<body>
-	<h1>정보수정화면</h1>
+	
+		<!-- header -->
+	<jsp:include page="../header.jsp"></jsp:include>
+	
 		<section id="container">
 			<form action="memberUpdate.do" method="post" onsubmit="return validate();">
 				<div class="form-group has-feedback">
@@ -189,5 +231,16 @@
 			</form>
 		</section>
 		
+		
+	<!-- footer -->
+	<jsp:include page="../footer.jsp"></jsp:include>
+		
+	<!-- js by template -->
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/flatpickr.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/lib/slick/slick.min.js"></script>
+	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/script.js"></script>		
 	</body>
 </html>

@@ -3,6 +3,8 @@ package org.team.bpg.book.DAO;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.team.bpg.book.VO.BookInfoVO;
 
 public interface LibraryDAO {
@@ -42,4 +44,18 @@ public interface LibraryDAO {
 	
 	public void scoreUpdate(Map<String, Object> info);
 	public List<Map<String, Object>> recomList(String category);
+	public List<Map<String, Object>> myLib_applystatus(String user_id);
+	public List<Map<String, Object>> admin_bookstatus();
+	public List<Map<String, Object>> adminrentstatus(Map<String, String> book_list);
+	public List<Map<String, Object>> admin_applystatus();
+	public void updateapplyDB(Map<String, Object> book_list);
+	public List<Map<String, Object>> adminapplystatus(Map<String, String> book_list);
+	public List<Map<String, Object>> admin_booklist();
+	public void updatebookrentNumber(int number);
+	public List<Map<String, Object>> admin_bookstatus(HttpServletRequest request);
+	public void update_applystate(Map<String, Object> book_list);
+	public int countbook();
+	public List<Map<String, Object>> userlibrarylist(Map<String, Object> info);
+	public int countrent(String user_id);
+	public List<Map<String, Object>> myLib_rentstatuss(Map<String, Object> info);
 }

@@ -50,22 +50,28 @@ public class ComEstaServiceImpl implements ComEstaService {
 		
 		if (admin_sts.equals("dgree")) {
 			admin_sts="거절";
+			Map<String, String> sts_info=new HashMap<String, String>();
+			sts_info.put("community_establish_status", admin_sts);
+			sts_info.put("community_id", community_id);
+			comEstaDao.comEstaAdmin(sts_info);
+			
 		} else if (admin_sts.equals("agree")) {
 			admin_sts="수락";
+			Map<String, String> sts_info=new HashMap<String, String>();
+			sts_info.put("community_establish_status", admin_sts);
+			sts_info.put("community_id", community_id);
+			sts_info.put("community_captain", community_captain);
+			sts_info.put("member_join_date", member_join_date);
+			
+			comEstaDao.comEstaAdmin(sts_info);
+			comEstaDao.capAddMem(sts_info);
 			
 		}
 		
 		System.out.println(admin_sts);
 		System.out.println(community_id);
 		
-		Map<String, String> sts_info=new HashMap<String, String>();
-		sts_info.put("community_establish_status", admin_sts);
-		sts_info.put("community_id", community_id);
-		sts_info.put("community_captain", community_captain);
-		sts_info.put("member_join_date", member_join_date);
-		
-		comEstaDao.comEstaAdmin(sts_info);
-		comEstaDao.capAddMem(sts_info);
+
 	}
 
 	@Override

@@ -29,7 +29,7 @@
  	
  	<!-- 도서 수정 -->
  	<update id="modifylibrary" parameterType="bookInfoVO">
- 		update B_BOOK_LIB set bookRent=#{bookRent},bookReservation=#{bookReservation} where bookNumber=#{bookNumber}
+ 		update B_BOOK_LIB set bookRent=#{bookRent} where bookNumber=#{bookNumber}
  	</update>
  	
 	<!-- 관리자 도서 삭제 -->
@@ -66,7 +66,7 @@
  		<selectKey keyProperty="applynumber" resultType="integer"  order="BEFORE">
 			SELECT APPLY_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_REQUEST VALUES (#{applynumber}, #{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState})
+ 		INSERT INTO B_BOOK_REQUEST VALUES (#{applynumber}, #{userid}, #{isbn}, #{applyDate}, #{applyReason}, #{applyState}, #{bookName})
  	</insert>
  	
  	<!-- 사용자 도서 예약 bookReservation 변경-->
@@ -126,7 +126,7 @@
  		<selectKey keyProperty="rentNumber" resultType="integer"  order="BEFORE">
 			SELECT Rent_SEQ.nextval From DUAL
 		</selectKey>
- 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '')
+ 		INSERT INTO B_BOOK_RENT VALUES (#{rentNumber}, #{bookNumber}, #{userid}, TO_CHAR(sysdate, 'YYYY-MM-DD'), TO_CHAR(sysdate + 7, 'YYYY-MM-DD') , #{bookState}, '', '0')
  	</insert>
  	
  	<!-- 도서 대출시 도서정보변경 -->
@@ -141,9 +141,9 @@
  	
  	<!-- 사용자 도서 반납 도서 목록 -->
  	<select id="return_bookNumber" parameterType="hashmap" resultType="hashmap">
- 		 	select a.isbn,a.bookname, a.bookWriter, a.bookpublisher, a.bookdate, a.bookRent 
+ 	 select a.isbn,a.bookname, a.bookWriter, a.bookpublisher, a.bookdate, a.bookRent 
  		 	from b_book_lib A,b_book_rent B 
- 		 	where a.bookNumber=b.booknumber and userid=#{userid} and state='대출중' and b.bookNumber=#{bookNumber}
+ 		 	where a.bookNumber=b.booknumber and userid=#{userid} and b.state In('대출중','연체중') and b.bookNumber=#{bookNumber}	 	
  	</select>
  	
  	<!-- 사용자 도서 반납시 borrowcnt 감소 -->
@@ -216,4 +216,99 @@
  		select count(userid) from b_book_request where userid=#{userid} and applydate like '%'||TO_CHAR(sysdate,'YYYY-MM')||'%'
  	</select>
 
+ 	
+ 	<!-- 사용자 신청현황 조회 -->
+ 	<select id="myLib_applystatus" parameterType="String" resultType="hashmap">
+ 		select * from B_BOOK_REQUEST where userid = #{user_id}
+ 	</select>
+ 	
+ 	<!-- 관리자 대출현황 조회 -->
+ 	<select id="admin_bookstatus" resultType="hashmap">
+ 		select A.RENTNUMBER, A.userid, B.bookname, A.booknumber, TO_CHAR(a.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(a.returndate,'YYYY-MM-DD') as returndate, a.rreturndate, a.state
+		from B_BOOK_RENT A, B_BOOK_LIB B
+		where a.booknumber=b.booknumber
+		order by rentdate desc
+ 	</select>
+ 	
+ 	<!-- 관리자 대출현황 검색 -->
+ 	<select id="adminrentstatus" parameterType="hashmap" resultType="hashmap">
+ 		select A.BOOKNUMBER, A.userid, TO_CHAR(a.rentdate, 'YYYY-MM-DD') as rentdate,  TO_CHAR(a.returndate,'YYYY-MM-DD') as returndate, a.rreturndate, a.state, B.BOOKNAME
+		from B_BOOK_RENT A left outer join B_BOOK_LIB B on A.BOOKNUMBER=B.BOOKNUMBER
+		<if test='search_option == "bookName"'> where b.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "bookNumber"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "userid"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+		<if test='search_option == "state"'> where a.${search_option} like '%'||#{search_value}||'%' </if>
+ 	</select>
+ 	
+ 	<!-- 관리자 신청현황 조회 -->
+ 	<select id="admin_applystatus"  resultType="hashmap">
+ 		select * from B_BOOK_REQUEST
+ 	</select>
+ 	
+ 	<!-- 관리자 도서 신청 상태 변경 -->
+ 	<update id="updateapplyDB" parameterType="hashmap">
+ 		update b_book_request set applystate=#{selectVal} where applynumber = #{userid}
+ 	</update>
+ 	
+ 	<!-- 관리자 도서신청현황 검색 -->
+ 	<select id="adminapplystatus" parameterType="hashmap" resultType="hashmap">
+ 		select * from B_BOOK_REQUEST where ${search_option1} like '%'||#{search_value1}||'%'
+ 	</select>
+ 	
+ 	<!-- 관리자 도서목록 -->
+ 	<select id="admin_booklist"  resultType="hashmap">
+ 		SELECT BookName,BookNumber,BookWriter,BookPublisher,BookDate,BookGenre,BookRent,BookReservation,ISBN
+ 		from B_BOOK_LIB 
+ 		order by BookNumber asc
+ 	</select>
+ 	
+ 	<!-- 배치 -->
+ 	<update id="updatebookrentNumber" parameterType="int">
+ 		update B_BOOK_RENT set state='연체중' where rentNumber = #{number}
+ 	</update>
+ 	
+ 	<!-- 관리자 도서 신청 상태 변경 -->
+ 	<update id="update_applystate" parameterType="hashmap">
+ 		update b_book_request set applystate=#{applyState} where applynumber = #{applyNumber}
+ 	</update>
+ 	
+ 	<!-- 총 도서 갯수 -->
+ 	<select id="countbook" resultType="integer">
+ 		select count(*) from B_BOOK_LIB
+ 	</select>
+ 	
+ 	 	<!-- 페이징 처리 후 B_BOOK_LIB 조회 -->
+ 	<select id="userlibrarylistt" parameterType="hashmap" resultType="hashmap">
+ 		SELECT * 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM B_BOOK_LIB 
+						) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+		
+		
+ 	</select>
+ 	
+ 	<!-- 총 bookrent 갯수 -->
+ 	<select id="countrent" parameterType="String" resultType="integer">
+ 		select count(*) from B_BOOK_RENT where userid=#{user_id}
+ 	</select>
+ 	
+ 	<!-- 페이징처리후 사용자 대출현황 조회 -->
+ 	<select id="myLib_rentstatuss" parameterType="hashmap" resultType="hashmap">
+ 		select *
+		from (
+		    SELECT ROWNUM RN, A.* 
+		    from (
+		    
+		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
+				from B_BOOK_LIB A, B_BOOK_RENT B
+				where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{userid}
+		        ) A
+		    )
+ 	   WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
 </mapper>

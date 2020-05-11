@@ -33,4 +33,16 @@
 	</div>
 </footer>
 
+<!-- script -->
+<script type="text/javascript">
+	$('select[name=locale]').change(function() {
+		var lang = $(this).val();
+		if (lang == "") {
+			
+		} else {
+			location.href = "${contextPath}/locale.do?locale=" + lang;
+		}
+	});
+</script>
+
 </html>

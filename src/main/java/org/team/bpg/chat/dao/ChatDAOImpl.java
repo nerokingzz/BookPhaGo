@@ -1,10 +1,14 @@
 package org.team.bpg.chat.dao;
 
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import org.team.bpg.chat.vo.BookVO;
 import org.team.bpg.member.vo.MemberVO;
 
 
@@ -16,6 +20,36 @@ public class ChatDAOImpl implements ChatDAO{
 	//@Resource(name = "sqlSessionFactory")
 	@Autowired
 	private SqlSession sqlSession;
+	
+	
+	@Override
+	public int insertTodayBook(BookVO vo) {
+		int result = 0;
+		result = sqlSession.insert("chatMapper.index_insertRandomBook", vo);
+		return result;
+	}
+	
+	
+	@Override
+	public BookVO randomBook(int randomIndex) {
+		BookVO randomBookVO = sqlSession.selectOne("chatMapper.index_getRandomBook", randomIndex);
+		return randomBookVO;
+	}
+	
+	
+	@Override
+	public List<Map<String, Object>> chat_extendBook(Map<String, String> paramMap) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("chatMapper.chat_extendBook", paramMap);
+		return booklist;
+	}
+	
+	
+	@Override
+	public List<Map<String, Object>> chat_rentstatus(String user_id) {
+		List<Map<String, Object>> booklist=sqlSession.selectList("chatMapper.chat_rentstatus", user_id);
+		return booklist;
+	}
+	
 	
 	@Override
 	public void memberRequest(String id) {
@@ -37,5 +71,7 @@ public class ChatDAOImpl implements ChatDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 	
 }
