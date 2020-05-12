@@ -153,7 +153,7 @@
 				</div>
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userAge">나이</label>
-					<input class="form-control" type="text" id="userAge" name="userAge" value="${member.userName}"/>
+					<input class="form-control" type="text" id="userAge" name="userAge" value="${member.userAge}"/>
 				</div>		
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userGender">성별 </label>

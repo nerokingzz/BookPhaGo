@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.team.bpg.chat.vo.BookVO;
 import org.team.bpg.chat.vo.RequestLogVO;
 import org.team.bpg.member.vo.MemberVO;
@@ -17,6 +19,12 @@ public interface ChatService {
 	public int chat_returnBook(String userid, Map<String, String> book_list);
 	public List<Map<String, Object>> chat_extendBook(Map<String, String> paramMap);
 	public int insertTodayBook(BookVO vo);
+	
+	public BookVO getTodayBook();
+	
+	public BookVO getRatestBook();
+	
+//	public List<Map<String, Object>> getTodayBookImage(HttpServletRequest request);
 	
 	//public File createCSV(List<RequestLogVO> list);
 }

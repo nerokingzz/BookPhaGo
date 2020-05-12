@@ -20,6 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+		<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>

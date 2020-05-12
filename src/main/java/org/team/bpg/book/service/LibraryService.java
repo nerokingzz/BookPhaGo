@@ -60,4 +60,11 @@ public interface LibraryService {
 	public List<Map<String, Object>> userlibrarylist(PageVO pageVo, HttpServletRequest request);
 	public int countrent(String user_id);
 	public List<Map<String, Object>> myLib_rentstatus(PageVO pageVo, String user_id);
+	
+	public int search_1(Map<String, String> book_list);
+	public List<Map<String, Object>> usersearchbook(PageVO pageVo, String search_option, String search_value);
+	public int search_2(String main_search);
+	public List<Map<String, Object>> search2_list(PageVO pageVo, String main_search);
+	
+	
 }

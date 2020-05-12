@@ -54,21 +54,35 @@
 	  	#slide ul{width:400%;height:100%;transition:1s;}
 	  	#slide ul:after{content:"";display:block;clear:both;}
 	  	#slide li{float:left;width:25%;height:100%;}
-	  	#slide li:nth-child(1){background:#faa;}
-	  	#slide li:nth-child(2){background:#ffa;}
-	  	#slide li:nth-child(3){background:#faF;}
-	  	#slide li:nth-child(4){background:#aaf;}
+	  	#slide li:nth-child(1){background:url(/resources/images/main_banner1.jpg) no-repeat;}
+	  	#slide li:nth-child(2){background:url(/resources/images/main_banner2.jpg) no-repeat;}
+	  	#slide li:nth-child(3){background:url(/resources/images/main_banner3.jpg) no-repeat;}
 	  	#slide input{display:none;}
 	  	#slide label{display:inline-block;vertical-align:middle;width:10px;height:10px;border:2px solid #666;background:#fff;transition:0.3s;border-radius:50%;cursor:pointer;}
 	  	#slide .pos{text-align:center;position:absolute;bottom:10px;left:0;width:100%;text-align:center;}
 	  	#pos1:checked~ul{margin-left:0%;}
 	  	#pos2:checked~ul{margin-left:-100%;}
 	  	#pos3:checked~ul{margin-left:-200%;}
-	  	#pos4:checked~ul{margin-left:-300%;}
 	  	#pos1:checked~.pos>label:nth-child(1){background:#666;}
 	  	#pos2:checked~.pos>label:nth-child(2){background:#666;}
 	  	#pos3:checked~.pos>label:nth-child(3){background:#666;}
-	  	#pos4:checked~.pos>label:nth-child(4){background:#666;}
+	</style>
+	
+	<style>
+		#a{
+		padding-top:60px;
+		padding-bottom:10px;
+		}
+		#b{
+		margin:30px;
+		}
+		#c{
+		margin:30px;
+		}
+		#d{
+		margin:30px;
+		}
+
 	</style>
 </head>
 
@@ -86,11 +100,12 @@
 					<h2>Bookphago</h2>
 					<p><spring:message code="mid.banner"  text="당신만을 위한 똑똑한 책 어플리케이션을 만나보세요!"/></p><br>
 					<div class="search-bar">
-						<form>
-							<input type="text" name="search" placeholder="Search...">
-							<button type="submit"><i class="la la-search"></i></button>
-						</form>
-					</div><!--search-bar end-->              
+                  		<form action="book_main.do" method="get">
+                  			<input type="hidden" name="page" value="search">
+                     		<input type="text" name="main_search" placeholder="도서명 혹은 작가명을 입력하세요.">
+                     		<button type="submit"><i class="la la-search"></i></button>
+                  		</form>
+               		</div><!--search-bar end-->                   
                </div>
             </div>
 		</section>	
@@ -109,7 +124,7 @@
 		    						</div>
 		    						<div class="col-md-13">
 		    							<div class="top-category text-center no-border-left">
-		    								<h3><a id = "index-mid-btn" href="myLib_main.do?page=declare"><spring:message code="mid.overdue"  text="신고하기"/></a></h3>
+		    								<h3><a id = "index-mid-btn" href="myLib_main.do?page=declare"><spring:message code="mid.report"  text="신고하기"/></a></h3>
 		    							</div>
 		    						</div>
 		    						<div class="col-md-13">
@@ -140,9 +155,7 @@
 						  <input type="radio" name="pos" id="pos1" checked>
 						  <input type="radio" name="pos" id="pos2">
 						  <input type="radio" name="pos" id="pos3">
-						  <input type="radio" name="pos" id="pos4">
 						  <ul>
-						    <li></li>
 						    <li></li>
 						    <li></li>
 						    <li></li>
@@ -151,7 +164,6 @@
 						    <label for="pos1"></label>
 						    <label for="pos2"></label>
 						    <label for="pos3"></label>
-						    <label for="pos4"></label>
 						  </p>
 						</div>
 					</div><!--acc-leftbar end-->
@@ -194,8 +206,7 @@
 								role="tabpanel" aria-labelledby="nav-acc-tab">
 								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
 									<h3>이 달의 신간 도서</h3>
-									<div id = "newBookThisMonth"> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex2.png"
-										alt="image"></div>
+									<div id = "newBookThisMonth" style= "margin-top: 56px;min-height: 300px;"></div>
 								</div>
 							</div>
 						</div>
@@ -205,9 +216,19 @@
 							<div class="tab-pane fade show active" id="nav-acc"
 								role="tabpanel" aria-labelledby="nav-acc-tab">
 								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
-									<h3>오늘의 도서</h3>
-									<div id = "randomBookToday"><img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex1.png"
-										alt="image"></div>
+									<h3>이 책은 어떠세요?</h3>
+									<div id = "randomBookToday" style= "margin-top: 56px;min-height: 300px;"></div>
+
+								</div>
+							</div>  
+						</div>
+					</div>
+					<div class="col-lg-15">
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="nav-acc"
+								role="tabpanel" aria-labelledby="nav-acc-tab">
+								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
+									<img src="${contextPath}/resources/images/king.png" alt="image">
 								</div>
 							</div>
 						</div>
@@ -217,21 +238,8 @@
 							<div class="tab-pane fade show active" id="nav-acc"
 								role="tabpanel" aria-labelledby="nav-acc-tab">
 								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
-									<h3>이 달의 독서왕</h3>
-									<br> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex3.png"
-										alt="image">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-15">
-						<div class="tab-content" id="nav-tabContent">
-							<div class="tab-pane fade show active" id="nav-acc"
-								role="tabpanel" aria-labelledby="nav-acc-tab">
-								<div class="acc-setting2" style='text-align: center;border: 4px solid white;' >
-									<h3>이 달의 우수 커뮤니티</h3>
-									<br> <img class='exIndex' style = 'float:none;' src="${contextPath}/resources/bootstrap/images/ex4.png"
-										alt="image">
+									<img src="${contextPath}/resources/images/main_sub.jpg" alt="image">
+
 								</div>
 							</div>
 						</div>
@@ -458,7 +466,197 @@
 		    mon = d.getMonth() + 1; 
 		    titleDate.innerHTML = year + "년 " + mon + "월"; 
 		} 
+		
+		<!-- 김민선 신간 도서 가져오기 시작 -->
+		var _bookName = "";
+		var _bookGenre = "";
+		var _bookWriter = "";
+		var _bookThumbnail = "";
+
+		$(document).ready(function(){
+			($.ajax({
+				url : '/getRatestBook.do',
+				type : 'GET',
+				async : false,
+				success : function(result) {
+					console.log(result);
+					_bookName = result.bookName;
+					_bookGenre = result.bookGenre;
+					_bookWriter = result.bookWriter;
+				},
+				//에러 처리 필요함.
+				error : function(result, status) {
+					console.log("ajax failed...");
+				}
+			})
+			).then(function(){
+				  $.ajax({
+					   method: "GET",
+					   url: "https://dapi.kakao.com/v3/search/book?target=title",
+					   async : false,
+					   data: { query: _bookName },
+					   headers: { Authorization: "KakaoAK d55d45d960d6fbdbf872bc17a0c4d2b1"},
+					   success : function(msg){
+						   _bookThumbnail = msg.documents[0].thumbnail;
+					   }
+					 });
+			});  
+			
+			if(_bookName.length >= 15){
+				_bookName = _bookName.substring(0,15) + "...";
+			}
+			
+			var container = $('#newBookThisMonth');
+			container.append("<img src = '" + _bookThumbnail + "' style = 'float:none;margin: 15px 0 15px'><br>");
+			
+			var descContainer = 
+			container.append("<span class = 'todayBookTitle'>"+ _bookName + "</span><br>");
+
+			container.append("<span class = 'todayBookDesc'>" + _bookWriter + " 지음 </span><br>");
+			container.append("<span class = 'todayBookDesc'><span class='todayBookGenre'>장르 </span>&nbsp;" + _bookGenre + "</span><br>");
+			
+		/* 	$('#randomBookToday').css("font-family","malgun-gothic");
+			
+			$('.todayBookTitle').css("font-size", "10pt");
+			$('.todayBookTitle').css("font-weight", "bold");
+			$('.todayBookTitle').css("line-height","20px");
+			
+			$('.todayBookDesc').css("font-size", "9pt");
+			$('.todayBookDesc').css("font-color", "#5d5d5d");
+			$('.todayBookDesc').css("line-height","16px");
+			
+			$('.todayBookGenre').css("background-color", "#e44d3a");
+			$('.todayBookGenre').css("font-size", "8pt");
+			$('.todayBookGenre').css("color", "white");
+			$('.todayBookGenre').css("border-radius", "8px"); */
+		})
+		</script>
+		<!-- 김민선 신간 도서 가져오기 끝 -->
+
+
+		<!-- 김민선 오늘의 도서 가져오기 시작 -->
+		<script>
+		var _bookName = "";
+		var _bookGenre = "";
+		var _bookWriter = "";
+		var _bookThumbnail = "";
+
+		$(document).ready(function(){
+			($.ajax({
+				url : '/getTodayBook.do',
+				type : 'GET',
+				async : false,
+				success : function(result) {
+					console.log(result);
+					_bookName = result.bookName;
+					_bookGenre = result.bookGenre;
+					_bookWriter = result.bookWriter;
+				},
+				//에러 처리 필요함.
+				error : function(result, status) {
+					console.log("ajax failed...");
+				}
+			})
+			).then(function(){
+				  $.ajax({
+					   method: "GET",
+					   url: "https://dapi.kakao.com/v3/search/book?target=title",
+					   async : false,
+					   data: { query: _bookName },
+					   headers: { Authorization: "KakaoAK d55d45d960d6fbdbf872bc17a0c4d2b1"},
+					   success : function(msg){
+						   _bookThumbnail = msg.documents[0].thumbnail;
+					   }
+					 });
+			});  
+			
+			if(_bookName.length >= 15){
+				_bookName = _bookName.substring(0,15) + "...";
+			}
+			
+			var container = $('#randomBookToday');
+			container.append("<img src = '" + _bookThumbnail + "' style = 'float:none;margin: 15px 0 15px'><br>");
+			
+			var descContainer = 
+			container.append("<span class = 'todayBookTitle'>"+ _bookName + "</span><br>");
+
+			container.append("<span class = 'todayBookDesc'>" + _bookWriter + " 지음 </span><br>");
+			container.append("<span class = 'todayBookDesc'><span class='todayBookGenre'>장르</span>&nbsp;" + _bookGenre + "</span><br>");
+			
+			$('#randomBookToday').css("font-family","malgun-gothic");
+			
+			$('.todayBookTitle').css("font-size", "10pt");
+			$('.todayBookTitle').css("font-weight", "bold");
+			$('.todayBookTitle').css("line-height","20px");
+			
+			$('.todayBookDesc').css("font-size", "9pt");
+			$('.todayBookDesc').css("font-color", "#5d5d5d");
+			$('.todayBookDesc').css("line-height","16px");
+			
+			$('.todayBookGenre').css("background-color", "#e44d3a");
+			$('.todayBookGenre').css("font-size", "8pt");
+			$('.todayBookGenre').css("color", "white");
+			$('.todayBookGenre').css("border-radius", "8px");
+			$('.todayBookGenre').css("padding", "0 3px");
+		})
+		<!-- 김민선 오늘의 도서 가져오기 끝 -->
+
 	</script>
+	
+<!-- 	<script>
+
+		$(document).ready(function(){
+			
+			 $.ajax({
+		        url : "test.do",
+		        type : "POST",
+		        async : false,
+		        success: function(data){
+		        	$("#name").html(data);
+		           },
+			         error: function(){
+			        	 console.log("ajax error");
+			         }
+		    })
+		    
+		    $.ajax({
+		        url : "test1.do",
+		        type : "POST",
+		        async : false,
+		        success: function(data){
+		        	$("#category").html(data);
+		           },
+			         error: function(){
+			        	 console.log("ajax error");
+			         }
+		    })
+		    
+		    $.ajax({
+		        url : "test2.do",
+		        type : "POST",
+		        async : false,
+		        success: function(data){
+		        	$("#membercount").html(data);
+		           },
+			         error: function(){
+			        	 console.log("ajax error");
+			         }
+		    })
+		
+		$.ajax({
+		        url : "test3.do",
+		        type : "POST",
+		        async : false,
+		        success: function(data){
+		        	$("#captain").html(data);
+		           },
+			         error: function(){
+			        	 console.log("ajax error");
+			         }
+		    })
+		})
+		
+	</script> -->
 
 	<!-- js by template -->
 	<script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>

@@ -250,7 +250,6 @@
 															</c:when>
 					                        			</c:choose>
 					                        		
-														<h1>마감된 투표</h1>
 														<div class="row">
 							                                <div class="col-md-2 col-sm-2">
 							                                    <h6>번호</h6>

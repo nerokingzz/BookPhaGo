@@ -304,4 +304,28 @@ public class LibraryDAOImpl implements LibraryDAO{
 		List<Map<String, Object>> booklist=sqlSession.selectList("book.myLib_rentstatuss", info);
 		return booklist;
 	}
+	
+	@Override
+   public int search_1(Map<String, String> book_list) {
+      int search_1=sqlSession.selectOne("book.search_1", book_list);
+      return search_1;
+   }
+
+   @Override
+   public List<Map<String, Object>> search1_list(Map<String, Object> info) {
+      List<Map<String, Object>> booklist=sqlSession.selectList("book.search1_list", info);
+      return booklist;
+   }
+
+   @Override
+   public int search_2(String main_search) {
+      int search_2=sqlSession.selectOne("book.search_2", main_search);
+      return search_2;
+   }
+
+   @Override
+   public List<Map<String, Object>> search2_list(Map<String, Object> info) {
+      List<Map<String, Object>> booklist=sqlSession.selectList("book.search2_list", info);
+      return booklist;
+   }
 }

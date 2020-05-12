@@ -340,5 +340,47 @@ public class LibraryServiceImpl implements LibraryService{
 		List<Map<String, Object>> booklist=libraryDAO.myLib_rentstatuss(info);
 		return booklist;
 	}
+	
+	@Override
+	   public int search_1(Map<String, String> book_list) {
+	      int search_1=libraryDAO.search_1(book_list);
+	      return search_1;
+	   }
+
+	   @Override
+	   public List<Map<String, Object>> usersearchbook(PageVO pageVo, String search_option, String search_value) {
+	      String search_option1 = search_option;
+	      String search_value1 = search_value;
+	      
+	      Map<String, Object> info=new HashMap<String, Object>();
+	      info.put("start", pageVo.getStart());
+	      info.put("end", pageVo.getEnd());
+	      info.put("search_option1", search_option1);
+	      info.put("search_value1", search_value1);
+	      
+	      List<Map<String, Object>> booklist=libraryDAO.search1_list(info);
+	      return booklist;
+	   }
+
+	   @Override
+	   public int search_2(String main_search) {
+	      int search_2=libraryDAO.search_2(main_search);
+	      return search_2;
+	   }
+
+	   @Override
+	   public List<Map<String, Object>> search2_list(PageVO pageVo, String main_search) {
+	      String main_search1 = main_search;
+	      
+	      Map<String, Object> info=new HashMap<String, Object>();
+	      info.put("start", pageVo.getStart());
+	      info.put("end", pageVo.getEnd());
+	      info.put("main_search1", main_search1);
+	      
+	      List<Map<String, Object>> booklist=libraryDAO.search2_list(info);
+	      return booklist;
+	   }
+	
+	
 
 }

@@ -311,4 +311,45 @@
 		    )
  	   WHERE RN BETWEEN #{start} AND #{end}
  	</select>
+ 	
+ 	   <!-- 총 도서검색 갯수 -->
+    <select id="search_1" parameterType="hashmap" resultType="integer">
+       select count(*) from B_BOOK_LIB where ${search_option} like '%'||#{search_value}||'%'
+    </select>
+    
+       <!-- 페이징 처리 후 B_BOOK_LIB 검색 -->
+    <select id="search1_list" parameterType="hashmap" resultType="hashmap">
+       SELECT * 
+      FROM (
+         SELECT ROWNUM RN, A.* 
+            FROM (
+                  SELECT * 
+                  FROM B_BOOK_LIB 
+                  where ${search_option1} like '%'||#{search_value1}||'%'
+                  ) A
+            )
+      WHERE RN BETWEEN #{start} AND #{end}
+    </select>
+    
+    <!-- 총 도서검색 갯수 -->
+    <select id="search_2" parameterType="String" resultType="integer">
+    select count(*) from B_BOOK_LIB where bookname like '%'||#{main_search}||'%' or bookwriter like '%'||#{main_search}||'%'
+    </select>
+    
+    <!-- 페이징 처리 후 B_BOOK_LIB 검색 -->
+    <select id="search2_list" parameterType="hashmap" resultType="hashmap">
+       SELECT * 
+      FROM (
+         SELECT ROWNUM RN, A.* 
+            FROM (
+                  SELECT *
+                  FROM B_BOOK_LIB 
+                       where bookname like '%'||#{main_search1}||'%' or bookwriter like '%'||#{main_search1}||'%'
+                  ) A
+            )
+      WHERE RN BETWEEN #{start} AND #{end}
+    </select>
+ 	
+ 	
+ 	
 </mapper>

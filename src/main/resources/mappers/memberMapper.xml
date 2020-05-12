@@ -135,6 +135,26 @@
 			<!-- <if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if> -->
 		</if>
 	</sql>
+	
+		<!-- test int  community name  -->
+	<select id="test" resultType="String">
+		select community_name from m_community_info where community_member_count = (select max(community_member_count) from m_community_info)
+	</select>
+	
+	<!-- test int  community category  -->
+	<select id="test1" resultType="String">
+		select community_category from m_community_info where community_member_count = (select max(community_member_count) from m_community_info)
+	</select>
+	
+	<!-- test int  community member count  -->
+	<select id="test2" resultType="int">
+		select community_member_count from m_community_info where community_member_count = (select max(community_member_count) from m_community_info)
+	</select>
+	
+	<!-- test int  community captain  -->
+	<select id="test3" resultType="String">
+		select community_captain from m_community_info where community_member_count = (select max(community_member_count) from m_community_info)
+	</select>
 
 </mapper>
 

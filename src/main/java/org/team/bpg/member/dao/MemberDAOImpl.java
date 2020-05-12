@@ -129,8 +129,26 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	
 
+
+@Override
+	public String test(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.test", vo);
+	}
 	
-	//test
+	@Override
+	public String test1(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.test1", vo);
+	}
+	
+	@Override
+	public int test2(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.test2", vo);
+	}
+
+	@Override
+	public String test3(MemberVO vo) throws Exception {
+		return sql.selectOne("memberMapper.test3", vo);
+	}
 
 
 }

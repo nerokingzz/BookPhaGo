@@ -150,7 +150,6 @@ table.type05 td {
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
 				{Header:"책번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:60},
-				{Header:"장르", Type:"Text", SaveName:"BOOKGENRE", MinWidth:60},
 				{Header:"제목", Type:"Text", SaveName:"BOOKNAME", MinWidth:550},
 				{Header:"평가", Type:"Combo", SaveName:"BOOKSCORE", OnChange:scoreUpdate, ComboText:"0|★|★★|★★★|★★★★|★★★★★", ComboCode:"0|1|2|3|4|5", MinWidth:80}
 			];

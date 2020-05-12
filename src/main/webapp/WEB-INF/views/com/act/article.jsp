@@ -100,6 +100,7 @@
 	var replyWriterList=new Array();
 	var replyDepthList=new Array();
 	var bundleOrderList=new Array();
+	var reReplyDateList=new Array();
 	
 	function reReplySubmit(i) {
 		
@@ -137,6 +138,10 @@
 		$("input[name=re_bundle_order]").each(function(index, item) {
 			bundleOrderList.push($(item).val());
 		});
+		//bundle_order 배열
+		$("input[name=re_reply_date]").each(function(index, item) {
+			reReplyDateList.push($(item).val());
+		});
 		
 		var bundle_id=bundleIdList[i-1];
 		var article_id=articleIdList[i-1];
@@ -144,6 +149,7 @@
 		var reply_writer=replyWriterList[i-1];
 		var reply_depth=replyDepthList[i-1];
 		var bundle_order=bundleOrderList[i-1];
+		var re_reply_date=reReplyDateList[i-1];
 		
 		var date=new Date();
 		var reply_date=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
@@ -151,7 +157,7 @@
 		$.ajax({
 			type:"POST",
 			url:"re_reply_submit.do",
-			data:{"article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date, "bundle_id" : bundle_id},
+			data:{"reply_date" : re_reply_date, "article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date, "bundle_id" : bundle_id},
 			success:function() {
 				
 				alert("등록완료");
@@ -386,6 +392,7 @@
 			                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
 			                                                                <input type="hidden" name="re_reply_depth" value="1">
 			                                                      			<input type="hidden" name="re_bundle_order" value="1">
+			                                                      			<input type="hidden" name="re_reply_date" id="re_re_current_info">
 			                                                            </div>
 			                                                        </form>
 			                                                    </div>
@@ -409,7 +416,7 @@
                                                                 <input type="hidden" name="reply_writer" value="${memNick }">
                                                                 <input type="hidden" name="reply_depth" value="0">
                                                       			<input type="hidden" name="bundle_order" value="0">
-                                                      			<input type="hidden" name="reply_date" id="current_info">
+                                                      			<input type="hidden" name="reply_date" id="re_current_info">
                                                             </div>
                                                         </form>
                                                     </div>

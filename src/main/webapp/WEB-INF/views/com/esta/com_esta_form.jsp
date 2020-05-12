@@ -185,6 +185,10 @@
 	                <input type="text" id="name" name="community_name" tabindex="1"/>
 	            </li>
 	            <li>
+	                <label for="name">닉네임</label>
+	                <input type="text" id="name" name="member_nickname" tabindex="1"/>
+	            </li>
+	            <li>
 	                <label for="email">커뮤니티 목적</label>
 	                <input type="text" id="email" name="community_aim" tabindex="2"/>
 	            </li>

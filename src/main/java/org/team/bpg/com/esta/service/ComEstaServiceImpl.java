@@ -47,6 +47,7 @@ public class ComEstaServiceImpl implements ComEstaService {
 		String admin_sts=(String)request.getParameter("admin_sts");
 		String community_captain=request.getParameter("community_captain");
 		String member_join_date=request.getParameter("community_establish_date");
+		String member_nickname=request.getParameter("member_nickname");
 		
 		if (admin_sts.equals("dgree")) {
 			admin_sts="거절";
@@ -62,6 +63,9 @@ public class ComEstaServiceImpl implements ComEstaService {
 			sts_info.put("community_id", community_id);
 			sts_info.put("community_captain", community_captain);
 			sts_info.put("member_join_date", member_join_date);
+			sts_info.put("member_nickname", member_nickname);
+			
+			System.out.println("사용할 닉네임"+member_nickname);
 			
 			comEstaDao.comEstaAdmin(sts_info);
 			comEstaDao.capAddMem(sts_info);

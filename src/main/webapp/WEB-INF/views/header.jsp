@@ -52,7 +52,7 @@
 									<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
 									<li><a href="myLib_main.do?page=favor" title=""><spring:message code="top.mylib.taste" text="취향분석"/></a></li>
 									<li><a href="myLib_main.do?page=declare" title=""><spring:message code="top.mylib.report" text="신고하기"/></a></li>
-									<li><a href="myLib_main.do?page=status" title=""><spring:message code="top.mylib.report" text="현황보기"/></a></li>
+									<li><a href="myLib_main.do?page=status" title=""><spring:message code="top.mylib.status" text="현황조회"/></a></li>
 								</ul>
 							</li>								
 						</c:when>
@@ -71,14 +71,14 @@
 									<li><a href="admin_main.do?page=com_A" title=""><spring:message code="top.admin.comm" text="커뮤니티관리"/></a></li>
 									<li><a href="admin_main.do?page=dec_A" title=""><spring:message code="top.admin.report" text="신고관리"/></a></li>
 									<li><a href="admin_main.do?page=chat_A" title=""><spring:message code="top.admin.chatbot" text="챗봇관리"/></a></li>
-									<li><a href="admin_main.do?page=rent_A" title=""><spring:message code="top.admin.chatbot" text="도서대출"/></a></li>
-									<li><a href="admin_main.do?page=return_A" title=""><spring:message code="top.admin.chatbot" text="도서반납"/></a></li>
+									<li><a href="admin_main.do?page=rent_A" title=""><spring:message code="top.admin.rent" text="도서대출"/></a></li>
+									<li><a href="admin_main.do?page=return_A" title=""><spring:message code="top.admin.return" text="도서반납"/></a></li>
 								</ul>
 							</li>
 							<li style="height:50px">
 								<a href="list.do" title="" class="not-box-open">
 									<span><i class="fas fa-user-cog"></i></span>
-									<spring:message code="top.admin" text="회원관리"/>
+									<spring:message code="top.member" text="회원관리"/>
 								</a>
 							</li>
 						</c:when>
@@ -95,7 +95,7 @@
 				<c:when test="${user_position ne null}">
 					<div style="padding-top:5px" class="user-account">
 						<div class="user-info">
-							<a href="update.do" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
+							<a href="update1.do" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
 							<p style="text-indent:1.2em;line-height:1;" />
 							<a href="logout.do" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
 						</div>

@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -22,14 +23,22 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.AbstractView;
@@ -68,6 +77,48 @@ public class LogController {
       this.cursor = "";
 
    }
+   
+
+   
+   
+	
+	@RequestMapping("getLogFile.do")
+	@ResponseBody
+	public ResponseEntity<byte[]> letsGetLogFile(HttpServletRequest request, HttpServletResponse response) {
+		byte[] imageContent=(byte[])logService.getLogFile(request).get(0).get("logFile");
+		System.out.println("바이트 배열 객체 주소 : " + imageContent);
+		System.out.println("바이트 배열 length : " + imageContent.length);
+		
+		
+		final HttpHeaders headers=new HttpHeaders();
+		//headers.setContentType(MediaType.);
+		//headers.setContentDispositionFormData(name, filename);
+		
+		
+		// response.setContentType("application/vnd.ms-excel");
+        // response.setHeader("Content-disposition",
+        //         "attachment; filename=Bookphago_Log" + "" + ".xls");
+		
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date nowdate = new Date();
+		String dateString = formatter.format(nowdate);
+		
+		String contentType="application/vnd.ms-excel";
+
+	    return ResponseEntity.ok()
+
+	                .contentType(MediaType.parseMediaType(contentType))
+
+//	                .header(HttpHeaders.CONTENT_TYPE, "application/vnd.ms-excel")
+
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "Bookphago_Log"+dateString +".xls" + "\"")
+
+	                .body(imageContent);
+
+	        
+	}
+	
 
    
    @RequestMapping("totalID.do")

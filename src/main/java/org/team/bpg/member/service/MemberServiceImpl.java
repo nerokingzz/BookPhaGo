@@ -128,8 +128,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 
+	public String test(MemberVO vo) throws Exception {
+		String result = dao.test(vo);
+		return result;
+	}
 	
-	//test
+	public String test1(MemberVO vo) throws Exception {
+		String result = dao.test1(vo);
+		return result;
+	}
+	
+	public int test2(MemberVO vo) throws Exception {
+		int result = dao.test2(vo);
+		return result;
+	}
+	
+	public String test3(MemberVO vo) throws Exception {
+		String result = dao.test3(vo);
+		return result;
+	}
 
 
 }

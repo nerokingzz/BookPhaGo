@@ -17,4 +17,14 @@ public interface ChatDAO {
 	public List<Map<String, Object>> chat_rentstatus(String user_id);
 	public List<Map<String, Object>> chat_extendBook(Map<String, String> paramMap);
 	public int insertTodayBook(BookVO vo);
+
+	public BookVO getTodayBook();
+
+	//List<Map<String, Object>> getTodayBookImage();
+
+	public BookVO getRatestBook();
+
+	public int insertLogFile(Map LogFileMap);
+
+	List<Map<String, Object>> getLogFile();
 }

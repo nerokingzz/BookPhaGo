@@ -373,12 +373,37 @@ public class MemberController {
 				//
 				//
 				
-				@RequestMapping(value="test")
-				public String test(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception{
-						
-					logger.info("test");
-						return "member/test";
-				}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="test", method = RequestMethod.POST, produces =
+	 * "application/text; charset=utf8") public String test(MemberVO vo, HttpSession
+	 * session) throws Exception { String result = service.test(vo); return result;
+	 * }
+	 * 
+	 * 
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="test1", method = RequestMethod.POST, produces =
+	 * "application/text; charset=utf8") public String select(MemberVO vo,
+	 * HttpSession session) throws Exception {
+	 * 
+	 * String result = service.test1(vo); return result; }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="test2", method = RequestMethod.POST) public int
+	 * test2(MemberVO vo, HttpSession session) throws Exception { int result =
+	 * service.test2(vo); return result; }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="test3", method = RequestMethod.POST) public String
+	 * test3(MemberVO vo, HttpSession session) throws Exception {
+	 * 
+	 * String result = service.test3(vo); return result; }
+	 */
 
 				
 	

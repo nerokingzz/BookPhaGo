@@ -48,94 +48,131 @@ public class PageController {
 		return "errors";
 	}
 
-	@RequestMapping(value="book_main")
-	public ModelAndView bookMain(PageVO pageVo,
-			@RequestParam(value="nowPage", required=false)String nowPage,
-			@RequestParam(value="cntPerPage", required=false)String cntPerPage,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session=request.getSession();
-		String pageInfo=(String)request.getParameter("page");
-		System.out.println(pageInfo + "로 이동");
-		ModelAndView mav=new ModelAndView();
-		mav.addObject("pageInfo", pageInfo);
-		
-		if (pageInfo != null) {
-			if (pageInfo.equals("search")) {
-				String search_option = request.getParameter("search_option");
-				String search_value = request.getParameter("search_value");
-				String main_search = request.getParameter("main_search");
-				
-				if(search_option == null && search_value == null && main_search == null) {				
-					int bookCount = libraryService.countbook(request);
-					
-					if (nowPage == null && cntPerPage == null) {
-						nowPage = "1";
-						cntPerPage = "10";
-					} else if (nowPage == null) {
-						nowPage = "1";
-					} else if (cntPerPage == null) { 
-						cntPerPage = "10";
-					}
-					
-					pageVo = new PageVO(bookCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-					List<Map<String, Object>> booklist =libraryService.userlibrarylist(pageVo, request);
-					
-					mav.addObject("paging", pageVo);
-					mav.addObject("booklist", booklist);
-					mav.addObject("booklistSize", booklist.size());
-				} else if(search_option != null && search_value != null && main_search == null){
-					Map<String, String> book_list=new HashMap<String, String>();
-					book_list.put("search_option", search_option);
-					book_list.put("search_value", search_value);
-					
-					List<Map<String, Object>> booklist = libraryService.usersearchbook(book_list);
-					mav.addObject("booklist", booklist);
-					mav.addObject("booklistSize", booklist.size());
-				} else if (main_search!= null && search_option == null && search_value == null) {
-					System.out.println(main_search);
-				}
-				
-				
-			} else if (pageInfo.equals("apply")) {
-				String userid = (String)session.getAttribute("user_id");
-				
-				String user_id = request.getParameter("user_id");
-				String isbn = request.getParameter("isbn");
-				String applyDate = request.getParameter("applyDate");
-				String applyReason = request.getParameter("applyReason");
-				String applyState = "신청중";
-				String bookName = request.getParameter("bookName");
-				
-				String booklist = libraryService.applycnt(userid);
-				mav.addObject("applycnt", booklist);
-				
-//				if(userid != null) {
-//					
-//				}else if(userid == null) {
-//					System.out.println("asdasdasdas");
-//					response.sendRedirect("/sign");
-//				}
-			
-			  if(user_id != null && isbn != null && applyDate != null && applyReason !=
-			  null && applyState != null) { Map<String, String> book_list=new
-			  HashMap<String, String>();
-			  book_list.put("userid", user_id);
-			  book_list.put("isbn", isbn); 
-			  book_list.put("applyDate", applyDate);
-			  book_list.put("applyReason", applyReason); 
-			  book_list.put("applyState",applyState);
-			  book_list.put("bookName",bookName);
-			  
-			  libraryService.userapplybook(book_list);
-			  
-			  System.out.println("도서 신청 완료"); }
-			  
-			} 
-		
-		}
-		mav.setViewName("book/book_main");
-		return mav;
-	}
+	//도서메뉴 첫 화면 보여주기
+	   @RequestMapping(value="book_main")
+	   public ModelAndView bookMain(PageVO pageVo,
+	         @RequestParam(value="nowPage", required=false)String nowPage,
+	         @RequestParam(value="cntPerPage", required=false)String cntPerPage,
+	         HttpServletRequest request, HttpServletResponse response) throws Exception {
+	      HttpSession session=request.getSession();
+	      String pageInfo=(String)request.getParameter("page");
+	      System.out.println(pageInfo + "로 이동");
+	      ModelAndView mav=new ModelAndView();
+	      mav.addObject("pageInfo", pageInfo);
+	      
+	      if (pageInfo != null) {
+	         if (pageInfo.equals("search")) {
+	            String search_option = request.getParameter("search_option");
+	            String search_value = request.getParameter("search_value");
+	            String main_search = request.getParameter("main_search");
+	            
+	            if(search_option == null && search_value == null && main_search == null) {            
+	               int bookCount = libraryService.countbook(request);
+	               
+	               if (nowPage == null && cntPerPage == null) {
+	                  nowPage = "1";
+	                  cntPerPage = "10";
+	               } else if (nowPage == null) {
+	                  nowPage = "1";
+	               } else if (cntPerPage == null) { 
+	                  cntPerPage = "10";
+	               }
+	               
+	               pageVo = new PageVO(bookCount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	               List<Map<String, Object>> booklist =libraryService.userlibrarylist(pageVo, request);
+	               
+	               mav.addObject("paging", pageVo);
+	               mav.addObject("booklist", booklist);
+	               mav.addObject("booklistSize", booklist.size());
+	               mav.setViewName("book/book_main");
+	            } else if(search_option != null && search_value != null && main_search == null){      
+	               Map<String, String> book_list=new HashMap<String, String>();
+	               book_list.put("search_option", search_option);
+	               book_list.put("search_value", search_value);
+	               
+	               int search_1 = libraryService.search_1(book_list);
+	               
+	               if (nowPage == null && cntPerPage == null) {
+	                  nowPage = "1";
+	                  cntPerPage = "10";
+	               } else if (nowPage == null) {
+	                  nowPage = "1";
+	               } else if (cntPerPage == null) { 
+	                  cntPerPage = "10";
+	               }
+	               
+	               pageVo = new PageVO(search_1, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	               List<Map<String, Object>> booklist = libraryService.usersearchbook(pageVo, search_option, search_value);
+	               
+	               mav.addObject("paging", pageVo);
+	               mav.addObject("booklist", booklist);
+	               mav.addObject("booklistSize", booklist.size());
+	               mav.setViewName("book/book_main");
+	            } else if (main_search!= null && search_option == null && search_value == null) {
+	               int search_2 = libraryService.search_2(main_search);
+	               
+	               if (nowPage == null && cntPerPage == null) {
+	                  nowPage = "1";
+	                  cntPerPage = "10";
+	               } else if (nowPage == null) {
+	                  nowPage = "1";
+	               } else if (cntPerPage == null) { 
+	                  cntPerPage = "10";
+	               }
+	               
+	               pageVo = new PageVO(search_2, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+	               List<Map<String, Object>> booklist = libraryService.search2_list(pageVo, main_search);
+	               
+	               mav.addObject("paging", pageVo);
+	               mav.addObject("booklist", booklist);
+	               mav.addObject("booklistSize", booklist.size());
+	               mav.setViewName("book/book_main");
+	            }
+	            
+	            
+	         } else if (pageInfo.equals("apply")) {
+	            String userid = (String)session.getAttribute("user_id");
+	            
+	            
+	            String user_id = request.getParameter("user_id");
+	            String isbn = request.getParameter("isbn");
+	            String applyDate = request.getParameter("applyDate");
+	            String applyReason = request.getParameter("applyReason");
+	            String applyState = "신청중";
+	            String bookName = request.getParameter("bookName");
+	            
+	            
+	            
+	            if(userid != null) {
+	               String booklist = libraryService.applycnt(userid);
+	               mav.addObject("applycnt", booklist);
+
+	               mav.setViewName("book/book_main");
+	            }else if(userid == null) {
+	               System.out.println("asdasdasdas");
+	               response.sendRedirect("/sign");
+	            }
+	         
+	           if(user_id != null && isbn != null && applyDate != null && applyReason !=
+	           null && applyState != null) { Map<String, String> book_list=new
+	           HashMap<String, String>();
+	           book_list.put("userid", user_id);
+	           book_list.put("isbn", isbn); 
+	           book_list.put("applyDate", applyDate);
+	           book_list.put("applyReason", applyReason); 
+	           book_list.put("applyState",applyState);
+	           book_list.put("bookName",bookName);
+	           
+	           libraryService.userapplybook(book_list);
+	           
+	           System.out.println("도서 신청 완료"); }
+
+	         mav.setViewName("book/book_main");
+	         } 
+	      
+	      }
+	      return mav;
+	   }
 	
 	
 	//커뮤니티메뉴 첫 화면 보여주기
@@ -201,7 +238,6 @@ public class PageController {
 				String user_id = (String) session.getAttribute("user_id");
 				List<BookInfoVO> scoreList=libraryService.myLib_rentstatus_favor(user_id);
 				
-				
 				String[] cateScore= {" ", " "};
 				int B000Score=0;
 				int B001Score=0;
@@ -225,9 +261,13 @@ public class PageController {
 				int B008Cnt=0;
 				int B009Cnt=0;
 				
+				System.out.println("취향분석할 첵 목록"+scoreList);
+				
 				for(int i=0; i<scoreList.size(); i++) {
 					int score=scoreList.get(i).getBookScore();
 					String genre=(String) scoreList.get(i).getBookGenre();
+					
+					System.out.println("장르이름 : " + genre);
 					
 					switch(genre) {
 					case "총류":
@@ -273,11 +313,27 @@ public class PageController {
 					
 				}
 				
-				System.out.println("문학총점" + B008Score);
-				System.out.println("문학갯수" + B008Cnt);
-				
+				System.out.println("종류총점" + B000Score);
+				System.out.println("총류갯수" + B000Cnt);
+				System.out.println("종교총점" + B001Score);
+				System.out.println("종교갯수" + B001Cnt);
+				System.out.println("철학총점" + B002Score);
+				System.out.println("철학갯수" + B002Cnt);
+				System.out.println("사회과학총점" + B003Score);
+				System.out.println("사회과학갯수" + B003Cnt);
+				System.out.println("자연과학총점" + B004Score);
+				System.out.println("자연과학갯수" + B004Cnt);
 				System.out.println("기술과학총점" + B005Score);
 				System.out.println("기술과학갯수" + B005Cnt);
+				
+				System.out.println("예술총점" + B006Score);
+				System.out.println("예술갯수" + B006Cnt);
+				System.out.println("언어총점" + B007Score);
+				System.out.println("언어갯수" + B007Cnt);
+				System.out.println("문학총점" + B008Score);
+				System.out.println("문학갯수" + B008Cnt);
+				System.out.println("역사총점" + B009Score);
+				System.out.println("역사갯수" + B009Cnt);
 				
 				//각 종류별 평균
 				float B000Avg=0;
@@ -342,9 +398,16 @@ public class PageController {
 					B009Avg=(float)B009Score/B009Cnt;
 				}
 				
-				System.out.println("문학평균" + B008Avg);
+				System.out.println("총류평균" + B000Avg);
+				System.out.println("철학평균" + B001Avg);
+				System.out.println("종교평균" + B002Avg);
+				System.out.println("사회과학평균" + B003Avg);
+				System.out.println("자연과학평균" + B004Avg);
 				System.out.println("기술과학평균" + B005Avg);
-				System.out.println("없는거평균" + B000Avg);
+				System.out.println("예술평균" + B006Avg);
+				System.out.println("언어평균" + B007Avg);
+				System.out.println("문학평균" + B008Avg);
+				System.out.println("역사평균" + B009Avg);
 				
 				//취향분석을 위해 각 카테고리별 점수 저장
 				String[] cateNames= {"총류","철학","종교","사회과학","자연과학","기술과학","예술","언어","문학","역사"};
@@ -355,7 +418,7 @@ public class PageController {
 				for (int i=1; i<cateArray.length; i++) {
 					if (cateArray[i]>=max) {
 						max=cateArray[i];
-						maxCateName=i-1;
+						maxCateName=i;
 					}
 				}
 				

@@ -213,6 +213,16 @@ hr.stat{
 	width: 60%;
 	margin : auto;
 }
+input#formButton{
+    margin-top: 10px;
+    background-color: #e44d3a;
+    color: white;
+    height: 30px;
+    box-shadow: none;
+    font-size: 10pt;
+    border: 0;
+    padding: 0 6px;
+}
 </style>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script
@@ -226,7 +236,9 @@ hr.stat{
 <div id = "wholeSection">
 	<p id="exp">서버 사정에 따라 최신 정보가 반영되는 데에 다소 시간이 소요될 수 있습니다.</p>
 	<div class = "buttonSection helpforum">
-		<a href="#" style="color:white">로그 다운로드</a>
+		 <form id="excelForm" name="excelForm" method="post" action="/log/getLogFile.do">
+    		<input id = "formButton" type="submit" value="로그 파일 받기" />
+  		</form>
 		<div class="wrap-loading display-none">
 				<div>
 					<img src="${contextPath}/resources/chat/loader.gif" />

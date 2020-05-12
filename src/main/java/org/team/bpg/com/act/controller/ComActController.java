@@ -97,6 +97,8 @@ public class ComActController {
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
 		
+		int memCnt=comActService.memCnt(request);
+		
 		ModelAndView mav=new ModelAndView();
 		
 		mav.addObject("comInfo", comInfo);
@@ -104,6 +106,7 @@ public class ComActController {
 		mav.addObject("memAuth", memAuth);
 		mav.addObject("boardList", boardList);
 		mav.addObject("boardListSize", boardList.size());
+		mav.addObject("memCnt", memCnt);
 		
 		mav.setViewName("com/act/com_board");
 		return mav;
@@ -190,10 +193,13 @@ public class ComActController {
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
 		
+		int memCnt=comActService.memCnt(request);
+		
 		model.addAttribute("boardInfo", boardInfo);
 		model.addAttribute("comInfo", comInfo);
 		model.addAttribute("memChk", memChk);
 		model.addAttribute("memAuth", memAuth);
+		model.addAttribute("memCnt", memCnt);
 		
 		String board_category=comActService.boardCategory(request);
 		System.out.println("이 게시판의 종류" + board_category);
@@ -286,11 +292,14 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		int memCnt=comActService.memCnt(request);
+		
 		
 		model.addAttribute("boardInfo", boardInfo);
 		model.addAttribute("comInfo", comInfo);
 		model.addAttribute("memChk", memChk);
 		model.addAttribute("memAuth", memAuth);
+		model.addAttribute("memCnt", memCnt);
 		
 		String board_category=comActService.boardCategory(request);
 		System.out.println("이 게시판의 종류" + board_category);
@@ -442,6 +451,8 @@ public class ComActController {
 		String memNick=(String) data[3];
 		String memId=(String) data[4];
 		
+		int memCnt=comActService.memCnt(request);
+		
 		ModelAndView mav=new ModelAndView();
 		
 		mav.addObject("articleInfo", articleInfo);
@@ -451,6 +462,7 @@ public class ComActController {
 		mav.addObject("memAuth", memAuth);
 		mav.addObject("memNick", memNick);
 		mav.addObject("memId", memId);
+		mav.addObject("memCnt", memCnt);
 		
 		mav.addObject("replyCount", replyCount);
 		mav.addObject("replyList", replyList);
@@ -491,6 +503,8 @@ public class ComActController {
 		String memAuth=(String) data[2];
 		String memNick=(String) data[3];
 		String memId=(String) data[4];
+		int memCnt=comActService.memCnt(request);
+		
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -512,6 +526,7 @@ public class ComActController {
 		mav.addObject("memAuth", memAuth);
 		mav.addObject("memNick", memNick);
 		mav.addObject("memId", memId);
+		mav.addObject("memCnt", memCnt);
 		mav.setViewName("com/act/article_write");
 		
 		return mav;
@@ -527,6 +542,7 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		int memCnt=comActService.memCnt(request);
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -544,6 +560,8 @@ public class ComActController {
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
+		
 		mav.setViewName("com/act/vote_write");
 		
 		return mav;
@@ -565,6 +583,7 @@ public class ComActController {
 		String memAuth=(String) data[2];
 		String memNick=(String) data[3];
 		String memId=(String) data[4];
+		int memCnt=comActService.memCnt(request);
 		
 		ModelAndView mav=new ModelAndView();
 		
@@ -575,6 +594,8 @@ public class ComActController {
 		mav.addObject("memAuth", memAuth);
 		mav.addObject("memNick", memNick);
 		mav.addObject("memId", memId);
+		mav.addObject("memCnt", memCnt);
+		
 		
 		mav.setViewName("com/act/voting");
 		
@@ -668,6 +689,7 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		int memCnt=comActService.memCnt(request);
 		
 		ModelAndView mav=new ModelAndView();
 		
@@ -676,6 +698,7 @@ public class ComActController {
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
 		
 		mav.setViewName("com/act/vote");
 		
@@ -703,6 +726,7 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		int memCnt=comActService.memCnt(request);
 		
 		ModelAndView mav=new ModelAndView();
 		
@@ -710,6 +734,7 @@ public class ComActController {
 		mav.addObject("comInfo", comInfo);
 		mav.addObject("memChk", memChk);
 		mav.addObject("memAuth", memAuth);
+		mav.addObject("memCnt", memCnt);
 		
 		mav.setViewName("com/act/vote_admin");
 		
@@ -761,6 +786,7 @@ public class ComActController {
 		String memAuth=(String) data[2];
 		String memNick=(String) data[3];
 		String memId=(String) data[4];
+		int memCnt=comActService.memCnt(request);
 		
 		ModelAndView mav=new ModelAndView();
 		
@@ -771,6 +797,7 @@ public class ComActController {
 		mav.addObject("memAuth", memAuth);
 		mav.addObject("memNick", memNick);
 		mav.addObject("memId", memId);
+		mav.addObject("memCnt", memCnt);
 		mav.setViewName("com/act/vote_request_form");
 		
 		return mav;
@@ -857,6 +884,7 @@ public class ComActController {
 		Map<String, Object> comInfo=(Map<String, Object>) data[1];
 		String memChk=(String) data[0];
 		String memAuth=(String) data[2];
+		
 		
 		int memCnt=comActService.memCnt(request);
 		

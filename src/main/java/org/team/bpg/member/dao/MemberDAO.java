@@ -48,7 +48,12 @@ public interface MemberDAO {
 
 	public String useridcheck(MemberVO vo) throws Exception;
 	
+public String test(MemberVO vo) throws Exception;
 	
-	//test
+	public String test1(MemberVO vo) throws Exception;
+	
+	public int test2(MemberVO vo) throws Exception;
+	
+	public String test3(MemberVO vo) throws Exception;
 
 }

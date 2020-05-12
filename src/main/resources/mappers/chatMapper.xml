@@ -26,6 +26,55 @@
 	</resultMap>
 	
 	
+	<resultMap id="chatLogFile" type="java.util.HashMap">
+		<result property="logFile" column="LOGFILE" javaType="[B" jdbcType="BLOB"></result>
+	</resultMap>
+	
+	
+	<!-- LOG 파일을 가져오는 select -->
+	<select id="chat_getLogFile" resultMap = "chatLogFile">
+		SELECT * FROM(SELECT LOGFILE 
+    			FROM C_LOG_FILE
+    			ORDER BY FILEID DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+	
+	<!-- log 파일을 C_LOG_FILE에 넣는 쿼리 -->
+	<insert id="chat_saveLogFile" parameterType="java.util.Map">
+		INSERT INTO C_LOG_FILE VALUES(C_LOG_FILE_SEQ.NEXTVAL, #{logFile}, SYSDATE)
+	</insert>
+	
+	
+	<!-- 신간 정보를 가져오는 select -->
+	<select id="index_getRatestBook" resultMap = "randomBook">
+		SELECT * FROM(SELECT * 
+    			FROM B_BOOK_LIB
+    			ORDER BY BOOKDATE DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+	
+	<!-- 오늘의 책 사진 select
+ 	<select id="index_getTodayBookImage" resultMap="clobMapRandom">
+ 		SELECT * FROM(SELECT BOOKTHUM 
+    			FROM I_TODAY_BOOK
+    			ORDER BY TODAYID DESC)
+		WHERE ROWNUM = 1
+ 	</select> -->
+	
+	
+	<!-- 오늘의 책 정보를 가져오는 쿼리 -->
+	<select id="index_getTodayBook" resultMap = "randomBook">
+		SELECT * FROM(SELECT * 
+    			FROM I_TODAY_BOOK
+    			ORDER BY REGDATE DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
 	<!-- 랜덤 인덱스의 책 정보를 넣는 쿼리 -->
 	<insert id="index_insertRandomBook" parameterType="bookVO">
 		 insert into I_TODAY_BOOK(TODAYID, BOOKNAME, BOOKCONTENTS, BOOKWRITER, BOOKGENRE, BOOKTHUM, REGDATE)

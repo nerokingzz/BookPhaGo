@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -43,6 +45,23 @@ public class ChatServiceImpl implements ChatService {
 	DefaultTransactionDefinition def = null;
 	TransactionStatus status = null;
 	
+	
+	@Override
+	public BookVO getRatestBook() {
+		BookVO vo = chatDAO.getRatestBook();
+		return vo;
+	}
+
+	
+	
+
+
+	
+	@Override
+	public BookVO getTodayBook() {
+		BookVO vo = chatDAO.getTodayBook();
+		return vo;
+	}
 	
 	
 	@Override
@@ -120,6 +139,5 @@ public class ChatServiceImpl implements ChatService {
 		List<Map<String, Object>> booklist = chatDAO.chat_rentstatus(user_id);
 		return booklist;
 	}
-	
 
 }

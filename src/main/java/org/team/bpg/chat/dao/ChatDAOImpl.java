@@ -22,6 +22,36 @@ public class ChatDAOImpl implements ChatDAO{
 	private SqlSession sqlSession;
 	
 	
+	
+	@Override
+	public int insertLogFile(Map LogFileMap) {
+		int result = sqlSession.insert("chatMapper.chat_saveLogFile", LogFileMap);
+		return result;
+	}
+	
+	
+	@Override
+	public BookVO getRatestBook() {
+		BookVO vo = sqlSession.selectOne("chatMapper.index_getRatestBook");
+		return vo;
+	}
+	
+	
+	
+	@Override
+	public List<Map<String, Object>> getLogFile() {
+		List<Map<String, Object>> logFileList =sqlSession.selectList("chatMapper.chat_getLogFile");
+		return logFileList;
+	}
+	
+	
+	@Override
+	public BookVO getTodayBook() {
+		BookVO vo = sqlSession.selectOne("chatMapper.index_getTodayBook");
+		return vo;
+	}
+	
+	
 	@Override
 	public int insertTodayBook(BookVO vo) {
 		int result = 0;
@@ -72,6 +102,4 @@ public class ChatDAOImpl implements ChatDAO{
 		return null;
 	}
 
-
-	
 }

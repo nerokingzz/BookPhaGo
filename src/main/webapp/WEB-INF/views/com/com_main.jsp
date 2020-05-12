@@ -48,21 +48,18 @@
 	  	#slide ul{width:400%;height:100%;transition:1s;}
 	  	#slide ul:after{content:"";display:block;clear:both;}
 	  	#slide li{float:left;width:25%;height:100%;}
-	  	#slide li:nth-child(1){background:#faa;}
-	  	#slide li:nth-child(2){background:#ffa;}
-	  	#slide li:nth-child(3){background:#faF;}
-	  	#slide li:nth-child(4){background:#aaf;}
+	  	#slide li:nth-child(1){background:url(/resources/images/com_banner1.jpg) no-repeat;}
+	  	#slide li:nth-child(2){background:url(/resources/images/com_banner2.jpg) no-repeat;}
+	  	#slide li:nth-child(3){background:url(/resources/images/com_banner3.jpg) no-repeat;}
 	  	#slide input{display:none;}
 	  	#slide label{display:inline-block;vertical-align:middle;width:10px;height:10px;border:2px solid #666;background:#fff;transition:0.3s;border-radius:50%;cursor:pointer;}
 	  	#slide .pos{text-align:center;position:absolute;bottom:10px;left:0;width:100%;text-align:center;}
 	  	#pos1:checked~ul{margin-left:0%;}
 	  	#pos2:checked~ul{margin-left:-100%;}
 	  	#pos3:checked~ul{margin-left:-200%;}
-	  	#pos4:checked~ul{margin-left:-300%;}
 	  	#pos1:checked~.pos>label:nth-child(1){background:#666;}
 	  	#pos2:checked~.pos>label:nth-child(2){background:#666;}
 	  	#pos3:checked~.pos>label:nth-child(3){background:#666;}
-	  	#pos4:checked~.pos>label:nth-child(4){background:#666;}
 	</style>
 
 </head>
@@ -80,9 +77,7 @@
 				  <input type="radio" name="pos" id="pos1" checked>
 				  <input type="radio" name="pos" id="pos2">
 				  <input type="radio" name="pos" id="pos3">
-				  <input type="radio" name="pos" id="pos4">
 				  <ul>
-				    <li></li>
 				    <li></li>
 				    <li></li>
 				    <li></li>
@@ -91,7 +86,6 @@
 				    <label for="pos1"></label>
 				    <label for="pos2"></label>
 				    <label for="pos3"></label>
-				    <label for="pos4"></label>
 				  </p>
 				</div>
 			
@@ -151,7 +145,7 @@
 											<div class="col-lg-3 col-md-3 col-sm-3 col-3">
 												<div class="company_profile_info">
 													<div class="company-up-info" style="padding-top:20px">
-														<img src="${contextPath}/resources/bootstrap/images/resources/pf-icon1.png" alt="">
+														<img src="${contextPath}/resources/images/comm_icon.png" alt="">
 														<h3>${comRandomList.get(i-1).get("COMMUNITY_NAME") }</h3>
 														<h4>${comRandomList.get(i-1).get("COMMUNITY_CATEGORY") }</h4>
 														<h4>${comRandomList.get(i-1).get("COMMUNITY_AIM") }</h4>

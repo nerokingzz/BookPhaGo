@@ -45,7 +45,7 @@
  	<!-- 운영자 회원으로 추가 -->
   	<insert id="cap_add_mem" parameterType="hashmap">
 		INSERT INTO M_COMMUNITY_MEMBER (member_nickname, member_id, community_id, member_join_date, member_position, member_visit_count, member_article_count, member_reply_count)
-		VALUES ('운영자', #{community_captain}, #{community_id}, #{member_join_date}, 'cap', '0', '0', '0')
+		VALUES ('일회용', #{community_captain}, #{community_id}, #{member_join_date}, 'cap', '0', '0', '0')
  	</insert>
  	
  	<!-- 운영자 회원 멤버테이블에 추가 -->

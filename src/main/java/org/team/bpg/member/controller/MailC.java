@@ -75,7 +75,7 @@ public class MailC {
 		sb.append("<meta http-equiv='Content-Type' content='text/html; charset=euc-kr'>");
 		sb.append("<h1>" + "안녕하세요 북파고입니다" + "<h1><br>");
 		sb.append(""+user_id+""+"님 " + "인증하기 버튼을 눌러 인증하세요<br><br>");
-		sb.append("<a href='http://localhost:8087/emailupdate?userId="+user_id+"'>이메일 인증하기</a>");
+		sb.append("<a href='http://localhost:8080/emailupdate?userId="+user_id+"'>이메일 인증하기</a>");
 		sb.append("</body></html>");
 		String str = sb.toString();
 

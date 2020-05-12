@@ -36,6 +36,11 @@ $(document).ready(function(){
        location.href = "sign.do";
                  
     })
+    
+	 if ('${member.badcnt}' > 0) {
+		 alert("불량신고 ${member.badcnt}건 입니다. 주의해 주시기 바랍니다.");
+	 }
+	 
 })
 
 function validate() {
