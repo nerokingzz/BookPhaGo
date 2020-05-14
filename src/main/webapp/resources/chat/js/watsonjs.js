@@ -48,12 +48,12 @@
    function sendMail(chat_userName, userRequest){
       if(chat_userName == null) chat_userName = "비회원";
       var content = "<div>" +
-            "<img src='https://i.imgur.com/jlDhg6k.png' alt ='mail top image'/><br>"+
+            "<img src='https://i.imgur.com/1pJppyj.png' alt ='mail top image'/><br>"+
                "<div style='margin: 3px 0px 9px 16px; width:317px;font-size:12px'>" +
                      "<b>회원명</b>&nbsp;&nbsp;" + chat_userName +"<br>"
                      +"<b>문의 내용</b>&nbsp;&nbsp;"+ userRequest + "<br>" +
                   "</div>"+
-            "<img src='https://i.imgur.com/gXAx6Oa.png' alt ='mail bottom image'/>" +
+            "<img src='https://i.imgur.com/9OIPmdR.png' alt ='mail bottom image'/>" +
          "</div>";
       $.ajax({
          url: '/sendMail.do',
