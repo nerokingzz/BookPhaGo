@@ -9,7 +9,8 @@
 <html>
 
 <head>
-	
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/com/css/minCSS.css">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
@@ -46,6 +47,69 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
+	<style>
+	table{
+		width : 100% !important;
+	}
+	
+	.user-fw-status li h4 {
+		color: #686868;
+	    font-size: 13px;
+	    font-weight: bold;
+	    margin-bottom: 0px;
+	}
+	
+	body{
+		font-family : 'Noto Sans KR', sans-serif;
+	}
+	
+	
+	div#commInfo{
+		border: 1px solid #E38544;
+   		border-radius: 15px;
+    	margin: 10px;
+    	padding: 20px 5px;
+	}
+	
+	span.commInfoTag{
+		font-size: 9pt;
+    	font-weight: bold;
+    	float: left;
+    	margin-left: 35px;
+    	line-height: 20px;
+	}
+	
+	span.commInfoCon{
+		font-size: 10pt;
+	    float: right;
+	    margin-right: 35px;
+	    line-height: 20px;
+	}
+	
+	
+	.user-fw-status li h4.commInfoButton{
+		background-color: #e44d3a;
+	    color: white;
+	    width: 200px;
+	    height: 30px;
+	    padding: auto;
+	    border-radius: 90px;
+	    margin: 10px 0;
+	}
+	
+	.user-fw-status li h4 a{
+		color : white;
+		line-height: 30px;
+	}
+	.company-title h3 {
+	    color: #000000;
+	    font-size: 20px;
+	    font-weight: 600;
+	    background-color: #fff;
+	    padding: 20px 10px 10px;
+	}
+	</style>
+	
 </head>
 
 	<!-- ibsheet -->
@@ -59,15 +123,15 @@
 				mySheet_comMem.RemoveAll();
 				//아이비시트 초기화
 				var initSheet = {};
-				initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+				initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 				initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 				initSheet.Cols = [
-					{Header:"닉네임", Type:"Text", SaveName:"MEMBER_NICKNAME", MinWidth:60},
-					{Header:"아이디", Type:"Text", SaveName:"MEMBER_ID", MinWidth:60},
-					{Header:"가입날짜", Type:"Text", SaveName:"MEMBER_JOIN_DATE", MinWidth:550},
-					{Header:"등급", Type:"Combo", SaveName:"MEMBER_POSITION", OnChange:positionUpdate, ComboText:"일반|운영", ComboCode:"일반|cap", MinWidth:550},
-					{Header:"대답1", Type:"Text", SaveName:"MEMBER_ANSWER1", MinWidth:80},
-					{Header:"대답2", Type:"Text", SaveName:"MEMBER_ANSWER2", MinWidth:80}
+					{Header:"닉네임", Type:"Text", SaveName:"MEMBER_NICKNAME"},
+					{Header:"아이디", Type:"Text", SaveName:"MEMBER_ID"},
+					{Header:"가입날짜", Type:"Text", SaveName:"MEMBER_JOIN_DATE"},
+					{Header:"등급", Type:"Combo", SaveName:"MEMBER_POSITION", OnChange:positionUpdate, ComboText:"일반|운영", ComboCode:"일반|cap"},
+					{Header:"대답1", Type:"Text", SaveName:"MEMBER_ANSWER1"},
+					{Header:"대답2", Type:"Text", SaveName:"MEMBER_ANSWER2"}
 				];
 				
 				
@@ -78,10 +142,11 @@
 				//doAction('search');
 				
 				mySheet_comMem.SetEditable(true);
+				mySheet_comMem.SetTheme("OR","orange");
 				doAction('search');
 	
-				mySheet_comMem.SetCountPosition(1);
-				mySheet_comMem.SetPagingPosition(2);
+				//mySheet_comMem.SetCountPosition(1);
+				//mySheet_comMem.SetPagingPosition(2);
 				
 			} 
 			
@@ -164,7 +229,8 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
+									<jsp:include page="leftbar.jsp"></jsp:include>
+									<!-- 0512 김민선 주석 처리 
 										<ul class="user-fw-status">
 											<li>
 												<h4>커뮤니티 정보</h4>
@@ -189,23 +255,16 @@
 												</c:when>
 											</c:choose>
 											</li>
-										</ul>
+										</ul>-->
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${comInfo.get("COMMUNITY_DESCRIPTION") }
-									</div><!--post-topbar end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
 									
 									<div class="posts-section">
 

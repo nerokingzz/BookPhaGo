@@ -440,8 +440,19 @@ public class ComActController {
 		//원댓글 가져오기
 		List<Map<String, Object>> replyList=comActService.replyList(request);
 		
-//		//대댓글 가져오기
-//		List<Map<String, Object>> reReplyList=comActService.reReplyList(request);
+		
+		//대댓글 가져오기
+//		List<Map<String, Object>> reReplyList=comActService.newReReplyList(request);
+//		System.out.println("대댓글들은 이러합니다" + reReplyList);
+//		
+//		replyList.get(0).get("BUNDLE_ID");
+//		for (int i=0; i<reReplyList.size(); i++) {
+//			if (replyList.get(0).get("BUNDLE_ID")==reReplyList.get(i).get("BUNDLE_ID")) {
+//				replyList.get(0).put("reReplyList", reReplyList.get(i));
+//			}
+//		}
+//		
+
 		
 		Map<String, Object> boardInfo=comActService.boardInfo(request);
 		
@@ -467,9 +478,9 @@ public class ComActController {
 		mav.addObject("replyCount", replyCount);
 		mav.addObject("replyList", replyList);
 		mav.addObject("replyListSize", replyList.size());
-		//mav.addObject("reReplyList", reReplyList);
-		//System.out.println("대댓글목록:"+reReplyList);
-		//mav.addObject("reReplyListSize", reReplyList.size());
+//		mav.addObject("reReplyList", reReplyList);
+//		//System.out.println("대댓글목록:"+reReplyList);
+//		mav.addObject("reReplyListSize", reReplyList.size());
 		
 		mav.setViewName("com/act/article");
 		

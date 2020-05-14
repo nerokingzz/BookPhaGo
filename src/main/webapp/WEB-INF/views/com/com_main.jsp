@@ -60,6 +60,31 @@
 	  	#pos1:checked~.pos>label:nth-child(1){background:#666;}
 	  	#pos2:checked~.pos>label:nth-child(2){background:#666;}
 	  	#pos3:checked~.pos>label:nth-child(3){background:#666;}
+	  	main{padding:20px 0}
+	  	.job-details h3{
+	  		    margin-left: 15px;
+	  		    font-weight: normal;
+    			font-size: 13px;
+    			
+	  	}
+	  	
+	  	.col-lg-3 table{
+	  		width : 100%;
+	  	}
+	  	
+	  	
+	  	.col-lg-3 table h3{
+	  		font-size: 13px;
+    		line-height: 30px;
+    		background: white;
+    		border-radius: 20%;
+    		margin : 0 5px;
+	  	}
+	  	.myCommListLeft{
+	  		width: 10%;
+    		color: lightgray;
+	  	}
+	  	
 	</style>
 
 </head>
@@ -72,31 +97,15 @@
 	<div class="main-section">
 		<div class="container">
 			<div class="main-section-data">
-			
-				<div style="padding-top:40px;" id="slide">
-				  <input type="radio" name="pos" id="pos1" checked>
-				  <input type="radio" name="pos" id="pos2">
-				  <input type="radio" name="pos" id="pos3">
-				  <ul>
-				    <li></li>
-				    <li></li>
-				    <li></li>
-				  </ul>
-				  <p class="pos">
-				    <label for="pos1"></label>
-				    <label for="pos2"></label>
-				    <label for="pos3"></label>
-				  </p>
-				</div>
-			
 				<div class="row">
-					<div class="col-lg-9" style="padding-top: 20px">
+					<div class="col-lg-9" style="padding-top: 0px">
 						<div class="search-sec">
 							<div class="container">
-								<div class="search-box">
+								<div class="search-box" style = "padding:0px">
 									<form action="community_search.do" method="get">
-										<input required type="text" name="search_keyword" placeholder="커뮤니티 검색">
-										<button type="submit">검색</button>
+										<input required type="text" name="search_keyword" placeholder="커뮤니티 검색"
+											style="margin-left : -15px">
+										<button type="submit" style="margin-right: -15px;">검색</button>
 									</form>
 								</div>
 								<!--search-box end-->
@@ -104,14 +113,31 @@
 						</div>
 						<!--search-sec end-->
 					</div>
-					<div class="col-lg-3" style="padding-top: 35px">
-						<h3>
-							<a onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=550')">커뮤니티 개설 신청</a>
-						</h3>
-						<hr>
-						<h3>
-							<a onclick="window.open('com_esta_request_list_user.do?user_id=${user_id }', '신청 내역', 'width=600, height=400')">커뮤니티 신청 내역</a>
-						</h3>
+					<div class="col-lg-3" style="padding-top: 20px;text-align: center;font-size: 11pt;">
+					
+						<table>
+							<tr>
+								<td>
+									<h3>
+										<a style='cursor: pointer;'
+											onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=641, resizable=no')">
+											<img src="${contextPath}/resources/images/request_btn.png"
+											style="float: none; margin-bottom: -10px;"> <br>개설 신청</a>
+									</h3></td>
+								<td>
+									<h3>
+										<a style="cursor: pointer;"
+											onclick="window.open('com_esta_request_list_user.do?user_id=${user_id }', '신청 내역', 'width=765, height=350, resizable=no, scrollbars=yes')">
+											<img src="${contextPath}/resources/images/list_btn.png"
+											style="float: none; margin-bottom: -10px;"> <br>신청
+											내역
+										</a>
+									</h3>
+								</td>
+							</tr>
+						</table>
+						
+						
 					</div>
 				</div>
 			</div>
@@ -127,6 +153,24 @@
 							<div class="main-section-data">
 								<div style="padding-top:-100px; padding-top:-100px" class="filter-secs">
 									<section class="banner">
+												
+									<div id="slide">
+									  <input type="radio" name="pos" id="pos1" checked>
+									  <input type="radio" name="pos" id="pos2">
+									  <input type="radio" name="pos" id="pos3">
+									  <ul>
+									    <li></li>
+									    <li></li>
+									    <li></li>
+									  </ul>
+									  <p class="pos">
+									    <label for="pos1"></label>
+									    <label for="pos2"></label>
+									    <label for="pos3"></label>
+									  </p>
+									</div>
+			
+									<!--
 										<div class="bannerimage">
 											<img src="${contextPath}/resources/bootstrap/images/about.png" alt="image">
 										</div>
@@ -135,6 +179,7 @@
 												<h2 style="text-align:center; font-size:30px; font-family:'Nanum Gothic', sans-serif;">커뮤니티 활동을 즐겨보세요!</h2>
             								</div>
 								           </div>
+								             -->
 									</section>
 									<div class="company-title">
 										<h3>추천 커뮤니티</h3>
@@ -169,19 +214,30 @@
 										<h3>나의 커뮤니티</h3>
 									</div>
 									<div class="jobs-list">
-										<div class="job-info">
+										<div class="job-info"
+											style="text-align: center; padding-left: 10px;">
 											<c:forEach var="i" begin="1" end="${myComListsSize }">
 												<div class="job-details">
-													<a href="com_act_home.do?community_id=${myComLists.get(i-1).getCommunity_id()}"><h3>${myComLists.get(i-1).getCommunity_name()}</h3></a>
+													<table>
+														<tr>
+															<td class="myCommListLeft">
+																-
+															</td>
+															<td>
+																<a href="com_act_home.do?community_id=${myComLists.get(i-1).getCommunity_id()}"><h3>&nbsp;${myComLists.get(i-1).getCommunity_name()}</h3></a>
+															</td>
+														</tr>
+													</table>
+													
 												</div>
-											</c:forEach>												
+											</c:forEach>
 										</div>
 									</div>
 									<!--jobs-list end-->
 								</div>
 								<!--widget-jobs end-->
 								<div class="widget widget-jobs">
-									<a onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=550')"><img src="${contextPath }/resources/images/comm_banner.jpg"></a>
+									<a onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=641')"><img src="${contextPath }/resources/images/comm_banner.jpg"></a>
 								</div>
 								<!--widget-jobs end-->
 							</div>

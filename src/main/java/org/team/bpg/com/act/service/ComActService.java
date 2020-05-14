@@ -55,6 +55,7 @@ public interface ComActService {
 	public int countReply(HttpServletRequest request);
 	public List<Map<String, Object>> replyList(HttpServletRequest request);
 	public List<Map<String, Object>> reReplyList(Map<String, Object> info);
+	public List<Map<String, Object>> newReReplyList(HttpServletRequest request);
 	
 	public List<Map<String, Object>> voteAllList(HttpServletRequest request);
 	public void voteAdmin(HttpServletRequest request);

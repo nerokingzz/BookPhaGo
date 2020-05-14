@@ -20,6 +20,21 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	
+	<style>
+		div#cke_p_content{
+			width : 90%;
+		}
+		
+		input[type='submit']{
+			width: 20%;
+		    font-weight: bold;
+		    border: none;
+		    background: #e44d3a;
+		    color: white;
+		}
+	
+	</style>
 </head>
 
 	<%
@@ -85,62 +100,32 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${boardInfo.get("BOARD_NAME") }
-									</div><!--post-topbar end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
                                     <div class="posts-section">
                                     	<div class="post-bar">
 											<div class="row justify-content-md-center">
-												<div class="col-sm-9">
+												<div class="col-sm-9" style="width: 90%;">
 													<div class="input-group mb-3">
 														<div class="input-group-prepend">
 															<label class="input-group-text">제목</label>
-										                </div>            
-										                <input type="text" class="form-control" name="article_title" value="${articleInfo.get('ARTICLE_TITLE')}">              
-										            </div>
-												</div>         
+														</div>
+														<input type="text" class="form-control"
+															name="article_title"
+															value="${articleInfo.get('ARTICLE_TITLE')}"> <br>
+														<input type="hidden" name="article_writer"
+															value="${memNick }">
+													</div>
+												</div>
 											</div>
-										      
-											<hr>
 										      
 											<div class="row justify-content-md-center">
 												<textarea class="form-control" id="p_content">
@@ -161,7 +146,6 @@
 												<input type="hidden" name="article_good_count" value="0">
 												<input type="hidden" name="article_bad_count" value="0">
 												<input type="hidden" name="article_reply_count" value="0">
-												<input type="text" name="article_writer" value="${memNick }">
 												
 												<c:choose>
 													<c:when test="${articleInfo.get('ARTICLE_ID') eq null }">
@@ -220,7 +204,23 @@
 	<!-- script -->
 	<script type="text/javascript">
 		var date=new Date();
-		var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		var hours=date.getHours();
+		var minutes=date.getMinutes();
+		var seconds=date.getSeconds();
+		if (hours<10) {
+			hours=0+''+hours;
+			alert(hours);
+		}
+		if (minutes<10) {
+			minutes=0+''+minutes;
+			alert(minutes);
+		}
+		if (seconds<10) {
+			seconds=0+''+seconds;
+			alert(seconds);
+		}
+		//var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + hours + ':' + minutes + ':'  +  seconds;
 		document.getElementById('article_current_info').value=articleCurrent;
 	</script>
 

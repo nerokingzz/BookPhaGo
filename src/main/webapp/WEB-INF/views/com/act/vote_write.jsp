@@ -20,6 +20,220 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<style>
+		html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+	em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+	b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+	details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+	output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup,
+	menu, nav, section {
+	display: block;
+}
+
+body {
+	background-color : white;
+}
+
+main{
+	background-color : #f2f2f2;
+}
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* General
+		==================================== */
+*, *:before, *:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+body, input, textarea {
+	font: 1em/1.5 'Noto Sans KR', sans-serif;
+}
+
+
+.title {
+	font-size: 22pt;
+    padding: .2em 1.1em .5em;
+    text-align: center;
+    color: #323a45;
+    border-radius: 5px 5px 0 0;
+    text-align: left;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: transparent;
+    font-weight: bold;
+}
+
+/* Form
+		==================================== */
+.form ul {
+	background: white;
+	margin-bottom: 1em;
+}
+
+.form li {
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	margin-bottom: 0px;
+	position: relative;
+}
+
+.form li:first-child {
+	border-top: 0;
+}
+
+.form li:last-child {
+	border-bottom: 1px solid #ccc;
+}
+
+label, input, textarea {
+	display: block;
+	border: 0;
+}
+
+input, textarea {
+	width: 100%;
+    height: 15px;
+    padding: 15px;
+    outline: 0;
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    margin: 8px 0;
+}
+
+textarea {
+	height: 5em;
+	resize: none;
+}
+
+label {
+	font-size: .8125em; /* 13/16 */
+	position: absolute;
+	top: 1.23em;
+	left: 1.23em;
+	color: #5D5D5D;
+	opacity: 1;
+}
+
+input[type="submit"] {
+	background: #e44d3a;
+	margin-bottom: 1em;
+	color: white;
+	border-radius: 3px;
+	padding: .75em;
+	-webkit-appearance: none;
+	-webkit-transition: .333s ease -webkit-transform;
+	transition: .333s ease transform;
+	border : none;
+	height : 100%;
+}
+
+input[type="submit"]:hover {
+	-webkit-transform: scale(1.025);
+	transform: scale(1.025);
+	cursor: pointer;
+}
+
+input[type="submit"]:active {
+	-webkit-transform: scale(.975);
+	transform: scale(.975);
+}
+
+
+
+input[type="date"]{
+	    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+input[type="date"]::-webkit-outer-spin-button,
+input[type="date"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+li select{
+	color: #5d5d5d;
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 70%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-right: 1;
+    text-align: center;
+    float: none;
+    height: 30px;
+}
+span.labelNumber{
+	font-size : 30pt;
+}
+hr{
+	width: 40%;
+    text-align: left;
+    float: left;
+    margin-left: 28px;
+    margin-top: -11px;
+    color: #e44d3a;
+    border: solid;
+}
+label{
+	float: left;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 90%;
+    position: initial;
+    color: #5D5D5D;
+    opacity: 1;
+    /*text-decoration:underline solid #e44d3a;*/
+    font-weight : bold;
+}
+
+td label{
+	width : 100%;
+	float : none;
+}
+div.votelis{
+	border-bottom: 1px solid lightgray !important;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px;
+}
+	
+	div.post-bar{
+		border-bottom : 4px solid #e44d3a;
+	}
+	</style>
 </head>
 
 	<%
@@ -79,61 +293,55 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${boardInfo.get("BOARD_NAME") }
-									</div><!--post-topbar end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
                                     <div class="posts-section">
                                     	<div class="post-bar">
 											<div class="row justify-content-md-center">
-												<input type="text" name="vote_title" placeholder="투표 주제">
-												<input type="date" name="vote_start">
-												<input type="date" name="vote_end">
-												
+												<div class='votelis'>
+													<label for="name">투표 주제</label><br>
+													<input type="text" name="vote_title" placeholder="투표 주제">
+												</div>
+												<div class='votelis'>
+													<table style="width: 100%;">
+														<tr>
+															<td style="line-height : 15px"><label for="name">투표 시작일</label><br></td>
+															<td style="line-height : 15px"><label for="name">투표 종료일</label><br></td>
+														</tr>
+														<tr>
+															<td><input type="date" name="vote_start"></td>
+															<td><input type="date" name="vote_end"></td>
+														</tr>
+													</table>
+												</div>
+												<div class='votelis'>
+												<label for="name">선택지1</label><br>
 												<input type="text" name="selection_option1" placeholder="선택지1">
-												<input type="text" name="selection_option2" placeholder="선택지2">
-												<input type="text" name="selection_option3" placeholder="선택지3">
-												<input type="text" name="selection_option4" placeholder="선택지4">
-												<input type="text" name="selection_option5" placeholder="선택지5">
-												
+												</div>
+												<div class='votelis'>
+													<label for="name">선택지2</label><br>
+													<input type="text" name="selection_option2" placeholder="선택지2">
+												</div>
+												<div class='votelis'>
+													<label for="name">선택지3</label><br>
+													<input type="text" name="selection_option3" placeholder="선택지3">
+												</div>
+												<div class='votelis'>
+													<label for="name">선택지4</label><br>
+													<input type="text" name="selection_option4" placeholder="선택지4">
+												</div>
+												<div class='votelis'>
+													<label for="name">선택지5</label><br>
+													<input type="text" name="selection_option5" placeholder="선택지5">
+												</div>
 												<input type="hidden" name="vote_status" value="ing">					
 												<input type="hidden" name="vote_id" value="${voteInfo.get('VOTE_ID') }">
 												<input type="hidden" name="board_id" value="${boardInfo.get('BOARD_ID') }">

@@ -4,6 +4,82 @@
 <head>
 <meta charset="utf-8">
 <title>채팅</title>
+<style>
+	#chatArea {
+		width: 100%; height: 200px; overflow-y: auto; padding: 12px;
+	}
+	input#sendBtn{
+	    width: 18%;
+	    line-height: 27px;
+	    background: #e44d3a;
+	    color: white;
+	    border: none;
+	    float: right;
+	    border-radius: 12px;
+	    margin-right: 5px;
+	}
+	
+	input#message{
+		width: 77%;
+	    border-radius: 12px;
+	    border: 1px solid lightgray;
+	    float: left;
+	    margin: 0px 5px 10px;
+	    padding: 0 15px;
+	}
+	
+	.chatbox-list {
+	    position: fixed;
+	    bottom: 25px;
+	    right: 0;
+	    left : 59.6px;
+    }
+    
+    .conversation-box {
+	    position: absolute;
+	    bottom: 132%;
+	    left: 100%;
+	    right : 0%;
+	    width: 350px;
+	    background-color: #fff;
+	    -webkit-box-shadow: 0;
+	    -moz-box-shadow: 0;
+	    -ms-box-shadow: 0;
+	    -o-box-shadow: 0;
+	    box-shadow: 0;
+	    opacity: 0;
+	    visibility: hidden;
+	    z-index: 0;
+	}
+	
+	.conversation-box:before{
+		display : none;
+	}
+	
+	.chat-mg{
+		border: 5px solid #e44d3a;
+	    border-radius: 50%;
+	}
+	
+	
+	@keyframes slideInLeft {
+      from {
+        transform: translate3d(-200%, 0, 0);
+        visibility: visible;
+      }
+    
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+    
+    div.chatbox{
+    	animation-name: slideInLeft;
+    	animation-duration: 1s;
+    	transition-duration: 1s;
+    }
+    
+</style>
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script type="text/javascript">
 	var wsocket;   
@@ -79,11 +155,7 @@
 		$('#exitBtn').click(function() { disconnect(); });
 	});
 </script>
-<style>
-#chatArea {
-	width: 100%; height: 200px; overflow-y: auto;
-}
-</style>
+
 </head>
 <body onLoad="connect()">
 	<input type="hidden" id="nickname" value=${memNick }>
@@ -92,7 +164,7 @@
     	<div id="chatMessageArea"></div>
     </div>
     
-    <input style="width:100%" type="text" id="message">
-    <input style="width:100%" type="button" id="sendBtn" value="전송">
+    <input type="text" id="message">
+    <input type="button" id="sendBtn" value="전송">
 </body>
 </html>

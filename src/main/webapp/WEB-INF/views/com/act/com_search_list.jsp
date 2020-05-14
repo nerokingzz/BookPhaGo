@@ -63,6 +63,54 @@
   #pos2:checked~.pos>label:nth-child(2){background:#666;}
   #pos3:checked~.pos>label:nth-child(3){background:#666;}
   #pos4:checked~.pos>label:nth-child(4){background:#666;}
+  main{
+ 	padding-top : 20px; 
+  }
+  div.filter-secs{
+  	padding-top: 50px;
+    margin: 0 15px;
+    padding-bottom: 20px;
+    width: 97%;
+  }
+  .react-links {
+	   float: right;
+	    width: 30%;
+	    display: inline;
+	    font-size: 13px;
+	}
+	
+	.usr_quest > h3 {
+    color: #000000;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    width: 50%;
+    display: inline;
+}
+	
+	.usr_quest {
+	    float: none;
+	    width: 100%;
+	    padding-left: 7%;
+	}
+	
+	
+	
+	.usr_quest > h3 {
+	    color: #000000;
+	    font-size: 17px;
+	    font-weight: 600;
+	    margin-bottom: 20px;
+	    width: 50%;
+	    display: inline;
+	    font-size: 25px;
+	}
+	
+	.quest-tags {
+	    float: left;
+	    width: 100%;
+	    margin-top: 12px;
+	}
 </style>
 	
 </head>
@@ -76,7 +124,7 @@
 		<div class="container">
 			<div class="main-section-data">
 			
-				<div style="padding-top:40px;" id="slide">
+				<!-- <div style="padding-top:40px;" id="slide">
 				  <input type="radio" name="pos" id="pos1" checked>
 				  <input type="radio" name="pos" id="pos2">
 				  <input type="radio" name="pos" id="pos3">
@@ -93,22 +141,22 @@
 				    <label for="pos3"></label>
 				    <label for="pos4"></label>
 				  </p>
-				</div>
+				</div>  -->
 			
 				<div class="row">
-					<div class="col-lg-9" style="padding-top:20px">
+					<div class="col-lg-9" style="padding-top: 0px">
 						<div class="search-sec">
 							<div class="container">
-								<div class="search-box">
+								<div class="search-box" style="padding:0px">
 									<form action="community_search.do" method="get">
-										<input required type="text" name="search_keyword" placeholder="커뮤니티 검색">
-										<button type="submit">검색</button>
+										<input required type="text" name="search_keyword" placeholder="커뮤니티 검색" style="margin-left : -15px">
+										<button type="submit" style="margin-right: -15px;">검색</button>
 									</form>
 								</div><!--search-box end-->
 							</div>
 						</div><!--search-sec end-->
 					</div>
-					<div class="col-lg-3" style="padding-top:35px">
+					<div class="col-lg-3" style="padding-top: 30px;text-align: center;font-size: 11pt;">
 						<h3><a onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=550')">커뮤니티 개설 신청</a></h3>
 						<hr>
 						<h3><a href="com_esta_request_list.do">커뮤니티 신청 내역</a></h3>
@@ -122,8 +170,8 @@
 		<div class="main-section">
 			<div class="container">
 				<div class="main-section-data">
-					<div style="padding-top:50px;" class="filter-secs">
-						<h1 style="text-align:center; font-size:30px; font-family:'Nanum Gothic', sans-serif;">검색결과</h1>
+					<div style="padding-top:30px;" class="filter-secs">
+						<h1 style="text-align:center; font-size:38px; font-weight:bold; font-family:'Nanum Gothic', sans-serif;">검색 결과</h1>
 						
 						<c:choose>
 							<c:when test="${comSearchListSize > 0}">
@@ -131,7 +179,7 @@
 				                	<div class="forum-questions">
 				                     	<div class="usr-question">
 				                           	<div style="padding-top:20px" class="usr_quest">
-				                            	<h3 style="font-size:30px"><a href="com_act_home.do?community_id=${comSearchList.get(i-1).get('COMMUNITY_ID')}">${comSearchList.get(i-1).get("COMMUNITY_NAME") }</a></h3>
+				                            	<h3 style="font-size:23px"><a href="com_act_home.do?community_id=${comSearchList.get(i-1).get('COMMUNITY_ID')}">${comSearchList.get(i-1).get("COMMUNITY_NAME") }</a></h3>
 				                              	<ul class="react-links">
 				                                 	<li><i class="fas fa-grip-vertical"></i><span style="padding-left:10px">${comSearchList.get(i-1).get("COMMUNITY_CATEGORY") }</span></li>	                              		
 				                                 	<li><i class="fas fa-users"></i><span style="padding-left:10px">${comSearchList.get(i-1).get("COMMUNITY_MEMBER_COUNT") }</span></li>
@@ -144,25 +192,30 @@
 				                        </div><!--usr-question end-->
 									</div>
 								</c:forEach>
-								<nav aria-label="Page navigation example" class="full-pagi">
-									<ul style="text-align:center" class="pagination">
+								<nav aria-label="Page navigation example" class="full-pagi" style="padding-left:0;display: table;text-align: center;">
+									<ul style="display: table; margin-left: auto; margin-right: auto;"
+										class="pagination">
 										<c:if test="${paging.startPage != 1 }">
-											<li class="page-item"><a a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
-										</c:if>	
-																			
-										<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+											<li class="page-item"><a a class="page-link pvr"
+												href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+										</c:if>
+
+										<c:forEach begin="${paging.startPage }"
+											end="${paging.endPage }" var="p">
 											<c:choose>
 												<c:when test="${p == paging.nowPage }">
 													<li class="page-item"><a class="page-link active">${p }</a></li>
 												</c:when>
 												<c:when test="${p != paging.nowPage }">
-													<li class="page-item"><a class="page-link" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+													<li class="page-item"><a class="page-link"
+														href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
 												</c:when>
 											</c:choose>
 										</c:forEach>
-																			
+
 										<c:if test="${paging.endPage != paging.lastPage}">
-											<li class="page-item"><a class="page-link pvr" href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+											<li class="page-item"><a class="page-link pvr"
+												href="/com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
 										</c:if>
 									</ul>
 								</nav>

@@ -59,6 +59,8 @@ public interface ComActDao {
 	public List<Map<String, Object>> replyList(String article_id);
 	public List<Map<String, Object>> reReplyList(Map<String, Object> info);
 	
+	public List<Map<String, Object>> newReReplyList(int article_id);
+	
 	public List<Map<String, Object>> voteAllList(String board_id);
 	public void voteAdmin(Map<String, String> sts_info);
 	public void voteSubmit(VoteInfoVO voteInfoVo);

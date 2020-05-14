@@ -63,19 +63,18 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
     button.addEventListener('click', () => {
       instance.openWindow();
       
-      /*위젯의 header에 clear 버튼을 달아줌 시작 */
+    /*  위젯의 header에 clear 버튼을 달아줌 시작 
       var chatHeader =  $('#WAC__header-name');
       chatHeader.css('color','white');
       chatHeader.append('<span id="clearButton" >Clear</span>')
       
-      /*위젯의 header에 clear 버튼을 달아줌 끝 */
+     
       
       var clearButton = $('#clearButton');
       
       clearButton.css('float','right').css('font-size','14px').css('cursor','pointer');
       
-      /*clear 버튼에 event를 달아주는 function 시작*/
-
+     
       
       clearButton.on('click',function(){
 
@@ -91,10 +90,10 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
   				    "message_type": "text",
   				    "text": "welcome"
   				  },
-  				  /*
+  				 
   				  "history": {
   					  "getWelcome" : "true"
-  				  },*/
+  				  },
   				  "skills" : {
   					  "main skill":{
   						  "user_defined":{
@@ -133,7 +132,7 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
   		}
 
   	})
-  	/*clear 버튼에 event를 달아주는 function 끝*/
+  	*/
     });
     
     

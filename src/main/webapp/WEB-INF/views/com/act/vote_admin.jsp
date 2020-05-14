@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>    
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -25,6 +24,23 @@
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibleaders.js"></script>
+	
+	<style>
+	div.company-title {
+		float: left;
+		width: 100%;
+		margin-bottom: 20px;
+		padding: 0 15px;
+	}
+	
+	div.main_content {
+	    border-bottom: none !important;
+	    min-height: unset !important;
+	    margin-bottom: 0px !important;
+	   
+	}
+</style>
+	
 </head>
 
 	<%
@@ -43,7 +59,7 @@
 		mySheet.RemoveAll();
 		//아이비시트 초기화
 		var initSheet = {};
-		initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+		initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 		initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 		initSheet.Cols = [
 			{Header:"번호", Type:"int", SaveName:"VOTE_ID", MinWidth:20},
@@ -63,8 +79,9 @@
 		mySheet.SetEditable(true);
 		doAction('search');
 
-		mySheet.SetCountPosition(1);
-		mySheet.SetPagingPosition(2);
+		mySheet.SetTheme("OR","orange");
+	//	mySheet.SetCountPosition(1);
+	//	mySheet.SetPagingPosition(2);
 
 	}
 
@@ -270,8 +287,8 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
+										<jsp:include page="leftbar.jsp"></jsp:include>
+										<%-- <ul class="user-fw-status">
 											<li>
 												<h4>커뮤니티 정보</h4>
 													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
@@ -295,27 +312,22 @@
 												</c:when>
 											</c:choose>
 											</li>
-										</ul>
+										</ul> --%>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3>게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1>
-										${boardInfo.get("BOARD_NAME") }
-									</div><!--post-topbar end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
                                     <div class="posts-section" style="width: 100%; height:100%;">
-                                        <div class="post-bar" style="width: 100%; height:100%;">
-				                           	<h2>투표관리</h2>
-				                            <div class="main_content" style="width: 100%; height:100%;">
+                                        <div class="post-bar" style="width: 100%;border-bottom: 4px solid #e44d3a;border-left: none;border-right: none;">
+                                        	<div class = "company-title">
+												<h2 style="width: 40%; display: inline; background: transparent; line-height: 30px;font-weight:bold;border:none;">투표관리</h2>
+											</div>
+				                            <div class="main_content" style="width: 100%; height:70%;">
 												<div class="ib_product"><script>createIBSheet("mySheet", "100%", "100%");</script></div>
 										  	</div>
                                         </div>
@@ -450,8 +462,8 @@
 		</div><!--post-project-popup end-->
 
 
-
-		<div class="chatbox-list">
+	<!--  -->
+	<%-- 	<div class="chatbox-list">
 			<div class="chatbox">
 				<div class="chat-mg">
 					<a href="#" title=""><img src="${contextPath}/resources/bootstrap/images/resources/usr-img1.png" alt=""></a>
@@ -597,7 +609,7 @@
 					</div><!--chat-list end-->
 				</div><!--conversation-box end-->
 			</div>
-		</div><!--chatbox-list end-->
+		</div><!--chatbox-list end--> --%>
 
 	</div><!--theme-layout end-->
 	

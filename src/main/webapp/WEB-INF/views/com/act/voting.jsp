@@ -88,11 +88,7 @@
 										</ul>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>

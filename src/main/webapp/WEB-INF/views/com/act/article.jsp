@@ -20,6 +20,79 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
+	<style>
+		div .accountnone{
+			min-height: 150px;
+    		padding: 12px;
+		}
+		
+		.ed-opts{
+			font-size: 10pt;
+			line-height: 100%;
+		}
+		
+		.ed-opts span{
+			font-size: 8pt;
+		    color: white;
+		    background-color: orange;
+		    padding: 2px;
+		}
+		
+		div .rereply{
+			padding-left : 50px;
+		}
+		
+		.post-bar .row{
+			width : 100%;
+		}
+		
+		.usy-name h3{
+			font-size : 11pt;
+		}
+		
+		
+		h3 .articleTitle{
+			font-size : 15pt !important;
+		}
+		
+		.bk-links{
+			margin-top: -10px;
+		}
+		
+		.bk-links a{
+			font-size: 9pt;
+	    	text-decoration: underline solid gray;
+		}
+		
+		.reply-area {
+    		padding-left: 0px;
+		}
+		
+		.like-com li{
+			margin : 0 3px;
+		}
+
+		.reply-area p {
+	    	padding-top: 5px;
+	    }
+	    
+	   .rereplyBtn{
+	   		width: 70px;
+		    background: gray;
+		    position: flex;
+		    /* right: 15%; */
+		    /* bottom: 50%; */
+		    font-size: 10pt;
+		    color: white;
+		    border: 0;
+		    padding: 2px 0px;
+		    /* margin-left: 50%; */
+		    float: right;
+}
+	   }
+
+	</style>
+	
 </head>
 
 	<%
@@ -32,6 +105,31 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
+
+
+	$(document).ready(function() {
+		console.log("대댓글관련");
+		console.log('${reReplyList}');
+		console.log('${reReplyListSize}');
+		
+		var reReplyList='${reReplyList}';
+		console.log(reReplyList);
+		
+		console.log(reReplyList[0]);
+		console.log(reReplyList[1]);
+		console.log(reReplyList[2]);
+		
+		//console.log('${reReplyList}'[1].BUNDLE_ID);
+		
+/* 		$(reReplyList).each(function(index , value){
+            // 반복  ( 여기서 하고싶으신거 하시면 되지 않을까요? )
+            console.log(value);
+     }); */
+		
+
+
+	})
+
 
 	function articleDelete() {
 		$.ajax({
@@ -166,7 +264,7 @@
 		})
 	}
 	
-	var flag=true;
+/* 	var flag=true;
 	
 	function openReReply(bundle_id, index) {
 		
@@ -215,9 +313,9 @@
 							
 							$($("div[id=re-re-content_" + index + "]")).append("<hr>");
 							
-/* 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_CONTENT + "</div>");
+/						$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_CONTENT + "</div>");
 							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_DATE + "</div>");
-							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_WRITER + "</div>"); */
+							$($("div[id=re-re-content_" + index + "]")).append("<div>" + data[i].REPLY_WRITER + "</div>"); 
 						}
 					} else {
 						$($("div[id=re-re-content_" + index + "]")).fadeIn(0);
@@ -227,8 +325,8 @@
 				}
 			}
 		})
-	}
-	
+	} */
+/* 	
 	function closeReReply(bundle_id, index) {
 		var article_id=${articleInfo.get("ARTICLE_ID") };
 		
@@ -236,7 +334,7 @@
 		$($("div[id=re-re-content_" + index + "]")).fadeOut(0);
 		
 		flag=true;
-	}
+	} */
 
 </script>
 
@@ -255,59 +353,27 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${boardInfo.get("BOARD_NAME") }
-									</div><!--post-topbar end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
                                     <div class="posts-section">
                                         <div class="post-bar">
                                             <div class="post_topbar">
                                                 <div class="usy-dt">
                                                     <div class="usy-name">
-                                                        <h3>${articleInfo.get("ARTICLE_TITLE") }</h3>
-                                                        <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${articleInfo.get("ARTICLE_DATE") }</span>
+														<h3 style="font-size: 15pt;">${articleInfo.get("ARTICLE_TITLE") }</h3>
+														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${articleInfo.get("ARTICLE_DATE") }</span>
                                                     </div>
                                                 </div>
                                                 <div class="ed-opts">
-                                                    ${articleInfo.get("ARTICLE_WRITER") }
+                                                    	<span>작성자</span> ${articleInfo.get("ARTICLE_WRITER") }
                                                 </div>
                                             </div>
                                             <div class="epi-sec">
@@ -324,8 +390,8 @@
                                                 <c:choose>
                                                 	<c:when test='${articleInfo.get("ARTICLE_WRITER") eq memNick}'>
 	                                                	<ul class="bk-links">
-		                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_ID') }" title="">수정하기</a></li>
-															<li><a href="#" onclick="articleDelete()" title="">삭제하기</a></li>
+		                                                    <li><a href="com_article_write.do?community_id=${comInfo.get('COMMUNITY_ID')}&board_id=${boardInfo.get('BOARD_ID') }&article_id=${articleInfo.get('ARTICLE_ID') }" title="">수정</a></li>
+															<li><a href="#" onclick="articleDelete()" title="">삭제</a></li>
 	                                                	</ul>
                                                 	</c:when>
                                                 </c:choose>
@@ -336,77 +402,109 @@
                                             
                                             <c:choose>
                                             	<c:when test="${memChk eq 'o' }">
-		                                            <div class="job-status-bar btm-line">                                                
-		                                                <ul class="like-com">
-		                                                    <li>
-		                                                        <a class="active"><i class="fas fa-thumbs-up"></i>좋아요 ${articleInfo.get("ARTICLE_GOOD_COUNT") }</a>
-		                                                        <a class="active"><i class="fas fa-thumbs-down"></i>싫어요 ${articleInfo.get("ARTICLE_BAD_COUNT") }</a>
-		                                                    </li>
-		                                                    <li><a class="active"><i class="fas fa-eye"></i>조회수 ${articleInfo.get("ARTICLE_VIEW_COUNT") }</a></li>
-		                                                </ul>
-		                                                <a><i class="fas fa-comment-alt"></i>댓글수 ${replyCount}</a>
+		                                            <div class="job-status-bar btm-line">
+														<ul class="like-com" style="margin-left: 15px;">
+															<li>
+																<a class="active"><i
+																	class="fas fa-thumbs-up"></i>좋아요
+																	${articleInfo.get("ARTICLE_GOOD_COUNT") }</a>
+															</li>
+																	
+															<li>
+																<a class="active"><i class="fas fa-thumbs-down"></i>싫어요
+																	${articleInfo.get("ARTICLE_BAD_COUNT") }</a>
+															</li>
+															<li>
+																<a class="active"><i class="fas fa-eye"></i>조회수
+																	${articleInfo.get("ARTICLE_VIEW_COUNT") }</a>
+															</li>
+														</ul>
+														<a><i class="fas fa-comment-alt"></i>댓글수 ${replyCount}</a>
 		                                            </div>
+		                                   </c:when>
+                                       </c:choose>
 		                                            
-		                                                                                        <div class="comment-area">
+		                                    <div class="comment-area">
                                             	<c:forEach var="i" begin="1" end="${replyListSize}" varStatus="loop">
-                                            	<div class="post_topbar">
-                                                    <div class="usy-dt">
-                                                        <div class="usy-name">
-                                                            <h3>${replyList.get(i-1).get("REPLY_WRITER")}</h3>
-                                                            <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${replyList.get(i-1).get("REPLY_DATE")}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="reply-area">
-                                                    <p>${replyList.get(i-1).get("REPLY_CONTENT")}</p>
-                                                    
-														<a onclick="openReReply('${replyList.get(i-1).get('BUNDLE_ID')}', ${i-1 })">열기</a>
-														<a onclick="closeReReply('${replyList.get(i-1).get('BUNDLE_ID')}', ${i-1 })">닫기</a>
-														   
-														                                                 
-	                                                     <div class="comment-area reply-rply1" id="re-re-content_${loop.current-1}" style="display:none;">
-	                                                        <%-- <div class="post_topbar">
-	                                                            <div class="usy-dt">                                                                                                                                                                                                                                                                          
-	                                                                <img src="${contextPath}/resources/bootstrap/images/resources/bg-img2.png" alt="">
-	                                                                <div class="usy-name">
-	                                                                    <h3>대댓글작성자</h3>
-	                                                                    <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">대댓글작성날짜</span>
-	                                                                </div>
-	                                                            </div>
-	                                                        </div>
-	                                                        <div class="reply-area">
-	                                                            <p>대댓글내용</p>
-	                                                        </div> --%>
-	                                                    </div> 
-                                                    
-                                                    	<div id="re-re-form">
-			                                                <div class="row">
-			                                                    <div class="col-md-10">
+													<c:choose>
+														<c:when test="${replyList.get(i-1).get('REPLY_DEPTH') eq '0' }">
+															<div class="post_topbar">
+			                                                    <div class="usy-dt">
+			                                                        <div class="usy-name">
+			                                                            <h3>${replyList.get(i-1).get("REPLY_WRITER")}</h3>
+			                                                            <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${replyList.get(i-1).get("REPLY_DATE")}</span>
+			                                                            	<div class="reply-area">
+                                                    							<p>${replyList.get(i-1).get("REPLY_CONTENT")}</p>
+                                                    							
+                                                    						</div>
+                                                    						
+			                                                        </div>
+			                                                    </div>
+			                                                    
+			                                                    <!-- ********************************버튼 -->
+			                                                    <button class = "rereplyBtn" id="rereplyBtn_${loop.current-1}" onClick="">댓글 달기</button>
+			                                                    <!-- ********************************버튼 -->
+			                                                    
+			                                                    
+			                                                    
+			                                                    
+			                                                    <c:forEach var="j" begin="1" end="${replyListSize}">
 			                                                    	
-			                                                        <form>
-			                                                            <div class="form-group">
-			                                                            	<input type="hidden" name="re_index" value="${i}">
-			                                                            	<input type="hidden" name="re_article_id" value="${articleInfo.get('ARTICLE_ID') }">
-			                                                            	<input type="hidden" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
- 			                                                                <input type="text" class="form-control" style="margin-left: 0px" name="re_reply_content" placeholder="댓글을 입력해주세요">
-			                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
-			                                                                <input type="hidden" name="re_reply_depth" value="1">
-			                                                      			<input type="hidden" name="re_bundle_order" value="1">
-			                                                      			<input type="hidden" name="re_reply_date" id="re_re_current_info">
-			                                                            </div>
-			                                                        </form>
-			                                                    </div>
-			                                                    <div class="col-md-2">
-			                                                        <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="reReplySubmit('${i}')">입력</button>
-			                                                    </div>
+			                                                    	<c:choose>
+				                                                    <c:when test="${replyList.get(j-1).get('BUNDLE_ID') eq replyList.get(i-1).get('BUNDLE_ID') && replyList.get(j-1).get('REPLY_DEPTH') eq '1'}">
+				                                                    <div class="comment-area reply-rply1">
+	                                                     	
+				                                                         <div class="post_topbar">
+				                                                            <div class="usy-dt rereply">                                                                                                                                                                                                                                                                          
+				                                                                <img src="${contextPath}/resources/images/reply.png" alt="">
+				                                                                <div class="usy-name">
+				                                                                    <h3>${replyList.get(j-1).get('REPLY_WRITER')}</h3>
+				                                                                    <span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${replyList.get(j-1).get('REPLY_DATE')}</span>
+				                                                                    <div class="reply-area">
+				                                                            			<p>${replyList.get(j-1).get('REPLY_CONTENT')}</p>
+				                                                        			</div> 
+				                                                                </div>
+				                                                            </div>
+				                                                        </div>
+
+				                                                        
+	                                                    			</div>
+				                                                    </c:when>
+				                                                    </c:choose>
+			                                                    </c:forEach>
+			                                                    
+					                                        <!-- 대댓글 -->
+				                                            <div id="re-re-form_${loop.current-1}" class = "rereplyDiv" style="display : none">
+				                                                <div class="row">
+				                                                    <div class="col-md-10">
+				                                                    	
+				                                                        <form>
+				                                                            <div class="form-group">
+				                                                            	<input type="hidden" name="re_index" value="${i}">
+				                                                            	<input type="hidden" name="re_article_id" value="${articleInfo.get('ARTICLE_ID') }">
+				                                                            	<input type="hidden" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
+					                                                                <input type="text" class="form-control" style="margin-left: 0px" name="re_reply_content" placeholder="댓글을 입력해주세요">
+				                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
+				                                                                <input type="hidden" name="re_reply_depth" value="1">
+				                                                      			<input type="hidden" name="re_bundle_order" value="1">
+				                                                      			<input type="hidden" name="re_reply_date" id="re_re_current_info">
+				                                                            </div>
+				                                                        </form>
+				                                                    </div>
+				                                                    <div class="col-md-2">
+				                                                        <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="reReplySubmit('${i}')">입력</button>
+				                                                    </div>
+				                                                </div>
+				                                             </div>    
 			                                                </div>
-	                                                        
-                                                        </div>
-                                                    
-                                                </div>
+														</c:when>
+													</c:choose>                                            
+                                                                                              	
                                             	</c:forEach>
-                                            </div>
-                                                <div class="row">
+                                            	</div>
+
+												<!-- 댓글 -->
+                                               <div class="row">
                                                     <div class="col-md-10">
                                                     	
                                                         <form>
@@ -423,14 +521,7 @@
                                                     <div class="col-md-2">
                                                         <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="replySubmit()">입력</button>
                                                     </div>
-                                                </div>
-                                       	</c:when>
-                                       </c:choose>
-                                            
-
-                                            
-
-                                            
+                                                </div> 
 
                                         </div>
                                         <!--post-bar end-->
@@ -482,6 +573,23 @@
 		var reReCurrent=datee.getFullYear() + '/' + (datee.getMonth()+1) + '/' + datee.getDate() + ' ' + datee.getHours() + ':' + datee.getMinutes() + ':'  +  datee.getSeconds();
 		document.getElementById('re_re_current_info').value=reReCurrent;
 	</script>
+	
+	<!-- ********************************버튼 -->
+	<script>
+		$(document).ready(function(){
+			
+			//////////////////김민선 추가분 시작//
+			
+			$('.rereplyBtn').on('click',function(){
+				$('.rereplyDiv').css("display","block");
+			})
+			
+			//////////////////김민선 추가분 끝////
+		})
+	</script>
+<!-- ********************************버튼 -->
+
+
 
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/jquery.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/bootstrap/js/popper.js"></script>

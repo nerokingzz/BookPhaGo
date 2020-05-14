@@ -46,6 +46,20 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
+	<style>
+	.company-title h4 {
+		float: right;
+		margin-right: 5%;
+		background-color: #e44d3a;
+		width: 120px;
+		height: 30px;
+		border-radius: 13px;
+		line-height: 30px;
+		text-align: center;
+		color: white;
+		font-size: 12px;
+	}
+</style>
 </head>
 
 	<!-- ibsheet -->
@@ -59,7 +73,7 @@
 				mySheet_comBoard.RemoveAll();
 				//아이비시트 초기화
 				var initSheet = {};
-				initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+				initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 				initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 				initSheet.Cols = [
 					{Header:"번호", Type:"Text", SaveName:"BOARD_ID", MinWidth:60},
@@ -77,9 +91,9 @@
 				
 				mySheet_comBoard.SetEditable(true);
 				doAction('search');
-	
-				mySheet_comBoard.SetCountPosition(1);
-				mySheet_comBoard.SetPagingPosition(2);
+				mySheet_comBoard.SetTheme("OR","orange");
+			//	mySheet_comBoard.SetCountPosition(1);
+			//	mySheet_comBoard.SetPagingPosition(2);
 				
 			} 
 			
@@ -162,57 +176,31 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${comInfo.get("COMMUNITY_DESCRIPTION") }
-									</div><!--post-topbar end-->
-									
+									<jsp:include page="posttopbar.jsp"></jsp:include>
 									<div class="posts-section">
 
 										<div class="companies-list">
-											<div class="company-title">
-												<h3>게시판 관리</h3>
-												<h4><a onclick="window.open('com_add_board.do?community_id=${comInfo.get('COMMUNITY_ID') }', '게시판 추가', 'width=500, height=600')">게시판 추가하기</a></h4>
-											</div><!--company-title end-->
-											<div class="main_content" style="width: 100%; height:100%;">
+										<div class="company-title" style="margin-top: 20px;">
+											<h3
+												style="width: 40%; display: inline; background: transparent; line-height: 30px">게시판
+												관리</h3>
+											<h4>
+												<a
+													onclick="window.open('com_add_board.do?community_id=${comInfo.get('COMMUNITY_ID') }', '게시판 추가', 'width=350, height=305')">게시판
+													추가하기</a>
+											</h4>
+										</div>
+										<!--company-title end-->
+											<div class="main_content" style="width: 100%;height:100%;min-height: 430px;margin-bottom: 50px;border-bottom: 4px solid #e44d3a;">
 												<div class="ib_product"><script>createIBSheet("mySheet_comBoard", "100%", "100%");</script></div>
 						  					</div>
 										

@@ -328,6 +328,12 @@ public class ComActDaoImpl implements ComActDao {
 		List<Map<String, Object>> reReplyList=sqlSession.selectList("com_act.re_reply_list", info);
 		return reReplyList;
 	}
+	
+	@Override
+	public List<Map<String, Object>> newReReplyList(int article_id) {
+		List<Map<String, Object>> newReReplyList=sqlSession.selectList("com_act.new_re_reply_list", article_id);
+		return newReReplyList;
+	}
 
 	@Override
 	public List<Map<String, Object>> comRandomList() {

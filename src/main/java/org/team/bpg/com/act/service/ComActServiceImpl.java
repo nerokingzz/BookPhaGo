@@ -535,6 +535,14 @@ public class ComActServiceImpl implements ComActService {
 		List<Map<String, Object>> repRelyList=comActDao.reReplyList(info);
 		return repRelyList;
 	}
+	
+	@Override
+	public List<Map<String, Object>> newReReplyList(HttpServletRequest request) {
+		String article_idd=request.getParameter("article_id");
+		int article_id=Integer.parseInt(article_idd);
+		List<Map<String, Object>> newReReplyList=comActDao.newReReplyList(article_id);
+		return newReReplyList;
+	}
 
 	@Override
 	public void reReplySubmit(ReplyInfoVO replyInfoVo) {

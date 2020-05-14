@@ -333,17 +333,24 @@
  		SELECT COUNT(*) FROM M_COMMUNITY_REPLY WHERE article_id=#{article_id}
  	</select>
  	
- 	<!-- 원댓글가져오기 -->
+ 	<!-- 모든댓글가져오기 -->
  	<select id="reply_list" parameterType="string" resultType="hashmap">
  		SELECT * FROM M_COMMUNITY_REPLY
- 		WHERE article_id=#{article_id} AND reply_depth=0
+ 		WHERE article_id=#{article_id}
+ 		ORDER BY reply_id ASC
  	</select>
  	
- 	<!-- 대댓글가져오기 -->
+ 	<!-- 대댓글가져오기 사용안함 -->
  	<select id="re_reply_list" parameterType="hashmap" resultType="hashmap">
  		SELECT * FROM M_COMMUNITY_REPLY
  		WHERE article_id=#{article_id} AND reply_depth=1 AND bundle_id=#{bundle_id}
  		ORDER BY reply_id ASC
+ 	</select>
+ 	
+ 	<!-- 대댓글 가져오기 수정 사용안함-->
+ 	<select id="new_re_reply_list" parameterType="int" resultType="hashmap">
+ 		SELECT * FROM M_COMMUNITY_REPLY
+ 		WHERE article_id=#{article_id} AND reply_depth=1
  	</select>
  	
  	 <!-- 커뮤니티 랜덤으로 4개 가져오기-->

@@ -41,6 +41,16 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
+	<style>
+		.company_profile_info{
+			border-top : 1px solid #e4e4e4;
+		}
+	
+		.company-title{
+    		margin-top: 10px;
+		}
+	</style>
+	
 </head>
 	
 <body>
@@ -56,80 +66,94 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${comInfo.get("COMMUNITY_DESCRIPTION") }
-									</div><!--post-topbar end-->
-									
-									<div class="posts-section">
-										<div class="company-title">
-											<h3>커뮤니티 상세보기</h3>
-										</div><!--company-title end-->
-										<div class="companies-list">
-											<div class="row">
-												<div class="col-lg-4 col-md-4 col-sm-4 col-4">
-													<div class="company_profile_info" style="margin-top:-10px;">
-														<div style="padding-top:20px"><h2>이름</h2></div><hr>
-														<div><h2>운영자</h2></div><hr>
-														<div><h2>분류</h2></div><hr>
-														<div><h2>설립일</h2></div><hr>
-														<div><h2>목적</h2></div><hr>
-														<div><h2>설명</h2></div><hr>
-														<div style="padding-bottom:20px"><h2>회원수</h2></div>
-													</div><!--company_profile_info end-->
+									<jsp:include page="posttopbar.jsp"></jsp:include>
+
+								<div class="posts-section"
+									style="background: white; margin-bottom: 30px; padding-bottom: 40px; border-bottom: 4px solid #e44d3a;">
+									<div class="company-title">
+										<h3>커뮤니티 상세보기</h3>
+									</div>
+									<!--company-title end-->
+									<div class="companies-list">
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4 col-4">
+												<div class="company_profile_info" style="margin-top: -10px;">
+													<div style="padding-top: 20px">
+														<h2>이름</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>운영자</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>분류</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>설립일</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>목적</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>설명</h2>
+													</div>
+													<hr>
+													<div style="padding-bottom: 20px">
+														<h2>회원수</h2>
+													</div>
 												</div>
-												<div class="col-lg-8 col-md-8 col-sm-8 col-8">
-													<div class="company_profile_info" style="margin-top:-10px;">
-														<div style="padding-top:20px"><h2>${comInfo.get("COMMUNITY_NAME")}</h2></div><hr>
-														<div><h2>${comInfo.get("COMMUNITY_CAPTAIN")}</h2></div><hr>
-														<div><h2>${comInfo.get("COMMUNITY_CATEGORY")}</h2></div><hr>
-														<div><h2>${comInfo.get("COMMUNITY_ESTABLISH_DATE")}</h2></div><hr>
-														<div><h2>${comInfo.get("COMMUNITY_AIM")}</h2></div><hr>
-														<div><h2>${comInfo.get("COMMUNITY_DESCRIPTION")} 설명</h2></div><hr>
-														<div style="padding-bottom:20px"><h2>${memCnt }</h2></div>
-													</div><!--company_profile_info end-->
-												</div>
+												<!--company_profile_info end-->
 											</div>
-										</div><!--companies-list end-->
-									</div><!--posts-section end-->
+											<div class="col-lg-8 col-md-8 col-sm-8 col-8">
+												<div class="company_profile_info" style="margin-top: -10px;">
+													<div style="padding-top: 20px">
+														<h2>${comInfo.get("COMMUNITY_NAME")}</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>${comInfo.get("COMMUNITY_CAPTAIN")}</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>${comInfo.get("COMMUNITY_CATEGORY")}</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>${comInfo.get("COMMUNITY_ESTABLISH_DATE")}</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>${comInfo.get("COMMUNITY_AIM")}</h2>
+													</div>
+													<hr>
+													<div>
+														<h2>${comInfo.get("COMMUNITY_DESCRIPTION")}설명</h2>
+													</div>
+													<hr>
+													<div style="padding-bottom: 20px">
+														<h2>${memCnt }</h2>
+													</div>
+												</div>
+												<!--company_profile_info end-->
+											</div>
+										</div>
+									</div>
+									<!--companies-list end-->
+								</div>
+								<!--posts-section end-->
 								</div><!--main-ws-sec end-->
 							</div>
 						</div>

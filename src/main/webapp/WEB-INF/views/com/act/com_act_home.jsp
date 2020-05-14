@@ -9,7 +9,7 @@
 <html>
 
 <head>
-	
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
@@ -41,6 +41,34 @@
 		String user_position=(String)session.getAttribute("user_position");
 	%>
 	
+	<style>
+	
+	body{
+		font-family : 'Noto Sans KR', sans-serif;
+	}
+	
+	
+	.row{
+		font-size: 10pt;
+		
+		text-align :center;
+	}
+	
+	.freelancerbiding {
+    	background-color: #fff;
+   		padding-top: 20px;
+    	padding-bottom: 0px;
+    	border-bottom: 4px solid #e44d3a;
+    	min-height: 380px;
+    }
+    
+    h6.articleNo{
+		color: #e44d3a;
+    	font-size: 8pt;
+	}
+	</style>
+	
+
 </head>
 	
 <body>
@@ -56,104 +84,82 @@
 							<div class="col-lg-3 col-md-4 pd-left-none no-pd">
 								<div class="main-left-sidebar no-margin">
 									<div class="user-data full-width">
-
-										<ul class="user-fw-status">
-											<li>
-												<h4>커뮤니티 정보</h4>
-													운영자 ${comInfo.get("COMMUNITY_CAPTAIN")} <br>
-													개설날짜 ${comInfo.get("COMMUNITY_ESTABLISH_DATE")} <br>
-													총 회원수 ${memCnt} <br>
-													<span><a href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 상세보기</a></span>
-											</li>
-											<li>
-											<c:choose>
-												<c:when test="${memChk eq 'x' }">
-													<h4><a onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a></h4>
-												</c:when>
-												<c:when test="${memChk eq 'o' }">
-													<h4><a onclick="commOut()">탈퇴하기</a></h4>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test="${memAuth eq 'cap'}">
-													<h4><a href="com_mem_list.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티 멤버</a></h4>
-													<h4><a href="com_board.do?community_id=${comInfo.get('COMMUNITY_ID') }">게시판 관리</a></h4>
-												</c:when>
-											</c:choose>
-											</li>
-										</ul>
+										<jsp:include page="leftbar.jsp"></jsp:include>
 									</div><!--user-data end-->
 									<div class="suggestions full-width">
-										<div class="sd-title">
-											<h3 style="text-align:center; padding-bottom:10px">게시판목록</h3>
-											<div id="board_list"></div>
-										</div><!--sd-title end-->
-
+										<jsp:include page="leftbar_article.jsp"></jsp:include>
 									</div><!--suggestions end-->
 								</div><!--main-left-sidebar end-->
 							</div>
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
-									<div class="post-topbar">
-										<a href="com_act_home.do?community_id=${comInfo.get('COMMUNITY_ID') }"><h1 style="font-size:50px">${comInfo.get("COMMUNITY_NAME")}</h1></a>
-										${comInfo.get("COMMUNITY_DESCRIPTION") }
-									</div><!--post-topbar end-->
-									
+								<jsp:include page="posttopbar.jsp"></jsp:include>
 									<div class="posts-section">
-				                    	<div class="col-12">
-											<div class="freelancerbiding">
-					                        	<div class="row">
-							                     	<div class="col-md-1 col-sm-1">
-							                        	<h6>글번호</h6>
-							                        </div>
-							                        <div class="col-md-4 col-sm-4">
-							                            <h6>글제목</h6>
-							                        </div>
-							                        <div class="col-md-2 col-sm-2">
-							                            <h6>작성자</h6>
-							                        </div>
-							                        <div class="col-md-2 col-sm-2">
-							                        	<h6>날짜</h6>
-							                        </div>
-							                        <div class="col-md-1 col-sm-1">
-							                        	<h6>조회수</h6>
-							                        </div>
-							                        <div class="col-md-1 col-sm-1">
-							                        	<h6>좋아요</h6>
-							                        </div>
-							                        <div class="col-md-1 col-sm-1">
-							                            <h6>싫어요</h6>
-							                        </div>
-							                    </div>
-					                            <c:forEach var="i" begin="1" end="${newArticleListSize}">
-							                    	<hr>
-							                    	<div class="row">
-							                        	<div class="col-md-1 col-sm-1">
-							                            	<h6>${newArticleList.get(i-1).getArticle_id()}</h6>
-							                            </div>
-							                            <div class="col-md-4 col-sm-4">
-							                            	<h6><a href="com_article.do?article_id=${newArticleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${articleList.get(i-1).getArticle_title()}</a></h6>
-							                            </div>
-							                            <div class="col-md-2 col-sm-2">
-							                                <h6>${newArticleList.get(i-1).getArticle_writer()}</h6>
-							                            </div>
-							                            <div class="col-md-2 col-sm-2">
-							                                <h6>${newArticleList.get(i-1).getArticle_date()}</h6>
-							                            </div>
-							                            <div class="col-md-1 col-sm-1">
-							                            	<h6>${newArticleList.get(i-1).getArticle_view_count()}</h6>
-							                            </div>
-							                            <div class="col-md-1 col-sm-1">
-							                                <h6>${newArticleList.get(i-1).getArticle_good_count()}</h6>
-							                            </div>
-							                            <div class="col-md-1 col-sm-1">
-							                             	<h6>${newArticleList.get(i-1).getArticle_bad_count()}</h6>
-							                            </div>
-							                        </div>
-							                    </c:forEach>
+									<div class="col-12" style="padding-left: 0; padding-right: 0;">
+										<div class="freelancerbiding" >
+											<div class="row" style="text-align: center; border-left: none;border-right: none;background: #EAEAEA;    line-height: 33px;">
+												<div class="col-md-1 col-sm-1">
+													<h6>글번호</h6>
+												</div>
+												<div class="col-md-4 col-sm-4">
+													<h6>글제목</h6>
+												</div>
+												<div class="col-md-2 col-sm-2">
+													<h6>작성자</h6>
+												</div>
+												<div class="col-md-2 col-sm-2">
+													<h6>날짜</h6>
+												</div>
+												<div class="col-md-1 col-sm-1">
+													<h6>조회수</h6>
+												</div>
+												<div class="col-md-1 col-sm-1">
+													<h6>좋아요</h6>
+												</div>
+												<div class="col-md-1 col-sm-1">
+													<h6>싫어요</h6>
+												</div>
 											</div>
+											<c:forEach var="i" begin="1" end="${newArticleListSize}">
+												<c:if test="${i != 1 }">
+													<hr>
+												</c:if>
+												<c:if test="${i == 1 }">
+													<div class="blank" style="height: 20px;"></div>
+												</c:if>
+												<div class="row">
+													<div class="col-md-1 col-sm-1">
+														<h6 class = "articleNo">${newArticleList.get(i-1).getArticle_id()}</h6>
+													</div>
+													<div class="col-md-4 col-sm-4">
+														<h6>
+															<a
+																href="com_article.do?article_id=${newArticleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${articleList.get(i-1).getArticle_title()}</a>
+														</h6>
+													</div>
+													<div class="col-md-2 col-sm-2">
+														<h6>${newArticleList.get(i-1).getArticle_writer()}</h6>
+													</div>
+													<div class="col-md-2 col-sm-2">
+														<h6>${newArticleList.get(i-1).getArticle_date()}</h6>
+													</div>
+													<div class="col-md-1 col-sm-1">
+														<h6>${newArticleList.get(i-1).getArticle_view_count()}</h6>
+													</div>
+													<div class="col-md-1 col-sm-1">
+														<h6>${newArticleList.get(i-1).getArticle_good_count()}</h6>
+													</div>
+													<div class="col-md-1 col-sm-1">
+														<h6>${newArticleList.get(i-1).getArticle_bad_count()}</h6>
+													</div>
+												</div>
+												<c:if test="${i == newArticleListSize}">
+													<hr>
+												</c:if>
+											</c:forEach>
 										</div>
-									</div><!--posts-section end-->
+									</div>
+								</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
 							</div>
 
