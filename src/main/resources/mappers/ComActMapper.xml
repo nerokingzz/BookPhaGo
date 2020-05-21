@@ -158,7 +158,7 @@
 				FROM (
 						SELECT * 
 						FROM M_COMMUNITY_VOTE 
-						WHERE board_id=#{board_id} AND vote_status='end'
+						WHERE board_id=#{board_id} 
 						ORDER BY vote_id DESC 
 						) A
 				)
@@ -169,7 +169,7 @@
  	<select id="vote_all" resultType="hashmap" parameterType="integer">
  		SELECT * FROM M_COMMUNITY_VOTE
  		WHERE board_id=#{board_id}
- 		ORDER BY vote_id 
+ 		ORDER BY vote_id DESC
  	</select>
  	
  	<!-- 투표 상태 변경 -->

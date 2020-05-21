@@ -11,11 +11,18 @@ import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,9 +39,17 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.team.bpg.chat.dao.ChatDAO;
+import org.team.bpg.chat.vo.DialVO;
+import org.team.bpg.chat.vo.EntityVO;
+import org.team.bpg.chat.vo.IntentVO;
 import org.team.bpg.chat.vo.RequestLogVO;
 
 import com.ibm.cloud.sdk.core.security.IamAuthenticator;
@@ -50,14 +65,232 @@ public class LogServiceImpl implements LogService {
 	@Autowired
 	ChatDAO chatDAO;
 	
-	private IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
-	private Assistant assistant = new Assistant("2020-04-23", authenticator);
+	@Autowired
+	private PlatformTransactionManager transactionManager;
 
-	public LogServiceImpl() {
-		// service endpoint
-		assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
-		// assistant id
-		String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
+	DefaultTransactionDefinition def = null;
+	TransactionStatus status = null;
+	
+	
+	   public IamAuthenticator authenticator = new IamAuthenticator("h7PRZ0LHzr0sl-TdVUBSAeV_3ELopOoigC6A39csnqGf");
+	   public Assistant assistant = new Assistant("2020-05-01", authenticator);
+	   public String filter;
+	   public long pageLimit = 2000;
+	   public String cursor = "";
+
+
+	   public LogServiceImpl() {
+	      // service endpoint
+	      assistant.setServiceUrl("https://api.kr-seo.assistant.watson.cloud.ibm.com");
+	      // assistant id
+	      String workspaceId = "4b05d813-310b-4086-9bb5-db853f49f12e";
+	      filter = "language::ko,request.context.system.assistant_id::4b05d813-310b-4086-9bb5-db853f49f12e";
+	      this.cursor = "";
+
+	   }
+	
+	
+	public int insertLogDatas(Map originMap) throws ParseException {
+		try {
+			
+			def = new DefaultTransactionDefinition();
+			def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+			status = transactionManager.getTransaction(def);	
+			
+			//테스트코드 완수 시 바꾸기
+			//Map originMap = this.collectTotalIDs();
+			//originMap.put("todayID", this.collectTodayIDs());
+			
+			
+			//chat_logCount
+			Map paramMap1 = new HashMap<>();
+			paramMap1.put("totalUserCount",originMap.get("totalID"));
+			paramMap1.put("todayUserCount",originMap.get("todayID"));
+			paramMap1.put("todayDialCount",originMap.get("logCount"));
+			paramMap1.put("failDialCount",originMap.get("failCount"));
+			int countResult = this.insertLogCount(paramMap1);
+			
+			
+			
+			
+			//chat_logInt
+			Map intentList = (LinkedHashMap)originMap.get("intentList");
+			List<Map> paramMap2 = new ArrayList<Map>();
+			//5위까지만 담을 수 있도록
+			Set<String> set = intentList.keySet();
+	        Iterator<String> iter = set.iterator();
+	        int iterCount = 1;
+	        while (iter.hasNext()) {
+	        	if(iterCount > 5) {
+	        		break;
+	        	}else {
+		            String key = ((String)iter.next());
+		            String value = String.valueOf(intentList.get(key));
+					
+					Map tempMap = new HashMap<String,Object>();
+					
+					tempMap.put("intRank",iterCount);
+					tempMap.put("intName",key);
+					tempMap.put("intCount",value);
+					
+					paramMap2.add(tempMap);
+		            
+		            iterCount++;
+	        	}
+	        }
+	        
+	       int intResultTotal = 0;
+	       for(int i = 0; i < paramMap2.size(); i++) {
+	    	   int intResult = this.insertLogInt(paramMap2.get(i));
+	    	   intResultTotal = intResultTotal + intResult;
+	       }
+	       
+	       
+	       
+	       
+			//chat_logEnt
+			Map entityList = (LinkedHashMap)originMap.get("entityList");
+			List<Map> paramMap3 = new ArrayList<Map>();
+			//5위까지만 담을 수 있도록
+			Set<String> set1 = entityList.keySet();
+	       Iterator<String> iter1 = set1.iterator();
+	       int iterCount1 = 1;
+	       while (iter1.hasNext()) {
+	       	if(iterCount1 > 5) {
+	       		break;
+	       	}else {
+		            String key = ((String)iter1.next());
+		            String value =  String.valueOf(entityList.get(key));
+					
+					Map tempMap = new HashMap<String,Object>();
+					
+					tempMap.put("entRank",iterCount1);
+					tempMap.put("entName",key);
+					tempMap.put("entCount",value);
+					
+					paramMap3.add(tempMap);
+		            
+					iterCount1++;
+	       	}
+	       }
+	       
+	       
+	       int entResultTotal = 0;
+	       for(int i = 0; i < paramMap3.size(); i++) {
+	    	   int entResult = this.insertLogEnt(paramMap3.get(i));
+	    	   entResultTotal = entResultTotal + entResult;
+	       }
+	       
+			
+		        
+	      	//chat_logDial
+	      	Map lineChart = (HashMap)originMap.get("linechart");
+	      	//"0515","25"
+	      	List<Map> paramMap4 = new ArrayList<Map>();
+			Set<String> set2 = lineChart.keySet();
+			Iterator<String> iter2 = set2.iterator();
+
+			while (iter2.hasNext()) {
+
+				String key = ((String) iter2.next());
+				String value =  String.valueOf(lineChart.get(key));
+				
+				Map tempMap = new HashMap<String,Object>();
+				tempMap.put("dialDate",key);
+				tempMap.put("dialCount",value);
+				
+				paramMap4.add(tempMap);
+				
+			}
+			
+		  int dialResultTotal = 0;		
+		  for(int i = 0; i < paramMap4.size(); i++) {
+			  int dialResult = this.insertLogDial(paramMap4.get(i));
+			  dialResultTotal = dialResultTotal + dialResult;
+		  }
+			 
+			
+			
+			System.out.println("log count의 insert 결과 수 : " + countResult);
+			System.out.println("log int의 insert 결과 수 : " + intResultTotal);
+			System.out.println("log ent의 insert 결과 수 : " + entResultTotal);
+			System.out.println("log dial의 insert 결과 수 : " + dialResultTotal);
+			
+			transactionManager.commit(status);
+			return countResult + intResultTotal + entResultTotal + dialResultTotal;
+		
+		}catch(Exception e){
+			e.printStackTrace();
+			transactionManager.rollback(status);
+			return 0;
+		}
+		
+		
+	}
+	
+	
+	//select chat_logCount
+		@Override
+		public Map selectLogCount() {
+			Map result = chatDAO.selectLogCount();
+			return result;
+		}
+		
+		
+		//select chat_logInt
+		@Override
+		public List<IntentVO> selectLogInt() {
+			List<IntentVO> result = chatDAO.selectLogInt();
+			return result;
+		}
+		
+		
+		//select chat_logEnt
+		@Override
+		public List<EntityVO> selectLogEnt() {
+			List<EntityVO> result = chatDAO.selectLogEnt();
+			return result;
+		}
+		
+		
+		//select chat_logDial
+		@Override
+		public List<DialVO> selectLogDial() {
+			List<DialVO> result = chatDAO.selectLogDial();
+			return result;
+		}
+	
+	
+	
+	//chat_logCount
+	@Override
+	public int insertLogCount(Map logDataMap) {
+		int result = chatDAO.insertLogCount(logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logInt
+	@Override
+	public int insertLogInt(Map logDataMap) {
+		int result = chatDAO.insertLogInt(logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logEnt
+	@Override
+	public int insertLogEnt(Map logDataMap) {
+		int result = chatDAO.insertLogEnt(logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logDial
+	public int insertLogDial(Map logDataMap) {
+		int result = chatDAO.insertLogDial(logDataMap);
+		return result;
 	}
 	
 
@@ -222,12 +455,232 @@ public class LogServiceImpl implements LogService {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
+	// 기간에 관계 없이 전체 기간에 걸쳐 누적된 User ID 개수를 구한다.
+	public Map collectTotalIDs() throws ParseException {
+
+		System.out.println("I am in totalID.do");
+		List<String> originList = new ArrayList<String>();
+
+		////////////////////////// rank를 위한 list/////////////////////////
+		List<String> intentList = new ArrayList<String>();
+		List<String> entityList = new ArrayList<String>();
+		////////////////////////// rank를 위한 list/////////////////////////
+
+		///////////////////////// line chart를 위한 list////////////////////
+		List<String> dateList = new ArrayList();
+		///////////////////////// line chart를 위한 list////////////////////
+
+		long start = System.currentTimeMillis();
+
+		int logCount = 0; // 누적 로그 수
+		int failCount = 0; // 누적 실패 대화 수
+
+		while (true) {
+
+			ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor)
+					.build();
+
+			LogCollection response = assistant.listAllLogs(options).execute().getResult();
+
+			// String logResult = response.toString();
+			List<Log> logList = response.getLogs();
+
+			for (Log log : logList) {
+
+				if (log.getResponse().getEntities().size() == 0 && log.getResponse().getIntents().size() == 0
+						&& log.getRequest().input().getText().isEmpty() == false) {
+					failCount++;
+				}
+
+				String userID = "";
+				userID = log.getRequest().context().getMetadata().userId();
+				originList.add(userID);
+				logCount++;
+
+				////////////////////////// rank를 위한 if/////////////////////////
+				if (log.getResponse().getIntents().size() != 0) {
+					String intent = log.getResponse().getIntents().get(0).intent();
+					intentList.add(intent);
+				}
+
+				if (log.getResponse().getEntities().size() != 0) {
+					String entity = log.getResponse().getEntities().get(0).entity();
+					entityList.add(entity);
+				}
+
+				////////////////////////// rank를 위한 if/////////////////////////
+
+				//////////////////// line chart 시작///////////////////////////////
+
+				String timeStamp = log.getRequestTimestamp();
+
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+				SimpleDateFormat output = new SimpleDateFormat("MM-dd");
+				sdf.setTimeZone(TimeZone.getTimeZone("KST"));
+				Date d;
+				d = sdf.parse(timeStamp);
+				// 변환된 timestamp 결과물
+				String formattedTime = output.format(d);
+
+				dateList.add(formattedTime);
+
+				////////////////// line chart 끝///////////////////////////////
+
+			}
+			if (response.getPagination().getNextCursor() == null) {
+				break;
+			} else {
+				cursor = response.getPagination().getNextCursor();
+			}
+		}
+		int result = getDistinct(originList);
+
+		//////////////////////////////////// rank를 위한 sort///////////////////////////
+
+		long end = System.currentTimeMillis();
+
+		System.out.println("api 실행 소요시간 : " + (end - start) / 1000.0);
+
+		// ArrayList 안의 중복된 키워드의 개수를 세 주는 부분
+		HashMap<String, Integer> intentCount = new HashMap<String, Integer>();
+
+		for (int i = 0; i < intentList.size(); i++) { // ArrayList 만큼 반복
+			if (intentCount.containsKey(intentList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+				intentCount.put(intentList.get(i), intentCount.get(intentList.get(i)) + 1); // key가 이미 있다면 value에 +1
+			} else { // key값이 존재하지 않으면
+				intentCount.put(intentList.get(i), 1); // key 값을 생성후 value를 1로 초기화
+			}
+		}
+
+		HashMap<String, Integer> entityCount = new HashMap<String, Integer>();
+
+		for (int i = 0; i < entityList.size(); i++) { // ArrayList 만큼 반복
+			if (entityCount.containsKey(entityList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+				entityCount.put(entityList.get(i), entityCount.get(entityList.get(i)) + 1); // key가 이미 있다면 value에 +1
+			} else { // key값이 존재하지 않으면
+				entityCount.put(entityList.get(i), 1); // key 값을 생성후 value를 1로 초기화
+			}
+		}
+
+		Map<String, HashMap> resultList = new HashMap<String, HashMap>();
+		// resultList.add(intentCount);
+		// resultList.add(entityCount);
+
+		LinkedHashMap IntentSortedMap = (LinkedHashMap) sortByValue(intentCount);
+		LinkedHashMap EntitySortedMap = (LinkedHashMap) sortByValue(entityCount);
+
+		resultList.put("intentList", IntentSortedMap);
+		resultList.put("entityList", EntitySortedMap);
+
+		////////////////////////////////// rank를 위한 sort///////////////////////////
+
+		///////////////////////////////// line chart를 위한 sort 시작////////////////////
+		HashMap<String, Integer> dateCount = new HashMap<String, Integer>();
+
+		for (int i = 0; i < dateList.size(); i++) { // ArrayList 만큼 반복
+			if (dateCount.containsKey(dateList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
+				dateCount.put(dateList.get(i), dateCount.get(dateList.get(i)) + 1); // key가 이미 있다면 value에 +1
+			} else { // key값이 존재하지 않으면
+				dateCount.put(dateList.get(i), 1); // key 값을 생성후 value를 1로 초기화
+			}
+		}
+
+		// <날짜, 로그 수> 형식으로 담긴 hashMap을 key 기준 오름차순으로 정렬하기 위해 treemap사용
+		/*
+		 * TreeMap<String, Integer> tm = new TreeMap<String, Integer>(dateCount);
+		 * LinkedHashMap<String, Integer> lm = new (LinkedHashMap)tm;
+		 */
+		///////////////////////////////// line chart를 위한 sort 끝////////////////////
+
+		Map resultMap = new HashMap<>();
+
+		resultMap.put("totalID", result);
+		resultMap.put("logCount", logCount);
+		resultMap.put("failCount", failCount);
+		resultMap.put("intentList", IntentSortedMap);
+		resultMap.put("entityList", EntitySortedMap);
+		// resultMap.put("ranks", resultList);
+		resultMap.put("linechart", dateCount);
+
+		return resultMap;
+	}
+
+	@RequestMapping("todayID.do")
+	// 오늘의 userID 개수 수집해 중복을 제거합니다.
+	public int collectTodayIDs() {
+
+		List<String> originList = new ArrayList<String>();
+		String filter = this.filter;
+
+		// startDate와 endDate를 yyyy-MM-dd 형식으로 바꿔주는 구문
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String dateStr = format1.format(date);
+
+		String todayFilter = this.filter + ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
+
+		while (true) {
+
+			ListAllLogsOptions options = new ListAllLogsOptions.Builder(todayFilter).pageLimit(pageLimit).cursor(cursor)
+					.build();
+
+			LogCollection response = assistant.listAllLogs(options).execute().getResult();
+
+			// String logResult = response.toString();
+			List<Log> logList = response.getLogs();
+
+			for (Log log : logList) {
+				String userID = "";
+				userID = log.getRequest().context().getMetadata().userId();
+				originList.add(userID);
+			}
+			if (response.getPagination().getNextCursor() == null) {
+				break;
+			} else {
+				cursor = response.getPagination().getNextCursor();
+			}
+		}
+
+		int todayResult = getDistinct(originList);
+
+		return todayResult;
+
+	}
+
+	// 내부의 중복된 값을 제거하고 남은 고유 개수를 리턴한다. List<String>을 파라미터로 받는다.
+	public int getDistinct(List<String> originList) {
+		List<String> resultList = new ArrayList<String>();
+
+		for (int i = 0; i < originList.size(); i++) {
+
+			if (!resultList.contains(originList.get(i))) {
+				resultList.add(originList.get(i));
+			}
+		}
+		return resultList.size();
+	}
+
+	// Value를 기준으로 맵을 내림차순 정렬해준다. Map<String, Integer>를 파라미터로 받는다.
+	public static Map<String, Integer> sortByValue(Map<String, Integer> map) {
+		List<Map.Entry<String, Integer>> list = new LinkedList<>(map.entrySet());
+
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				int comparision = (o1.getValue() - o2.getValue()) * -1;
+				return comparision == 0 ? o1.getKey().compareTo(o2.getKey()) : comparision;
+			}
+		});
+
+		// 순서유지를 위해 LinkedHashMap을 사용
+		Map<String, Integer> sortedMap = new LinkedHashMap<>();
+		for (Iterator<Map.Entry<String, Integer>> iter = list.iterator(); iter.hasNext();) {
+			Map.Entry<String, Integer> entry = iter.next();
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedMap;
+
+	}
 	
 	
 	//////////////////////////////////////////////////////////////////////
@@ -342,9 +795,6 @@ public class LogServiceImpl implements LogService {
 		}
 		
 	}
-
-
-
 
 
 

@@ -45,7 +45,15 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
-
+	#mainlabel{
+	font-size:25px;
+	color:#E44D3A;
+	}
+	#signimg { 
+	display: block; 
+	margin-left: 60px;
+	margin-top:-40px;
+	}
 </style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -102,9 +110,11 @@
 							<div class="cmp-info">
 								<div class="cm-logo">
 									<img src="${contextPath}/resources/bootstrap/images/cm-logo.png" alt="">
-									<p>Workwise,  is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
+									<br><br><br><br><br>
+									<label id="mainlabel">회원탈퇴 유의사항</label> <br><br><br>
+									<a>1. 회원탈퇴시 저장된 정보가 전부 사라집니다.<br>2. 경고창 확인을 클릭시 탈퇴가 완료됩니다.</a>
 								</div><!--cm-logo end-->	
-								<img src="${contextPath}/resources/bootstrap/images/cm-main-img.png" alt="">			
+								<img id="signimg" style="width:250px; height:250px;" src="${contextPath}/resources/bootstrap/images/sign.jpg" alt="">
 							</div><!--cmp-info end-->
 						</div>
 						<div class="col-lg-6">
@@ -161,20 +171,20 @@
 									</div><!--login-resources end-->
 								</div><!--sign_in_sec end--> --%>
 								<div class="sign_in_sec current" id="tab-2">
-									<h3>Delete</h3>
+									<h3>회원탈퇴</h3>
 									<div class="dff-tab current" id="tab-2">
 										 <form action="memberDelete1.do" method="post" id="delForm">
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id" value="${user_id}"  readonly="readonly">
+													<input type="text" id="userId" name="userId" placeholder="아이디" value="${user_id}"  readonly="readonly">
 													<i class="la la-user"></i>
 													
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPass" name="userPass" placeholder="Password">
+														<input type="password" id="userPass" name="userPass" placeholder="비밀번호">
 														<i class="la la-lock"></i>
 													</div>
 												</div>
@@ -253,7 +263,7 @@
 					</div>		
 				</div><!--signin-pop end-->
 			</div><!--signin-popup end-->
-			<div class="footy-sec">
+			<%-- <div class="footy-sec">
 				<div class="container">
 					<ul>
 						<li><a href="help-center.html" title="">Help Center</a></li>
@@ -268,7 +278,7 @@
 					</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon.png" alt="">Copyright 2019</p>
 				</div>
-			</div><!--footy-sec end-->
+			</div><!--footy-sec end--> --%>
 		</div><!--sign-in-page end-->
 
 

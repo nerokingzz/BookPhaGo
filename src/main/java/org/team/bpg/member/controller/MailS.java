@@ -23,7 +23,7 @@ public class MailS {
       try {
 		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 		//messageHelper.setCc("zzzzzz@naver.com");
-		messageHelper.setFrom("bitbookphago@gmail.com", "북파고");
+		messageHelper.setFrom("bitbookphago@naver.com", "북파고");
 		messageHelper.setSubject(subject);
 		messageHelper.setTo(to); 
 		messageHelper.setText(body,true );

@@ -10,6 +10,8 @@
 
 <head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	<style>
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
@@ -236,6 +238,7 @@ hr{
 		document.getElementById('esta_current_info').value=estaCurrent;
 		
 		function comPage() {
+			swal('신청이 완료되었습니다');	
 			opener.document.location.reload();
 			self.close();
 	

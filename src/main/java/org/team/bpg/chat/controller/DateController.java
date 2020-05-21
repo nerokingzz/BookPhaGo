@@ -17,5 +17,12 @@ public class DateController {
 		
 	}
 	
+	
+	@RequestMapping("teachers_day.do")
+	public String celebration() {
+		
+		return "chat/teachers_day";
+	}
+	
 
 }

@@ -137,8 +137,9 @@ div.col-md-12 input {
 
 	<div class="wrapper">	
 
-	<!-- header -->
+<!-- header start -->
 	<jsp:include page="../header.jsp"></jsp:include>
+    <!-- header end -->
 
 
 		<section class="profile-account-setting">
@@ -149,8 +150,8 @@ div.col-md-12 input {
 							<div class="acc-leftbar">
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<a><b>도서</b></a>
-								     <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="search1()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서검색</a>
-								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="apply()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>도서신청</a>
+								     <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="search1()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>도서검색</a>
+								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="apply()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fas fa-dot-circle"></i>도서신청</a>
 								     </div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -169,11 +170,11 @@ div.col-md-12 input {
 			
 							<div>
 							<div class="login-sec">
-								<ul class="sign-control">
+								<ul class="sign-control" style=" margin-bottom: 0px;">
 									<li data-tab="tab-1" class="current"><a href="#" title="">도서신청안내</a></li>				
 									<li data-tab="tab-2"><a href="#" title="">도서신청</a></li>				
 								</ul>			
-								<div class="sign_in_sec current" id="tab-1" style="font-size: 14px;">
+								<div class="sign_in_sec current" id="tab-1" style="font-size: 14px; padding-top: 30px;"">
 									
 									○ <input  style = "border:none; font-weight:bold; background-color:transparent;" type="text" value="희망도서 신청안내" disabled><br><br>
 									＊신청대상 : 회원가입한 모든 사용자<br><br>
@@ -202,7 +203,8 @@ div.col-md-12 input {
 										
 										<c:set var="applycnt" value="${applycnt}"></c:set>
 										<c:if test="${applycnt ge 2}">
-										<c:out value="이번달 도서 신청횟수를 모두 사용하였습니다."></c:out><br>
+										<br><br><br>
+										<c:out value="이번달 도서 신청횟수를 모두 사용하였습니다."></c:out><br><br><br>
 										<c:out value="다음달에 다시 이용해주세요."></c:out>
 										</c:if>
 										<c:if test="${applycnt lt 2}">
@@ -210,25 +212,51 @@ div.col-md-12 input {
 											<form action="book_main.do" method="get" name="myform2">
 												<input type="hidden" name="page" value="apply">  
 												<div class="row">
-				                                <div class="col-md-12 col-sm-12"><br>
-				                                   <h6>사용자 ID</h6><br>
+				                                <div class="col-md-12 col-sm-12">
+				                                   <h5>사용자 ID</h5><br>
 				                                   <input type="text" name="user_id" value="${user_id }" readonly><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서명</h6><br>
-				                                	<input style="width:80%;" type="text" name="bookName" id="pInput"><input type="button" style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" value="검색" onclick="userapplysearchbook();"><br><br><br>
+				                                	<h5>도서명</h5><br>
+				                                	<input style="width:80%;" type="text" name="bookName" id="pInput" readonly><input type="button" style="width:19%; padding-left: 0px; padding-right: 0px; background-color:#e44d3a;font-weight: bold; color: #ffffff;" value="찾기" onclick="userapplysearchbook();"><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                    <h6>isbn</h6><br>
+				                                    <h5>isbn</h5><br>
 				                                    <input type="text" name="isbn" id="pInputt" readonly><br><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>선청날짜</h6><br>
+				                                	<h5>신청날짜</h5><br>
 				                                	<input type="text" name="applyDate" id="today" readonly><br><br><br>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
-				                                	<h6>사유</h6><br>
-				                                	<input type="text" name="applyReason" id="applyReason"><br><br>
+				                                	<h5>사유</h5><br>
+				                                	<textarea name="applyReason" id="applyReason" style="color: #b2b2b2; font-size: 14px; font-family: inherit; overflow:hidden;width: 100%;
+																									    padding-top: 0px;
+																									    padding-right: 15px;
+																									    padding-bottom: 0px;
+																									    padding-left: 40px;
+																									    border-radius: 15px;
+																									    border-top-color: rgb(229, 229, 229);
+																									    border-top-style: solid;
+																									    border-top-width: 1px;
+																									    border-right-color: rgb(229, 229, 229);
+																									    border-right-style: solid;
+																									    border-right-width: 1px;
+																									    border-bottom-color: rgb(229, 229, 229);
+																									    border-bottom-style: solid;
+																									    border-bottom-width: 1px;
+																									    border-left-color: rgb(229, 229, 229);
+																									    border-left-style: solid;
+																									    border-left-width: 1px;
+																									    border-image-source: initial;
+																									    border-image-slice: initial;
+																									    border-image-width: initial;
+																									    border-image-outset: initial;
+																									    border-image-repeat: initial;
+																									    resize: none;
+																									    height: 70px;
+																									    padding-top: 10px;"></textarea>
+				                                	<!-- <input type="text" name="applyReason" id="applyReason"> --><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                <input class="seo_button" style="width:118.56px; padding-left: 0px; padding-right:0px; color: white;" type="button" value="신청하기" onclick="going();">	
@@ -298,8 +326,7 @@ div.col-md-12 input {
 				</div><!--account-tabs-setting end-->
 			</div>
 		</section>
-
-	<!-- footer -->
+		<!-- footer -->
 	<jsp:include page="../footer.jsp"></jsp:include>
 
 	</div><!--theme-layout end-->
@@ -319,7 +346,7 @@ div.col-md-12 input {
 <script type="text/javascript">
 	function userapplysearchbook() {
 		var popUrl = "userapplysearch.do";
-    	window.open(popUrl,"","width=1200,height=800");
+    	window.open(popUrl,"","width=1200,height=910");
 	}
 	
 	function going() {

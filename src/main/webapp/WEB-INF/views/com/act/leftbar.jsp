@@ -9,7 +9,6 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap"
 	rel="stylesheet">
-<title>Insert title here</title>
 <style>
 .user-fw-status li h4 {
 	color: black;
@@ -70,6 +69,12 @@ span.commInfoCon {
 	font-size : 12px;
 }
 
+.row{
+		font-size: 10pt;
+		
+		text-align :center;
+	}
+
 main{
 	padding: 20px 0;
 
@@ -82,9 +87,8 @@ main{
 			<h4>커뮤니티 정보</h4>
 			<div id="commInfo">
 				<span class="commInfoTag">운영자</span><span class="commInfoCon">${comInfo.get("COMMUNITY_CAPTAIN")}&nbsp;님</span><br>
-				<span class="commInfoTag">개설날짜</span> <span class="commInfoCon">${comInfo.get("COMMUNITY_ESTABLISH_DATE")}</span>
-				<br> <span class="commInfoTag">총 회원수</span><span
-					class="commInfoCon"> ${memCnt}&nbsp;명</span> <br>
+				<span class="commInfoTag" style="margin-left:-33px; margin-top:7px">개설날짜</span> <span class="commInfoCon">${comInfo.get("COMMUNITY_ESTABLISH_DATE")}</span>
+				<br> <span class="commInfoTag">총 회원수</span><span class="commInfoCon"> ${memCnt}&nbsp;명</span> <br>
 				<div style="margin-top: 30px;">
 					<a
 						href="com_detail.do?community_id=${comInfo.get('COMMUNITY_ID') }">커뮤니티
@@ -96,7 +100,7 @@ main{
 				<c:when test="${memChk eq 'x' }">
 					<h4 class='commInfoButton'>
 						<a
-							onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=500, height=600')">가입하기</a>
+							onclick="window.open('com_act_mem_form.do?community_id=${comInfo.get('COMMUNITY_ID') }', '가입 신청', 'width=550, height=600, resizable=no')">가입하기</a>
 					</h4>
 				</c:when>
 				<c:when test="${memChk eq 'o' }">

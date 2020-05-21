@@ -212,8 +212,8 @@ hr{
 		doAction('search');
 
 		mySheet.SetTheme("OR","orange");
-		//mySheet.SetCountPosition(1);
-		//mySheet.SetPagingPosition(2);
+		mySheet.SetCountPosition(1);
+		mySheet.SetPagingPosition(2);
 
 	}
 
@@ -230,7 +230,7 @@ hr{
 				break;
 			case "save": // 저장
 				//var tempStr = mySheet.GetSaveString();
-				//alert("서버로 전달되는 문자열 확인 :"+tempStr);
+				//swal("서버로 전달되는 문자열 확인 :"+tempStr);
 				break;			
 			case "insert": //신규행 추가
 				var row = mySheet.DataInsert();
@@ -248,7 +248,7 @@ hr{
 	// code: 0(저장성공), -1(저장실패)
 	function mySheet_OnSaveEnd(code,msg){
 		if(msg != ""){
-			alert(msg);	
+			swal(msg);	
 			//번호 다시 매기기
             //mySheet.ReNumberSeq();
 		}	

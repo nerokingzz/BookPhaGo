@@ -31,11 +31,134 @@
 	</resultMap>
 	
 	
+	<resultMap id="chat_logCount_Map" type="java.util.HashMap">
+		<result property="totalID" column="TOTAL_USER_COUNT"></result>
+		<result property="todayID" column="TODAY_USER_COUNT"></result>
+		<result property="logCount" column="TOTAL_DIAL_COUNT"></result>
+		<result property="failCount" column="FAIL_DIAL_COUNT"></result>
+	</resultMap>
+	
+	
+	<resultMap id="chat_logInt_map" type="IntentVO">
+		<result property="intName" column="INT_NAME"></result>
+		<result property="intCount" column="INT_COUNT"></result>
+	</resultMap>
+	
+	
+	<resultMap id="chat_logEnt_map" type="EntityVO">
+		<result property="entName" column="ENT_NAME"></result>
+		<result property="entCount" column="ENT_COUNT"></result>
+	</resultMap>
+	
+	
+	<resultMap id="chat_logDial_map" type="DialVO">
+		<result property="dialDate" column="DIAL_DATE"></result>
+		<result property="dialCount" column="DIAL_COUNT"></result>
+	</resultMap>
+	
+	
+	<!-- 통합지표 SELECT -->
+	<select id="chat_logCount_s" resultMap = "chat_logCount_Map">
+		select *
+		    from(
+		        select *
+		        from c_log_counts
+		        order by rownum desc
+		        )
+		where rownum = 1
+	</select>
+	
+	
+	
+	<!-- Top Intent SELECT -->
+	<select id="chat_logInt_s"  resultMap = "chat_logInt_map" >
+		select int_name, int_count
+		from C_LOG_INTENTS
+		where to_char(INT_DATE,'YYYYMMDD') =(
+		                select
+		                to_char(sysdate,'YYYYMMDD')
+		                from dual
+		            )
+		order by INT_rank asc
+	</select>
+	
+	
+	<!-- Top Entity SELECT -->
+	<select id="chat_logEnt_s"  resultMap = "chat_logEnt_map" >
+		select ent_name, ent_count
+		from C_LOG_ENTITIES
+		where to_char(ENT_DATE,'YYYYMMDD') =(
+		                select
+		                to_char(sysdate,'YYYYMMDD')
+		                from dual
+		            )
+		order by ent_rank asc
+	</select>
+	
+	
+	<!-- 입별 Dialogue 수 SELECT -->
+	<select id="chat_logDial_s"  resultMap = "chat_logDial_map" >
+		select dial_date, dial_count
+		from c_log_dial order by dial_date
+	</select>
+	
+	
+
+
+	<!-- 통합지표 insert -->
+	<insert id="chat_logCount" parameterType="java.util.Map">
+		INSERT INTO C_LOG_COUNTS 
+		VALUES(C_LOG_COUNTS_SEQ.NEXTVAL, 
+		        SYSDATE,
+		        #{totalUserCount},
+		        #{todayUserCount},
+		        #{todayDialCount},
+		        #{failDialCount}
+        )	
+	</insert>
+	
+	
+	<!-- Top Intent Insert -->
+	<insert id="chat_logInt" parameterType="java.util.Map">
+		INSERT INTO C_LOG_INTENTS 
+		VALUES(C_LOG_INTENTS_SEQ.NEXTVAL, 
+		        SYSDATE,
+		        #{intRank},
+		        #{intName},
+		        #{intCount}
+		        )
+	</insert>
+
+
+	<!-- Top Entity Insert -->
+	<insert id="chat_logEnt" parameterType="java.util.Map">
+		INSERT INTO C_LOG_ENTITIES 
+		VALUES(C_LOG_ENTITIES_SEQ.NEXTVAL, 
+		        SYSDATE,
+		        #{entRank},
+		        #{entName},
+		        #{entCount}
+		        )
+	</insert>
+
+
+	<!-- 입별 Dialogue 수 Insert -->
+	<insert id="chat_logDial" parameterType="java.util.Map">
+		insert into C_LOG_DIAL
+		select C_LOG_DIAL_SEQ.NEXTVAL,  #{dialDate}, #{dialCount}
+		from dual
+		where #{dialDate} = (SELECT TO_CHAR(SYSDATE,'MM-DD')
+		                FROM DUAL
+		                )	
+	</insert>
+	
+	
+	
 	<!-- LOG 파일을 가져오는 select -->
 	<select id="chat_getLogFile" resultMap = "chatLogFile">
 		SELECT * FROM(SELECT LOGFILE 
     			FROM C_LOG_FILE
-    			ORDER BY FILEID DESC)
+    			ORDER BY SAVEDATE DESC)
 		WHERE ROWNUM = 1
 	</select>
 	
@@ -66,12 +189,15 @@
  	</select> -->
 	
 	
-	<!-- 오늘의 책 정보를 가져오는 쿼리 -->
+	<!-- 가장 많이 빌려간 도서 정보를 가져오는 쿼리 -->
 	<select id="index_getTodayBook" resultMap = "randomBook">
-		SELECT * FROM(SELECT * 
-    			FROM I_TODAY_BOOK
-    			ORDER BY REGDATE DESC)
-		WHERE ROWNUM = 1
+		SELECT * 
+			FROM B_BOOK_LIB blib, (SELECT booknumber, count(booknumber) a 
+			                    from b_book_rent
+			                    group by booknumber
+			                    order by a desc) brent
+			WHERE ROWNUM = 1
+			and blib.booknumber = brent.booknumber
 	</select>
 	
 	
@@ -97,11 +223,11 @@
  	</select>
 	
 	
-	 	<!-- 채팅을 통한 대출현황 조회 -->
+	<!-- 채팅을 통한 대출현황 조회 -->
  	<select id="chat_rentstatus" parameterType="String" resultType="hashmap">
  		select A.BOOKNAME, B.BOOKNUMBER, TO_CHAR(b.rentdate, 'YYYY-MM-DD') as rentdate, TO_CHAR(b.returndate,'YYYY-MM-DD') as returndate, b.state, b.rreturndate
 		from B_BOOK_LIB A, B_BOOK_RENT B
-		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id} and B.state = '대출중'
+		where A.BOOKNUMBER=B.BOOKNUMBER and B.userid=#{user_id} and (B.state = '대출중' or B.state = '연체중')
  	</select>
 	
 	

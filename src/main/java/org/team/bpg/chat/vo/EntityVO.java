@@ -2,33 +2,25 @@ package org.team.bpg.chat.vo;
 
 import org.springframework.stereotype.Component;
 
-@Component("entity")
+@Component("EntityVO")
 public class EntityVO {
 	
-	private String name, count, rank;
+	private String entName, entCount;
 
-	public String getName() {
-		return name;
+	public String getEntName() {
+		return entName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEntName(String entName) {
+		this.entName = entName;
 	}
 
-	public String getCount() {
-		return count;
+	public String getEntCount() {
+		return entCount;
 	}
 
-	public void setCount(String count) {
-		this.count = count;
-	}
-
-	public String getRank() {
-		return rank;
-	}
-
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setEntCount(String entCount) {
+		this.entCount = entCount;
 	}
 
 }

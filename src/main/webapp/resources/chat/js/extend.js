@@ -19,7 +19,7 @@ var user_defined = event.data.context.skills['main skill'].user_defined;
 				
 				setTimeout(function(){
 					checkBookExtendNumber(username);
-				},1300);
+				},100);
 				
 			//extendId의 검사 결과가 유효하지 않았을 때
 			}else{
@@ -217,14 +217,14 @@ function checkBookExtendNumber(userid){
 				}
 				
 				
-			},100);
+			},200);
 
 		},
 		error : function(result, status, error){
 			setTimeout(function(){
 				var container = $('.extendAllBook').last();
 				container.append("error alert!");
-			},100);
+			},200);
 		}
 	}); 
 	}

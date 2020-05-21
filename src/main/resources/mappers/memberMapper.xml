@@ -155,6 +155,10 @@
 	<select id="test3" resultType="String">
 		select community_captain from m_community_info where community_member_count = (select max(community_member_count) from m_community_info)
 	</select>
+	
+	<select id="userlist" resultType="hashmap">
+		select * from U_USER_INFO 
+	</select>
 
 </mapper>
 

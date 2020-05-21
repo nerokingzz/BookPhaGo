@@ -3,9 +3,17 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"  />
+<link rel="shortcut icon" href="${contextPath }/favicon.ico">
 
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	}) 
+</script>
+
+
 
 <!-- 챗봇 -->
 <jsp:include page="chat/watson.jsp"></jsp:include>
@@ -18,16 +26,15 @@
 					<li style="height:50px;">
 						<a href="/" title=""><img src="${contextPath}/resources/bootstrap/images/logo.png" alt=""></a>
 					</li>
-					<li style="height:50px">
+					<li style="height:50px;">
 						<a href="/" title="">
-							<span><i class="fas fa-home"></i></span>
-							<spring:message code="top.home" text="홈"/>
+							<span><i class="fas fa-home fa-2x"><span data-toggle="tooltip" data-placement="top" title="홈"></span></i></span>
 						</a>
 					</li>
 					<li style="height:50px">
 						<a href="book_main.do?page=search" title="">
-							<span><i class="fas fa-book"></i></span>
-							<spring:message code="top.book" text="도서"/>
+							<span><i class="fas fa-book fa-2x"><span data-toggle="tooltip" data-placement="top" title="도서"></span></i></span>
+							
 						</a>
 						<ul>
 							<li><a href="book_main.do?page=search" title=""><spring:message code="top.book.search" text="도서검색"/></a></li>
@@ -39,14 +46,14 @@
 						<c:when test="${user_position ne null}">
 							<li style="height:50px">
 								<a href="com_main.do" title="">
-									<span><i class="fas fa-user-friends"></i></span>
-									<spring:message code="top.comm" text="커뮤니티"/>
+									<span><i class="fas fa-user-friends fa-2x"><span data-toggle="tooltip" data-placement="top" title="커뮤니티"></span></i></span>
+									
 								</a>
 							</li>
 							<li style="height:50px">
 								<a href="myLib_main.do" title="" class="not-box-openm">
-									<span><i class="fab fa-gratipay"></i></span>
-									<spring:message code="top.mylib" text="마이라이브러리"/>
+									<span><i class="fab fa-gratipay fa-2x"><span data-toggle="tooltip" data-placement="top" title="마이라이브러리"></span></i></span>
+									
 								</a>
 								<ul>
 									<li><a href="myLib_main.do?page=score" title=""><spring:message code="top.mylib.rate" text="도서평가"/></a></li>
@@ -62,10 +69,11 @@
 						<c:when test="${user_position eq 'admin'}">
 							<li style="height:50px">
 								<a href="admin_main.do" title="" class="not-box-open">
-									<span><i class="fas fa-user-cog"></i></span>
-									<spring:message code="top.admin" text="관리자전용"/>
+									<span><i class="fas fa-user-cog fa-2x"><span data-toggle="tooltip" data-placement="top" title="관리자전용"></span></i></span>
+									
 								</a>
 								<ul>
+									<li><a href="admin_main.do?page=user_A" title=""><spring:message code="top.admin.member" text="회원관리"/></a></li>
 									<li><a href="admin_main.do?page=book_A" title=""><spring:message code="top.admin.book" text="도서관리"/></a></li>
 									<li><a href="admin_main.do?page=book_status_A" title=""><spring:message code="top.admin.current" text="현황관리"/></a></li>
 									<li><a href="admin_main.do?page=com_A" title=""><spring:message code="top.admin.comm" text="커뮤니티관리"/></a></li>
@@ -75,12 +83,7 @@
 									<li><a href="admin_main.do?page=return_A" title=""><spring:message code="top.admin.return" text="도서반납"/></a></li>
 								</ul>
 							</li>
-							<li style="height:50px">
-								<a href="list.do" title="" class="not-box-open">
-									<span><i class="fas fa-user-cog"></i></span>
-									<spring:message code="top.member" text="회원관리"/>
-								</a>
-							</li>
+						
 						</c:when>
 					</c:choose>
 				</ul>
@@ -95,7 +98,7 @@
 				<c:when test="${user_position ne null}">
 					<div style="padding-top:5px" class="user-account">
 						<div class="user-info">
-							<a href="update1.do" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
+							<a href="updatealert.do" title=""><spring:message code="top.right.modify" text="정보 수정"/></a>
 							<p style="text-indent:1.2em;line-height:1;" />
 							<a href="logout.do" title=""><spring:message code="top.right.logout" text="로그아웃"/></a>
 						</div>

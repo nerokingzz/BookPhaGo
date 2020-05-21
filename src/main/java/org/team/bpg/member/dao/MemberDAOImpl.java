@@ -127,10 +127,8 @@ public class MemberDAOImpl implements MemberDAO {
 		sql.update("memberMapper.badAlertOk", user_id);
 		
 	}
-	
 
-
-@Override
+	@Override
 	public String test(MemberVO vo) throws Exception {
 		return sql.selectOne("memberMapper.test", vo);
 	}
@@ -148,6 +146,12 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public String test3(MemberVO vo) throws Exception {
 		return sql.selectOne("memberMapper.test3", vo);
+	}
+	
+	@Override
+	public List<Map<String, Object>> userlist() {
+		List<Map<String, Object>> userlist=sql.selectList("memberMapper.userlist");
+		return userlist;
 	}
 
 

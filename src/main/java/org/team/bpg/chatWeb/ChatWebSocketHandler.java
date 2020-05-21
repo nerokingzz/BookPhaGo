@@ -54,8 +54,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 		
 		//커뮤니티아이디들이 들어있는 리스트
 		List<String> chatIdList=new ArrayList<>();
-		chatIdList.add("21");
-		chatIdList.add("42");
+		chatIdList.add("141");
+		chatIdList.add("143");
 		
 		for(String chatroomId : chatIdList) {
 			if(chatroomMap.containsKey(chatroomId)) { 		// 이미 열린 채팅방일 경우

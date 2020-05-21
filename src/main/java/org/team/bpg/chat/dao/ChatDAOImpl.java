@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.team.bpg.chat.vo.BookVO;
+import org.team.bpg.chat.vo.DialVO;
+import org.team.bpg.chat.vo.EntityVO;
+import org.team.bpg.chat.vo.IntentVO;
 import org.team.bpg.member.vo.MemberVO;
 
 
@@ -21,6 +24,70 @@ public class ChatDAOImpl implements ChatDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
+	
+	//select chat_logCount
+	@Override
+	public Map selectLogCount() {
+		Map result = sqlSession.selectOne("chatMapper.chat_logCount_s");
+		return result;
+	}
+	
+	
+	//select chat_logInt
+	@Override
+	public List<IntentVO> selectLogInt() {
+		List<IntentVO> result = sqlSession.selectList("chatMapper.chat_logInt_s");
+		return result;
+	}
+	
+	
+	//select chat_logEnt
+	@Override
+	public List<EntityVO> selectLogEnt() {
+		List<EntityVO> result = sqlSession.selectList("chatMapper.chat_logEnt_s");
+		return result;
+	}
+	
+	
+	//select chat_logDial
+	@Override
+	public List<DialVO> selectLogDial() {
+		List<DialVO> result = sqlSession.selectList("chatMapper.chat_logDial_s");
+		return result;
+	}
+	
+	
+	
+	//chat_logCount
+	@Override
+	public int insertLogCount(Map logDataMap) {
+		int result = sqlSession.insert("chatMapper.chat_logCount", logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logInt
+	@Override
+	public int insertLogInt(Map logDataMap) {
+		int result = sqlSession.insert("chatMapper.chat_logInt", logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logEnt
+	@Override
+	public int insertLogEnt(Map logDataMap) {
+		int result = sqlSession.insert("chatMapper.chat_logEnt", logDataMap);
+		return result;
+	}
+	
+	
+	//chat_logDial
+	public int insertLogDial(Map logDataMap) {
+		int result = sqlSession.insert("chatMapper.chat_logDial", logDataMap);
+		return result;
+	}
 	
 	
 	@Override
@@ -96,10 +163,12 @@ public class ChatDAOImpl implements ChatDAO{
 		return member;
 	}
 
+
 	@Override
 	public String borrowBook(String bookNumber) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

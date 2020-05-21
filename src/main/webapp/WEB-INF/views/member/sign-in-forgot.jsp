@@ -26,6 +26,19 @@
 </head>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<style>
+	#mainlabel{
+	font-size:25px;
+	color:#E44D3A;
+	}
+	#signimg { 
+	display: block; 
+	margin-left: 60px;
+	margin-top:-40px;
+	}
+</style>
 
 <script type="text/javascript">
 
@@ -33,17 +46,17 @@
 
 	$("#login").on("click", function(){
         if($("#userId").val()==""){
-           alert("아이디를 입력해주세요.");
+           swal("아이디를 입력해주세요.");
            $("#userId").focus();
            return false;
         };
         if(($("#userId").val()).length<3){
-            alert("아이디는 4~12자의 영문, 숫자로만 입력.");
+        	swal("아이디는 4~12자의 영문, 숫자로만 입력.");
             $("#userId").focus();
             return false;
          };
         if($("#userEmail").val()==""){
-            alert("이메일을 입력해주세요.");
+        	swal("이메일을 입력해주세요.");
             $("#userEmail").focus();
             return false;
          }; 
@@ -57,11 +70,11 @@
              data : $("#homeForm").serializeArray(),
              success: function(data){
             	 if(data==0){
-            		 alert("아이디, 이메일 불일치");
+            		 swal("아이디, 이메일 불일치");
             		 return false;
             	 }
             	 if(data==1) {
-            		 alert("입력한 이메일에서 비밀번호를 확인해주세요");
+            		 swal("입력한 이메일에서 비밀번호를 확인해주세요");
             		 return false;
             	 }
                 },
@@ -102,9 +115,11 @@
 							<div class="cmp-info">
 								<div class="cm-logo">
 									<img src="${contextPath}/resources/bootstrap/images/cm-logo.png" alt="">
-									<p>Workwise,  is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
+									<br><br><br><br><br>
+									<label id="mainlabel">비밀번호찾기 유의사항</label> <br><br><br>
+									<a>회원가입시 작성했던 이메일을 입력하셔야됩니다.<br></a>	
 								</div><!--cm-logo end-->	
-								<img src="${contextPath}/resources/bootstrap/images/cm-main-img.png" alt="">			
+								<img id="signimg" style="width:250px; height:250px;" src="${contextPath}/resources/images/sign.jpg" alt="">		
 							</div><!--cmp-info end-->
 						</div>
 						<div class="col-lg-6">
@@ -115,18 +130,18 @@
 								</ul>			
 								<div class="sign_in_sec current" id="tab-1">
 									
-									<h3>Forgot</h3>
+									<h3>비밀번호찾기</h3>
 									<form id="homeForm" name='homeForm' method="post">
 										<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id">
+													<input type="text" id="userId" name="userId" placeholder="아이디">
 													<i class="la la-user"></i>
 												</div><!--sn-field end-->
 											</div>
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="email" id="userEmail" name="userEmail" placeholder="Email">
+													<input type="email" id="userEmail" name="userEmail" placeholder="이메일">
 													<i class="la la-lock"></i>
 												</div>
 											</div>
@@ -190,7 +205,7 @@
 					</div>		
 				</div><!--signin-pop end-->
 			</div><!--signin-popup end-->
-			<div class="footy-sec">
+			<%-- <div class="footy-sec">
 				<div class="container">
 					<ul>
 						<li><a href="help-center.html" title="">Help Center</a></li>
@@ -205,7 +220,7 @@
 					</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon.png" alt="">Copyright 2019</p>
 				</div>
-			</div><!--footy-sec end-->
+			</div><!--footy-sec end--> --%>
 		</div><!--sign-in-page end-->
 
 

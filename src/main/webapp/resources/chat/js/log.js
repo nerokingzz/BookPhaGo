@@ -1,4 +1,4 @@
-$('.helpforum a').on('click', function(e) {
+/*$('.helpforum a').on('click', function(e) {
       e.preventDefault();
       $.ajax({
          url : '/chat/down.do',
@@ -18,7 +18,7 @@ $('.helpforum a').on('click', function(e) {
          }
       })
 
-   })
+   })*/
 
    
 	function logLoad(){
@@ -29,10 +29,15 @@ $('.helpforum a').on('click', function(e) {
 			async: true,
 			type : 'post',
 			success : function(result){
+				
+				console.log(result);
+				
 				//static start
 				var container1 = $('h1#totalID');
 				container1.append(result.totalID);
 				
+	            var todayID = $('h1#todayID');
+	            todayID.append(result.todayID);
 				
 				var totalLog = $('h1#totalLog');
 				totalLog.append(result.logCount);
@@ -52,7 +57,7 @@ $('.helpforum a').on('click', function(e) {
        	          var dataRows = [['Date', '대화 수']];
        	          
        	       for(key in result.linechart){
- 	        	  dataRows.push([key, result.linechart[key]]);
+ 	        	  dataRows.push([key, parseInt(result.linechart[key])]);
            		}
 
  	          var line_data = google.visualization.arrayToDataTable(dataRows);
@@ -135,12 +140,16 @@ $('.helpforum a').on('click', function(e) {
 				
 				var container = $('#resultDiv');
 				container.append("<img style='margin:auto;' src='/resources/chat/loader.gif' />");
+				
+				var todayID = $('h1#todayID');
+				todayID.append("<img style='margin:auto;' src='/resources/chat/small_loader.gif' />");
 			},
 			complete:function(){
 				$('h1#totalID img').css("display","none");
 				$('h1#totalLog img').css("display","none");
 				$('h1#failCount img').css("display","none");
 				$('#resultDiv img').css("display","none");
+				$('h1#todayID img').css("display","none");	
 			},
 			//에러 처리 필요함.
 			error : function(result, status){
@@ -151,17 +160,14 @@ $('.helpforum a').on('click', function(e) {
 
    
 
-   //금일 이용자수와 수를 구해오는 ajax
+/*   //금일 이용자수와 수를 구해오는 ajax
       $.ajax({
          url: 'log/todayID.do',
          async: true,
          type : 'post',
          success : function(result){
             console.log("todayID result is..." + result);
-            var todayID = $('h1#todayID');
-            
 
-            todayID.append(result);
 			},
 		beforeSend:function(){
 			var todayID = $('h1#todayID');
@@ -174,7 +180,7 @@ $('.helpforum a').on('click', function(e) {
 		error : function(result, status){
 			console.log("todayID ajax에서 에러가 발생하였습니다.");
 			}
-		})
+		})*/
 	
 	
 	}

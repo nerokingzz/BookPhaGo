@@ -40,6 +40,7 @@ public class ChatBookControllerImpl {
 	@Autowired
 	private LibraryService libraryService;
 	
+
 	
 	
 	@Transactional
@@ -251,28 +252,13 @@ public class ChatBookControllerImpl {
 		book_list.put("bookState2", bookState2);
 		
 		
-		int result1 = 0;
-		int result2 = 0;		
-		int result3 = 0;	
+		int rentResult = chatService.chat_rentBook(userid, book_list);
 		
-		if(userid != null && bookNumber != null) {
-			result1 = libraryService.userborrow(userid);
-			result2 = libraryService.insertbookrent(book_list);
-			result3 = libraryService.updatebooklib(book_list);
-			
-			System.out.println(result1);
-			System.out.println(result2);
-			System.out.println(result3);
-			System.out.println("도서대출완료");
-		}
 		
-		if(result1 == 1 && result2 == 1 && result3 ==1) {
-			totalResult = 1;
-		}else {
-			totalResult = 0;
-		}
+		if(rentResult == 1) System.out.println("대출 작업이 완료되었습니다.");
+		else System.out.println("대출 작업이 정상적으로 완료되지 않았습니다.");
 		
-		return totalResult;
+		return rentResult;
 	}
 	
 	

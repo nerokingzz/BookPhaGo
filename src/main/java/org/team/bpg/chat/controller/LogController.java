@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
@@ -46,6 +47,9 @@ import org.team.bpg.book.service.LibraryService;
 import org.team.bpg.chat.service.ChatService;
 import org.team.bpg.chat.service.LogService;
 import org.team.bpg.chat.service.LogServiceImpl;
+import org.team.bpg.chat.vo.DialVO;
+import org.team.bpg.chat.vo.EntityVO;
+import org.team.bpg.chat.vo.IntentVO;
 import org.team.bpg.chat.vo.RequestLogVO;
 
 import com.ibm.cloud.sdk.core.security.IamAuthenticator;
@@ -79,7 +83,62 @@ public class LogController {
    }
    
 
-   
+   @RequestMapping("totalID.do")
+   public Map returnLogDatas() throws ParseException {
+	   //
+
+	   
+	   Map selectLogCount = logService.selectLogCount();
+	   String totalID = (String)selectLogCount.get("totalID");
+	   String todayID = (String)selectLogCount.get("todayID");
+	   String logCount = (String)selectLogCount.get("logCount");
+	   String failCount = (String)selectLogCount.get("failCount");
+	   
+	   List<IntentVO> selectLogIntList = logService.selectLogInt();
+	   List<EntityVO> selectLogEntList = logService.selectLogEnt();
+	   List<DialVO> selectLogDialList = logService.selectLogDial();
+	   
+	   Map selectLogInt = new LinkedHashMap<>();
+	   Map selectLogEnt = new LinkedHashMap<>();
+	   Map selectLogDial = new LinkedHashMap<>();
+	   
+	   for(int i =0; i < selectLogIntList.size() ; i++) {
+		   selectLogInt.put(selectLogIntList.get(i).getIntName(), selectLogIntList.get(i).getIntCount());
+	   }
+	   
+	   for(int i =0; i < selectLogEntList.size() ; i++) {
+		   selectLogEnt.put(selectLogEntList.get(i).getEntName(), selectLogEntList.get(i).getEntCount());
+	   }
+	   
+	   for(int i =0; i < selectLogDialList.size() ; i++) {
+		   selectLogDial.put(selectLogDialList.get(i).getDialDate(), selectLogDialList.get(i).getDialCount());
+	   }
+	   
+
+	   
+	   ArrayList resultList = new ArrayList();
+	   
+	   resultList.add(selectLogInt);
+	   resultList.add(selectLogEnt);
+	   
+	   Map tm = selectLogDial; 
+	    
+	   
+      Map resultMap = new HashMap<>();
+      
+      resultMap.put("totalID",totalID);
+      resultMap.put("todayID",todayID);
+      resultMap.put("logCount",logCount);
+      resultMap.put("failCount",failCount);
+      resultMap.put("ranks", resultList);
+      resultMap.put("linechart", tm);
+      
+      
+      
+      return resultMap;
+	   
+	   
+   }
    
 	
 	@RequestMapping("getLogFile.do")
@@ -119,336 +178,11 @@ public class LogController {
 	        
 	}
 	
+	
+
 
    
-   @RequestMapping("totalID.do")
-   //기간에 관계 없이 전체 기간에 걸쳐 누적된 User ID 개수를 구한다.
-   public Map collectTotalIDs() throws ParseException {
 
-      System.out.println("I am in totalID.do");
-      List<String> originList = new ArrayList<String>();
-      
-      //////////////////////////rank를 위한 list/////////////////////////
-      List<String> intentList = new ArrayList<String>();
-      List<String> entityList = new ArrayList<String>();
-      //////////////////////////rank를 위한 list/////////////////////////
-      
-      /////////////////////////line chart를 위한 list////////////////////
-      List<String> dateList = new ArrayList();
-      /////////////////////////line chart를 위한 list////////////////////
-      
-      
-      
-      long start = System.currentTimeMillis();
- 
-      int logCount = 0; //누적 로그 수
-      int failCount = 0; //누적 실패 대화 수
-      
-      while (true) {
-         
-         ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
-
-         LogCollection response = assistant.listAllLogs(options).execute().getResult();
-
-         // String logResult = response.toString();
-         List<Log> logList = response.getLogs();
-
-         
-         for (Log log : logList) {
-            
-            if(log.getResponse().getEntities().size() == 0 && log.getResponse().getIntents().size() == 0 
-                  && log.getRequest().input().getText().isEmpty() == false) {
-               failCount++;
-            }
-            
-            String userID = "";
-            userID = log.getRequest().context().getMetadata().userId();
-            originList.add(userID);
-            logCount++;
-            
-            //////////////////////////rank를 위한 if/////////////////////////
-            if (log.getResponse().getIntents().size() != 0) {
-	               String intent = log.getResponse().getIntents().get(0).intent();
-	               intentList.add(intent);
-	            }
-	            
-	            if (log.getResponse().getEntities().size() != 0) {
-	               String entity = log.getResponse().getEntities().get(0).entity();
-	               entityList.add(entity);
-	            }
-            
-
-	            //////////////////////////rank를 위한 if/////////////////////////
-            
-	            
-	            ////////////////////line chart 시작///////////////////////////////
-	            
-	            String timeStamp = log.getRequestTimestamp();
-
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-				SimpleDateFormat output = new SimpleDateFormat("MM-dd");
-				sdf.setTimeZone(TimeZone.getTimeZone("KST"));
-				Date d;
-				d = sdf.parse(timeStamp);
-				// 변환된 timestamp 결과물
-				String formattedTime = output.format(d);
-				
-				dateList.add(formattedTime);
-	            
-	            
-	            //////////////////line chart 끝///////////////////////////////
-	            
-	            
-         }
-         if (response.getPagination().getNextCursor() == null) {
-            break;
-         } else {
-            cursor = response.getPagination().getNextCursor();
-         }
-      }
-      int result = getDistinct(originList);
-      
-      
-
-      
-      ////////////////////////////////////rank를 위한 sort///////////////////////////
-      
-      
-      long end = System.currentTimeMillis();
-
-      System.out.println( "api 실행 소요시간 : " + ( end - start )/1000.0 );
-
-
-      //ArrayList 안의 중복된 키워드의 개수를 세 주는 부분
-      HashMap<String, Integer> intentCount = new HashMap<String, Integer>();
-        
-      for(int i = 0 ; i < intentList.size() ; i++){ // ArrayList 만큼 반복
-          if (intentCount.containsKey(intentList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-              intentCount.put(intentList.get(i), intentCount.get(intentList.get(i))  + 1);  // key가 이미 있다면 value에 +1
-          } else { // key값이 존재하지 않으면
-              intentCount.put(intentList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
-          }
-      }
-
-      HashMap<String, Integer> entityCount = new HashMap<String, Integer>();
-        
-      for(int i = 0 ; i < entityList.size() ; i++){ // ArrayList 만큼 반복
-          if (entityCount.containsKey(entityList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-              entityCount.put(entityList.get(i), entityCount.get(entityList.get(i))  + 1);  // key가 이미 있다면 value에 +1
-          } else { // key값이 존재하지 않으면
-              entityCount.put(entityList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
-          }
-      }
-      
-      List<HashMap> resultList = new ArrayList();
-      //resultList.add(intentCount);
-      //resultList.add(entityCount);
-      
-      HashMap IntentSortedMap = (HashMap) sortByValue(intentCount);
-      HashMap EntitySortedMap = (HashMap) sortByValue(entityCount);
-      
-      resultList.add(IntentSortedMap);
-      resultList.add(EntitySortedMap);
-      
-      //////////////////////////////////rank를 위한 sort///////////////////////////
-      
-      
-      
-      
-      /////////////////////////////////line chart를 위한 sort 시작////////////////////
-      HashMap<String, Integer> dateCount = new HashMap<String, Integer>();
-      
-      for(int i = 0 ; i < dateList.size() ; i++){ // ArrayList 만큼 반복
-          if (dateCount.containsKey(dateList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-        	  dateCount.put(dateList.get(i), dateCount.get(dateList.get(i))  + 1);  // key가 이미 있다면 value에 +1
-          } else { // key값이 존재하지 않으면
-        	  dateCount.put(dateList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
-          }
-      }
-      
-     //<날짜, 로그 수> 형식으로 담긴 hashMap을 key 기준 오름차순으로 정렬하기 위해 treemap사용
-      TreeMap<String,Integer> tm = new TreeMap<String,Integer>(dateCount);
-      /////////////////////////////////line chart를 위한 sort 끝////////////////////
-      
-      
-      Map resultMap = new HashMap<>();
-      
-      resultMap.put("totalID",result);
-      resultMap.put("logCount",logCount);
-      resultMap.put("failCount",failCount);
-      resultMap.put("ranks", resultList);
-      resultMap.put("linechart", tm);
-      
-      return resultMap;
-   }
-   
-   
-   @RequestMapping("todayID.do")
-   //오늘의 userID 개수 수집해 중복을 제거합니다.
-   public int collectTodayIDs() {
-      
-      
-      
-      List<String> originList = new ArrayList<String>();
-      String filter = this.filter;
-      
-      //startDate와 endDate를 yyyy-MM-dd 형식으로 바꿔주는 구문
-      SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM-dd");
-      Date date = new Date();
-      String dateStr = format1.format(date);
-      
-      String todayFilter = this.filter + ",response_timestamp>=" + dateStr + ",response_timestamp<=" + dateStr;
-      
-      while (true) {
-         
-         ListAllLogsOptions options = new ListAllLogsOptions.Builder(todayFilter).pageLimit(pageLimit).cursor(cursor).build();
-
-         LogCollection response = assistant.listAllLogs(options).execute().getResult();
-
-         // String logResult = response.toString();
-         List<Log> logList = response.getLogs();
-
-         for (Log log : logList) {
-            String userID = "";
-            userID = log.getRequest().context().getMetadata().userId();
-            originList.add(userID);
-         }
-         if (response.getPagination().getNextCursor() == null) {
-            break;
-         } else {
-            cursor = response.getPagination().getNextCursor();
-         }
-      }
-      
-      int todayResult = getDistinct(originList);
-
-      
-      return todayResult;
-
-
-   }
-   
-
-   /*
-   //intent와 entity의 개수를 count하고 List<Hashmap> 형태로 view에 리턴한다.
-   //현재까지 누적된 모든 데이터를 바탕으로 한다.
-   @RequestMapping("/ranks.do")
-   public List<HashMap> Ranks() {
-
-      List<String> intentList = new ArrayList<String>();
-      List<String> entityList = new ArrayList<String>();
-
-      long start = System.currentTimeMillis();
-      while (true) {
-         
-         ListAllLogsOptions options = new ListAllLogsOptions.Builder(filter).pageLimit(pageLimit).cursor(cursor).build();
-
-
-         LogCollection response = assistant.listAllLogs(options).execute().getResult();
-
-         // String logResult = response.toString();
-         List<Log> logList = response.getLogs();
-
-         for (Log log : logList) {
-
-            if (log.getResponse().getIntents().size() != 0) {
-               String intent = log.getResponse().getIntents().get(0).intent();
-               intentList.add(intent);
-            }
-            
-            if (log.getResponse().getEntities().size() != 0) {
-               String entity = log.getResponse().getEntities().get(0).entity();
-               entityList.add(entity);
-            }
-            
-         }
-         if (response.getPagination().getNextCursor() == null) {
-            break;
-         } else {
-            cursor = response.getPagination().getNextCursor();
-         }
-      }
-      long end = System.currentTimeMillis();
-
-      System.out.println( "api 실행 소요시간 : " + ( end - start )/1000.0 );
-
-
-      //ArrayList 안의 중복된 키워드의 개수를 세 주는 부분
-      HashMap<String, Integer> intentCount = new HashMap<String, Integer>();
-        
-      for(int i = 0 ; i < intentList.size() ; i++){ // ArrayList 만큼 반복
-          if (intentCount.containsKey(intentList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-              intentCount.put(intentList.get(i), intentCount.get(intentList.get(i))  + 1);  // key가 이미 있다면 value에 +1
-          } else { // key값이 존재하지 않으면
-              intentCount.put(intentList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
-          }
-      }
-
-      HashMap<String, Integer> entityCount = new HashMap<String, Integer>();
-        
-      for(int i = 0 ; i < entityList.size() ; i++){ // ArrayList 만큼 반복
-          if (entityCount.containsKey(entityList.get(i))) { // HashMap 내부에 이미 key 값이 존재하는지 확인
-              entityCount.put(entityList.get(i), entityCount.get(entityList.get(i))  + 1);  // key가 이미 있다면 value에 +1
-          } else { // key값이 존재하지 않으면
-              entityCount.put(entityList.get(i) , 1); // key 값을 생성후 value를 1로 초기화
-          }
-      }
-      
-      System.out.println("intent count......" + intentCount);
-      
-      System.out.println("entity count......" + entityCount);
-      List<HashMap> resultList = new ArrayList();
-      //resultList.add(intentCount);
-      //resultList.add(entityCount);
-      
-      HashMap IntentSortedMap = (HashMap) sortByValue(intentCount);
-      HashMap EntitySortedMap = (HashMap) sortByValue(entityCount);
-      
-      resultList.add(IntentSortedMap);
-      resultList.add(EntitySortedMap);
-
-      return resultList;
-   
-   }
-   */
-   
-   
-
-   //내부의 중복된 값을 제거하고 남은 고유 개수를 리턴한다. List<String>을 파라미터로 받는다.
-   public int getDistinct(List<String> originList){
-      List<String> resultList = new ArrayList<String>();
-      
-      for(int i = 0; i < originList.size(); i++) {
-         
-         if(!resultList.contains(originList.get(i))) {
-            resultList.add(originList.get(i));
-         }
-      }
-      return resultList.size();
-   }
-   
-   
-   //Value를 기준으로 맵을 내림차순 정렬해준다. Map<String, Integer>를 파라미터로 받는다.
-   public static Map<String, Integer> sortByValue(Map<String,Integer> map){
-       List<Map.Entry<String, Integer>> list = new LinkedList<>(map.entrySet());
-      
-      Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-           @Override
-           public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-               int comparision = (o1.getValue() - o2.getValue()) * -1;
-               return comparision == 0 ? o1.getKey().compareTo(o2.getKey()) : comparision;
-           }
-       });
-       
-       // 순서유지를 위해 LinkedHashMap을 사용
-       Map<String, Integer> sortedMap = new LinkedHashMap<>(); 
-       for(Iterator<Map.Entry<String, Integer>> iter = list.iterator(); iter.hasNext();){
-           Map.Entry<String, Integer> entry = iter.next();
-           sortedMap.put(entry.getKey(), entry.getValue());
-       }
-       return sortedMap;
-      
-   }
     
 
 }

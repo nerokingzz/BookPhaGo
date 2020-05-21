@@ -90,6 +90,12 @@
 		    float: right;
 }
 	   }
+	   
+	   .row{
+		font-size: 10pt;
+		
+		text-align :center;
+	}
 
 	</style>
 	
@@ -102,6 +108,7 @@
 	%>
 
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
@@ -151,7 +158,7 @@
 			data:{article_id : '${articleInfo.get("ARTICLE_ID") }'},
 					
 			success:function() {
-				alert("좋아요 +1");
+				swal("좋아요 +1");
 				//location.href="com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }";
 			}
 		})
@@ -164,7 +171,7 @@
 			data:{article_id : '${articleInfo.get("ARTICLE_ID") }'},
 					
 			success:function() {
-				alert("싫어요 +1");
+				swal("싫어요 +1");
 				//location.href="com_act_board.do?board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID') }";
 			}
 		})
@@ -185,7 +192,7 @@
 			data:{"article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date},
 			success:function() {
 				
-				alert("등록완료");
+				swal("등록이 완료되었습니다");
 				window.location.reload(true);
 			}
 		})
@@ -249,19 +256,26 @@
 		var bundle_order=bundleOrderList[i-1];
 		var re_reply_date=reReplyDateList[i-1];
 		
-		var date=new Date();
-		var reply_date=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		swal(reply_content);
+		
 		
 		$.ajax({
 			type:"POST",
 			url:"re_reply_submit.do",
-			data:{"reply_date" : re_reply_date, "article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : reply_date, "bundle_id" : bundle_id},
+			data:{"reply_date" : re_reply_date, "article_id" : article_id, "reply_content" : reply_content, "reply_writer" : reply_writer, "reply_depth" : reply_depth, "bundle_order" : bundle_order, "reply_date" : re_reply_date, "bundle_id" : bundle_id},
 			success:function() {
 				
-				alert("등록완료");
-				window.location.reload(true);
+				swal("등록이 완료되었습니다");
+				//window.location.reload(true);
+				window.location.href=window.location.href;
 			}
 		})
+		
+		
+		//댓글달기 버튼 접기
+		//$($("div[id=re-re-form_" + i + "]")).fadeOut(0);
+		
+		
 	}
 	
 /* 	var flag=true;
@@ -368,7 +382,7 @@
                                             <div class="post_topbar">
                                                 <div class="usy-dt">
                                                     <div class="usy-name">
-														<h3 style="font-size: 15pt;">${articleInfo.get("ARTICLE_TITLE") }</h3>
+														<h3 style="font-size: 15pt; text-align: left;">${articleInfo.get("ARTICLE_TITLE") }</h3>
 														<span><img src="${contextPath}/resources/bootstrap/images/clock.png" alt="">${articleInfo.get("ARTICLE_DATE") }</span>
                                                     </div>
                                                 </div>
@@ -381,8 +395,9 @@
                                             	<c:choose>
                                             		<c:when test='${articleInfo.get("ARTICLE_WRITER") ne memNick}'>
 		                                            	<ul class="descp">
-		                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon8.png" alt=""><span><a href="#" onclick="articleGood()">좋아요</a></span></li>
-		                                                    <li><img src="${contextPath}/resources/bootstrap/images/icon9.png" alt=""><span><a href="#" onclick="articleBad()">싫어요</a></span></li>
+		                                                    <li><i
+																	class="fas fa-thumbs-up"></i><span><a href="#" onclick="articleGood()">좋아요</a></span></li>
+		                                                    <li><i class="fas fa-thumbs-down"></i><span><a href="#" onclick="articleBad()">싫어요</a></span></li>
 		                                                </ul>
                                             		</c:when>
                                             	</c:choose>
@@ -414,10 +429,7 @@
 																<a class="active"><i class="fas fa-thumbs-down"></i>싫어요
 																	${articleInfo.get("ARTICLE_BAD_COUNT") }</a>
 															</li>
-															<li>
-																<a class="active"><i class="fas fa-eye"></i>조회수
-																	${articleInfo.get("ARTICLE_VIEW_COUNT") }</a>
-															</li>
+															
 														</ul>
 														<a><i class="fas fa-comment-alt"></i>댓글수 ${replyCount}</a>
 		                                            </div>
@@ -442,7 +454,7 @@
 			                                                    </div>
 			                                                    
 			                                                    <!-- ********************************버튼 -->
-			                                                    <button class = "rereplyBtn" id="rereplyBtn_${loop.current-1}" onClick="">댓글 달기</button>
+			                                                    <button class = "rereplyBtn" id="rereplyBtn_${i-1}" onClick="rereForm('${i-1}')">댓글 달기</button>
 			                                                    <!-- ********************************버튼 -->
 			                                                    
 			                                                    
@@ -474,16 +486,17 @@
 			                                                    </c:forEach>
 			                                                    
 					                                        <!-- 대댓글 -->
-				                                            <div id="re-re-form_${loop.current-1}" class = "rereplyDiv" style="display : none">
+				                                            <div id="re-re-form_${i-1}" style="display : none">
 				                                                <div class="row">
-				                                                    <div class="col-md-10">
+				                                                <hr>
+				                                                    <div>
 				                                                    	
 				                                                        <form>
 				                                                            <div class="form-group">
 				                                                            	<input type="hidden" name="re_index" value="${i}">
 				                                                            	<input type="hidden" name="re_article_id" value="${articleInfo.get('ARTICLE_ID') }">
 				                                                            	<input type="hidden" name="re_bundle_id" value="${replyList.get(i-1).get('BUNDLE_ID')}">
-					                                                                <input type="text" class="form-control" style="margin-left: 0px" name="re_reply_content" placeholder="댓글을 입력해주세요">
+					                                                            <input type="text" class="form-control" style="margin-left: 85px; width:138%;" name="re_reply_content" placeholder="댓글을 입력해주세요">
 				                                                                <input type="hidden" name="re_reply_writer" value="${memNick }">
 				                                                                <input type="hidden" name="re_reply_depth" value="1">
 				                                                      			<input type="hidden" name="re_bundle_order" value="1">
@@ -491,8 +504,8 @@
 				                                                            </div>
 				                                                        </form>
 				                                                    </div>
-				                                                    <div class="col-md-2">
-				                                                        <button style="color:#ffffff;font-size:16px;background-color:#e44d3a;padding:12px 27px;border:0;font-weight:500;margin-top:0px;" onclick="reReplySubmit('${i}')">입력</button>
+				                                                    <div style="margin-left:235px">
+				                                                        <button style="color:#ffffff;font-size:10px;background-color:grey;padding:12px 27px;border:0;font-weight:300;margin-top:0px;" onclick="reReplySubmit('${i}')">입력</button>
 				                                                    </div>
 				                                                </div>
 				                                             </div>    
@@ -502,9 +515,10 @@
                                                                                               	
                                             	</c:forEach>
                                             	</div>
-
+													
 												<!-- 댓글 -->
                                                <div class="row">
+                                               <hr>
                                                     <div class="col-md-10">
                                                     	
                                                         <form>
@@ -563,16 +577,45 @@
 		})
 	})
 	</script>
-	<!-- script -->
+
+	
+		<!-- script -->
 	<script type="text/javascript">
 		var date=new Date();
-		var reCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		var hours=date.getHours();
+		var minutes=date.getMinutes();
+		if (hours<10) {
+			hours=0+''+hours;
+		}
+		if (minutes<10) {
+			minutes=0+''+minutes;
+		}
+	
+		//var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		var reCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + hours + ':' + minutes;
 		document.getElementById('re_current_info').value=reCurrent;
 		
+		//////////
+		
 		var datee=new Date();
-		var reReCurrent=datee.getFullYear() + '/' + (datee.getMonth()+1) + '/' + datee.getDate() + ' ' + datee.getHours() + ':' + datee.getMinutes() + ':'  +  datee.getSeconds();
-		document.getElementById('re_re_current_info').value=reReCurrent;
+		var hourss=datee.getHours();
+		var minutess=datee.getMinutes();
+		if (hourss<10) {
+			hourss=0+''+hourss;
+		}
+		if (minutess<10) {
+			minutess=0+''+minutess;
+		}
+		
+		//var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
+		var rereCurrent=datee.getFullYear() + '/' + (datee.getMonth()+1) + '/' + datee.getDate() + ' ' + hourss + ':' + minutess;
+		
+		document.getElementById('re_re_current_info').value=rereCurrent;
 	</script>
+	
+	
+	
+	
 	
 	<!-- ********************************버튼 -->
 	<script>
@@ -586,6 +629,14 @@
 			
 			//////////////////김민선 추가분 끝////
 		})
+		
+		
+		
+		function rereForm(index) {
+			//swal(index);
+			//$('#re-re-form_'+index).css("display","block");
+			$($("div[id=re-re-form_" + index + "]")).fadeIn(0);
+		}
 	</script>
 <!-- ********************************버튼 -->
 

@@ -65,6 +65,8 @@ public interface LibraryService {
 	public List<Map<String, Object>> usersearchbook(PageVO pageVo, String search_option, String search_value);
 	public int search_2(String main_search);
 	public List<Map<String, Object>> search2_list(PageVO pageVo, String main_search);
-	
-	
+	public List<Map<String, Object>> autoid(String us_email);
+	public List<Map<String, Object>> autobooknumber(String us_email);
+	public List<Map<String, Object>> autobookrentlist(String us_email);
+	public List<Map<String, Object>> autoreturnbook(Map<String, Object> searchreturn);
 }

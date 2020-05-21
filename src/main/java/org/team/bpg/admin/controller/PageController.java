@@ -132,7 +132,7 @@ public class PageController {
 	            
 	         } else if (pageInfo.equals("apply")) {
 	            String userid = (String)session.getAttribute("user_id");
-	            
+	            System.out.println(userid);
 	            
 	            String user_id = request.getParameter("user_id");
 	            String isbn = request.getParameter("isbn");
@@ -165,9 +165,10 @@ public class PageController {
 	           
 	           libraryService.userapplybook(book_list);
 	           
-	           System.out.println("도서 신청 완료"); }
+	           System.out.println("도서 신청 완료"); 
+	           mav.setViewName("index");
+	           }
 
-	         mav.setViewName("book/book_main");
 	         } 
 	      
 	      }
@@ -566,29 +567,29 @@ public class PageController {
 //					libraryService.modifylibrary(book_list);
 //				}
 				//도서 등록
-				if (bookNumber1 != null && bookGenre != null && bookRent != null && bookReservation1 != null && isbn != null) {
-
-					Map<String, String> book_list=new HashMap<String, String>();
-					book_list.put("isbn", isbn);
-					book_list.put("bookName", bookName);
-					book_list.put("bookContents", bookContents);
-					book_list.put("bookWriter", bookWriter);
-					book_list.put("bookTrans", bookTrans);
-					book_list.put("bookPublisher", bookPublisher);
-					book_list.put("bookDate", bookDate);
-					book_list.put("bookGenre", bookGenre);
-					book_list.put("bookNumber", bookNumber1);
-					book_list.put("bookThum", bookThum);
-					book_list.put("bookRent", bookRent);
-					book_list.put("bookReservation", bookReservation1);
-					
-					libraryService.inputlibrary(book_list);
-					
-//					List<Map<String, Object>> booklist = libraryService.adminlibrarylist();
+//				if (bookNumber1 != null && bookGenre != null && bookRent != null && bookReservation1 != null && isbn != null) {
+//
+//					Map<String, String> book_list=new HashMap<String, String>();
+//					book_list.put("isbn", isbn);
+//					book_list.put("bookName", bookName);
+//					book_list.put("bookContents", bookContents);
+//					book_list.put("bookWriter", bookWriter);
+//					book_list.put("bookTrans", bookTrans);
+//					book_list.put("bookPublisher", bookPublisher);
+//					book_list.put("bookDate", bookDate);
+//					book_list.put("bookGenre", bookGenre);
+//					book_list.put("bookNumber", bookNumber1);
+//					book_list.put("bookThum", bookThum);
+//					book_list.put("bookRent", bookRent);
+//					book_list.put("bookReservation", bookReservation1);
 //					
-//					mav.addObject("booklist", booklist);
-//					mav.addObject("booklistSize", booklist.size());
-				}
+//					libraryService.inputlibrary(book_list);
+//					
+////					List<Map<String, Object>> booklist = libraryService.adminlibrarylist();
+////					
+////					mav.addObject("booklist", booklist);
+////					mav.addObject("booklistSize", booklist.size());
+//				}
 //				
 			}  else if (pageInfo.equals("book_status_A")) {
 				/*
@@ -709,7 +710,7 @@ public class PageController {
 				}
 			}
 		} else {
-			
+			mav.addObject("pageInfo", "user_A");
 		}
 		
 		//mav.setViewName("admin/admin_main");

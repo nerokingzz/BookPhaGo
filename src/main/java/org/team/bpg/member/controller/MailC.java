@@ -23,67 +23,73 @@ import org.team.bpg.member.vo.MemberVO;
 @Controller
 @EnableAsync
 public class MailC {
-	
-	@Inject
-	MemberService service;
-	
+   
+   @Inject
+   MemberService service;
+   
     @Autowired
     private MailS mailService1;
  
     @ResponseBody
     @RequestMapping(value = "sendMail1", method = RequestMethod.GET)
     public int sendSimpleMail(@RequestParam("userId")String user_id, @RequestParam("userEmail")String user_email, MemberVO vo, HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)  throws Exception{
-		/*
-		 * String user_id = (String) session.getAttribute("user_id"); String user_pass =
-		 * (String) session.getAttribute("user_pass"); String user_email = (String)
-		 * session.getAttribute("user_email");
-		 */
-    	String result = service.passForgot(vo);
-    	int passcnt = service.passForgot1(vo);
-    	
-    	String subject = user_id + " 님의 비밀번호 찾기.";
-    	String content = user_id + "님의 비밀번호는 " + result + " 입니다.";
-    	String to = user_email;
-    	
-    	if(passcnt == 1) {
-			request.setCharacterEncoding("utf-8");
-			response.setContentType("text/html;charset=utf-8");
-			mailService1.sendMail(user_email, subject, content);
-			System.out.println("이메일전송");
-			return passcnt;
-    	}
-    	
-    	else {
-    		System.out.println("아이디, 이메일 불일치");
-    		return passcnt;
-    	}
-		
+      /*
+       * String user_id = (String) session.getAttribute("user_id"); String user_pass =
+       * (String) session.getAttribute("user_pass"); String user_email = (String)
+       * session.getAttribute("user_email");
+       */
+       String result = service.passForgot(vo);
+       int passcnt = service.passForgot1(vo);
+       
+       String subject = user_id + " 님의 비밀번호 찾기.";
+       //String content = user_id + "님의 비밀번호는 " + result + " 입니다.";
+       
+       String content = "<img src = 'https://i.imgur.com/LAH1De5.png'><br><div style='font-size:10pt;margin-left: 16px;'>" 
+                + user_id + "님의 비밀번호는 " + result + " 입니다.<br>"
+                      + "</div><br><img src = 'https://i.imgur.com/9OIPmdR.png'>";
+       String to = user_email;
+       
+       if(passcnt == 1) {
+         request.setCharacterEncoding("utf-8");
+         response.setContentType("text/html;charset=utf-8");
+         mailService1.sendMail(user_email, subject, content);
+         System.out.println("이메일전송");
+         return passcnt;
+       }
+       
+       else {
+          System.out.println("아이디, 이메일 불일치");
+          return passcnt;
+       }
+      
     }
     
     @ResponseBody
     @RequestMapping(value = "sendMailsign", method = RequestMethod.GET)
     public void sendMail1(@RequestParam("userId1")String user_id, @RequestParam("userEmail")String user_email, MemberVO vo, HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)  throws Exception{
 
-    	request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
-		
-		StringBuffer sb = new StringBuffer();
+       request.setCharacterEncoding("utf-8");
+      response.setContentType("text/html;charset=utf-8");
+      
+      StringBuffer sb = new StringBuffer();
 
-		String subject = "북파고 이메일 인증";
+      String subject = "북파고 이메일 인증";
 
-		sb.append("<html><body>");
-		sb.append("<meta http-equiv='Content-Type' content='text/html; charset=euc-kr'>");
-		sb.append("<h1>" + "안녕하세요 북파고입니다" + "<h1><br>");
-		sb.append(""+user_id+""+"님 " + "인증하기 버튼을 눌러 인증하세요<br><br>");
-		sb.append("<a href='http://localhost:8080/emailupdate?userId="+user_id+"'>이메일 인증하기</a>");
-		sb.append("</body></html>");
-		String str = sb.toString();
+      sb.append("<html><body>");
+      sb.append("<meta http-equiv='Content-Type' content='text/html; charset=euc-kr'>");
+      sb.append("<img src = 'https://i.imgur.com/LAH1De5.png'><br><div style='font-size:10pt;margin-left: 16px;'>");
+      sb.append("안녕하세요 북파고입니다<br>");
+      sb.append(""+user_id+""+"님 " + "인증하기 버튼을 눌러 인증하세요<br><br>");
+      sb.append("<a href='http://localhost:8080/emailupdate?userId="+user_id+"'>이메일 인증하기</a></div><br>");
+      sb.append("<img src = 'https://i.imgur.com/9OIPmdR.png'>");
+      sb.append("</body></html>");
+      String str = sb.toString();
 
-		
-		mailService1.sendMail(user_email, subject, str);
-		System.out.println("이메일전송");
-		
-		
+      
+      mailService1.sendMail(user_email, subject, str);
+      System.out.println("이메일전송");
+      
+      
 
     }
 }

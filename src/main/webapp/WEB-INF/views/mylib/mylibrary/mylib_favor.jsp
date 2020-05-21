@@ -318,33 +318,32 @@ a, a:link {
 		<div style="padding-top:30px; margin-left:20px; margin-right:20px; margin-bottom:30px">
 			<div class="row">
 				<div class="col-md-2 col-sm-2">
-					<h6 style="font-family: 'Noto Sans KR', sans-serif;">번호</h6>
+					<h6 style="font-family: 'Noto Sans KR', sans-serif; text-align:center; margin-bottom:20px">번호</h6>
 				</div>
 				<div class="col-md-4 col-sm-4">
-					<h6 style="font-family: 'Noto Sans KR', sans-serif;">제목</h6>
+					<h6 style="font-family: 'Noto Sans KR', sans-serif;  text-align:center; margin-bottom:20px"" >제목</h6>
 				</div>
 				<div class="col-md-3 col-sm-3">
-					<h6 style="font-family: 'Noto Sans KR', sans-serif;">작가</h6>
+					<h6 style="font-family: 'Noto Sans KR', sans-serif;  text-align:center; margin-bottom:20px"">작가</h6>
 				</div>
 				<div class="col-md-2 col-sm-2">
-					<h6 style="font-family: 'Noto Sans KR', sans-serif;">출판사</h6>
+					<h6 style="font-family: 'Noto Sans KR', sans-serif;  text-align:center; margin-bottom:20px"">출판사</h6>
 				</div>
 			</div>
 						                            
 			<c:forEach var="i" begin="1" end="${recomListSize}" varStatus="loop">
-				<hr>
 				<div class="row">
 					<div class="col-md-2 col-sm-2">
-						<h6 id="book-number_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px;">${recomList.get(i-1).get("BOOKNUMBER")}</h6>
+						<h6 id="book-number_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px; margin-bottom:20px">${recomList.get(i-1).get("BOOKNUMBER")}</h6>
 					</div>
 					<div class="col-md-4 col-sm-4">
-						<h6 id="book-name_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px;">${recomList.get(i-1).get("BOOKNAME")} <i class="fas fa-sort-down"></i></h6>
+						<h6 id="book-name_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px; margin-bottom:20px">${recomList.get(i-1).get("BOOKNAME")}</h6>
 					</div>
 					<div class="col-md-3 col-sm-3">
-						<h6 id="book-writer_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px;">${recomList.get(i-1).get("BOOKWRITER")}</h6>
+						<h6 id="book-writer_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px; margin-bottom:20px">${recomList.get(i-1).get("BOOKWRITER")}</h6>
 					</div>
 					<div class="col-md-2 col-sm-2">
-						<h6 id="book-publisher_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px;">${recomList.get(i-1).get("BOOKPUBLISHER")}</h6>
+						<h6 id="book-publisher_${loop.current-1}" style="font-family: 'Noto Sans KR', sans-serif; font-size:15px; margin-bottom:20px">${recomList.get(i-1).get("BOOKPUBLISHER")}</h6>
 					</div>
 					<span class="bookContentSpan" id="book-contents_${loop.current-1 }" style="padding-top:10px; display:none;"><div class="bookContentMsg">${recomList.get(i-1).get("BOOKCONTENTS")}</div></span>
 				</div>

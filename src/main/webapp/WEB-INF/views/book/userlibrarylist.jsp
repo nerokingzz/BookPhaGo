@@ -50,6 +50,8 @@ table.type11 td {
 										<option value="bookNumber">도서번호</option>
 										<option value="bookWriter">저자</option>
 										<option value="bookPublisher">출판사</option>
+										<option value="bookGenre">장르</option>
+										<option value="bookRent">대출여부</option>
 									</select>
 								</td>
 								<td>
@@ -57,7 +59,8 @@ table.type11 td {
 									  <input type="text" style="height:38px;" name="search_value"  id="inputSuccess2" aria-describedby="inputSuccess2Status">
 									</div>
 								</td>
-								<td><button type="submit" style="height:38px;">검색</button></td>
+								<td><button type="submit" style="width: 50px;height: 38px;padding-left: 0px;padding-right: 0px;color: white;background-color: #e44d3a;
+                                             border: 1px solid #e5e5e5;margin-top: 10px;margin-right: 10px;margin-left: 2px;">검색</button></td>
 							</tr>					
 						</table>
 					</form>
@@ -66,7 +69,17 @@ table.type11 td {
 <h3>도서정보</h3>
 
 <table class="type11">
-		<thead>
+		<tbody>
+			<c:choose>
+				<c:when test="${booklistSize eq 0 }">
+				<div>&nbsp</div><div>&nbsp</div><div>&nbsp</div>
+				<div style="text-align:center;">
+				<c:out value="검색된 결과가 없습니다."></c:out>
+				</div>
+				</c:when>
+			
+				<c:when test="${booklistSize gt 0 }">
+				<thead>
 		<tr>
 		<th width="20%">도서명</th>
 	    <th width="13%">도서번호</th>
@@ -77,9 +90,6 @@ table.type11 td {
 		<th width="13%">대출여부</th>
 		</tr>
 		</thead>
-		<tbody>
-			<c:choose>
-				<c:when test="${booklistSize gt 0 }">
 					<c:forEach var="i"  begin="1" end="${booklistSize }">
 						<tr>
 							<td width="20%">${booklist.get(i-1).get("BOOKNAME") }</td>

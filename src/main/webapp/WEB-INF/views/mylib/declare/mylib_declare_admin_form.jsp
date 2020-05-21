@@ -24,14 +24,14 @@
 			var declare_id=$("input:hidden[name=declare_id]").val();
 			var admin_sts=$("input:radio[name=admin_sts]:checked").val();
 			var admin_msg=$("input:text[name=admin_msg]").val();
-			alert(admin_sts);
+			//swal(admin_sts);
 			
 			$.ajax({
 				url:"mylib_declare_request_admin.do",
 				data:{"declare_id" : declare_id, "admin_sts" : admin_sts, "admin_msg" : admin_msg},
 				method:"POST",
 				success:function(data) {
-					alert(data);
+					swal("완료되었습니다");
 					opener.location.href="admin_main.do?page=dec_A";
 					window.close();
 				}

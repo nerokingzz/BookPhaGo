@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
 
 /* The Modal (background) */
@@ -69,19 +71,20 @@ display: none;
 	<!-- Trigger/Open The Modal -->
 	<p align="center">
 		<button style="width: 80px;
-		height: 30px;
-		background-color: #8ebbe5;
-	    border: none;
-	    color: #fff;
-	    text-align: center;
-	    text-decoration: none;
-	    display: inline-block;
-	    margin: 4px;
-	    cursor: pointer;
-		padding-top: 0px;
-	    padding-right: 0px;
-	    padding-bottom: 0px;
-	    padding-left: 0px;" id="myBtn">도서 등록</button>
+      height: 30px;
+      background-color: #e44d3a;
+       border: none;
+       color: #fff;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       margin: 4px;
+       cursor: pointer;
+      padding-top: 0px;
+       padding-right: 0px;
+       padding-bottom: 0px;
+       padding-left: 0px;
+       border-radius: 15px;" id="myBtn">도서 등록</button>
 		</p>
 	
 	<!-- The Modal -->
@@ -96,7 +99,7 @@ display: none;
 				<div class="row">
 				                                <div class="col-md-12 col-sm-12"><br>
 				                                   <h6>isbn : <input style="height: 20px;
-				                                   width: 70%;
+				                                   width: 75%;
 											    padding-bottom: 0px;
 											    border: 1px solid #e5e5e5;
 											    border-top-color: rgb(229, 229, 229);
@@ -118,7 +121,7 @@ display: none;
 											    border-image-repeat: initial;
 											    padding-left: 15px;
 											    padding-right: 15px;
-											    border-radius: 15px;"type="text" name="isbn" id="isbn" class="isbn"> <input style="width: 50px; height: 20px;
+											    border-radius: 15px;"type="text" name="isbn" id="isbn" class="isbn" readonly> <input style="width: 50px; height: 20px;
 											    padding-left: 0px;
 											    padding-right: 0px;
 											    padding-bottom: 0px;
@@ -143,16 +146,16 @@ display: none;
 											    border-radius: 15px;" type="button" value="검색" onclick="searchIsbn();"></h6><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서 제목 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name ="bookName" id="bookName" readonly></h6>
+				                                	<h6>도서명 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name ="bookName" id="bookName" readonly></h6>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                    <h6>도서 소개 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookContents" id="bookContents" readonly></h6>
+				                                    <h6>소개글 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookContents" id="bookContents" readonly></h6>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서 저자 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookWriter" id="bookWriter" readonly></h6>
+				                                	<h6>저자명 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookWriter" id="bookWriter" readonly></h6>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
-				                                    <h6>도서 번역자 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookTrans" id="bookTrans" readonly></h6>
+				                                    <h6>번역자 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookTrans" id="bookTrans" readonly></h6>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
 				                                	<h6>출판사 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookPublisher" id="bookPublisher" readonly></h6>
@@ -161,7 +164,7 @@ display: none;
 				                                	<h6>발행일 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookDate" id="bookDate" readonly></h6>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
-				                                	<h6>도서 썸네일 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookThum" id="bookThum" readonly></h6><br><br>
+				                                	<h6>썸네일 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookThum" id="bookThum" readonly></h6><br><br>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
 				                                	<h6>장르 : <select name="bookGenre" id="bookGenre" style="width: 65px;
@@ -186,16 +189,24 @@ display: none;
 													</h6>
 				                                </div>
 				                                <div class="col-md-12 col-sm-12">
-				                                	<h6>도서 번호 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookNumber" id="bookNumber" class="bookNumber" readonly></h6>
+				                                	<h6>도서번호 : <input style="width: 69%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookNumber" id="bookNumber" class="bookNumber" readonly></h6>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12" >
-				                                	<h6>대출여부 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookRent" id="bookRent" value="대출가능" readonly></h6>
+				                                	<h6>대출여부 : <input style="width: 69%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookRent" id="bookRent" value="대출가능" readonly></h6>
 				                                </div>
 				                                 <div class="col-md-12 col-sm-12">
-				                                	<h6>예약여부 : <input style="width: 73%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookReservation" id="bookReservation" value="예약불가" readonly></h6><br><br>
+				                                	<h6>예약여부 : <input style="width: 69%; height: 20px; padding-left: 15px; padding-right: 15px;" type="text" name="bookReservation" id="bookReservation" value="예약불가" readonly></h6><br><br>
 				                                </div>
 				                                <div style="margin:0 auto;">
-				                                <input style="font-size: 15px;" onclick="return inputCheck()" type="submit" value="도서등록">
+				                                <!-- <input type="button" style="font-size: 15px;" onclick="change1();" value="등록하기"> -->
+				                                  <input type="button" style="font-size: 14px; padding-top: 0px; padding-bottom: 0px;border: 1px solid #e5e5e5;border-top-color: rgb(229, 229, 229);border-top-style: solid; border-top-width: 1px;border-right-color: rgb(229, 229, 229);
+                                                          border-right-style: solid;border-right-width: 1px;border-bottom-color: rgb(229, 229, 229); border-bottom-style: solid;border-bottom-width: 1px;border-left-color: rgb(229, 229, 229);border-left-style: solid;
+                                                          border-left-width: 1px; border-image-source: initial; border-image-slice: initial;border-image-width: initial;border-image-outset: initial; border-image-repeat: initial; border-top-color: rgb(229, 229, 229);
+                                                          border-top-style: solid; border-top-width: 1px; border-right-color: rgb(229, 229, 229);border-right-style: solid;border-right-width: 1px;border-bottom-color: rgb(229, 229, 229);border-bottom-style: solid;
+                                                          border-bottom-width: 1px;border-left-color: rgb(229, 229, 229);border-left-style: solid;border-left-width: 1px;border-image-source: initial;border-image-slice: initial;border-image-width: initial;
+                                                          border-image-outset: initial;border-image-repeat: initial;border-radius: 15px;border-top-left-radius: 15px;border-top-right-radius: 15px;border-bottom-right-radius: 15px;border-bottom-left-radius: 15px;
+                                                          border-top-left-radius: 15px;border-top-right-radius: 15px;border-bottom-right-radius: 15px;border-bottom-left-radius: 15px;width: 80px;
+                                                          height: 25px;" onclick="change1();" value="등록하기"> 
 				                                </div>
 				 </div>
 			</form>
@@ -300,11 +311,11 @@ display: none;
     
     function inputCheck(){
     	if($("#isbn").val()==""){
-            alert("도서를 검색하세요.");
+            swal("도서를 검색하세요.");
             $("#isbn").focus();
             return false;
     	}else if($("#bookNumber").val()==""){
-            alert("도서번호를 검색하세요.");
+            swal("도서번호를 검색하세요.");
             $("#bookNumber").focus();
             return false;
     	}else{
@@ -318,7 +329,7 @@ display: none;
 	
     function searchIsbn() {
     	var popUrl = "adminisbnsearchlist.do";
-    	window.open(popUrl,"","width=1200,height=800");
+    	window.open(popUrl,"","width=1200,height=910");
     }
 
     
@@ -357,4 +368,34 @@ display: none;
     		}
     	});
     }
+    
+    function change1() {
+        var isbn = $("input:text[name=isbn]").val();
+        var bookName = $("input:text[name=bookName]").val();
+        var bookContents = $("input:text[name=bookContents]").val();
+        var bookWriter = $("input:text[name=bookWriter]").val();
+        var bookTrans = $("input:text[name=bookTrans]").val();
+        var bookPublisher = $("input:text[name=bookPublisher]").val();
+        var bookDate = $("input:text[name=bookDate]").val();
+        var bookThum = $("input:text[name=bookThum]").val();
+        var target = document.getElementById("bookGenre");
+       var bookGenre = target.options[target.selectedIndex].text;
+       var bookNumber = $("input:text[name=bookNumber]").val();
+       var bookRent = $("input:text[name=bookRent]").val();
+       var bookReservation = $("input:text[name=bookReservation]").val();
+        
+        if (confirm("등록 하시겠습니까??") == true){ 
+        $.ajax({
+           url:"booklibinsert.do",
+           data:{"isbn" : isbn , "bookName" : bookName, "bookName" : bookName, "bookContents" : bookContents, "bookWriter" : bookWriter, "bookTrans" : bookTrans, "bookPublisher" : bookPublisher,
+              "bookDate" : bookDate, "bookThum" : bookThum, "bookGenre" : bookGenre, "bookNumber" : bookNumber, "bookRent" : bookRent, "bookReservation" : bookReservation
+           },
+           method:"POST",
+           success:function(data) {
+              location.reload();
+              window.close();
+           }
+        });
+        }
+     }
 </script>

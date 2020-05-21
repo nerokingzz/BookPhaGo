@@ -43,7 +43,7 @@ table.type11 th {
     background-color: #e44d3a;
 }
 table.type11 td {
-    font-size: 14px;
+    font-size: 13px;
     padding: 10px;
     vertical-align: top;
     border-bottom: 1px solid #ccc;
@@ -83,6 +83,7 @@ table.type05 td {
 	
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -146,7 +147,7 @@ table.type05 td {
 			mySheet_score.RemoveAll();
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
 				{Header:"책번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:60},
@@ -163,6 +164,7 @@ table.type05 td {
 			mySheet_score.SetEditable(true);
 			doAction('search');
 
+			mySheet_score.SetTheme("OR","orange");
 			mySheet_score.SetCountPosition(1);
 			mySheet_score.SetPagingPosition(2);
 			
@@ -191,7 +193,7 @@ table.type05 td {
 				break;
 			case "save": // 저장
 				//var tempStr = mySheet.GetSaveString();
-				//alert("서버로 전달되는 문자열 확인 :"+tempStr);
+				//swal("서버로 전달되는 문자열 확인 :"+tempStr);
 				var retData = mySheet.GetSaveData("com_esta_request_admin.do");
 				//mySheet.DoSave("com_esta_request_admin.do");
 				break;			
@@ -211,7 +213,7 @@ table.type05 td {
 	// code: 0(저장성공), -1(저장실패)
 	function mySheet_OnSaveEnd(code,msg){
 		if(msg != ""){
-			alert(msg);	
+			swal(msg);	
 			//번호 다시 매기기
             //mySheet.ReNumberSeq();
 		}	
@@ -231,7 +233,7 @@ table.type05 td {
 			data:{"book_number" : book_number, "book_score" : bookScore, "user_id" : user_id},
 			method:"POST",
 			success:function(data) {
-				alert(data);
+				swal("완료되었습니다");
 				//location.href="admin_main.do?page=com_A";
 				location.reload();
 			}
@@ -256,10 +258,10 @@ table.type05 td {
 							<div class="acc-leftbar">
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<a><b>마이라이브러리</b></a>
-								    <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="score()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서평가</a>
-								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="favor()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>취향분석</a>
-								    <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="declare()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>신고하기</a>
-									<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="status()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>현황관리</a>
+								    <a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="score()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>도서평가</a>
+								    <a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="favor()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fas fa-dot-circle"></i>취향분석</a>
+								    <a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="declare()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fas fa-dot-circle"></i>신고하기</a>
+									<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="status()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>현황조회</a>
 								</div>
 							</div><!--acc-leftbar end-->
 						</div>
@@ -289,185 +291,198 @@ table.type05 td {
 							  	<!--  -->
 							  	
 							  	<div class="tab-pane fade" id="nav-acc2" role="tabpanel" aria-labelledby="nav-acc-tab">
-									<div class="acc-setting">
-										<h3>현황관리</h3>
-										
-										<div>
-								<div class="login-sec">
-								<ul class="sign-control" style="margin-bottom: 0px;">
-									<li data-tab="tab-1" class="current"><a href="#" title="">도서대출현황</a></li>				
-									<li data-tab="tab-2"><a href="#" title="">도서신청현황</a></li>				
-								</ul>			
-								<div class="sign_in_sec current" id="tab-1" style="margin-top: 50px;">
-									
-								<table class="type11">
-								    <thead>
-								    <tr>
-								        <th width="20%">도서명</th>
-								        <th width="9%">도서번호</th>
-								        <th width="13%">대출일</th>
-								        <th width="13%">반납일</th>
-								        <th width="13%">대출상태</th>
-								        <th width="13%">반납날짜</th>
-								        <th width="7%">연장</th>
-								    </tr>
-								    </thead>
-								    <tbody>
-								    <c:choose>
-											<c:when test="${booklistSize gt 0 }">
-												<c:forEach var="i"  begin="1" end="${booklistSize }">
-								    <tr>
-								        <td width="20%">${booklist.get(i-1).get("BOOKNAME") }</td>
-								        <td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
-								        <td>${booklist.get(i-1).get('RENTDATE') }</td>
-								        <td>${booklist.get(i-1).get("RETURNDATE") }</td>
-								        <td>${booklist.get(i-1).get("STATE") }</td>
-								        <td>${booklist.get(i-1).get("RRETURNDATE") }</td>
-								        <td>
-								        	<c:set var="RENTDATE" value="${booklist.get(i-1).get('RENTDATE') }" />
-											<fmt:parseDate value="${RENTDATE}" var="strPlanDate" pattern="yyyy-MM-dd"/>
-											<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
-											<c:set var="RETURNDATE" value="${booklist.get(i-1).get('RETURNDATE') }" />
-											<fmt:parseDate value="${RETURNDATE}" var="endPlanDate" pattern="yyyy-MM-dd"/>
-											<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
-											<c:set var="DATE" value="${endDate - strDate }" />
-															
-											<jsp:useBean id="today" class="java.util.Date" />
-											<fmt:formatDate var="now" value="${today}" pattern="yyyy-MM-dd" />
-											<fmt:parseDate var="now1" value="${now}" pattern="yyyy-MM-dd"/>
-											<fmt:parseNumber value="${now1.time / (1000*60*60*24)}" integerOnly="true" var="now2"></fmt:parseNumber>
-											<c:set var="RETURNDATE1" value="${booklist.get(i-1).get('RETURNDATE') }" />
-											<fmt:parseDate var="str" value="${RETURNDATE1}" pattern="yyyy-MM-dd" />
-											<fmt:parseNumber value="${str.time / (1000*60*60*24)}" integerOnly="true" var="str2"></fmt:parseNumber>
-											<c:set var="DATE1" value="${str2 - now2 }" />
-											<c:set var="STATE" value="${booklist.get(i-1).get('STATE') }" />
-											<c:if test="${DATE eq '7' && DATE1 gt 0 && STATE eq '대출중' }">
-											<input type="button" class="state" id="${booklist.get(i-1).get('BOOKNUMBER') }" value="연장하기" onClick="">
-											</c:if>
-										</td>
-								        </tr>
-								    </c:forEach>
-									</c:when>
-									</c:choose>
-								    
-								    
-								    </tbody>
-								</table>
-								
-								<nav aria-label="Page navigation example" class="full-pagi">
-															<ul class="pagination" style="width: auto; float: right;">
-																<c:if test="${paging.startPage != 1 }">
-																	<li class="page-item"><a a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
-																</c:if>	
-																
-																<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-																	<c:choose>
-																		<c:when test="${p == paging.nowPage }">
-																			<li class="page-item"><a class="page-link active">${p }</a></li>
-																		</c:when>
-																		<c:when test="${p != paging.nowPage }">
-																			<li class="page-item"><a class="page-link" href="/myLib_main.do?page=status&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
-																		</c:when>
-																	</c:choose>
-																</c:forEach>
-																
-																<c:if test="${paging.endPage != paging.lastPage}">
-																	<li class="page-item"><a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
-																</c:if>
-															</ul>
-														</nav>
-														
-								</div><!--sign_in_sec end-->
-								<div class="sign_in_sec" id="tab-2">
-										
-									<div class="dff-tab current" id="tab-3" style="font-size: 14px; margin-top: 50px;">
-									
-									⚂ <%out.println(user_id); %> 님이 신청하신 도서는 다음과 같습니다.
-									
-									<c:choose>
-											<c:when test="${booklistSize1 gt 0 }">
-												<c:forEach var="i"  begin="1" end="${booklistSize1 }">
-								    
-										
-										<table class="type05">
-										    <tr>
-										        <th scope="row">도서명</th>
-										        <td>${booklist1.get(i-1).get("BOOKNAME") }</td>
-										    </tr>
-										    <tr>
-										        <th scope="row">신청날짜</th>
-										        <td>${booklist1.get(i-1).get("APPLYDATE") }</td>
-										    </tr>
-										    <tr>
-										        <th scope="row">사유</th>
-										        <td>${booklist1.get(i-1).get("APPLYREASON") }</td>
-										    </tr>
-										    <tr>
-										        <th scope="row">상태</th>
-										        <td>${booklist1.get(i-1).get("APPLYSTATE") }</td>
-										    </tr>
-										</table>
-										 
-										</c:forEach>
-										</c:when>
-										</c:choose><br><br>
-										
-										 - 신청중  : 담당자가 검토중인 상태<br><br>
-										 - 처리중  : 구입하여 정리하고 있는 상태<br><br>
-										 - 취소됨 : 구입에서 제외된 상태<br><br>
-										
-									</div><!--dff-tab end-->
-									<div class="dff-tab" id="tab-4">
-										<form>
-											<div class="row">
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="text" name="company-name" placeholder="Company Name">
-														<i class="la la-building"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="text" name="country" placeholder="Country">
-														<i class="la la-globe"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="password" name="password" placeholder="Password">
-														<i class="la la-lock"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="sn-field">
-														<input type="password" name="repeat-password" placeholder="Repeat Password">
-														<i class="la la-lock"></i>
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<div class="checky-sec st2">
-														<div class="fgt-sec">
-															<input type="checkbox" name="cc" id="c3">
-															<label for="c3">
-																<span></span>
-															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
-														</div><!--fgt-sec end-->
-													</div>
-												</div>
-												<div class="col-lg-12 no-pdd">
-													<button type="submit" value="submit">Get Started</button>
-												</div>
-											</div>
-										</form>
-									</div><!--dff-tab end-->
-									</div>		
-									</div><!--login-sec end-->
-									</div>
-									</div><!--acc-setting end-->
-								</div>
-							  	
-							  	<!--  -->
+                           <div class="acc-setting">
+                              <h3>현황관리</h3>
+                              
+                              <div>
+                        <div class="login-sec">
+                        <ul class="sign-control" style="margin-bottom: 0px;">
+                           <li data-tab="tab-1" class="current"><a href="#" title="">도서대출현황</a></li>            
+                           <li data-tab="tab-2"><a href="#" title="">도서신청현황</a></li>            
+                        </ul>         
+                        <div class="sign_in_sec current" id="tab-1" style="padding:20px;">
+                        <table class="type11">
+                            <c:choose>
+                                  <c:when test="${booklistSize eq 0 }">
+                                  <br><br><br>
+                                  <c:out value="대출한 도서가 없습니다."></c:out>
+                                  </c:when>
+                               
+                                 <c:when test="${booklistSize gt 0 }">
+                           
+                            <thead>
+                            <tr>
+                                <th width="35%">도서명</th>
+                                <th width="9%">도서번호</th>
+                                <th width="13%">대출일</th>
+                                <th width="13%">반납일</th>
+                                <th width="13%">대출상태</th>
+                                <th width="13%">반납날짜</th>
+                                <th width="7%">연장</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                    <c:forEach var="i"  begin="1" end="${booklistSize }">
+                            <tr>
+                                <td style="width:10%; text-overflow:ellipsis; overflow:hidden;" style=";text-overflow:ellipsis; overflow:hidden;">${booklist.get(i-1).get("BOOKNAME") }</td>
+                                <td>${booklist.get(i-1).get("BOOKNUMBER") }</td>
+                                <td>${booklist.get(i-1).get('RENTDATE') }</td>
+                                <td>${booklist.get(i-1).get("RETURNDATE") }</td>
+                                <td>${booklist.get(i-1).get("STATE") }</td>
+                                <td>${booklist.get(i-1).get("RRETURNDATE") }</td>
+                                <td>
+                                   <c:set var="RENTDATE" value="${booklist.get(i-1).get('RENTDATE') }" />
+                                 <fmt:parseDate value="${RENTDATE}" var="strPlanDate" pattern="yyyy-MM-dd"/>
+                                 <fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+                                 <c:set var="RETURNDATE" value="${booklist.get(i-1).get('RETURNDATE') }" />
+                                 <fmt:parseDate value="${RETURNDATE}" var="endPlanDate" pattern="yyyy-MM-dd"/>
+                                 <fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+                                 <c:set var="DATE" value="${endDate - strDate }" />
+                                             
+                                 <jsp:useBean id="today" class="java.util.Date" />
+                                 <fmt:formatDate var="now" value="${today}" pattern="yyyy-MM-dd" />
+                                 <fmt:parseDate var="now1" value="${now}" pattern="yyyy-MM-dd"/>
+                                 <fmt:parseNumber value="${now1.time / (1000*60*60*24)}" integerOnly="true" var="now2"></fmt:parseNumber>
+                                 <c:set var="RETURNDATE1" value="${booklist.get(i-1).get('RETURNDATE') }" />
+                                 <fmt:parseDate var="str" value="${RETURNDATE1}" pattern="yyyy-MM-dd" />
+                                 <fmt:parseNumber value="${str.time / (1000*60*60*24)}" integerOnly="true" var="str2"></fmt:parseNumber>
+                                 <c:set var="DATE1" value="${str2 - now2 }" />
+                                 <c:set var="STATE" value="${booklist.get(i-1).get('STATE') }" />
+                                 <c:if test="${DATE eq '7' && DATE1 gt 0 && STATE eq '대출중' }">
+                                 <input type="button" style="padding-top: 0; padding-right: 0;padding-bottom: 0;padding-left: 0; background: white;" class="state" id="${booklist.get(i-1).get('BOOKNUMBER') }" value="연장하기" onClick="">
+                                 </c:if>
+                              </td>
+                                </tr>
+                            </c:forEach>
+                           </c:when>
+                           </c:choose>
+                            
+                            
+                            </tbody>
+                        </table>
+                        
+                        <nav aria-label="Page navigation example" class="full-pagi">
+                                             <ul class="pagination" style="width: auto; float: right;">
+                                                <c:if test="${paging.startPage != 1 }">
+                                                   <li class="page-item"><a a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">Previous</a></li>
+                                                </c:if>   
+                                                
+                                                <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+                                                   <c:choose>
+                                                      <c:when test="${p == paging.nowPage }">
+                                                         <li class="page-item"><a class="page-link active">${p }</a></li>
+                                                      </c:when>
+                                                      <c:when test="${p != paging.nowPage }">
+                                                         <li class="page-item"><a class="page-link" href="/myLib_main.do?page=status&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a></li>
+                                                      </c:when>
+                                                   </c:choose>
+                                                </c:forEach>
+                                                
+                                                <c:if test="${paging.endPage != paging.lastPage}">
+                                                   <li class="page-item"><a class="page-link pvr" href="/myLib_main.do?page=status&nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">Next</a></li>
+                                                </c:if>
+                                             </ul>
+                                          </nav>
+                                          
+                        </div><!--sign_in_sec end-->
+                        <div class="sign_in_sec" id="tab-2">
+                              
+                           <div class="dff-tab current" id="tab-3" style="font-size: 14px; margin-top: 30px;">
+                           
+                           
+                           
+                           <c:choose>
+                                 <c:when test="${booklistSize eq 0 }">
+                                  <br><br>
+                                  <c:out value="신청한 도서가 없습니다."></c:out>
+                                  <br><br><br>
+                                  </c:when>
+                           
+                                 <c:when test="${booklistSize1 gt 0 }">
+                                 ⚂ <%out.println(user_id); %> 님이 신청하신 도서는 다음과 같습니다.
+                                    <c:forEach var="i"  begin="1" end="${booklistSize1 }">
+                            
+                              
+                              <table class="type05">
+                                  <tr>
+                                      <th scope="row">도서명</th>
+                                      <td>${booklist1.get(i-1).get("BOOKNAME") }</td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">신청날짜</th>
+                                      <td>${booklist1.get(i-1).get("APPLYDATE") }</td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">사유</th>
+                                      <td>${booklist1.get(i-1).get("APPLYREASON") }</td>
+                                  </tr>
+                                  <tr>
+                                      <th scope="row">상태</th>
+                                      <td>${booklist1.get(i-1).get("APPLYSTATE") }</td>
+                                  </tr>
+                              </table>
+                               
+                              </c:forEach>
+                              - 신청중  : 담당자가 검토중인 상태<br><br>
+                               - 처리중  : 구입하여 정리하고 있는 상태<br><br>
+                               - 취소됨 : 구입에서 제외된 상태<br><br>
+                              </c:when>
+                              </c:choose><br><br>
+                              
+                               
+                              
+                           </div><!--dff-tab end-->
+                           <div class="dff-tab" id="tab-4">
+                              <form>
+                                 <div class="row">
+                                    <div class="col-lg-12 no-pdd">
+                                       <div class="sn-field">
+                                          <input type="text" name="company-name" placeholder="Company Name">
+                                          <i class="la la-building"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 no-pdd">
+                                       <div class="sn-field">
+                                          <input type="text" name="country" placeholder="Country">
+                                          <i class="la la-globe"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 no-pdd">
+                                       <div class="sn-field">
+                                          <input type="password" name="password" placeholder="Password">
+                                          <i class="la la-lock"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 no-pdd">
+                                       <div class="sn-field">
+                                          <input type="password" name="repeat-password" placeholder="Repeat Password">
+                                          <i class="la la-lock"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 no-pdd">
+                                       <div class="checky-sec st2">
+                                          <div class="fgt-sec">
+                                             <input type="checkbox" name="cc" id="c3">
+                                             <label for="c3">
+                                                <span></span>
+                                             </label>
+                                             <small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+                                          </div><!--fgt-sec end-->
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-12 no-pdd">
+                                       <button type="submit" value="submit">Get Started</button>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div><!--dff-tab end-->
+                           </div>      
+                           </div><!--login-sec end-->
+                           </div>
+                           </div><!--acc-setting end-->
+                        </div>
+                          
+                          <!--  -->
 							  	
 							</div>
 						</div>
@@ -487,7 +502,7 @@ table.type05 td {
 	$(document).on('click', '.state', function(){
 	    var id_check = $(this).attr("id");
 	    var popUrl = "bookextend.do?bookNumber="+id_check;
-		window.open(popUrl,"","width=400,height=400");
+		window.open(popUrl,"","width=500,height=270");
 	});
 </script>
 

@@ -381,6 +381,27 @@ public class LibraryServiceImpl implements LibraryService{
 	      return booklist;
 	   }
 	
-	
+	   @Override
+		public List<Map<String, Object>> autoid(String us_email) {
+			List<Map<String, Object>> booklist =  libraryDAO.autoid(us_email);
+			return booklist;
+		}
 
+		@Override
+		public List<Map<String, Object>> autobooknumber(String us_email) {
+			List<Map<String, Object>> booklist =  libraryDAO.autobooknumber(us_email);
+			return booklist;
+		}
+
+		@Override
+		public List<Map<String, Object>> autobookrentlist(String us_email) {
+			List<Map<String, Object>> booklist =  libraryDAO.autobookrentlist(us_email);
+			return booklist;
+		}
+
+		@Override
+		public List<Map<String, Object>> autoreturnbook(Map<String, Object> searchreturn) {
+			List<Map<String, Object>> autoreturnbook =  libraryDAO.autoreturnbook(searchreturn);
+			return autoreturnbook;
+		}
 }

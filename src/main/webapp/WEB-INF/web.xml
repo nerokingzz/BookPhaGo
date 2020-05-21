@@ -74,14 +74,14 @@
 	<!-- 에러페이지 안내 -->
 	<error-page>
 		<error-code>500</error-code>
-		<location>/errors</location>
+		<location>/sign</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/errors</location>
+		<location>/sign</location>
 	</error-page>
 	<error-page>
-		<location>/errors</location>
+		<location>/sign</location>
 	</error-page>
 
 </web-app>

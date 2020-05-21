@@ -2,34 +2,27 @@ package org.team.bpg.chat.vo;
 
 import org.springframework.stereotype.Component;
 
-@Component("intentVO")
+@Component("IntentVO")
 public class IntentVO {
 
-	private String name, count, rank;
+	private String intName, intCount;
 
-	public String getName() {
-		return name;
+	public String getIntName() {
+		return intName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setIntName(String intName) {
+		this.intName = intName;
 	}
 
-	public String getCount() {
-		return count;
+	public String getIntCount() {
+		return intCount;
 	}
 
-	public void setCount(String count) {
-		this.count = count;
+	public void setIntCount(String intCount) {
+		this.intCount = intCount;
 	}
-
-	public String getRank() {
-		return rank;
-	}
-
-	public void setRank(String rank) {
-		this.rank = rank;
-	}
+	
 	
 	
 }

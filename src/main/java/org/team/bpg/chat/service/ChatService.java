@@ -23,6 +23,7 @@ public interface ChatService {
 	public BookVO getTodayBook();
 	
 	public BookVO getRatestBook();
+	int chat_rentBook(String userid, Map<String, String> book_list);
 	
 //	public List<Map<String, Object>> getTodayBookImage(HttpServletRequest request);
 	

@@ -2,6 +2,7 @@ package org.team.bpg.member.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.mail.MessagingException;
@@ -146,6 +147,12 @@ public class MemberServiceImpl implements MemberService {
 	public String test3(MemberVO vo) throws Exception {
 		String result = dao.test3(vo);
 		return result;
+	}
+	
+	@Override
+	public List<Map<String, Object>> userlist() throws Exception{
+		List<Map<String, Object>> userlist=dao.userlist();
+		return userlist;
 	}
 
 

@@ -30,6 +30,7 @@
 	
 	<!-- jquery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   	
   	<!-- font -->
   	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
@@ -66,6 +67,15 @@
 		color: #e44d3a;
     	font-size: 8pt;
 	}
+	
+	span.new {
+	font-size: 7pt;
+	color: white;
+	background-color: #e44d3a;
+	border-radius: 8px;
+	padding: 1px 3px;
+	margin-left: 7px;
+}
 	</style>
 	
 
@@ -96,12 +106,16 @@
 								<jsp:include page="posttopbar.jsp"></jsp:include>
 									<div class="posts-section">
 									<div class="col-12" style="padding-left: 0; padding-right: 0;">
-										<div class="freelancerbiding" >
+									
+										<c:choose>
+											<c:when test="${newArticleListSize > 0 }">
+											<div class="freelancerbiding" >
+
 											<div class="row" style="text-align: center; border-left: none;border-right: none;background: #EAEAEA;    line-height: 33px;">
 												<div class="col-md-1 col-sm-1">
 													<h6>글번호</h6>
 												</div>
-												<div class="col-md-4 col-sm-4">
+												<div class="col-md-7 col-sm-7">
 													<h6>글제목</h6>
 												</div>
 												<div class="col-md-2 col-sm-2">
@@ -110,15 +124,7 @@
 												<div class="col-md-2 col-sm-2">
 													<h6>날짜</h6>
 												</div>
-												<div class="col-md-1 col-sm-1">
-													<h6>조회수</h6>
-												</div>
-												<div class="col-md-1 col-sm-1">
-													<h6>좋아요</h6>
-												</div>
-												<div class="col-md-1 col-sm-1">
-													<h6>싫어요</h6>
-												</div>
+												
 											</div>
 											<c:forEach var="i" begin="1" end="${newArticleListSize}">
 												<c:if test="${i != 1 }">
@@ -131,33 +137,65 @@
 													<div class="col-md-1 col-sm-1">
 														<h6 class = "articleNo">${newArticleList.get(i-1).getArticle_id()}</h6>
 													</div>
-													<div class="col-md-4 col-sm-4">
+													<div class="col-md-7 col-sm-7">
 														<h6>
-															<a
-																href="com_article.do?article_id=${newArticleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${articleList.get(i-1).getArticle_title()}</a>
+															<span class = "new">new</span>
+															<%-- <a
+																href="com_article.do?article_id=${newArticleList.get(i-1).getArticle_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${newArticleList.get(i-1).getArticle_title()}</a> --%>
+																${newArticleList.get(i-1).getArticle_title()}
 														</h6>
+														
 													</div>
 													<div class="col-md-2 col-sm-2">
 														<h6>${newArticleList.get(i-1).getArticle_writer()}</h6>
 													</div>
 													<div class="col-md-2 col-sm-2">
-														<h6>${newArticleList.get(i-1).getArticle_date()}</h6>
-													</div>
-													<div class="col-md-1 col-sm-1">
-														<h6>${newArticleList.get(i-1).getArticle_view_count()}</h6>
-													</div>
-													<div class="col-md-1 col-sm-1">
-														<h6>${newArticleList.get(i-1).getArticle_good_count()}</h6>
-													</div>
-													<div class="col-md-1 col-sm-1">
-														<h6>${newArticleList.get(i-1).getArticle_bad_count()}</h6>
-													</div>
+							                                	<h6 id="article_date_${newArticleList.get(i-1).getArticle_id()}"></h6>
+							                                	<script type="text/javascript">
+							                                		console.log('${newArticleList.get(i-1).getArticle_date()}');
+							                                		var date=new Date();
+							                                		var current=date.getMonth()+1 + '' + date.getDate(); //514
+							                                		console.log(current);
+							                                		var article='${newArticleList.get(i-1).getArticle_date()}';
+							                                		console.log(article[5]);
+							                                		console.log(article[7]);
+							                                		console.log(article[8]);
+							                                		var articleDate=article[5]+''+article[7]+''+article[8];
+							                                		console.log(articleDate);
+							                                		var index="${newArticleList.get(i-1).getArticle_id()}";
+							                                		console.log("dfdf" + index);
+							                                		
+							                                		var date;
+							                                		if (articleDate<current) {
+							                                			date=article.slice(0,9);
+							                                		} else {
+							                                			date=article.slice(10,15);
+							                                		}
+							                                		document.getElementById("article_date_"+index).innerHTML=date;
+							                                		//$("#article_date_" + index).innerHTML(date);
+							                                	</script>
+							                                
+							                                	
+							                                </div>
+													
 												</div>
 												<c:if test="${i == newArticleListSize}">
 													<hr>
 												</c:if>
 											</c:forEach>
 										</div>
+											</c:when>
+											<c:otherwise>
+												<div class="freelancerbiding" >
+													<h6>활발한 커뮤니티 활동을 해주세요 :)</h6>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									
+									
+									
+									
+										
 									</div>
 								</div><!--posts-section end-->
 								</div><!--main-ws-sec end-->
@@ -228,13 +266,13 @@
 					method:"post",
 					data:{"community_id" : "${comInfo.get('COMMUNITY_ID')}", "member_id" : '${user_id}'},
 					success:function() {
-						alert("탈퇴가 완료되었습니다.");
+						swal("탈퇴가 완료되었습니다.");
 						location.reload();
 					}
 				})
 				
 			} else {
-				alert("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
+				swal("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
 			}
 		}
 	</script>

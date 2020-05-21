@@ -535,34 +535,155 @@ public class CommController {
 					
 					return null;	
 				}	
-	
 				
-//				//개설 신청 처리
-//				@ResponseBody
-//				@RequestMapping(value="bookinsertckeck")
-//				public String bookinsertckeck(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//					String authors=(String)request.getParameter("authors");
-//					System.out.println(authors);
-//					String isbn=(String)request.getParameter("isbn");
-////					String title=(String)request.getParameter("title");
-////					String contents=(String)request.getParameter("contents");
-////				    String a = (String)request.getParameter("a");
-////			    	String translators = (String)request.getParameter("translators");
-////			     	String publisher =(String)request.getParameter("publisher");
-////			     	String date = (String)request.getParameter("date");
-////			     	String thumbnail = (String)request.getParameter("thumbnail");
-////			     	
-//			     	System.out.println(isbn);
-////					System.out.println(title);
-////					System.out.println(contents);
-////					System.out.println(a);
-////				    System.out.println(translators);
-////					System.out.println(publisher);
-////					System.out.println(date);
-////					System.out.println(thumbnail);
-//
-//					
-//					return "ok";
-//				}
 	
+				@ResponseBody
+				@RequestMapping(value="auto", method=RequestMethod.POST)
+				public Map<String, Object> auto(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+					
+					String us_email=(String)request.getParameter("us_email");
+//					for (int i = 0; i < booklist.size(); i++) {
+//						System.out.println(booklist.get(i));
+//					}
+					
+					Map<String, Object> book_list = new HashMap<String, Object>();
+
+					try {
+						List<Map<String, Object>> booklist = libraryService.autoid(us_email);
+						String booklist1 = libraryService.searchuserid(us_email);
+						for (int i = 0; i < booklist.size(); i++) {
+						System.out.println(booklist.get(i));
+					}
+						if (booklist != null) {
+							book_list.put("booklist", booklist);
+							book_list.put("borrowcnt", booklist1);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return book_list;
+				}
+				
+				@ResponseBody
+				@RequestMapping(value="autobooknumber", method=RequestMethod.POST)
+				public Map<String, Object> autobooknumber(HttpServletRequest request, HttpServletResponse response) throws Exception {					
+					String us_email=(String)request.getParameter("us_email");
+					
+					Map<String, Object> book_list = new HashMap<String, Object>();
+					
+					try {
+						List<Map<String, Object>> booklist = libraryService.autobooknumber(us_email);
+						
+						
+						if (booklist != null) {
+							book_list.put("booklist", booklist);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return book_list;
+				}
+				
+				@ResponseBody
+				@RequestMapping(value="autoreturn", method=RequestMethod.POST)
+				public Map<String, Object> autoreturn(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+					
+					String us_email=(String)request.getParameter("us_email");
+//					for (int i = 0; i < booklist.size(); i++) {
+//						System.out.println(booklist.get(i));
+//					}
+					
+					Map<String, Object> book_list = new HashMap<String, Object>();
+
+					try {
+						List<Map<String, Object>> booklist = libraryService.autoid(us_email);
+						String booklist1 = libraryService.searchreturn(us_email);
+						List<Map<String, Object>> booklist2 = libraryService.autobookrentlist(us_email);
+						for (int i = 0; i < booklist.size(); i++) {
+						System.out.println(booklist.get(i));
+					}
+						if (booklist != null) {
+							book_list.put("booklist", booklist);
+							book_list.put("borrowcnt", booklist1);
+							book_list.put("rentbook", booklist2);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return book_list;
+				}
+				
+				@ResponseBody
+				@RequestMapping(value="autobookreturn", method=RequestMethod.POST)
+				public Map<String, Object> autobookreturn(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					
+					String userid=(String)request.getParameter("userid");
+					String us_email=(String)request.getParameter("us_email");
+					
+					Map<String, Object> searchreturn = new HashMap<String, Object>();
+					searchreturn.put("userid", userid);
+					searchreturn.put("us_email", us_email);
+					
+					Map<String, Object> book_list = new HashMap<String, Object>();
+
+					try {
+						List<Map<String, Object>> booklist = libraryService.autoreturnbook(searchreturn);
+						
+						if (booklist != null) {
+							book_list.put("booklist", booklist);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return book_list;
+				}
+				
+				@ResponseBody
+	            @RequestMapping(value="booklibinsert")
+	            public String booklibinsert(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	               String isbn=(String)request.getParameter("isbn");
+	               String bookName=(String)request.getParameter("bookName");
+	               String bookContents=(String)request.getParameter("bookContents");
+	               String bookWriter=(String)request.getParameter("bookWriter");
+	               String bookTrans=(String)request.getParameter("bookTrans");
+	               String bookPublisher=(String)request.getParameter("bookPublisher");
+	               String bookDate=(String)request.getParameter("bookDate");
+	               String bookThum=(String)request.getParameter("bookThum");
+	               String bookGenre=(String)request.getParameter("bookGenre");
+	               String bookNumber=(String)request.getParameter("bookNumber");
+	               String bookRent=(String)request.getParameter("bookRent");
+	               String bookReservation=(String)request.getParameter("bookReservation");
+	               System.out.println(isbn);
+	               System.out.println(bookName);
+	               System.out.println(bookContents);
+	               System.out.println(bookWriter);
+	               System.out.println(bookTrans);
+	               System.out.println(bookPublisher);
+	               System.out.println(bookDate);
+	               System.out.println(bookThum);
+	               System.out.println(bookGenre);
+	               System.out.println(bookNumber);
+	               System.out.println(bookRent);
+	               System.out.println(bookReservation);
+	               
+	      
+	        Map<String, String> book_list=new HashMap<String, String>();
+	        book_list.put("isbn", isbn); book_list.put("bookName", bookName);
+	        book_list.put("bookContents", bookContents); book_list.put("bookWriter",
+	        bookWriter); book_list.put("bookTrans", bookTrans);
+	        book_list.put("bookPublisher", bookPublisher); book_list.put("bookDate",
+	        bookDate); book_list.put("bookGenre", bookGenre); book_list.put("bookNumber",
+	        bookNumber); book_list.put("bookThum", bookThum); book_list.put("bookRent",
+	        bookRent); book_list.put("bookReservation", bookReservation);
+	        
+	        libraryService.inputlibrary(book_list);
+	       
+	               return "ok";
+	            }
 }

@@ -12,10 +12,15 @@
 	<link href="resources/chat/style.css" rel="stylesheet">
 <script
 	src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
+
 </head>
 <body>
 <button type="button" class="chatLauncher" style="display:none;">
@@ -63,9 +68,59 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
     button.addEventListener('click', () => {
       instance.openWindow();
       
-    /*  위젯의 header에 clear 버튼을 달아줌 시작 
+    
       var chatHeader =  $('#WAC__header-name');
       chatHeader.css('color','white');
+      
+      var status = "";
+      var status2 = ""
+      if(userPosition == 'admin'){
+    	  status = "관리자로 로그인하셨습니다."; 
+      	  status2 = "<br>도서 대출과 반납이 가능합니다.";
+      }else if(userPosition == 'general'){
+    	  status = "일반 회원으로 로그인하셨습니다.";
+    	  status2 = "<br>상태 확인과 도서 연장이 가능합니다.";
+      }else{
+    	  status = "비회원으로 로그인하셨습니다.";
+    	  status2="<br>기능 이용이 제한됩니다.";
+      }
+
+      
+      if(!($('#chatTooltip').length > 0)){
+    	  chatHeader.append("<div id='chatTooltip' title='"+status+"'>?</div>");
+          
+          
+          var tooltipHtml = [];
+          
+          tooltipHtml.push("<div class='tooltip'>");
+          tooltipHtml.push("    <div class='tooltip-arrow'></div>");
+          tooltipHtml.push(""+status+status2);
+          //tooltipHtml.push("    <div class='tooltip-head'></div>");
+          //tooltipHtml.push("    <div class='tooltip-inner'></div>");
+          tooltipHtml.push("</div>");
+          
+          
+          $('#chatTooltip').css({
+        	  'float' : 'right',
+        	  'color' : "white",
+        	  'font-size' : "10pt",
+        	  "background-color" : "#8C8C8C",
+        	  'border-radius' : "50%", 
+        	  'width' : "25px",
+    		  'height' : "25px",
+    		  "padding" : "0px 7px 0 9px"
+          })
+          
+       
+          
+          
+          $('#chatTooltip').tooltip({
+        	  template: tooltipHtml.join("")
+          });
+      
+      }
+      
+      /*  위젯의 header에 clear 버튼을 달아줌 시작 
       chatHeader.append('<span id="clearButton" >Clear</span>')
       
      
@@ -159,4 +214,27 @@ window.loadWatsonAssistantChat(options).then(function(instance) {
        });
 });
 </script>
+<style>
+
+
+/* tooltip styling. by default the element to be styled is .tooltip  */
+#WACWidget{
+	z-index: 9999 !important;
+}
+
+.tooltip {
+    background:#f29661;
+    font-size:12px;
+    height:auto;
+    width:auto;
+    padding:3px;
+    color:#fff;
+    text-align : center;
+    z-index : 10000;
+}
+
+
+
+
+</style>
 </html>

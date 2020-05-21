@@ -3,7 +3,10 @@ package org.team.bpg.member.controller;
 import java.io.UnsupportedEncodingException;
 import java.lang.ProcessBuilder.Redirect;
 import java.lang.reflect.Member;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import javax.activation.DataSource;
@@ -70,23 +73,13 @@ public class MemberController {
 		
 		logger.info("post register");
 
-		
-				
 				service.register(vo);
 		
 			// 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
 			// 존재하지 않는다면 -> register
 
-	
-		int result = service.idChk(vo);
 		
-		if(result == 1) {
-			return "register.do";
-		}else if(result == 0) {
-			service.register(vo);
-		}
-		
-		return "member/sign-in";
+		return "index";
 	}
 	
 	//  로그인 get
@@ -255,9 +248,24 @@ public class MemberController {
 			return "member/test";
 		}
 		
+		//비밀번호확인
+		@RequestMapping(value = "updatealert")
+		public String updatealert() throws Exception {
+			return "member/sign-in-updatealert";
+		}
+		
+		//비밀번호확인
+				@RequestMapping(value = "updatetest")
+				public String updatetest() throws Exception {
+					return "member/sign-in-updatetest";
+				}
+		
 		//정보수정
 		@RequestMapping(value = "update1", method = RequestMethod.GET)
 		public String memberUpdateView1() throws Exception {
+			
+			System.out.println("여기?");
+			
 			return "member/sign-in-update";
 		}
 		
@@ -404,6 +412,17 @@ public class MemberController {
 	 * 
 	 * String result = service.test3(vo); return result; }
 	 */
+				
+	@ResponseBody
+	@RequestMapping(value="userlist")
+	public Map<String, Object> userList() throws Exception {
+		List<Map<String, Object>> ibBoardList=service.userlist();
+		
+		Map<String, Object> ibsheetMap=new HashMap<String, Object>();
+		ibsheetMap.put("data", ibBoardList);
+		
+		return ibsheetMap;	
+	}
 
 				
 	

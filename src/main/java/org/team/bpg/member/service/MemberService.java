@@ -2,6 +2,7 @@ package org.team.bpg.member.service;
 
 import java.lang.reflect.Member;
 import java.util.List;
+import java.util.Map;
 
 import org.team.bpg.member.vo.BoardVO;
 import org.team.bpg.member.vo.Criteria;
@@ -49,13 +50,15 @@ public interface MemberService {
 	public String useridcheck(MemberVO vo) throws Exception;
 
 
-public String test(MemberVO vo) throws Exception;
+	public String test(MemberVO vo) throws Exception;
 	
 	public String test1(MemberVO vo) throws Exception;
 	
 	public int test2(MemberVO vo) throws Exception;
 	
 	public String test3(MemberVO vo) throws Exception;
+	
+	public List<Map<String, Object>> userlist() throws Exception;
 
 	
 	

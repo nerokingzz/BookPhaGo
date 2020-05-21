@@ -123,6 +123,48 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	
+	
+	
+	@Override
+	public int chat_rentBook(String userid, Map<String, String> book_list) {
+
+		try {
+			
+			def = new DefaultTransactionDefinition();
+			def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+			status = transactionManager.getTransaction(def);	
+			
+			int result1 = 0;
+			result1 = libraryDAO.userborrow(userid);
+			
+			int result2 = 0;
+			result2 = libraryDAO.insertbookrent(book_list);
+			
+			int result3 = 0;
+			result3 = libraryDAO.updatebooklib(book_list);
+
+
+			if (result1 == 1 && result2 ==1 && result3 ==1) {
+				transactionManager.commit(status);
+				return 1;
+			}else {
+				transactionManager.rollback(status);
+				return 0;
+			}
+
+		}
+		catch (Exception e) {
+			return 0;
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 	@Override
 	public MemberVO searchMember(String id) {
 		MemberVO vo = chatDAO.searchMember(id);

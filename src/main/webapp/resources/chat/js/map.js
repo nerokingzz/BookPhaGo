@@ -132,38 +132,7 @@
 				        image : markerImage // 마커 이미지 
 				    });
 				    
-				    
-				    var newContent = '<div class="customoverlay">' +
-				    '  <a href="'+positions[i].url+'" target="_blank">' +
-				    '    <span class="title">'+positions[i].title+'</span>' +
-				    '  </a>' +
-				    '</div>';
 
-				    var customOverlay = new kakao.maps.CustomOverlay({
-				        position: positions[i].latlng,
-				        content: newContent,
-				        yAnchor: 3.1
-				    });
-				    
-				    
-				    //customOverlay.setMap(map);
-				    
-				    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, customOverlay));
-				    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map,customOverlay));
-				}
-				
-				
-				function makeOverListener(map, marker, customOverlay) {
-				    return function() {
-				    	customOverlay.setMap(map);
-				    };
-				}
-
-				// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-				function makeOutListener(map,customOverlay) {
-				    return function() {
-				    	customOverlay.setMap(null);
-				    };
 				}
 				
 

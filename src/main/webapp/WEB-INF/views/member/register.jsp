@@ -9,6 +9,8 @@
 		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">-->
 	 	
 	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	 	
+	 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		<title>회원가입</title>
 	</head>
 	<script type="text/javascript">
@@ -58,7 +60,8 @@
 				data : {"userId" : $("#userId").val()},
 				success : function(data){
 					if(data == 1){
-							alert("이미 가입된 아이디입니다.");
+							//alert("이미 가입된 아이디입니다.");
+							swal("Hello world!");
 					}else if(data == 0){
 						if(($("#userId").val()).length>3){
 						$("#idChk").attr("value", "Y");

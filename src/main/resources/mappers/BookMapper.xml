@@ -310,6 +310,7 @@
 		        ) A
 		    )
  	   WHERE RN BETWEEN #{start} AND #{end}
+ 	   order by rentdate desc
  	</select>
  	
  	   <!-- 총 도서검색 갯수 -->
@@ -350,6 +351,27 @@
       WHERE RN BETWEEN #{start} AND #{end}
     </select>
  	
+ 	<!-- 총 도서검색 갯수 -->
+ 	<select id="autoid" parameterType="String" resultType="hashmap">
+ 	select userid from u_user_info where userid like concat('%',concat(UPPER(#{us_email}),'%')) or userid like concat('%',concat(LOWER(#{us_email}),'%'))
+ 	</select>
+ 	
+ 	<!-- 총 도서검색  -->
+ 	<select id="autobooknumber" parameterType="String" resultType="hashmap">
+ 	select isbn,bookname, bookWriter, bookpublisher, bookdate, bookRent, bookNumber from b_book_lib where bookNumber like concat('%',concat(UPPER(#{us_email}),'%')) or bookNumber like concat('%',concat(LOWER(#{us_email}),'%'))
+ 	</select>
+ 	
+ 	<!-- ID값에 대한 반납할 책 list --> 
+ 	<select id="autobookrentlist" parameterType="String" resultType="hashmap">
+ 	select * from B_BOOK_RENT where userid=#{us_email} and state in ('대출중','연체중')
+ 	</select>
+ 	
+ 	<!-- ID,도서번호로 대출확인 --> 
+ 	<select id="autoreturnbook" parameterType="String" resultType="hashmap">
+ 	 select a.bookname, a.bookWriter, a.bookpublisher, a.bookRent ,b.State
+ 		 	from b_book_lib A,b_book_rent B 
+ 		 	where a.bookNumber=b.booknumber and userid=#{userid} and b.state In('대출중','연체중') and b.bookNumber=#{us_email}
+ 	</select>
  	
  	
 </mapper>

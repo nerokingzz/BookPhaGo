@@ -63,4 +63,8 @@ public interface LibraryDAO {
 	public List<Map<String, Object>> search1_list(Map<String, Object> info);
 	public int search_2(String main_search);
 	public List<Map<String, Object>> search2_list(Map<String, Object> info);
+	public List<Map<String, Object>> autoid(String us_email);
+	public List<Map<String, Object>> autobooknumber(String us_email);
+	public List<Map<String, Object>> autobookrentlist(String us_email);
+	public List<Map<String, Object>> autoreturnbook(Map<String, Object> searchreturn);
 }

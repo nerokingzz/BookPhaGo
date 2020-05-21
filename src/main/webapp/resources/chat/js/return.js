@@ -1,5 +1,3 @@
-
-
 function chatReturnBook(event){
 	var user_defined = event.data.context.skills['main skill'].user_defined;
 	
@@ -46,7 +44,6 @@ function chatReturnBook(event){
 		if(returnBookFinal(bookNumber) == true){
 			event.data.context.skills['main skill'].user_defined.return_bookNumber_okay = true;
 			event.data.context.skills['main skill'].user_defined.return_bookNumber = bookNumber;
-
 		}else{
 		}*/
 		
@@ -132,7 +129,7 @@ function checkReturnID(userid){
 //반납할 도서의 검색 결과 출력
 function checkBookRentNumber(mem_id){
 	
-
+	console.log("am I in trouble?");
 	$.ajax({
 		url: '/chat/searchMember.do',
 		dataType : 'json',

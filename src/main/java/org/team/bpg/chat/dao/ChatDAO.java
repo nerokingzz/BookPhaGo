@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.team.bpg.chat.vo.BookVO;
+import org.team.bpg.chat.vo.DialVO;
+import org.team.bpg.chat.vo.EntityVO;
+import org.team.bpg.chat.vo.IntentVO;
 import org.team.bpg.member.vo.MemberVO;
 
 public interface ChatDAO {
@@ -26,5 +29,21 @@ public interface ChatDAO {
 
 	public int insertLogFile(Map LogFileMap);
 
-	List<Map<String, Object>> getLogFile();
+	public List<Map<String, Object>> getLogFile();
+
+	public int insertLogCount(Map logDataMap);
+
+	public int insertLogInt(Map logDataMap);
+
+	public int insertLogEnt(Map logDataMap);
+
+	public int insertLogDial(Map logDataMap);
+
+	Map selectLogCount();
+
+	List<IntentVO> selectLogInt();
+
+	List<EntityVO> selectLogEnt();
+	
+	List<DialVO> selectLogDial();
 }

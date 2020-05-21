@@ -16,6 +16,9 @@
 		<typeAlias type="org.team.bpg.chat.vo.BookVO" alias="BookVO"/>
 		<typeAlias type="org.team.bpg.member.vo.MemberVO" alias="MemberVO"/>
 		<typeAlias type="org.team.bpg.book.VO.BookInfoVO" alias="bookInfoVO"/>
+		<typeAlias type="org.team.bpg.chat.vo.IntentVO" alias="IntentVO"/>
+		<typeAlias type="org.team.bpg.chat.vo.EntityVO" alias="EntityVO"/>
+		<typeAlias type="org.team.bpg.chat.vo.DialVO" alias="DialVO"/>
 	</typeAliases>
 	
 	<mappers>

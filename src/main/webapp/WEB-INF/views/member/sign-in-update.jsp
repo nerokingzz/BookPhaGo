@@ -25,7 +25,31 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
 </head>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+#userId{
+	border: 0px;
+	font-size:20px;
+}
+
+#label{
+	font-size:10px; 
+	color:#b2b2b2;
+}
+	#mainlabel{
+	font-size:25px;
+	color:#E44D3A;
+	}
+	#signimg { 
+	display: block; 
+	margin-left: 60px;
+	margin-top:-40px;
+	}
+</style>
+
 
 <script type="text/javascript">
 
@@ -38,7 +62,7 @@ $(document).ready(function(){
     })
     
 	 if ('${member.badcnt}' > 0) {
-		 alert("불량신고 ${member.badcnt}건 입니다. 주의해 주시기 바랍니다.");
+		 swal("불량신고 ${member.badcnt}건 입니다. 주의해 주시기 바랍니다.");
 	 }
 	 
 })
@@ -71,20 +95,20 @@ function validate() {
 		return false;
 	}
 	if (regForm.userGender.value == "") {
-		alert("성별 미입력");
+		swal("성별 미입력");
 		return false;
 	}
 	if (regForm.userPass.value != regForm.userPasschk.value) {
-		alert("비밀번호가 일치하지않음");
+		swal("비밀번호가 일치하지않음");
 		return false;
 	}
-		alert("정보수정이 완료되었습니다");
+		swal("정보수정이 완료되었습니다");
 	}
 	function check(re, what, message) {
 		if (re.test(what.value)) {
 			return true;
 		}
-		alert(message);
+		swal(message);
 
 		//return false;
 	}
@@ -102,9 +126,10 @@ function validate() {
 							<div class="cmp-info">
 								<div class="cm-logo">
 									<img src="${contextPath}/resources/bootstrap/images/cm-logo.png" alt="">
-									<p>Workwise,  is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
-								</div><!--cm-logo end-->	
-								<img src="${contextPath}/resources/bootstrap/images/cm-main-img.png" alt="">			
+									<br><br><br><br><br>
+									<label id="mainlabel">정보수정 유의사항</label> <br><br><br>
+									<a>1. 취향 1, 2, 3은 선택사항입니다.<br>2. 비밀번호가 일치해야 정보수정이 완료됩니다.</a>								</div><!--cm-logo end-->	
+								<img id="signimg" style="width:250px; height:250px;" src="${contextPath}/resources/images/sign.jpg" alt="">		
 							</div><!--cmp-info end-->
 						</div>
 						<div class="col-lg-6">
@@ -161,44 +186,47 @@ function validate() {
 									</div><!--login-resources end-->
 								</div><!--sign_in_sec end--> --%>
 								<div class="sign_in_sec current" id="tab-2">
-									<h3>Modify</h3>
+									<h3>정보수정</h3>
 									<div class="dff-tab current" id="tab-2">
 										<form action="memberUpdate.do" method="post" id="regForm" name="regForm"  onsubmit="return validate();">
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id" value="${member.userId}" readonly="readonly">
-													<i class="la la-user"></i>
-													
+													<input type="text" id="userId" name="userId" placeholder="아이디" value="${member.userId} 님의 정보수정" readonly="readonly">
+													<i class="la la-user1"></i>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPass" name="userPass" placeholder="Password" value="${user_pass}">
+														<input type="password" id="userPass" name="userPass" placeholder="비밀번호" >
 														<i class="la la-lock"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPasschk" name="userPasschk" placeholder="Repeat Password">
+														<input type="password" id="userPasschk" name="userPasschk" placeholder="비밀번호 확인">
+														<!-- <label id="label">  * 비밀번호 일치시 정보수정이 완료됩니다</label> -->
 														<i class="la la-lock"></i>
 													</div>
 												</div>
-												<div class="col-lg-12 no-pdd">
+												<div>
+												
+												</div>
+												<div class="col-lg-12 no-pdd" style="margin-top:-1px;">
 													<div class="sn-field">
-														<input type="text" id="userName"name="userName" placeholder="Name" value="${member.userName}">
+														<input type="text" id="userName"name="userName" placeholder="이름" value="${member.userName}">
 														<i class="la la-user"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userEmail" name="userEmail" placeholder="Email" value="${member.userEmail}">
+														<input type="text" id="userEmail" name="userEmail" placeholder="이메일" value="${member.userEmail}">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userAge" name="userAge" placeholder="Age" value="${member.userAge}">
+														<input type="text" id="userAge" name="userAge" placeholder="나이" value="${member.userAge}">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
@@ -292,7 +320,7 @@ function validate() {
 														</div><!--fgt-sec end-->
 													</div>
 												</div>
-												<div class="col-lg-12 no-pdd">
+												<div class="col-lg-12 no-pdd" >
 													<button type="submit" id="submit">확인</button>
 													<button type="button" id="cancle">취소</button>
 												</div>
@@ -349,7 +377,7 @@ function validate() {
 					</div>		
 				</div><!--signin-pop end-->
 			</div><!--signin-popup end-->
-			<div class="footy-sec">
+			<%-- <div class="footy-sec">
 				<div class="container">
 					<ul>
 						<li><a href="help-center.html" title="">Help Center</a></li>
@@ -364,7 +392,7 @@ function validate() {
 					</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon.png" alt="">Copyright 2019</p>
 				</div>
-			</div><!--footy-sec end-->
+			</div><!--footy-sec end--> --%>
 		</div><!--sign-in-page end-->
 
 

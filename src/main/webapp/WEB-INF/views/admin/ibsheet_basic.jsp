@@ -20,11 +20,13 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
-		<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
+	
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibleaders.js"></script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<style>
 table.type11 {
     border-collapse: separate;
@@ -61,6 +63,31 @@ table.type11 td {
         background-color: white;
         text-align-last: center;
 }
+
+
+
+table.type05 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    margin: 20px 10px;
+}
+table.type05 th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #efefef;
+}
+table.type05 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
 	</style>
 </head>
 
@@ -76,8 +103,12 @@ table.type11 td {
 		$(document).ready(function() {
 			var pageInfo='${pageInfo}';
 			console.log(pageInfo);
-			
-			 if (pageInfo == 'book_A') {
+			if (pageInfo == 'user_A') {
+				$("#nav-acc-tab").attr("class", "nav-item nav-link active");
+				$("#nav-acc-tab").attr("aria-selected", "true");
+				$("#nav-acc").attr("class", "tab-pane fade show active");
+				
+			} else if (pageInfo == 'book_A') {
 				$("#nav-status-tab").attr("class", "nav-item nav-link active");
 				$("#nav-status-tab").attr("aria-selected", "true");
 				$("#nav-status").attr("class", "tab-pane fade show active");
@@ -119,7 +150,9 @@ table.type11 td {
 			}
 		})
 		
-		
+		function user_A() {
+			location.href="admin_main.do?page=user_A";
+		}
 		
 		function book_A() {
 			location.href="admin_main.do?page=book_A";
@@ -168,7 +201,7 @@ table.type11 td {
 			mySheet.RemoveAll();
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
 				{Header:"번호", Type:"int", SaveName:"COMMUNITY_ID", MinWidth:20},
@@ -177,7 +210,7 @@ table.type11 td {
 				{Header:"이름", Type:"Text", SaveName:"COMMUNITY_NAME", MinWidth:100},
 				{Header:"분류", Type:"Text", SaveName:"COMMUNITY_CATEGORY", MinWidth:70},			
 				{Header:"설명", Type:"Text", SaveName:"COMMUNITY_DESCRIPTION", MinWidth:180},
-				{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:150},
+				{Header:"목적", Type:"Text", SaveName:"COMMUNITY_AIM", MinWidth:130},
 				{Header:"상태", Type:"Combo", SaveName:"COMMUNITY_ESTABLISH_STATUS", OnChange:comStsAdminIb, ComboText:"거절|진행중|수락", ComboCode:"dgree|ing|agree", MinWidth:70}
 				
 			];   
@@ -190,6 +223,7 @@ table.type11 td {
 			mySheet.SetEditable(true);
 			doAction('search');
 
+			mySheet.SetTheme("OR","orange");
 			mySheet.SetCountPosition(1);
 			mySheet.SetPagingPosition(2);
 			
@@ -199,7 +233,7 @@ table.type11 td {
 			mySheet_dec.RemoveAll();
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
 				{Header:"번호", Type:"int", SaveName:"DECLARE_ID", MinWidth:20},
@@ -207,7 +241,7 @@ table.type11 td {
 				{Header:"신고인", Type:"Text", SaveName:"DO_USER", MinWidth:80},
 				{Header:"피신고인", Type:"Text", SaveName:"BE_DONE_USER", MinWidth:100},
 				{Header:"분류", Type:"Text", SaveName:"DECLARE_CATEGORY", MinWidth:50},			
-				{Header:"신고사유", Type:"Text", SaveName:"DECLARE_REASON", OnClick:decImage, MinWidth:300},
+				{Header:"신고사유", Type:"Text", SaveName:"DECLARE_REASON", OnClick:decImage, MinWidth:260},
 				{Header:"상태", Type:"Combo", SaveName:"DECLARE_STATUS", OnChange:decStsAdminIb, ComboText:"신고자처벌|진행중|피신고자처벌", ComboCode:"do|ing|be_done", MinWidth:120}
 				
 			];   
@@ -220,6 +254,7 @@ table.type11 td {
 			mySheet_dec.SetEditable(true);
 			doAction('search');
 
+			mySheet_dec.SetTheme("OR","orange");
 			mySheet_dec.SetCountPosition(1);
 			mySheet_dec.SetPagingPosition(2);
 			
@@ -230,19 +265,19 @@ table.type11 td {
 			mySheet_book.RemoveAll();
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
-				{Header:"도서명", Type:"Text", SaveName:"BOOKNAME", MinWidth:180,Align:"Center"},
-				{Header:"도서번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:70,Align:"Center"},
-				{Header:"저자", Type:"Text", SaveName:"BOOKWRITER", MinWidth:80,Align:"Center"},
-				{Header:"출판사", Type:"Text", SaveName:"BOOKPUBLISHER", MinWidth:70,Align:"Center"},
-				{Header:"발행일", Type:"Text", SaveName:"BOOKDATE", MinWidth:70,Align:"Center"},			
-				{Header:"장르", Type:"Text", SaveName:"BOOKGENRE", MinWidth:57,Align:"Center"},	
-				{Header:"대출여부", Type:"Text", SaveName:"BOOKRENT", MinWidth:50,Align:"Center"},		
-				{Header:"ISBN", Type:"Text", SaveName:"ISBN", MinWidth:88,Align:"Center"},		
-				{Header:"수정",Type:"Button",SaveName:"BUTTON",DefaultValue:"수정",MinWidth:50,Align:"Center",Cursor:"Default"},
-				{Header:"삭제",Type:"Button",SaveName:"BUTTONN",DefaultValue:"삭제",MinWidth:50,Align:"Center",Cursor:"Default"}
+				{Header:"도서명", Type:"Text", SaveName:"BOOKNAME", MinWidth:180},
+				{Header:"도서번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:70},
+				{Header:"저자", Type:"Text", SaveName:"BOOKWRITER", MinWidth:80},
+				{Header:"출판사", Type:"Text", SaveName:"BOOKPUBLISHER", MinWidth:70},
+				{Header:"발행일", Type:"Text", SaveName:"BOOKDATE", MinWidth:70},			
+				{Header:"장르", Type:"Text", SaveName:"BOOKGENRE", MinWidth:57},	
+				{Header:"대출여부", Type:"Text", SaveName:"BOOKRENT", MinWidth:50},		
+				{Header:"ISBN", Type:"Text", SaveName:"ISBN", MinWidth:88},		
+				{Header:"수정",Type:"Button",SaveName:"BUTTON",DefaultValue:"수정",MinWidth:40,Cursor:"Default"},
+				{Header:"삭제",Type:"Button",SaveName:"BUTTONN",DefaultValue:"삭제",MinWidth:40,Cursor:"Default"}
 			];   
 			IBS_InitSheet( mySheet_book , initSheet);
 			
@@ -253,6 +288,7 @@ table.type11 td {
 			mySheet_book.SetEditable(true);
 			doAction('search');
 
+			mySheet_book.SetTheme("OR","orange");
 			mySheet_book.SetCountPosition(1);
 			mySheet_book.SetPagingPosition(2);
 			
@@ -263,16 +299,16 @@ table.type11 td {
 			mySheet_applytatus.RemoveAll();
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
-				{Header:"아이디", Type:"Text", SaveName:"USERID", MinWidth:110,Align:"Center"},
-				{Header:"도서명", Type:"Text", SaveName:"BOOKNAME", MinWidth:300,Align:"Center"},
-				{Header:"도서번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:60,Align:"Center"},
-				{Header:"대출일", Type:"Text", SaveName:"RENTDATE", MinWidth:70,Align:"Center"},
-				{Header:"반납일", Type:"Text", SaveName:"RETURNDATE", MinWidth:70,Align:"Center"},			
-				{Header:"반납날짜", Type:"Text", SaveName:"RRETURNDATE", MinWidth:70,Align:"Center"},	
-				{Header:"상태", Type:"Text", SaveName:"STATE", MinWidth:70,Align:"Center"}
+				{Header:"아이디", Type:"Text", SaveName:"USERID", MinWidth:110},
+				{Header:"도서명", Type:"Text", SaveName:"BOOKNAME", MinWidth:300},
+				{Header:"도서번호", Type:"Text", SaveName:"BOOKNUMBER", MinWidth:60},
+				{Header:"대출일", Type:"Text", SaveName:"RENTDATE", MinWidth:70},
+				{Header:"반납일", Type:"Text", SaveName:"RETURNDATE", MinWidth:70},			
+				{Header:"반납날짜", Type:"Text", SaveName:"RRETURNDATE", MinWidth:70},	
+				{Header:"상태", Type:"Text", SaveName:"STATE", MinWidth:70}
 			];   
 			IBS_InitSheet( mySheet_bookstatus , initSheet);
 			
@@ -283,13 +319,14 @@ table.type11 td {
 			mySheet_bookstatus.SetEditable(true);
 			//doAction('search');
 
+			mySheet_bookstatus.SetTheme("OR","orange");
 			mySheet_bookstatus.SetCountPosition(1);
 			mySheet_bookstatus.SetPagingPosition(2);
 			
 
 			//아이비시트 초기화
 			var initSheet = {};
-			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
 			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
 			initSheet.Cols = [
 				{Header:"신청번호", Type:"Text", SaveName:"APPLYNUMBER", MinWidth:70,Align:"Center"},
@@ -309,9 +346,44 @@ table.type11 td {
 			mySheet_applytatus.SetEditable(true);
 			doAction('search');
 
+			mySheet_applytatus.SetTheme("OR","orange");
 			mySheet_applytatus.SetCountPosition(1);
 			mySheet_applytatus.SetPagingPosition(2);	
 			
+		} else if (pageInfo === 'user_A') { //회원관리
+			
+			mySheet_user.RemoveAll();
+			//아이비시트 초기화
+			var initSheet = {};
+			initSheet.Cfg = {SearchMode:smClientPaging,ToolTip:1,Page:10,SizeMode:1,AutoFitColWidth: "resize"};
+			initSheet.HeaderMode = {Sort:1,ColMove:1,ColResize:1,HeaderCheck:1};
+			initSheet.Cols = [
+				{Header:"아이디", Type:"Text", SaveName:"USERID", MinWidth:60},
+				{Header:"이름", Type:"Text", SaveName:"USERNAME", MinWidth:60},
+				{Header:"이메일", Type:"Text", SaveName:"USEREMAIL", MinWidth:60},
+				{Header:"나이", Type:"Text", SaveName:"USERAGE", MinWidth:60},
+				{Header:"권한", Type:"Text", SaveName:"USERPOSITION", MinWidth:60, data:["general"|"일반"]},
+				{Header:"성별", Type:"Text", SaveName:"USERGENDER", MinWidth:60},
+				{Header:"취향1", Type:"Text", SaveName:"USERTASTE1", MinWidth:60},
+				{Header:"취향2", Type:"Text", SaveName:"USERTASTE2", MinWidth:60},
+				{Header:"취향3", Type:"Text", SaveName:"USERTASTE3", MinWidth:60},
+				{Header:"불량횟수", Type:"Text", SaveName:"BADCNT", MinWidth:60},
+				{Header:"대출횟수", Type:"Text", SaveName:"BORROWCNT", MinWidth:60},
+				{Header:"가입일", Type:"Date", SaveName:"REGDATE", MinWidth:60},
+			];
+			 
+
+			IBS_InitSheet( mySheet_user , initSheet);
+			
+			mySheet_user.SetEditableColorDiff(1); // 편집불가능할 셀 표시구분
+	        //mySheet.ShowSubSum([{StdCol:"Release",SumCols:"price",Sort:"asc"}]);
+			//doAction('search');
+			mySheet_user.SetEditable(true);
+			doAction('search');
+
+			mySheet_user.SetTheme("OR","orange");
+			mySheet_user.SetCountPosition(1);
+			mySheet_user.SetPagingPosition(2);
 		}
 	}
 
@@ -341,6 +413,11 @@ table.type11 td {
 					mySheet_bookstatus.DoSearch("mylib_bookstatus_request_list.do", page);
 					mySheet_applytatus.ShowFilterRow();
 					mySheet_applytatus.DoSearch("mylib_booksapplystatus_request_list.do", page);		
+				} else if (pageInfo == 'user_A') {
+					var page="user_A";
+					mySheet_user.ShowFilterRow();
+					mySheet_user.DoSearch("userlist.do", page);
+					
 				} 
 				
 				//mySheet.DoSearch("transaction_data2.json");
@@ -351,7 +428,7 @@ table.type11 td {
 				break;
 			case "save": // 저장
 				//var tempStr = mySheet.GetSaveString();
-				//alert("서버로 전달되는 문자열 확인 :"+tempStr);
+				//swal("서버로 전달되는 문자열 확인 :"+tempStr);
 				var retData = mySheet.GetSaveData("com_esta_request_admin.do");
 				//mySheet.DoSave("com_esta_request_admin.do");
 				break;			
@@ -371,7 +448,7 @@ table.type11 td {
 	// code: 0(저장성공), -1(저장실패)
 	function mySheet_OnSaveEnd(code,msg){
 		if(msg != ""){
-			alert(msg);	
+			swal(msg);	
 			//번호 다시 매기기
             //mySheet.ReNumberSeq();
 		}	
@@ -413,7 +490,7 @@ table.type11 td {
 			data:{"community_id" : community_id, "admin_sts" : comStatus, "community_captain" : comCap, "community_establish_date" : capJoinDate},
 			method:"POST",
 			success:function(data) {
-				alert(data);
+				swal("완료되었습니다");
 				//location.href="admin_main.do?page=com_A";
 				location.reload();
 			}
@@ -435,7 +512,7 @@ table.type11 td {
 			data:{"declare_id" : declare_id, "admin_sts" : decStatus, "be_done_user" : beDoneUser, "do_user" : doUser},
 			method:"POST",
 			success:function(data) {
-				alert(data);
+				swal("완료되었습니다");
 				//location.href="admin_main.do?page=com_A";
 				location.reload();
 			}
@@ -455,7 +532,7 @@ table.type11 td {
 		  //특정 열을 클릭했을 때 다른 페이지로 이동하도록 처리
 		  if( mySheet_book.ColSaveName(Col) == "BUTTON"){
 			  var val = mySheet_book.GetCellValue(Row,"BOOKNUMBER");
-			  var winopen = window.open('modfindlibrary.do?bookNumber='+val,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+			  var winopen = window.open('modfindlibrary.do?bookNumber='+val,'window_name','width=463,height=570,location=no,status=no,scrollbars=yes');
 		  } else if( mySheet_book.ColSaveName(Col) == "BUTTONN" ) {
 			  var value = mySheet_book.GetCellValue(Row,"BOOKNUMBER");
 			  if (confirm("삭제 하시겠습니까??") == true){    //확인
@@ -464,7 +541,7 @@ table.type11 td {
 						data:{"bookNumber" : value},
 						method:"POST",
 						success:function(data) {
-							alert(data);
+							swal(data);
 							//location.href="admin_main.do?page=com_A";
 							location.reload();
 						}
@@ -498,13 +575,15 @@ table.type11 td {
 						<div class="acc-leftbar">
                         	<div class="nav nav-tabs" id="nav-tab" role="tablist">
                            		<a><b>관리자전용</b></a>
-                            		<a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="book_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>도서관리</a>
-                           	 		<a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="book_status_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-lock"></i>현황관리</a>
-                            		<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>커뮤니티관리</a>
-                            		<a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>신고관리</a>
-                            		<a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fa fa-android"></i>챗봇관리</a>
-                            		<a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="la la-cogs"></i>도서대출</a>
-                        			<a class="nav-item nav-link" id="nav-status-tab3" data-toggle="tab" href="#nav-status" onclick="return_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fa fa-line-chart"></i>도서반납</a>
+									<a class="nav-item nav-link" id="nav-acc-tab" data-toggle="tab" href="#nav-acc" onclick="user_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>회원관리</a>
+                            		<a class="nav-item nav-link" id="nav-status-tab" data-toggle="tab" href="#nav-status" onclick="book_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fas fa-dot-circle"></i>도서관리</a>
+                           	 		<a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password-tab" onclick="book_status_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fas fa-dot-circle"></i>현황관리</a>
+                            		<a class="nav-item nav-link" id="nav-acc-tab2" data-toggle="tab" href="#nav-acc" onclick="com_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>커뮤니티관리</a>
+                            		<a class="nav-item nav-link" id="nav-status-tab2" data-toggle="tab" href="#nav-status" onclick="dec_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fas fa-dot-circle"></i>신고관리</a>
+                            		<a class="nav-item nav-link" id="nav-password-tab2" data-toggle="tab" href="#nav-password-tab" onclick="chat_A()" role="tab" aria-controls="nav-password" aria-selected="false"><i class="fas fa-dot-circle"></i>챗봇관리</a>
+                            		<a class="nav-item nav-link" id="nav-acc-tab3" data-toggle="tab" href="#nav-acc" onclick="rent_A()" role="tab" aria-controls="nav-acc" aria-selected="false"><i class="fas fa-dot-circle"></i>도서대출</a>
+                        			<a class="nav-item nav-link" id="nav-status-tab3" data-toggle="tab" href="#nav-status" onclick="return_A()" role="tab" aria-controls="nav-status" aria-selected="false"><i class="fas fa-dot-circle"></i>도서반납</a>
+							
 							</div>
                      	</div><!--acc-leftbar end-->
 					</div> <!-- col-lg-3 end -->
@@ -512,17 +591,26 @@ table.type11 td {
 					<div class="col-lg-9">
 						<div class="tab-content" id="nav-tabContent" style="width: 100%; height:100%;">
 
-                        	<div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
-                        		<div class="acc-setting">
+                        	
+                        		<div class="tab-pane fade" style="width: 100%; height:100%;" id="nav-acc" role="tabpanel" aria-labelledby="nav-acc-tab">
+	                           		<div class="acc-setting" style="width: 100%; height:100%;">
+	                              		<h3>회원관리</h3>
+	                              		<div class="main_content" style="width: 100%; height:100%; padding-bottom:40px">
+										<div style=" padding:20px" class="ib_product"><script>createIBSheet("mySheet_user", "100%", "100%");</script></div>
+						  			</div>
+	                           		</div><!--acc-setting end-->
+	                        	</div>
+	                        	<div class="tab-pane fade" style="width: 100%; height:100%;"" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
+                        		<div class="acc-setting" style="width: 100%; height:100%;">
                             		<h3>도서관리</h3>
                                 	<jsp:include page="../book/adminlibrarylist.jsp"></jsp:include>
                             		<div class="main_content" style="width: 100%; height:100%;">
-										<div class="ib_product"><script>createIBSheet("mySheet_book", "100%", "100%");</script></div>
+										<div class="ib_product" style=" padding:20px" ><script>createIBSheet("mySheet_book", "100%", "100%");</script></div>
 						  			</div>
                         		</div><!--acc-setting end-->
                         	</div>
-                        	<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
-                             	<div class="acc-setting">
+                        	<div class="tab-pane fade" style="width: 100%; height:100%;" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+                             	<div class="acc-setting" style="width: 100%; height:100%;">
                              		<h3>현황관리</h3>
                              		
                              	<div>
@@ -534,7 +622,7 @@ table.type11 td {
 								<div class="sign_in_sec current" id="tab-1" style=" padding-left: 0px;padding-right: 0px;">
 								
 								<div class="main_content" style="width: 100%; height:100%;">
-										<div class="ib_product"><script>createIBSheet("mySheet_bookstatus", "100%", "100%");</script></div>
+										<div style=" padding:20px" class="ib_product"><script>createIBSheet("mySheet_bookstatus", "100%", "100%");</script></div>
 						  			</div>
 									
 								</div><!--sign_in_sec end-->
@@ -543,7 +631,7 @@ table.type11 td {
 									<div class="dff-tab current" id="tab-3">
 									
 									<div class="main_content" style="width: 100%; height:100%;">
-										<div class="ib_product"><script>createIBSheet("mySheet_applytatus", "100%", "100%");</script></div>
+										<div style=" padding:20px" class="ib_product"><script>createIBSheet("mySheet_applytatus", "100%", "100%");</script></div>
 						  			</div>
 									
 									</div><!--dff-tab end-->
@@ -601,7 +689,7 @@ table.type11 td {
                            		<div class="acc-setting" style="width: 100%; height:100%;">
                               		<h3>커뮤니티관리</h3>
                               	    <div class="main_content" style="width: 100%; height:100%;">
-										<div class="ib_product"><script>createIBSheet("mySheet", "100%", "100%");</script></div>
+										<div class="ib_product" style=" padding:20px"><script>createIBSheet("mySheet", "100%", "100%");</script></div>
 						  			</div>
                            		</div><!--acc-setting end-->
 
@@ -610,7 +698,7 @@ table.type11 td {
                            		<div class="acc-setting" style="width: 100%; height:100%;">
                               		<h3>신고관리</h3>
                               	    <div class="main_content" style="width: 100%; height:100%;">
-										<div class="ib_product"><script>createIBSheet("mySheet_dec", "100%", "100%");</script></div>
+										<div class="ib_product" style=" padding:20px"><script>createIBSheet("mySheet_dec", "100%", "100%");</script></div>
 						  			</div>
                            		</div><!--acc-setting end-->
                           	</div>

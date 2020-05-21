@@ -186,7 +186,7 @@ li{
 </head>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
 	
 	function voteReq() {
@@ -199,7 +199,7 @@ li{
 			url:"vote_request.do",
 			data:{"board_id" : board_id, "request_content" : request_content, "request_writer" : request_writer},
 			success:function() {
-				alert("좋은 의견 감사합니다");
+				swal("좋은 의견 감사합니다");
 				window.close();
 			}
 		})

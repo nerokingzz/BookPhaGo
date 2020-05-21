@@ -34,13 +34,11 @@ function checkInfo(userId){
 					memTable += "<tr><td></td><td class='con'>"+result.usertaste3+"</td></tr>"	;
 					for(i in result.rentList){
 						if(i == 0){
-							memTable += "<tr><td class = 'sub'>대출 목록</td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
+							memTable += "<tr><td class = 'sub'>대출 목록</td><td class='con'>" + result.rentList[i].BOOKNAME+"</td></tr>";
 						}else{
-							memTable += "<tr><td></td><td class='con'>"+result.rentList[i].BOOKNAME+"</td></tr>";
+							memTable += "<tr><td></td><td class='con'>" + result.rentList[i].BOOKNAME+"</td></tr>";
 						}
-						
 					}
-						
 					memTable += "</table>";
 
 					container.append(memTable);
@@ -53,7 +51,6 @@ function checkInfo(userId){
 					container.css('font-size','13px');
 					container.css('margin','auto');
 					container.css('margin-top','15px');
-					container.css('text-align','center');
 					
 					
 					
@@ -66,12 +63,15 @@ function checkInfo(userId){
 					labletrs.css('background-color','#E44D3A');
 					labletrs.css('border-radius','8px');
 					labletrs.css('color','white');
+
+					labletrs.css('text-align','center');
 					
 					
 					var contds = $('.memTable .con');
 					contds.css("width", '220px');
 					contds.css('height','auto');
-					
+					contds.css('text-align','left');
+					contds.css('padding-left','25px');
 			
 				}
 			

@@ -28,7 +28,7 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/lib/slick/slick-theme.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
-		<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
+	<link rel="stylesheet" href="${contextPath}/resources/css/style.css"> 
 	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheetinfo.js"></script>
 	<script src="${contextPath}/resources/ibsheet/ibsheet.js"></script>
@@ -36,7 +36,7 @@
 	
 	<!-- jquery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  	
+  	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   	<!-- font -->
   	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
   	
@@ -145,8 +145,8 @@
 				mySheet_comMem.SetTheme("OR","orange");
 				doAction('search');
 	
-				//mySheet_comMem.SetCountPosition(1);
-				//mySheet_comMem.SetPagingPosition(2);
+				mySheet_comMem.SetCountPosition(1);
+				mySheet_comMem.SetPagingPosition(2);
 				
 			} 
 			
@@ -170,7 +170,7 @@
 					break;
 				case "save": // 저장
 					//var tempStr = mySheet.GetSaveString();
-					//alert("서버로 전달되는 문자열 확인 :"+tempStr);
+					//swal("서버로 전달되는 문자열 확인 :"+tempStr);
 					var retData = mySheet.GetSaveData("com_esta_request_admin.do");
 					//mySheet.DoSave("com_esta_request_admin.do");
 					break;			
@@ -190,7 +190,7 @@
 		// code: 0(저장성공), -1(저장실패)
 		function mySheet_OnSaveEnd(code,msg){
 			if(msg != ""){
-				alert(msg);	
+				swal(msg);	
 				//번호 다시 매기기
 	            //mySheet.ReNumberSeq();
 			}	
@@ -207,7 +207,7 @@
 				data:{"community_id" : community_id, "member_id" : member_id, "member_position" : member_position},
 				method:"POST",
 				success:function(data) {
-					alert(data);
+					//swal(data);
 					//location.href="admin_main.do?page=com_A";
 					location.reload();
 				}
@@ -323,13 +323,13 @@
 					method:"post",
 					data:{"community_id" : "${comInfo.get('COMMUNITY_ID')}", "member_id" : '${user_id}'},
 					success:function() {
-						alert("탈퇴가 완료되었습니다.");
+						swal("탈퇴가 완료되었습니다.");
 						location.reload();
 					}
 				})
 				
 			} else {
-				alert("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
+				swal("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
 			}
 		}
 	</script>

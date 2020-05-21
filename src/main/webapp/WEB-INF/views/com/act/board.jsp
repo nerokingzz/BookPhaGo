@@ -178,14 +178,25 @@ div.noResultDiv a, .user-fw-status li h4 a{
 										<c:choose>
 											<c:when test="${articleListSize <= 0}">
 												<div class = "noResultDiv">
-													<h3>결과가 존재하지 않습니다.</h3>
-													<a onclick="history.back();">뒤로 가기</a>
+													<input style="float:center;" type="button" class="boardBtns" value="새 글쓰기"
+																	onclick="articleWrite()">
+													
+												</div>
+											</c:when>
+											
+											<c:when test="${voteListSize <= 0}">
+												<div class = "noResultDiv">
+													<input style="float:center;" type="button" class="boardBtns" value="새 투표등록"
+																	onclick="voteWrite()">
+													
 												</div>
 											</c:when>
 											<c:otherwise>
 												<div class="freelancerbiding">
 													<div style="height: 25px;display: inline;width: 40%;">
 														<c:choose>
+														
+														
 															<c:when
 																test="${memChk eq'o' && memAuth eq 'cap' && boardInfo.get('BOARD_CATEGORY') eq 'BD001'}">
 																<input type="button" class="boardBtns" value="투표등록"
@@ -302,7 +313,7 @@ div.noResultDiv a, .user-fw-status li h4 a{
 							                                		if (articleDate<current) {
 							                                			date=article.slice(0,9);
 							                                		} else {
-							                                			date=article.slice(10);
+							                                			date=article.slice(10,15);
 							                                		}
 							                                		document.getElementById("article_date_"+index).innerHTML=date;
 							                                		//$("#article_date_" + index).innerHTML(date);
@@ -378,6 +389,8 @@ div.noResultDiv a, .user-fw-status li h4 a{
 																</c:when>
 																 
 															</c:choose> -->
+															
+															
 
 															<div class="row"
 																style="background: #EAEAEA; line-height: 35px; margin-top: 35px; display: block;">
@@ -400,14 +413,19 @@ div.noResultDiv a, .user-fw-status li h4 a{
 																	</div>
 																	<div class="col-md-10 col-sm-10">
 																		<h6>
-																			<a
-																				href="com_vote.do?vote_id=${voteList.get(i-1).getVote_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${voteList.get(i-1).getVote_title()}</a>
-																		
+																			
 																		<c:if test="${voteList.get(i-1).getVote_status() == 'ing'}">
+																			<a
+																				href="ing_vote_form.do?vote_id=${voteList.get(i-1).getVote_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${voteList.get(i-1).getVote_title()}</a>
+																		
 																			<span class = "voteIng">진행 중</span>
 																		</c:if>
 																		<c:if test="${voteList.get(i-1).getVote_status() == 'end'}">
+																			<a
+																				href="com_vote.do?vote_id=${voteList.get(i-1).getVote_id()}&board_id=${boardInfo.get('BOARD_ID') }&community_id=${comInfo.get('COMMUNITY_ID')}">${voteList.get(i-1).getVote_title()}</a>
+																		
 																			<span class = "voteEnd">마감</span>
+																			
 																		</c:if>
 																		</h6>
 																	</div>

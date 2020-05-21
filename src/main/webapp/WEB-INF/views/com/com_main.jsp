@@ -120,14 +120,14 @@
 								<td>
 									<h3>
 										<a style='cursor: pointer;'
-											onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=641, resizable=no')">
+											onclick="window.open('com_esta_form.do', '개설 신청', 'width=550, height=650, resizable=no')">
 											<img src="${contextPath}/resources/images/request_btn.png"
 											style="float: none; margin-bottom: -10px;"> <br>개설 신청</a>
 									</h3></td>
 								<td>
 									<h3>
 										<a style="cursor: pointer;"
-											onclick="window.open('com_esta_request_list_user.do?user_id=${user_id }', '신청 내역', 'width=765, height=350, resizable=no, scrollbars=yes')">
+											onclick="window.open('com_esta_request_list_user.do?user_id=${user_id }', '신청 내역', 'width=765, height=550, resizable=no, scrollbars=yes')">
 											<img src="${contextPath}/resources/images/list_btn.png"
 											style="float: none; margin-bottom: -10px;"> <br>신청
 											내역
@@ -182,7 +182,7 @@
 								             -->
 									</section>
 									<div class="company-title">
-										<h3>추천 커뮤니티</h3>
+										<h3>이런 커뮤니티는 어떠세요?</h3>
 									</div><!--company-title end-->
 									<div class="companies-list">
 										<div class="row">

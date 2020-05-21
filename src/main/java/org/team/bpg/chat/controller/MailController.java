@@ -25,7 +25,7 @@ public class MailController {
     		String mail_subject= "북파고에 대한 새로운 피드백을 확인해주세요.";
     		String mail_content = content;
     		response.setContentType("text/html;charset=utf-8");
-    		mailService.sendMail("bitbookphago@gmail.com",mail_subject,mail_content);
+    		mailService.sendMail("bitbookphago@naver.com",mail_subject,mail_content);
     		//mailService.sendPreConfiguredMail(content);
     		System.out.println(content + " 라는 내용으로 메일을 보냈습니다.");
     		return "okay";

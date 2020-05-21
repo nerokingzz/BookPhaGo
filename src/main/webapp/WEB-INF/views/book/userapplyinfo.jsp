@@ -1,149 +1,290 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<style>
-*{
-  margin:0; padding:0;
-  font-size:15px; 
-  line-height:1.3;
-}
-ul{list-style:none;}
-
-.tabmenu{ 
-  max-width:1000px; 
-  margin: 0 auto; 
-  position:relative; 
-}
-.tabmenu ul li{
-  display:  inline-block;
-  width:50%; 
-  float:left;  
-  text-align:center; 
-  background :#f9f9f9;
-}
-.tabmenu ul li a{
-  display:block;
-  line-height:40px;
-  height:40px;
-  text-decoration:none; 
-  color: #000;
-}
-.tabCon{
-  display:none; 
-  text-align:left; 
-  padding: 20px;
-  position:absolute; 
-  left:0; top:40px; height:800px; 
-  box-sizing: border-box; 
-  border : 5px solid #f9f9f9;
-}
-.btnCon:target  {
-  background : #ccc;
-}
-.btnCon:target .tabCon{
-  display: block;
-}	
-	</style>
 </head>
 <body>
+<h3>책 제목을 검색해주세요.</h3>
+    <input id="bookName" type="text" style=" height: 20px;  width: 300px;">
+    <button onclick="search(1);">검색</button>
 
-
-<section class="profile-account-setting2">
-		<div class="container">
-			<div class="acount-tabs-setting">
-				<div >
-					<div>
-							<div class="tabmenu">
-						  <ul>
-						    <li id="tab1" class="btnCon"><a class="btn first" href="#tab1">menu1</a>
-						      <div class="tabCon" >
-						      	○ <input  style = "text-align:center; display:inline;" type="text" value="희망도서 신청안내" disabled><br><br>
-								＊신청대상 : 회원가입한 모든 사용자<br><br>
-								
-								* 신청방법  :  희망하시는 도서가 소장된 자료인지 확인하시고 도서가 없는 경우 홈페이지내 희망도서 신청화면에서 도서정보를 정확하게 기재해주시기 바랍니다.<br><br>
-								
-								* 신청권수  :  1인 월 2권<br><br>
-								
-								* 소요기간 :  1~2개월 소요  <br><br>
-								
-								○ <input  style = "text-align:center; display:inline" type="text" value="희망도서 신청결과 확인" disabled> <br><br>
-								* 홈페이지 내 <마이 라이브러리 -> 현황조회 ->  도서 신청 현황> 에서 확인 가능합니다. <br><br>
-								
-								* 각 진행상태는 아래와 같습니다. <br><br>
-								 - 신청중  : 담당자가 검토중인 상태 <br><br>
-								 - 처리중  : 구입하여 정리하고 있는 상태 <br><br>
-								 - 취소됨 : 구입에서 제외된 상태(사유) <br><br>
-								 
-								 ○ <input  style = "text-align:center; display:inline" type="text" value="희망도서 선정 제외 기준" disabled> <br><br>
-								* 도서관내 이미 소장중이거나 중복신청도서<br><br>
-								
-								* 고가의 도서 <br><br>
-								
-								* 선정적인 도서 <br><br>
-								
-								* 문제집 혹은 수험서 또는 만화도서 <br><br>
-								
-								* 품절이거나 절판된 도서 <br><br>
-						      </div>
-						    </li>
-						    <li id="tab2" class="btnCon"><a class="btn" href="#tab2">menu2</a>
-						      <div class="tabCon" >It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</div>
-						      
-						    </li> 
-						  </ul>
-						</div>	
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <form method="post" name="form">
-    <input type="submit" value="신청안내" onclick="javascript: form.action='userapplyinfo';"/>
-    <input type="submit" value="도서신청" onclick="javascript: form.action='userapply';"/>
-</form><br>
-○ <input  style = "text-align:center;" type="text" value="희망도서 신청안내" disabled><br><br>
-＊신청대상 : 회원가입한 모든 사용자<br><br>
-
-* 신청방법  :  희망하시는 도서가 소장된 자료인지 확인하시고 도서가 없는 경우 홈페이지내 희망도서 신청화면에서 도서정보를 정확하게 기재해주시기 바랍니다.<br><br>
-
-* 신청권수  :  1인 월 2권<br><br>
-
-* 소요기간 :  1~2개월 소요  <br><br>
-
-○ <input  style = "text-align:center;" type="text" value="희망도서 신청결과 확인" disabled> <br><br>
-* 홈페이지 내 <마이 라이브러리 -> 현황조회 ->  도서 신청 현황> 에서 확인 가능합니다. <br><br>
-
-* 각 진행상태는 아래와 같습니다. <br><br>
- - 신청중  : 담당자가 검토중인 상태 <br><br>
- - 처리중  : 구입하여 정리하고 있는 상태 <br><br>
- - 취소됨 : 구입에서 제외된 상태(사유) <br><br>
- 
- ○ <input  style = "text-align:center;" type="text" value="희망도서 선정 제외 기준" disabled> <br><br>
-* 도서관내 이미 소장중이거나 중복신청도서<br><br>
-
-* 고가의 도서 <br><br>
-
-* 선정적인 도서 <br><br>
-
-* 문제집 혹은 수험서 또는 만화도서 <br><br>
-
-* 품절이거나 절판된 도서 <br><br> -->
+<div id="here"></div>
+<div id="paging" style="font-size: 18px; text-align: center;"></div>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>	
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+function search(paging) {
+	
+	var keepPage = paging
+    	
+        $.ajax({
+            method: "GET",
+            url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+            data: { query: $("#bookName").val(), size : "50", page : keepPage}, // 보낼 데이터
+            headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+        })
+            .done(function (msg) { // 응답이 오면 처리를 하는 코드
+            	console.log(msg);
+            	console.log(msg.meta.total_count);
+          		console.log(msg.documents.length);
+          		
+          		var totalData = msg.meta.pageable_count; // 검색결과 제공가능한 문서수 총  //데이터 수
+          		var is_end = msg.meta.is_end; // 현재 페이자가 마지막페에지인지 여부
+           		var total_count = msg.meta.total_count; //전체 검색된 문서수      
+          		var dataPerPage = msg.documents.length; // 한 페이지 길이 // 한 페이지에 나타낼 데이터 수
+          		var pageCount = 5; // 한 화면에 나타낼 페이지수
+          		
+          		
+ // --------------------------도서 검색 페이징         		
+          		function paging(totalData, dataPerPage, pageCount, currentPage) {
+          			console.log("currentPage : " + currentPage);
+          			
+          			var totalPage = Math.ceil(totalData / dataPerPage); 
+          			var pageGroup = Math.ceil(currentPage / pageCount); 
+          			
+          			console.log("pageGroup : " + pageGroup);
+          			
+          			var last = pageGroup * pageCount; // 화면에 보여질 마지막 페이지 번호
+          			if(last > totalPage) last = totalPage;
+          			var first = last - (pageCount-1); //화면에 보여질 첫번째 페이지 번호
+          			if(first<0) first=1;
+          			var next = last+1;
+          			var prev = first-1;
+          			
+          			console.log("last : " + last);
+          	        console.log("first : " + first);
+          	        console.log("next : " + next);
+          	        console.log("prev : " + prev);
+          			
+          	        var $pingingView = $("#paging");
+          	        
+          	        var html = "";
+          	        
+          	        if(prev > 0)
+          	        	html += "<a href='#' id='prev'><</a>";
+          	        	
+          	       	for(var i=first; i<=last; i++) {
+          	       		html += "<a href='#' class='load-list' id=" + i + ">" + i + "</a>";
+          	       	}
+          	       	
+          	       	if(last <totalPage) 
+          	       		html += "<a href='#' id='next'>></a>";
+          	       	
+          	      $("#paging").html(html);    // 페이지 목록 생성
+                  $("#paging a").css("color", "black");
+                  $("#paging a#" + currentPage).css({"text-decoration":"none", 
+                                                     "color":"red", 
+                                                     "font-weight":"bold"});    // 현재 페이지 표시
+                                                     
+                  $("#paging a").click(function(){
+                      
+                      var $item = $(this);
+                      var $id = $item.attr("id");
+                      var selectedPage = $item.text();
+                      
+                      if($id == "next")    selectedPage = next;
+                      if($id == "prev")    selectedPage = prev;
+                      
+                      paging(totalData, dataPerPage, pageCount, selectedPage);
+                  });
+          		}
+          		
+          		
+          			$("document").ready(function(){        
+              	        paging(totalData, dataPerPage, pageCount, 1);
+              	    });
+          		
+          			var select;
+          			$(document).on('click', '.load-list', function(){
+          				select = $(this).attr('id');     			
+              			search1(select);
+              		});
+          		
+          		
+          		
+// ---------------------------도서 검색 목록          		
+            	 var str = "";
+            	document.getElementById("here").innerHTML = str;
+            	str += "<br/>";
+           	 var th ="썸네일";
+           	 var bn ="도서명";
+           	 var bw ="저자";
+           	 var bp ="출판사";
+           	 var is ="ISBN";
+           	 var ch ="선택";
+            	
+ 				str += "<table>";
+ 				str += "<tr>";
+ 	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + th + "</td>";
+ 	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bn + "</td>";
+ 	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bw + "</td>";
+ 	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bp + "</td>";
+ 	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + is + "</td>";
+ 	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + ch + "</td>";
+ 	     		
+ 	       		 str += "</tr>";
+            	 for(var i=0;i<dataPerPage;i++){
+            		 var title = msg.documents[i].title; // 제목
+            		 var isbn = msg.documents[i].isbn;
+            		 if(isbn.length > 20) {
+            			 isbn = isbn.substring(11,24); // isbn
+            		 }else {
+            			isbn = msg.documents[i].isbn;
+            		 }
+            		 var writer = msg.documents[i].authors;
+            		 var pub = msg.documents[i].publisher;
+            		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
+            		 str += "<tr>";
+            		for(var j=0; j<1; j++){
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + thumbnail + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + title + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + writer + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + pub + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + isbn + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+            		}
+            		str += "</tr>";
+            	} 
+            	str += "</table>";
+            	document.getElementById("here").innerHTML = str; 
+            	
+            	$(document).on('click', '.select_input', function(){
+           			var val = $(this).attr('id');
+           			var keepPage = select;
+           			search2(keepPage , val);
+           		});
+            });
+}
+
+function search1(paging) {
+	var keepPage = paging
+	
+    $.ajax({
+        method: "GET",
+        url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+        data: { query: $("#bookName").val(), size : "50", page : keepPage}, // 보낼 데이터
+        headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+    })
+        .done(function (msg) { // 응답이 오면 처리를 하는 코드
+        	console.log(msg);
+        	console.log(msg.meta.total_count);
+      		console.log(msg.documents.length);
+      		
+      		var totalData = msg.meta.pageable_count; // 검색결과 제공가능한 문서수 총  //데이터 수
+      		var is_end = msg.meta.is_end; // 현재 페이자가 마지막페에지인지 여부
+       		var total_count = msg.meta.total_count; //전체 검색된 문서수      
+      		var dataPerPage = msg.documents.length; // 한 페이지 길이 // 한 페이지에 나타낼 데이터 수
+      		var pageCount = 10; // 한 화면에 나타낼 페이지수
+      		 
+      		
+      		var str = "";
+         	document.getElementById("here").innerHTML = str;
+         	str += "<br/>";
+          	 var th ="썸네일";
+          	 var bn ="도서명";
+          	 var bw ="저자";
+          	 var bp ="출판사";
+          	 var is ="ISBN";
+          	 var ch ="선택";
+         	
+				str += "<table>";
+				str += "<tr>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + th + "</td>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bn + "</td>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bw + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bp + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + is + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + ch + "</td>";
+	     		
+	       		 str += "</tr>";
+				for(var i=0;i<dataPerPage;i++){
+           		 var title = msg.documents[i].title; // 제목
+           		 var isbn = msg.documents[i].isbn;
+           		 if(isbn.length > 20) {
+           			 isbn = isbn.substring(11,24); // isbn
+           		 }else {
+           			isbn = msg.documents[i].isbn;
+           		 }
+           		 var writer = msg.documents[i].authors;
+           		 var pub = msg.documents[i].publisher;
+           		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
+           		 str += "<tr>";
+           		for(var j=0; j<1; j++){
+           			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + thumbnail + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + title + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + writer + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + pub + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + isbn + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+        		}
+         		str += "</tr>";
+         	} 
+         	str += "</table>";
+         	document.getElementById("here").innerHTML = str; 
+         	
+       
+         	
+         });
+}
+
+function search2(keepPage, val) {
+	var paging = keepPage
+	var i = val;
+    $.ajax({
+        method: "GET",
+        url: "https://dapi.kakao.com/v3/search/book", // 전송 주소
+        data: { query: $("#bookName").val(), size : "50", page : paging}, // 보낼 데이터
+        headers: { Authorization: "KakaoAK 222c29a40d67ba4231d0c20e13ee5f72" }
+    })
+        .done(function (msg) { // 응답이 오면 처리를 하는 코드
+        	var isbn = msg.documents[i].isbn;
+        	 if(isbn.length > 20) {
+       			 isbn = isbn.substring(11,24); // isbn
+       		 }else {
+       			isbn = msg.documents[i].isbn;
+       		 }
+        	var title = msg.documents[i].title;
+        	
+        	search3(isbn,title);
+        	
+         });
+}
+
+function search3(isbn,title) {
+	var a = {"isbn" : isbn};
+	var aa = isbn;
+	var bb = title;
+	$.ajax({
+		url:"b.do",
+		data:JSON.stringify(a),
+		method:"POST",
+		contentType: "application/json",
+		success:function(data) {
+			
+			console.log("1111111111111111");
+			
+			var bookinfo = data;
+			var bookNumber = bookinfo.bookNumber;
+			console.log(bookNumber);
+			
+ 			if(bookNumber != undefined) {
+				swal("이미 도서관에 존재하는 도서입니다.");
+			}else {
+				window.opener.document.getElementById("pInputt").value = aa;
+				window.opener.document.getElementById("pInput").value = bb;
+			    
+			    window.close();
+			} 
+			
+		},error:function(request,status,error){
+			console.log("22222222222222");
+		}
+	});
+}
+</script>

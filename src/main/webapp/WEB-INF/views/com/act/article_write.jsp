@@ -21,6 +21,9 @@
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/style.css">
 	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/responsive.css">
 	
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	
 	<style>
 		div#cke_p_content{
 			width : 90%;
@@ -33,6 +36,12 @@
 		    background: #e44d3a;
 		    color: white;
 		}
+		
+		.row{
+		font-size: 10pt;
+		
+		text-align :center;
+	}
 	
 	</style>
 </head>
@@ -65,8 +74,7 @@
 		var article_writer=$('input[name=article_writer]').val();
 		var article_file=$('input[name=article_file]').val(); // C:\fakepath\파일이름.png 이런식으로 값을 가져옴
 		
-		alert(fun);
-		alert(article_content);
+		
 		
 		$.ajax({
 			type:"POST",
@@ -209,15 +217,12 @@
 		var seconds=date.getSeconds();
 		if (hours<10) {
 			hours=0+''+hours;
-			alert(hours);
 		}
 		if (minutes<10) {
 			minutes=0+''+minutes;
-			alert(minutes);
 		}
 		if (seconds<10) {
 			seconds=0+''+seconds;
-			alert(seconds);
 		}
 		//var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':'  +  date.getSeconds();
 		var articleCurrent=date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate() + ' ' + hours + ':' + minutes + ':'  +  seconds;

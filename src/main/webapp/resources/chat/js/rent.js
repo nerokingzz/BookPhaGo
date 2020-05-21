@@ -224,13 +224,13 @@ function rentBookSearch(bookNumber){
 					labletrs.css('color','white');
 					
 				}
-				},1300);
+				},2000);
 			},
 			error : function(result, status, error){
 				setTimeout(function(){
 					var container = $('.rentBook').last();
-					container.append("error alert!");
-				},1300)
+					container.append("시스템에 오류가 발생하였습니다.<br>챗봇을 다시 실행하여 주세요.");
+				},2000)
 
 			}
 		})

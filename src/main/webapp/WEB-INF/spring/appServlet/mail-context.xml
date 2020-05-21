@@ -1,53 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+   xmlns:p="http://www.springframework.org/schema/p">
 
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="bitbookphago@gmail.com" />
-		<property name="password" value="eilcelcmlcpllxrg" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-				<prop key="mail.debug">true</prop>
-			</props>
-		</property>
-	</bean>
 
-	<!-- You can have some pre-configured messagess also which are ready to send -->
-	<bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
-		<property name="to" value="bitbookphago@gmail.com"></property>
-		<property name="from" value="bitbookphago@gmail.com"></property>
-		<property name="subject" value="북파고에 대한 피드백을 확인해주세요." />
-	</bean>
-	
-	
-	<bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="username" value="bitbookphago@gmail.com" />
-		<property name="password" value="eilcelcmlcpllxrg" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>
-				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
-				<prop key="mail.debug">true</prop>
-			</props>
-		</property>
-	</bean>
-	
-		<bean id="preConfiguredMessage1" class="org.springframework.mail.SimpleMailMessage">
-		<property name="to" value="bitbookphago@gmail.com"></property>
-		<property name="from" value="bitbookphago@gmail.com"></property>
-		<property name="subject" value="이메일 테스트" />
-	</bean>
+
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+   <property name="host" value="smtp.naver.com" />
+   <property name="port" value="587" />
+   <property name="username" value="bitbookphago" />
+   <property name="password" value="6jobookphago" />
+   <property name="defaultEncoding" value="utf-8" />
+   <property name="javaMailProperties">
+      <props>
+         <prop key="mail.debug">true</prop>
+         <prop key="mail.smtp.auth">true</prop>
+         <prop key="mail.smtp.starttls.enable">true</prop>
+         <!-- <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+         <prop key="mail.smtps.ssl.trust">*</prop>
+         <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop> -->
+      </props>
+   </property>
+</bean>
+   
+
+   <!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="bitbookphago@gmail.com" />
+      <property name="password" value="eilcelcmlcpllxrg" />
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.smtp.host">smtp.gmail.com</prop>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            시작 
+            <prop key="mail.smtp.ssl.enable">true</prop>
+            <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+             끝
+            <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+   </bean>
+
+   You can have some pre-configured messagess also which are ready to send
+   <bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
+      <property name="to" value="bitbookphago@gmail.com"></property>
+      <property name="from" value="bitbookphago@gmail.com"></property>
+      <property name="subject" value="북파고에 대한 피드백을 확인해주세요." />
+   </bean>
+    -->
+   
+   <bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.naver.com" />
+      <property name="port" value="587" />
+      <property name="username" value="bitbookphago" />
+      <property name="password" value="6jobookphago" />
+      <property name="defaultEncoding" value="utf-8" />
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.debug">true</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+         </props>
+      </property>
+   </bean>
+   
+      <bean id="preConfiguredMessage1" class="org.springframework.mail.SimpleMailMessage">
+      <property name="to" value="bitbookphago@naver.com"></property>
+      <property name="from" value="bitbookphago@naver.com"></property>
+      <property name="subject" value="이메일 테스트" />
+   </bean>
 
 </beans>
-

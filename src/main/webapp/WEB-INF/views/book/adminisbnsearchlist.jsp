@@ -9,11 +9,11 @@
 <body>
 
 <h3>책 제목을 검색해주세요.</h3>
-    <input id="bookName" type="text">
+    <input id="bookName" type="text" style=" height: 20px;  width: 300px;">
     <button onclick="search(1);">검색</button>
 
 <div id="here"></div>
-<div id="paging"></div>
+<div id="paging" style="font-size: 18px; text-align: center;"></div>
 
 </body>
 </html>
@@ -113,9 +113,23 @@ function search(paging) {
 // ---------------------------도서 검색 목록          		
             	 var str = "";
             	document.getElementById("here").innerHTML = str;
-            	
-            	
+            	str += "<br/>";
+            	 var th ="썸네일";
+            	 var bn ="도서명";
+            	 var bw ="저자";
+            	 var bp ="출판사";
+            	 var is ="ISBN";
+            	 var ch ="선택";
  				str += "<table>";
+ 				str += "<tr>";
+       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + th + "</td>";
+       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bn + "</td>";
+       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bw + "</td>";
+       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bp + "</td>";
+       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + is + "</td>";
+       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + ch + "</td>";
+     		
+       		 str += "</tr>";
             	 for(var i=0;i<dataPerPage;i++){
             		 var title = msg.documents[i].title; // 제목
             		 var isbn = msg.documents[i].isbn;
@@ -129,12 +143,12 @@ function search(paging) {
             		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
             		 str += "<tr>";
             		for(var j=0; j<1; j++){
-            			str += "<td style='border:1px solid;'>" + thumbnail + "</td>";
-            			str += "<td style='border:1px solid;'>" + title + "</td>";
-            			str += "<td style='border:1px solid;'>" + writer + "</td>";
-            			str += "<td style='border:1px solid;'>" + pub + "</td>";
-            			str += "<td style='border:1px solid;'>" + isbn + "</td>";
-            			str += "<td style='border:1px solid;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + thumbnail + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + title + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + writer + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + pub + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + isbn + "</td>";
+            			str += "<td style='border-bottom: 1px solid #ccc; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
             		}
             		str += "</tr>";
             	} 
@@ -172,9 +186,24 @@ function search1(paging) {
       		
       		var str = "";
          	document.getElementById("here").innerHTML = str;
-         	
+         	str += "<br/>";
+       	 var th ="썸네일";
+       	 var bn ="도서명";
+       	 var bw ="저자";
+       	 var bp ="출판사";
+       	 var is ="ISBN";
+       	 var ch ="선택";
          	
 				str += "<table>";
+				str += "<tr>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + th + "</td>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bn + "</td>";
+	       		 str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bw + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + bp + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + is + "</td>";
+	       		str += "<td style='border:1px solid; font-size: 14px; padding: 10px;font-weight: bold;vertical-align: top;color: #fff;background-color: #e44d3a; text-align: center;'>" + ch + "</td>";
+	     		
+	       		 str += "</tr>";
 				for(var i=0;i<dataPerPage;i++){
            		 var title = msg.documents[i].title; // 제목
            		 var isbn = msg.documents[i].isbn;
@@ -188,13 +217,13 @@ function search1(paging) {
            		 var thumbnail ="<img src='" + msg.documents[i].thumbnail + "'>"; // 이미지
            		 str += "<tr>";
            		for(var j=0; j<1; j++){
-           			str += "<td style='border:1px solid;'>" + thumbnail + "</td>";
-           			str += "<td style='border:1px solid;'>" + title + "</td>";
-           			str += "<td style='border:1px solid;'>" + writer + "</td>";
-           			str += "<td style='border:1px solid;'>" + pub + "</td>";
-           			str += "<td style='border:1px solid;'>" + isbn + "</td>";
-           			str += "<td style='border:1px solid;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
-           		}
+           			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + thumbnail + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + title + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + writer + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + pub + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc;font-size: 14px; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;'>" + isbn + "</td>";
+        			str += "<td style='border-bottom: 1px solid #ccc; padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;    border-bottom: 1px solid #ccc;background: #eee;' class='select_input' id=" + i + ">" + "<input type='button' value='선택하기'>" + "</td>";
+        		}
          		str += "</tr>";
          	} 
          	str += "</table>";

@@ -30,7 +30,7 @@
 	
 	<!-- jquery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  	
+  	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   	<!-- font -->
   	<link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap" rel="stylesheet">
   	
@@ -49,6 +49,12 @@
 		.company-title{
     		margin-top: 10px;
 		}
+		
+		.row{
+		font-size: 10pt;
+		
+		text-align :center;
+	}
 	</style>
 	
 </head>
@@ -140,7 +146,7 @@
 													</div>
 													<hr>
 													<div>
-														<h2>${comInfo.get("COMMUNITY_DESCRIPTION")}설명</h2>
+														<h2>${comInfo.get("COMMUNITY_DESCRIPTION")}</h2>
 													</div>
 													<hr>
 													<div style="padding-bottom: 20px">
@@ -199,13 +205,13 @@
 					method:"post",
 					data:{"community_id" : "${comInfo.get('COMMUNITY_ID')}", "member_id" : '${user_id}'},
 					success:function() {
-						alert("탈퇴가 완료되었습니다.");
+						swal("탈퇴가 완료되었습니다.");
 						location.reload();
 					}
 				})
 				
 			} else {
-				alert("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
+				swal("잘 생각하셨습니다! 앞으로도 잘 부탁드립니다 :)")
 			}
 		}
 	</script>

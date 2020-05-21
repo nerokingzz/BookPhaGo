@@ -156,11 +156,7 @@
 							</div>
 						</div><!--search-sec end-->
 					</div>
-					<div class="col-lg-3" style="padding-top: 30px;text-align: center;font-size: 11pt;">
-						<h3><a onclick="window.open('com_esta_form.do', '개설 신청', 'width=400, height=550')">커뮤니티 개설 신청</a></h3>
-						<hr>
-						<h3><a href="com_esta_request_list.do">커뮤니티 신청 내역</a></h3>
-					</div>
+					
 				</div>
 			</div>
 		</div>			

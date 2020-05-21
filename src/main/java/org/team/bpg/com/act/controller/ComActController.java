@@ -230,29 +230,29 @@ public class ComActController {
 			//투표게시판일때
 			
 			//현재 진행중인 투표 가져오기
-			Map<String, Object> ingVote=comActService.voteIng(request).get(0);
-			String dbEndDate=(String) ingVote.get("VOTE_END");
-			String[] endDate=dbEndDate.split("-");
-			String voteYear=endDate[0];
-			String voteMonth=endDate[1];
-			String voteDate=endDate[2];
-			
-			String voteEndDate=voteYear+voteMonth+voteDate;
-			
-			System.out.println("투표끝날짜 : " + voteEndDate);
-			
-			Calendar cal = Calendar.getInstance();
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			String todayDate = sdf.format(cal.getTime());
-			
-			System.out.println("오늘날짜 : " + todayDate);
-			
-			String voteIngChk="x";
-			
-			if (Integer.parseInt(voteEndDate) > Integer.parseInt(todayDate)) {
-				voteIngChk="o";
-			}
+//			Map<String, Object> ingVote=comActService.voteIng(request).get(0);
+//			String dbEndDate=(String) ingVote.get("VOTE_END");
+//			String[] endDate=dbEndDate.split("-");
+//			String voteYear=endDate[0];
+//			String voteMonth=endDate[1];
+//			String voteDate=endDate[2];
+//			
+//			String voteEndDate=voteYear+voteMonth+voteDate;
+//			
+//			System.out.println("투표끝날짜 : " + voteEndDate);
+//			
+//			Calendar cal = Calendar.getInstance();
+//			
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//			String todayDate = sdf.format(cal.getTime());
+//			
+//			System.out.println("오늘날짜 : " + todayDate);
+//			
+//			String voteIngChk="x";
+//			
+//			if (Integer.parseInt(voteEndDate) > Integer.parseInt(todayDate)) {
+//				voteIngChk="o";
+//			}
 			
 			int voteCount = comActService.countvote(request);
 			System.out.println("투표 갯수" + voteCount);
@@ -272,9 +272,10 @@ public class ComActController {
 			model.addAttribute("voteList", voteList);
 			model.addAttribute("voteListSize", voteList.size());
 			
-			model.addAttribute("ingVote", ingVote);
-			model.addAttribute("voteIngChk", voteIngChk);
-
+			/*
+			 * model.addAttribute("ingVote", ingVote); model.addAttribute("voteIngChk",
+			 * voteIngChk);
+			 */
 		}
 		return "com/act/board";
 		

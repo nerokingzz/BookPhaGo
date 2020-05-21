@@ -26,28 +26,39 @@
 </head>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<style>
+	#mainlabel{
+	font-size:25px;
+	color:#E44D3A;
+	}
+	#signimg { 
+	display: block; 
+	margin-left: 60px;
+	margin-top:-40px;
+	}
+</style>
 
 <script type="text/javascript">
-
-
 
 $(document).ready(function(){
 
 	$("#login").on("click", function(){
         if($("#userId").val()==""){
-           alert("아이디를 입력해주세요.");
+        	swal("아이디를 입력해주세요.");
            $("#userId").focus();
            return false;
         }
         
         if(($("#userId").val()).length<4 || ($("#userId").val()).length>13){
-            alert("아이디는 4~12자의 영문, 숫자로만 입력.");
+        	swal("아이디는 4~12자의 영문, 숫자로만 입력.");
             $("#userId").focus();
             return false;
          }
     
         if($("#userPass").val()==""){
-            alert("비밀번호를 입력해주세요.");
+        	swal("비밀번호를 입력해주세요.");
             $("#userPass").focus();
             return false;
          }
@@ -61,7 +72,7 @@ $(document).ready(function(){
             success: function(data){
                
                if(data==0){
-                  alert("로그인 실패. \n아이디와 비밀번호를 확인해주세요.");
+            	   swal("로그인 실패. \n아이디와 비밀번호를 확인해주세요.");
                   return false;
               	 } 
                }
@@ -76,7 +87,7 @@ $(document).ready(function(){
              success: function(data){
                 
                 if(data==0){
-                   alert("이메일인증을 진행해 주세요.");
+                	swal("이메일인증을 진행해 주세요.");
                    return false;
                	 }  
                 }
@@ -111,14 +122,15 @@ function test(){
         success: function(data){
            
         	if(data == 1){
-				alert("이미 가입된 아이디입니다.");
+				//alert("이미 가입된 아이디입니다.");
+				swal("이미 가입된 아이디입니다.");
 			}else if(data == 0){
 				if(($("#userId1").val()).length<3){
-					alert("사용불가 \n아이디는 4~12자의 영문, 숫자로만 입력");
+					swal("사용불가 \n아이디는 4~12자의 영문, 숫자로만 입력");
 				}
 				else{
 				$("#idChk").attr("value", "Y");
-				alert("사용가능한 아이디입니다.");
+				swal("사용가능한 아이디입니다.");
 				}
 			}
            }
@@ -145,7 +157,7 @@ function validate() {
 		
 		
 		if (idChkVal == "N") {
-			alert("ID중복확인 버튼을 눌러주세요.");
+			swal("ID중복확인 버튼을 눌러주세요");
 			return false;
 		}
 		if (!check(re, userId1, "아이디는 4~12자의 영문, 숫자로만 입력")) {
@@ -157,7 +169,7 @@ function validate() {
 			return false;
 		}
 		if (regForm.userPass1.value != regForm.userPasschk.value) {
-			alert("비밀번호가 일치하지않음");
+			swal("비밀번호가 일치하지않습니다");
 			$("#userPasschk").focus();
 			return false;
 		}
@@ -165,7 +177,7 @@ function validate() {
 			$("#userName").focus();
 			return false;
 		}
-		if (!check(re2, userEmail, "적합하지 않은 이메일 형식.")) {
+		if (!check(re2, userEmail, "적합하지 않은 이메일 형식")) {
 			$("#userEmail").focus();
 			return false;
 		}
@@ -174,15 +186,15 @@ function validate() {
 			return false;
 		} */
 		if (regForm.userGender.value == "") {
-			alert("성별 미입력.");
+			swal("성별을 입력해주세요");
 			return false;
 		}
 		if(!chk){
-            alert("약관에 동의해 주세요");
+			swal("약관에 동의해 주세요");
             return false;
         } 
 		
-		alert("회원가입이 완료되었습니다.\n이메일 인증을 진행해주세요");
+		swal("회원가입이 완료되었습니다.\n이메일 인증을 진행해주세요");
 
 
 /* 			$.ajax({
@@ -202,7 +214,7 @@ function check(re, what, message) {
 		if (re.test(what.value)) {
 			return true;
 		}
-		alert(message);
+		swal(message);
 
 		//return false;
 }
@@ -222,31 +234,33 @@ function check(re, what, message) {
 							<div class="cmp-info">
 								<div class="cm-logo">
 									<img src="${contextPath}/resources/bootstrap/images/cm-logo.png" alt="">
-									<p>Workwise,  is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely</p>
-								</div><!--cm-logo end-->	
-								<img src="${contextPath}/resources/bootstrap/images/cm-main-img.png" alt="">			
+									<br><br><br><br><br>
+									<label id="mainlabel">북파고 홈페이지는</label> <br><br><br>
+									<a>사용자들에게 도서관 이용과 관련한 정보를 제공하고 북파고 운영에 필요한 정보와 행사, 소식 등 <br>여러가지 서비스를 제공합니다.</a>			
+									</div><!--cm-logo end-->	
+								<img id="signimg" style="width:250px; height:250px;" src="${contextPath}/resources/images/sign.jpg" alt="">			
 							</div><!--cmp-info end-->
 						</div>
 						<div class="col-lg-6">
 							<div class="login-sec">
 								<ul class="sign-control">
-									<li data-tab="tab-1" class="current"><a href="#" title="">Sign in</a></li>				
-									<li data-tab="tab-2"><a href="#" title="">Sign up</a></li>				
+									<li data-tab="tab-1" class="current"><a href="#" title="">로그인</a></li>				
+									<li data-tab="tab-2"><a href="#" title="">회원가입</a></li>				
 								</ul>			
 								<div class="sign_in_sec current" id="tab-1">
 									
-									<h3>Sign in</h3>
+									<h3>로그인</h3>
 									<form id="homeForm" name='homeForm' method="post" action="login.do">
 										<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId" name="userId" placeholder="Id">
+													<input type="text" id="userId" name="userId" placeholder="아이디">
 													<i class="la la-user"></i>
 												</div><!--sn-field end-->
 											</div>
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="password" id="userPass" name="userPass" placeholder="Password">
+													<input type="password" id="userPass" name="userPass" placeholder="비밀번호">
 													<i class="la la-lock"></i>
 												</div>
 											</div>
@@ -259,7 +273,7 @@ function check(re, what, message) {
 														</label>
 														<!-- <small>Remember me</small> -->
 													</div><!--fgt-sec end-->
-														<a href="forgot.do" title="">Forgot Password?</a>
+														<a href="forgot.do" title=""><u>비밀번호 찾기</u></a>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
@@ -276,49 +290,50 @@ function check(re, what, message) {
 									</div><!--login-resources end-->
 								</div><!--sign_in_sec end-->
 								<div class="sign_in_sec" id="tab-2">
-									<h3>Sign up</h3>
+									<h3>회원가입</h3>
 									<div class="dff-tab current" id="tab-3">
 										<form action="register.do" method="post" id="regForm" name="regForm"  onsubmit="return validate();">
 											<div class="row">
 											<div class="col-lg-12 no-pdd">
 												<div class="sn-field">
-													<input type="text" id="userId1" name="userId1" placeholder="Id" style="width: 70%;">
+													<input type="text" id="userId1" name="userId1" placeholder="아이디" style="width: 70%;">
 													<i class="la la-user" style="margin: 12px 0 0 0;"></i>
 													<button class="idChk" type="button" id="idChk" onclick="test();" value="N" style="
 														    width: 28%;
 														    font-size: 15px;
 														    text-align: center;
 														    padding: 11px;
-														">Check</button>
+														    font-size:13.4px;
+														">중복확인</button>
 												</div>
 											</div>
 											<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPass1" name="userPass1" placeholder="Password">
+														<input type="password" id="userPass1" name="userPass1" placeholder="비밀번호">
 														<i class="la la-lock"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="password" id="userPasschk" name="userPasschk" placeholder="Repeat Password">
+														<input type="password" id="userPasschk" name="userPasschk" placeholder="비밀번호 확인">
 														<i class="la la-lock"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userName"name="userName" placeholder="Name">
+														<input type="text" id="userName"name="userName" placeholder="이름">
 														<i class="la la-user"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userEmail" name="userEmail" placeholder="Email">
+														<input type="text" id="userEmail" name="userEmail" placeholder="이메일">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" id="userAge" name="userAge" placeholder="Age    ex)1999">
+														<input type="text" id="userAge" name="userAge" placeholder="나이    ex)1999">
 														<i class="la la-globe"></i>
 													</div>
 												</div>
@@ -336,17 +351,17 @@ function check(re, what, message) {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste1">
-															<option value="BO">관심분야1</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
+															<option value="">관심분야1</option>
+															<option value="총류">총류</option>
+															<option value="철학">철학</option>
+															<option value="종교">종교</option>
+															<option value="사회과학">사회과학</option>
+															<option value="자연과학">자연과학</option>
+															<option value="기술과학">기술과학</option>
+															<option value="예술">예술</option>
+															<option value="언어">언어</option>
+															<option value="문학">문학</option>
+															<option value="역사">역사</option>
 														</select> 
 														<i class="la la-dropbox"></i>
 														<span><i class="fa fa-ellipsis-h"></i></span>
@@ -355,17 +370,17 @@ function check(re, what, message) {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste2">
-															<option value="BO">관심분야2</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
+															<option value="">관심분야2</option>
+															<option value="총류">총류</option>
+															<option value="철학">철학</option>
+															<option value="종교">종교</option>
+															<option value="사회과학">사회과학</option>
+															<option value="자연과학">자연과학</option>
+															<option value="기술과학">기술과학</option>
+															<option value="예술">예술</option>
+															<option value="언어">언어</option>
+															<option value="문학">문학</option>
+															<option value="역사">역사</option>
 														</select> 
 														<i class="la la-dropbox"></i>
 														<span><i class="fa fa-ellipsis-h"></i></span>
@@ -374,17 +389,17 @@ function check(re, what, message) {
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
 														<select name="userTaste3">
-															<option value="BO">관심분야3</option>
-															<option value="BO000">총류</option>
-															<option value="BO001">철학</option>
-															<option value="BO002">종교</option>
-															<option value="BO003">사회과학</option>
-															<option value="BO004">자연과학</option>
-															<option value="BO005">기술과학</option>
-															<option value="BO006">예술</option>
-															<option value="BO007">언어</option>
-															<option value="BO008">문학</option>
-															<option value="BO009">역사</option>
+															<option value="">관심분야3</option>
+															<option value="총류">총류</option>
+															<option value="철학">철학</option>
+															<option value="종교">종교</option>
+															<option value="사회과학">사회과학</option>
+															<option value="자연과학">자연과학</option>
+															<option value="기술과학">기술과학</option>
+															<option value="예술">예술</option>
+															<option value="언어">언어</option>
+															<option value="문학">문학</option>
+															<option value="역사">역사</option>
 														</select> 
 														<i class="la la-dropbox"></i>
 														<span><i class="fa fa-ellipsis-h"></i></span>
@@ -393,11 +408,12 @@ function check(re, what, message) {
 												<div class="col-lg-12 no-pdd">
 													<div class="checky-sec st2">
 														<div class="fgt-sec">
-															<input type="checkbox" name="cc" id="c2">
+															<input type="checkbox" name="cc" id="c2"> 
 															<label for="c2">
 																<span></span>
+																개인정보 약관동의
 															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+															
 														</div><!--fgt-sec end-->
 													</div>
 												</div>
@@ -450,7 +466,7 @@ function check(re, what, message) {
 															<label for="c3">
 																<span></span>
 															</label>
-															<small>Yes, I understand and agree to the workwise Terms & Conditions.</small>
+															<small>개인정보 약관동의</small>
 														</div><!--fgt-sec end-->
 													</div>
 												</div>
@@ -466,7 +482,7 @@ function check(re, what, message) {
 					</div>		
 				</div><!--signin-pop end-->
 			</div><!--signin-popup end-->
-			<div class="footy-sec">
+			<%-- <div class="footy-sec">
 				<div class="container">
 					<ul>
 						<li><a href="help-center.html" title="">Help Center</a></li>
@@ -481,7 +497,7 @@ function check(re, what, message) {
 					</ul>
 					<p><img src="${contextPath}/resources/bootstrap/images/copy-icon.png" alt="">Copyright 2019</p>
 				</div>
-			</div><!--footy-sec end-->
+			</div><!--footy-sec end--> --%>
 		</div><!--sign-in-page end-->
 
 
