@@ -28,7 +28,7 @@ import org.team.bpg.mylib.dec.service.MyLibDeclareService;
 import org.team.bpg.mylib.dec.vo.DeclareInfoVO;
 import org.team.bpg.utils.PageVO;
 
-@Controller
+@Controller 
 public class PageController {
 	
 	@Autowired
